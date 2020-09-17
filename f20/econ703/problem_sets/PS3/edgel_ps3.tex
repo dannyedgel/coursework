@@ -1,0 +1,396 @@
+%%% Econ703: Math Camp
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Friday, August 28, 11pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#3 }
+\author{ 	Danny Edgel 							\\ 
+			Econ 703: Mathematical Economics I		\\
+			Fall 2020								\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\textit{Collaborated with Emily Case, Garrett Shost, Soong Kit Wong, Alex Von Hafften, Michael Nattinger, and Sarah Bass. Referred to the course textbook and Walter Rudin's} Principles of Mathematics.
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+
+\textbf{Proof.}
+
+Let $X=[1,\infty)$ and $T(x)=x+\frac{1}{x}$. Then, $\forall x\neq y$ where $x,y\in X$,
+\[
+	d(T(x),T(y))<d(x,y)
+\]
+$X^c=(-\infty,1)$, which is open. Therefore, $X$ is closed. By the contraction mapping theorem, $\exists x^*$ such that $T(x^*)=x^*$. Thus,
+\[
+	x^*=x^*+\frac{1}{x^*}
+\]
+This equality is only true if $\frac{1}{x^*}=0$. However, $\frac{1}{x^*}=0\Rightarrow x^*=\infty$, and $\infty\notin\R$. This is a contradiction, so $\nexists x^*\in X:x^*=T(x^*)$ $\blacksquare$
+\smallskip \\
+The difference between $T$ and functions that satisfy the contraction mapping theorem is that $\nexists\beta<1$ such that $d(T(x),T(y))\leq\beta d(x,y)$. This interrups the proof of the contraction mapping theorem as follows:
+\begin{enumerate}
+	\item Fix some $x_0\in X$ and define the sequence $\{x_n\}$ as:
+		\[
+			d(x_{n+1},x_n)=d(T(x_n),T(x_{n-1}))<d(x_n,x_{n-1})<d(x_{n-1},x_{n-2})<...<d(x_1,x_0)
+		\]
+	
+	\item By the triangle inequality, for $n>m$, 
+		\[
+			d(x_n,x_m)\leq d(x_n,x_{n-1})+d(x_{n-1},x_{n-2})+...+d(x_{m+1},x_m)
+		\]
+	
+	\item $\forall n$, $\exists\beta_n$ such that $d(x_{n+1},x_n)=\beta_n d(x_n,x_{n-1})$. Let $\beta=\underset{1\leq k\leq m+1}{\text{max }}\beta_k$. Then,
+		\begin{align*}
+			d(x_n,x_{n-1})+d(x_{n-1},x_{n-2})+...+d(x_{m+1},x_m) 	&\leq 	(\beta^{n-1} + \beta^{n-2} + ... + \beta^m)d(x_1,x_0)	\\
+			(\beta^{n-1} + \beta^{n-2} + ... + \beta^m)d(x_1,x_0)	&< 		d(x_1,x_0)\sum_{i=m}^\infty \beta^i \\
+			d(x_1,x_0)\sum_{i=m}^\infty \beta^i						&=		\frac{\beta^m}{1-\beta}d(x_1,x_0)
+		\end{align*}
+\end{enumerate}
+Since $\nexists\beta<1$, $\beta\rightarrow 1$. Thus, we cannot prove that $\{x_n\}$ is Cauchy, rendering the proof incapable of showing that $\exists x^*$ to which each $\{x_n\}\in X$ converges.
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+
+\textbf{Proof.}
+\begin{enumerate}
+	\item Let $A=\left\{\frac{1}{n}|n\in\N\right\}\bigcup\{0\}$, with an open cover, $\{G_\alpha\}\subset\Q$
+	
+	\item $\N$ is countable. Thus, $A\sim\N$ is countable
+	
+	\item $0\in A$, so any open cover of $A$ contains $0$. Thus, let $0\in G_0\in\{G_\alpha\}$
+	
+	\item Since $G_0$ is open, $\exists B_\varepsilon(0),\varepsilon>0$ s.t. $\forall y, |y-0|<\varepsilon\Rightarrow y\in G_\alpha$
+	
+	\item Let $A_n$ represent the set of all $a\in A$: $a-0> \varepsilon$. $\exists N\in\N$ s.t. $\forall n\leq N$, $a=\frac{1}{n}\implies a\in A_n$. Thus, $A_n = \{1,\frac{1}{2},...,\frac{1}{N}\}$ is finite
+	
+	\item Thus, for all $\epsilon>0$, $\exists N$ s.t. there are at most $N+1$ sets $G_\alpha\in\{G_\alpha\}$ that comprise a finite subcover of $A$
+\end{enumerate}
+$\therefore$ $A$ is both countable and compact $\blacksquare$
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+
+\textbf{Proof.}
+\begin{enumerate}
+	\item $\forall\theta_0,\theta_1\in\R$, $\theta_0<\theta_1\Rightarrow e^\theta_0<e^\theta_1$, so $e^\theta$ is a monotone function. Therefore, the ordering of some function $\theta$ is preserved by $e^\theta$, where $e^\theta>0$ $\forall\theta\in\R$
+	
+	\item Let $\theta=5-x-x^2$, which has a global maximum at $x=-\frac{1}{2}$. given (1), $e^{5-x-x^2}$ also has a global maximum that is $>0$, at $x=-\frac{1}{2}$
+	
+	\item $\cos^2(x)=0$ $\forall x=\frac{\pi}{2}k$, $k\in\Z$, and $\cos^2(x)>0$ $\forall x\neq\frac{\pi}{2}k$
+	
+	\item Since $-\frac{\pi}{2}<-\frac{1}{2}<\frac{\pi}{2}$, $\exists a\in(-\frac{\pi}{2},\frac{\pi}{2})$ such that $\forall x\neq a$, $\cos^2(x)e^{5-x-x^2}<\cos^2(a)e^{5-a-a^2}$
+\end{enumerate}
+$\therefore$ $\cos^2(x)e^{5-x-x^2}$ has a maximum on $\R$ $\blacksquare$
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+
+Define $W\subset\R^2$ as the set of coordinate points in the state of Wisconsin and $T:W\rightarrow W$ as a scaling function from one map of Wisconsin to a smaller map of Wisconsin. Each map contains every point in Wisconsin, but the smaller map has a smaller inches-to-miles scale. Thus, for some $\beta<1$,$p,q\in W$:
+\[
+	d(T(p),T(q))\leq\beta d(p,q)\text{  }\forall p\neq q
+\]
+where $\beta$ is the ratio of the smaller map's scale to the larger map's scale. Since $W\subset\R^2$ is closed,\footnote{The state boundaries of Wisconsin are clearly defined, and we are assuming, in this case, that state and national boundaries belong to both of the jurisdictions that abut the boundary. Given that Wisconsin borders only Illinois, Iowa, Michigan, and Minnesota, this assumption would not reasonably be subject to controversy, per the polite proclivities of the residents of these states.} $W$ is complete. Therefore, by the Contraction Mapping Theorem, $\exists a\in W$ such that $a=T(a)$. Therefore, if the larger map completely covers the smaller map, there must exist a point where, if a needle pierced each map through that point in the smaller map, it would hit the exact same point in the larger map $\blacksquare$
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+
+\subsection*{(a) Show that $F_X$ is a vector space}
+$F_X$ is defined as the set of all functions with input $x\in\{-1,0,1\}$ and outputs in $\R$. Thus, any function $f(x)\in F_X$ has all of the attributes of $\R$:
+\begin{enumerate}
+	\item Associativity and commutativity of $+$: $\forall f,g,h\in F_X$:
+		\begin{align*}
+			(f(x) + g(x)) + z(x) 	&= f(x) + (g(x) + z(x))	\\
+			f(x) + g(x)				&= g(x) + f(x)
+		\end{align*}
+		
+	\item Existence of zero: $\exists f\in F_X$ s.t. $\forall x\in X$, $f(x)=0$
+	
+	\item Additive inverse: $\forall f\in F_X$, $\exists -f\in F_X$ s.t. $f(x) + (-f(x)) = 0$
+	
+	\item Distributivity of scalar and vector multiplication and addition: $\forall\alpha,\beta\in\R$,$\forall f,g\in F_X$, $x\in X$,
+		\begin{align*}
+			\alpha(f(x)+g(x))		&= \alpha f(x) + \alpha g(x)	\\
+			(\alpha + \beta)f(x)	&= \alpha f(x) + \beta f(x)
+		\end{align*}
+		
+	\item Associativity of multiplication: $\forall\alpha,\beta\in\R,f\in F_X,x\in X$, $(\alpha*\beta)f(x)=\alpha(\beta f(x))$
+	
+	\item Multiplicative identity: $\forall f\in F_X,x\in X$, $1*f(x)=f(x)$
+\end{enumerate}
+
+\subsection*{(b) Show that $T:F_X\rightarrow F_X$ is linear}
+\begin{enumerate}
+	\item $\forall a\in\R$, $\exists$ only one solution of $T(f)(x)+a$: It is trivial that $f(x^2)+a$ is unique
+	
+	\item $T(f+g)(x)=f(x^2)+g(x^2)=T(f)(x)+T(g)(x)$ and $T(cf)(x)=c f(x^2)=cT(f)(x)$
+	
+	\item $\frac{d}{df}\left(\frac{d}{df}\left( T(f)(x) \right)\right)=\frac{d}{df}\left(\frac{d}{df}\left( f(x^2) \right)\right)=\frac{d}{df}\left( 1 \right) = 0$
+	
+	\item $\exists a,b\in\R$ s.t. $T(f)(x)-(af+b)=0$:
+		\begin{align*}
+			f(x^2) - (af(x^2)+b)	&= 0 				\\
+			f(x^2)-af(x^2)-b		&= 0				\\
+			f(x^2)(1-a)				&= b 				\\
+			f(x^2)					&= \frac{b}{1-a}
+		\end{align*}
+		$f(x^2)\R$, and $\forall c\in\R$, $\exists b,c:\frac{b}{1-a}=c$
+\end{enumerate}
+
+
+\subsection*{(c) Calculate $\text{ker}T$,$\text{Im}T$, and $\text{rank}T$ }
+\begin{itemize}
+	\item $\text{ker}T:=\{f\in F_X|f(x^2)=0,x\in X\}=\{f\in F_X|f(0)=f(1)=0\}$
+	
+	\item $\text{Im}T$ is the set of functions in $F_X$ s.t. $f(-1)=f(1)$ that are defined for $f(0)$. Thus, $\text{Im}T:= \{f\in F_X|f(-1)=f(1)=a,f(0)=b,a\in\R\cap b\in\R\}$
+	
+	\item $\text{rank}T:= \text{dim}(\text{Im}T)$. This is the number of linearly independent vectors $f\in F_X$ required to form a basis for $\{f\in F_X|f(-1)=f(1)=a,f(0)=b,a\in\R\cap b\in\R\}$. There are two conditions, each with $f:X\rightarrow\R$. Consider two functions, $f_0,f_1\in F_X$:
+		\begin{align*}
+			f_0(x)&=\begin{cases} 0, & x\in\{-1,1\} \\ 1,&x=0\end{cases}	\\
+			f_1(x)&=\begin{cases} 1, & x\in\{-1,1\} \\ 0,&x=0\end{cases}
+		\end{align*}
+	A linear combination of these two (linearly independent) functions account for the span of $\text{Im}T$, so they form a basis of $\text{Im}T$. Thus, $\text{rank}T=2$
+\end{itemize}
+
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 6}
+
+The system of equations can be reduced as follows:
+\begin{flalign*}
+\begin{array}{@{}>{\displaystyle}l@{}>{\displaystyle{}}l@{}}
+	\begin{cases}
+		x_1 	+ x_2 	+ 2x_3 	+ x_4 	&= 0	\\
+		3x_1 	- x_2 	+ x_3 	- x_4	&= 0	\\
+		5x_1 	- 3x_2 			- 3x_4	&= 0
+	\end{cases}
+	&=
+	\begin{cases}
+		x_1 	+ x_2 	+ 2x_3 	+ x_4 	&= 0	\\
+		9x_1 	- 3x_2 	+ 3x_3 	- 3x_4	&= 0	\\
+		5x_1 	- 3x_2 			- 3x_4	&= 0
+	\end{cases}	\\
+	=
+	\begin{cases}
+		x_1 	+ x_2 	+ 2x_3 	+ x_4 	&= 0								\\
+		9x_1 	- 3x_2 	+ 3x_3 	- 3x_4	&= 5x_1 	- 3x_2 			- 3x_4
+	\end{cases}
+	&=
+	\begin{cases}
+		x_1 	+ x_2 	+ 2x_3 	+ x_4 	&= 0								\\
+		4x_1 	+ 3x_3 					&= 0
+	\end{cases}	\\
+	=
+	\begin{cases}
+		x_1 	+ x_2 	+ 2x_3 	+ x_4 	&= 0								\\
+		4x_1 	+ 3x_3 					&= 0
+	\end{cases}
+	&=
+	\begin{cases}
+		x_1 	+ x_2 	+ 2x_3 	+ x_4 	&= x_1 + \frac{3}{4}x_3				\\
+		4x_1 	+ 3x_3 					&= 0
+	\end{cases}	\\
+	=
+	\begin{cases}
+		 x_2 	+ \frac{5}{4}x_3 + x_4 	&= 0				\\
+		4x_1 	+ 3x_3 					&= 0
+	\end{cases}
+	&=
+	\begin{cases}
+		4x_2 	+ 5x_3 + 4x_4 	&= 0				\\
+		4x_1 	+ 3x_3 			&= 0
+	\end{cases}
+\end{array}
+&&
+\end{flalign*}
+Thus, $X=\left\{\vec{x}\bigm|\vec{x}\in\R^4,4x_2 	+ 5x_3 + 4x_4 	= 0,4x_1 	+ 3x_3 			= 0 \right\}$. Further reducing the system gives:
+\[
+	X=\left\{\left(-\frac{3}{4}x_3,-\left(\frac{5}{4}x_3+x_4\right),x_3,x_4\right)\bigm|x_3,x_4\in\R \right\}
+\]
+\subsection*{(a) Show that $X$ is a vector space}
+Each solution of $X$ must satisfy each of the equations in the reduced system. Since each of the equations is equal to zero, any multiple of the left side of the equation is also equal to zero. Likewise, the sum of the two equations (or any multiple thereof) is equal to zero. Therefore, an arbitrary element, $\vec{x}\in X$, can be defined as:
+\[
+	\vec{x}
+	= \colvec{4}{-\frac{3}{4}c}{-\left(\frac{5}{4}c+k\right)}{c}{k}
+	= c\colvec{4}{-\frac{3}{4}}{-\frac{5}{4}}{1}{0} + k\colvec{4}{0}{1}{0}{1}
+	= c\vec{a} + k\vec{b}
+\]
+Where $c,k\in\R$ and $\vec{a},\vec{b}\in\R^4$. Thus, $\vec{a}$ and $\vec{b}$ have all of the properties of $R^4$ and we can show that $X$ has all of the properties of vector spaces, where $c_i,k_i\in\R$ refer to the $c,k$ scalars for each vector $i$:
+\begin{enumerate}
+	\item Associativity of $+$: $\forall \vec{x},\vec{y},\vec{z}\in X$:
+		\begin{align*}
+			(\vec{x} + \vec{y})+\vec{z} 	&= (c_x\vec{a} + k_x\vec{b} + c_y\vec{a} + k_y\vec{b})+c_z\vec{a}+k_z\vec{b} 	\\
+			&= c_x\vec{a} + k_x\vec{b} +  (c_y\vec{a} + k_y\vec{b} + \vec{y}+ \vec{z}) \\
+			&= \vec{x} + (\vec{y}+ \vec{z})	
+		\end{align*}
+		
+	\item Commutativity of $+$: $\forall \vec{x},\vec{y}\in X$:
+		\begin{align*}
+			\vec{x} +\vec{y} 	&= 	c_x\vec{a} + k_x\vec{b} + c_y\vec{a} + k_y\vec{b}	\\
+								&= c_y\vec{a} + k_y\vec{b} + c_x\vec{a} + k_x\vec{b}  	\\
+								&= \vec{y}+\vec{x}
+		\end{align*}
+		
+	\item Existence of zero: Let $c_x=k_x$. Then $\vec{x}=(0,0,0,0)\in X$
+	
+	\item Additive inverse: $\forall \vec{x}\in X$,
+		\[
+			\vec{x} + (-\vec{x}) = c_x\vec{a} + k_x\vec{b} + (-c_x\vec{a} - k_x\vec{b}) = 0
+		\]
+	
+	\item Distributivity of scalar multiplication and vector addition: $\forall\alpha\in\R$,$\forall \vec{x},\vec{y}\in X$,
+		\begin{align*}
+			\alpha(\vec{x}+\vec{y})														
+			&= \alpha(c_x\vec{a} + k_x\vec{b} + c_y\vec{a} + k_y\vec{b}) 		\\
+			&= \alpha(c_x\vec{a} + k_x\vec{b}) + \alpha c_y\vec{a} + k_y\vec{b}	\\
+			&= \alpha\vec{x} + \alpha \vec{y}										
+		\end{align*}
+		
+	\item Distributivity of scalar addition and vector multiplication: $\forall\alpha,\beta\in\R$,$\forall \vec{x}\in X$,
+		\begin{align*}
+			(\alpha + \beta)\vec{x}												
+			&= \alpha(c_x\vec{a} + k_x\vec{b}) + \beta(c_x\vec{a} + k_x\vec{b})	\\
+			&= \alpha \vec{x} + \beta \vec{x}
+		\end{align*}
+
+		
+	\item Associativity of multiplication: $\forall\alpha,\beta\in\R,\vec{x}\in X,x\in X$, 
+		\begin{align*}
+			(\alpha*\beta)\vec{x}											
+			&= (\alpha*\beta)(c_x\vec{a} + k_x\vec{b}) 		\\
+			&= \alpha(\beta c_x\vec{a} + \beta k_x\vec{b}) 	\\			
+			&= \alpha(\beta(c_x\vec{a} + k_x\vec{b}))		\\
+			&= \alpha(\beta \vec{x})	
+		\end{align*}
+	
+	\item Multiplicative identity: $\forall \vec{x}\in X$, 
+		\[
+			1*\vec{x}=1*(c_x\vec{a} + k_x\vec{b})=1*c_x\vec{a} + 1*k_x\vec{b}=c_x\vec{a} + k_x\vec{b}=\vec{x}
+		\]	
+\end{enumerate}
+
+\subsection*{(b) Calculate $\text{dim}X$}
+$\text{dim}X$ is defined as the cardinality of any basis of $X$. As was shown in the reduction of the system above, $\vec{a}$ and $\vec{b}$ span $X$. If they are linearly independent, then they also form a basis for $X$. To demonstrate linear independence:
+\[
+	c\vec{a} + k\vec{b} 
+	= c\colvec{4}{-\frac{3}{4}}{-\frac{5}{4}}{1}{0} + k\colvec{4}{0}{1}{0}{1} 
+	= \colvec{4}{0}{0}{0}{0}
+	\iff c=k=0
+\] 
+Thus, $\{\vec{a},\vec{b}\}$ is a basis of $X$, and $\text{dim}X=2$.
+
+
+
+
+
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

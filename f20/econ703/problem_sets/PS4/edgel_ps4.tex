@@ -1,0 +1,353 @@
+%%% Econ703: Math Camp
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Wednesday September 9, 11pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#4 }
+\author{ 	Danny Edgel 							\\ 
+			Econ 703: Mathematical Economics I		\\
+			Fall 2020								\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+Let $L(X,Y)$ be the space of all $T:X\rightarrow Y$, where $\text{dim}X=n$ and $\text{dim}Y=m$. Define $A=\text{mtx}_{X,Y}(T)\in M_{mxn}$ such that each element of $A$ is indexed $a_{ij}$, where $i\in\{1,...,m\}$ refers to the row of $A$ and $j\in\{1,...,n\}$ refers to the column of $A$ where $a_{ij}$ is located.
+\smallskip \\
+Let $\{x_1,...,x_n\}$, $x_i\in X$ $\forall i=\{1,...,n\}$ be a basis for $X$ and $\{y_1,...,y_m\}$. $y_i\in Y$ $\forall i = \{1,...,m\}$ be a basis for $Y$. Then, for $c_i,d_i\in\R$ $\forall i=\{1,...,n\}$
+\begin{enumerate}
+	\item $c_1 x_1 + ... + c_n x_n$ spans $X$ 
+	\item $d_1 y_1 + ... + d_m y_m$ spans $Y$
+	\item For an arbitrary $T\in L(X,Y)$ and $x\in X$, $T(x)=d_1 y_1 + ... + d_n y_n$
+	\item Thus, if we let $A=\text{mtx}_{X,Y}(T)$,
+		\begin{align*}
+			T(x)	&= T(c_1 x_1 + ... + c_n x_n) 	\\
+					&= c_1T(x_1)+...+c_nT(x_n) 		\\
+					&= c_1(a_{11} y_1 + a_{12}y_2 + ... + a_{1m}y_m) + ... + c_n(a_{n1} y_1 + a_{n2}y_2 + ... + a_{nm}y_m \\
+					&= \begin{pmatrix} y_1 & \cdots & y_m \end{pmatrix}	
+						\begin{pmatrix}	a_{11} & \cdots & a_{n1} \\
+										\vdots & \ddots & \vdots \\
+										a_{1m} & \cdots & a_{nm}
+						\end{pmatrix} \colvec{3}{c_1}{\vdots}{c_n}
+		\end{align*}
+\end{enumerate}
+Where:
+\[
+	A = a_{11}\begin{pmatrix}	1		& 0			& \cdots & 0 		\\ 
+								0 		& 0 		& \cdots & 0 		\\ 
+								\vdots 	& \vdots 	& \ddots & \vdots 	\\
+								0		& 0			& \cdots & 0 		\end{pmatrix}
+	+	a_{21}\begin{pmatrix}	0		& 1			& \cdots & 0 		\\ 
+								0 		& 0 		& \cdots & 0 		\\ 
+								\vdots 	& \vdots 	& \ddots & \vdots 	\\
+								0		& 0			& \cdots & 0 		\end{pmatrix}
+	+	a_{12}\begin{pmatrix}	0		& 0			& \cdots & 0 		\\ 
+								1 		& 0 		& \cdots & 0 		\\ 
+								\vdots 	& \vdots 	& \ddots & \vdots 	\\
+								0		& 0			& \cdots & 0 		\end{pmatrix}
+	+	...
+	+	a_{nm}\begin{pmatrix}	0		& 0			& \cdots & 0 		\\ 
+								0 		& 0 		& \cdots & 0 		\\ 
+								\vdots 	& \vdots 	& \ddots & \vdots 	\\
+								0		& 0			& \cdots & 1 		\end{pmatrix}
+\]
+Thus, the set of $nm$ transformations, represented by a set of matrices where each matrix equals one for some $a_{ij}$ and zero for all others (but no two matrices have the same element equal to one) form a basis for $L(X,Y)$.
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+\subsection*{(a)}
+\textbf{Proof.}
+\begin{itemize}
+	\item Let $\lambda$ be an eigenvalue of $T$ and let $A=\text{mtx}T$.
+	\item \textit{Theorem}: $\lambda$ is an eigenvalue of $T$ if and only if $\lambda$ is an eigenvalue of $A$. Thus, $\exists v\in X$ s.t. $Av=\lambda v$
+	\item Then, for some $k\in\N$, $A^k v=A^{k-1}A v=A^{k-1}(\lambda v)=\lambda A^{k-2}A v=...=\lambda^k v$. Thus, $\lambda^k$ is an eigenvalue of $A^k$
+	\item $\therefore$ $\lambda^k$ is an eigenvalue of $T^k$ $\blacksquare$
+\end{itemize}
+
+
+\subsection*{(b)}
+\textbf{Proof.}
+\begin{itemize}
+	\item Let $A^{-1}$ be the inverse of $A$. Then, $A^{-1}A v=Iv=v$
+	\item Then, if $\lambda$ is an eigenvalue of $A$:
+		\begin{align*}
+			A v 			&= \lambda v 						\\
+			A^{-1}Av 		&= A^{-1}(\lambda v )				\\
+			I v 			&= \lambda A^{-1} v 				\\
+			\lambda^{-1} v 	&= \lambda^{-1}\lambda A^{-1} v		\\
+			\lambda^{-1} v 	&= A^{-1} v							
+		\end{align*}
+		Thus, $\lambda^{-1}$ is an eigenvalue of $A^{-1}$
+	\item $\therefore$ $\lambda^{-1}$ is an eigenvalue of $T^{-1}$ $\blacksquare$
+\end{itemize}
+
+\subsection*{(c)}
+Define $S:X\rightarrow X$ as $S(x)=T(x)-\lambda x$, $\forall x=\in X$. Let $x_1,x_2\in X$ and $\alpha_1,\alpha_2\in\R$. Then, since $T$ is linear by definition:
+\begin{align*}
+	S(\alpha_1 x_1 + \alpha_2 x_2) 	&= T(\alpha_1 x_1 + \alpha_2 x_2) + \lambda(\alpha_1 x_1 + \alpha_2 x_2)	\\
+									&= \alpha_1 T(x_1)+\alpha_2 T(x_2)+\alpha_1\lambda x_1+\alpha_2\lambda x_2 	\\
+									&= \alpha_1(T(x_1)+\lambda x_1) + \alpha_2(T(x_2)+\lambda x_2) 				\\
+									&= \alpha_1 S(x_1) + \alpha_2 S(x_2)
+\end{align*}
+Thus, $S$ is linear. Since $\text{ker}S$ is defined as the set of all $x\in X$ s.t. $T(x)=\lambda x$, it encompasses all multiples of the eigenvector associated with $\lambda$.
+\smallskip \\
+Fix $v\in X$ s.t. $T(v)=\lambda v$. Then, for $x,y\in\text{ker}S$, $\beta_1,\beta_2\in\R$, $x=\beta_1 v$ and $y=\beta_2 v$. Then, for $x,y\in\text{ker}S$ and $\alpha_1,\alpha_2\in\R$,
+\begin{align*}
+	(\alpha_1+\alpha_2)(x+y)	&=(\alpha_1+\alpha_2)(\beta_1 v+\beta_2 v)						\\
+								&=(\alpha_1+\alpha_2)\beta_1 v+(\alpha_1+\alpha_2)\beta_2 v 	\\
+								&= (\alpha_1+\alpha_2) x+(\alpha_1+\alpha_2) y 					\\
+	(\alpha_1+\alpha_2)\beta_1 v+(\alpha_1+\alpha_2)\beta_2 v &= \alpha_1\beta_1 v + \alpha_2\beta_1 v + \alpha_1\beta_2 v + \alpha_2\beta_2 v 																			\\
+								&= \alpha_1(\beta_1 v + \beta_2 v) + \alpha_2(\beta_1 v+\beta_2 v) \\
+								&= \alpha_1(x+y)+\alpha_2(x+y)
+\end{align*}
+Thus, properties 1, 2, 5, 6, and 7 of vector spaces are satisfied. The zero vector is also in $\text{ker}S$: 
+\[
+	S(\vec{0})=T(\vec{0})+\lambda\vec{0}=\vec{0}+\vec{0}=\vec{0}
+\]
+Where, for $x\in\text{ker}S$, $\vec{0}+ x=\vec{0}+ \beta_1 v = \beta_1 v = x$. Finally, the additive inverse and multiplicative identity conditions are satisfied:
+\begin{align*}
+	\text{Let }\beta_2=-\beta_1\text{. Then,} & x+y=\beta_1 v + \beta_2 v = \beta_1 v-\beta_1 v = \vec{0} \\
+	& 1x = 1\beta_1 v =\beta_1 v = x
+\end{align*}
+Thus, $\text{ker}S$ is a vector space.
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+\subsection*{(a)}
+\[
+	\text{mtx}_W(T)= \begin{pmatrix} 1 & -1 \\ 2 & 3 \end{pmatrix}
+\]
+
+\subsection*{(b)}
+$\text{mtx}_V(T)=P\text{mtx}_W(T)P^{-1}$, where, based on the basis vectors of $V$,
+\[
+	P^{-1}=\begin{pmatrix} 1 & -2 \\ -4 & 7 \end{pmatrix}
+\]
+Thus,
+\[
+	\text{mtx}_V(T) = 	\begin{pmatrix} -7 & -2 \\ -4 & -1 \end{pmatrix}
+						\begin{pmatrix} 1 & -1 \\ 2 & 3 \end{pmatrix}
+						\begin{pmatrix} 1 & -2 \\ -4 & 7 \end{pmatrix}
+					=	\begin{pmatrix} -15 & 29 \\ -10 & 19 \end{pmatrix}
+\]
+
+
+\subsection*{(c)}
+Assuming $(1,2)$ is given as $W$ coordinates, since $P^{-1}=\{v_1,v_2\}$ and $\text{mtx}_W=P^{-1}\text{mtx}_V(T)P$, we can solve for $T(1,2)$ in the coordinates in $V$ by multiplying $\colvec{2}{1}{2}$ by $\text{mtx}_V(T)P$:
+\[
+	\text{mtx}_V(T)P\colvec{2}{1}{2} = \begin{pmatrix} -15 & 29 \\ -10 & 19 \end{pmatrix}\begin{pmatrix} -7 & -2 \\ -4 & -1 \end{pmatrix}\colvec{2}{1}{2} = \colvec{2}{-9}{-4}
+\]
+Thus, The coordinates of $T(1,-2)$ in $\left\{\colvec{2}{1}{-4},\colvec{2}{-2}{7}\right\}$ are $\colvec{2}{-9}{-4}$.
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+\textbf{Step 1:}
+\[
+	\text{det}(A-\lambda I)=\lambda^2-9=0
+\]
+Thus, $\lambda_1=3$, $\lambda_2=-3$.
+\begin{align*}
+	A-3I&=\begin{pmatrix} -2 & 4 \\ 2 & -4 \end{pmatrix} \\
+	A+3I&=\begin{pmatrix} 4 & 4 \\ 2 & 2 \end{pmatrix}
+\end{align*}
+Thus, $v_1=\colvec{2}{\sqrt{2}}{1/\sqrt{2}}$ and $v_2=\colvec{2}{1/\sqrt{2}}{-1/\sqrt{2}}$.
+\bigskip \\
+\textbf{Step 2:}
+\[
+	D = \begin{pmatrix} 3 & 0 \\ 0 & -3 \end{pmatrix}\text{,      } 
+	P=\begin{pmatrix} \sqrt{2} & 1/\sqrt{2} \\ 1/\sqrt{2} & -1/\sqrt{2} \end{pmatrix}
+\]
+\bigskip \\
+\textbf{Step 3:}
+\begin{align*}
+	P^{-1} &= \frac{1}{-1-1/2}\begin{pmatrix}-1/\sqrt{2} & -1/\sqrt{2} \\ -1/\sqrt{2} & \sqrt{2} \end{pmatrix} 
+	= \begin{pmatrix} \sqrt{2}/3 & \sqrt{2}/3 \\ \sqrt{2}/3 & -(2\sqrt{2})/3 \end{pmatrix} \\
+	PDP^{-1} &= 
+		\begin{pmatrix} \sqrt{2} & 1/\sqrt{2} \\ 1/\sqrt{2} & -1/\sqrt{2} \end{pmatrix}
+		\begin{pmatrix} 3 & 0 \\ 0 & -3 \end{pmatrix}
+		\begin{pmatrix} \sqrt{2}/3 & \sqrt{2}/3 \\ \sqrt{2}/3 & -(2\sqrt{2})/3 \end{pmatrix}
+\end{align*}
+\bigskip \\
+\textbf{Step 4:}
+\begin{align*}
+	A^t &= (PDP^{-1})^t = PD^tP^{-1} = 
+			\begin{pmatrix} \sqrt{2} & 1/\sqrt{2} \\ 1/\sqrt{2} & -1/\sqrt{2} \end{pmatrix}
+			\begin{pmatrix} 3^t & 0 \\ 0 & (-3)^t \end{pmatrix}
+			\begin{pmatrix} \sqrt{2}/3 & \sqrt{2}/3 \\ \sqrt{2}/3 & -(2\sqrt{2})/3 \end{pmatrix} \\
+		&= 	\begin{pmatrix} \sqrt{2}3^t & (-3)^t/\sqrt{2} \\ 3^t/\sqrt{2} & -(-3^t)/\sqrt{2} \end{pmatrix}
+			\begin{pmatrix} \sqrt{2}/3 & \sqrt{2}/3 \\ \sqrt{2}/3 & -(2\sqrt{2})/3 \end{pmatrix} \\
+		&= 	\begin{pmatrix} 2(3^{t-1})+(-1)^t3^{t-1} & 2(3^{t-1})-2(-1)^t 3^{t-1} \\ 3^{t-1} - (-1)^t 3^{t-1} & 3^{t-1} + 2(-1)^t 3^{t-1} \end{pmatrix} \\
+		&= 3^{t-1} \begin{pmatrix} 2+(-1)^t & 2-2(-1)^t  \\ -(-1)^t & 1 + 2(-1)^t 3^{t-1} \end{pmatrix} 
+\end{align*}
+Thus, 
+\begin{align*}
+	x_t &= 3^{t-1} \begin{pmatrix} 2+(-1)^t & 2-2(-1)^t  \\ -(-1)^t & 1 + 2(-1)^t 3^{t-1} \end{pmatrix} \colvec{2}{1}{1} \\
+	x_t &= 3^{t-1} \begin{pmatrix} 2+(-1)^t + 2-2(-1)^t  \\ -(-1)^t + 1 + 2(-1)^t 3^{t-1} \end{pmatrix}	\\
+	x_t &= 3^{t-1}\colvec{2}{4-(-1)^t}{2+(-1)^t}
+\end{align*}
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+\subsection{(a)}
+$A\in M_{nxn}$, such that:
+\[
+	A=
+	\begin{pmatrix}
+		a_1 	& a_2 	 & a_3 		& \cdots & a_{n-1} 	& a_n	 	\\
+		1 		& 0 	 & 0 		& \cdots & 0 		& 0		 	\\
+		0 		& 1 	 & 0		& \cdots & 0	 	& 0		 	\\
+		\vdots	& \vdots & \vdots	& \ddots & \vdots	& \vdots 	\\
+		0		& 0		 & 0		& \cdots & 1		& 0
+	\end{pmatrix}
+\]
+
+\subsection*{(b)}
+Let $t=0$. Then,
+\[
+x_{t+1} = \colvec{4}{z_0}{z_{-1}}{\vdots}{z_{-n}} 
+		= \colvec{4}{c_1\lambda_1^0+c_2\lambda_2^0+\cdots+c_n\lambda_n^0}{c_1\lambda_1^{-2}+c_2\lambda_2^{-2}+\cdots+c_n\lambda_n^{-2}}{\vdots}{c_1\lambda_1^{-n}+c_2\lambda_2^{-n}+\cdots+c_n\lambda_n^{-n}}
+		= \begin{pmatrix} 
+			1 				& 1 			 & \cdots & 1 				\\ 
+			\lambda_1^{-1} 	& \lambda_2^{-1} & \cdots & \lambda_n^{-1} 	\\ 
+			\vdots 			& \vdots 		 & \ddots & \vdots 		  	\\ 
+			\lambda_1^{-n}  & \lambda_2^{-n} & \cdots & \lambda_n^{-n} 
+		  \end{pmatrix} \colvec{4}{c_1}{c_2}{\vdots}{c_n}
+\]
+
+\subsection*{(c)}
+Let $n=3$, $(a_1,a_2,a_3)=(2,1,-2)$, and $(z_0,z_{-1},z_{-2}) = (2,2,1)$. Then,
+\[
+	A=\begin{pmatrix} 2 & 1 & -2 \\ 1 & 0 & 0 \\ 0 & 1 & 0 \end{pmatrix}
+\]
+Then,
+\begin{align*}
+	\text{det}(A-\lambda I) &= 
+		(2-\lambda)\text{det}\begin{pmatrix} -\lambda & 0 \\ 1 & -\lambda \end{pmatrix} +
+		\text{det}\begin{pmatrix} 1 & 0 \\ 0 & -\lambda \end{pmatrix} -
+		2\text{det}\begin{pmatrix} 1 & -\lambda \\ 0 & 1 \end{pmatrix}	\\
+		&= (2-\lambda)\lambda^2 - \lambda - 2 \\
+		&= -(\lambda^3 - 2\lambda^2+\lambda + 2) \\
+		&= -(\lambda+1)(\lambda-1)(\lambda-2) =0
+\end{align*}
+Thus, $\lambda_1=2$, $\lambda_2=-2$, and $\lambda_3=1$. Then, to solve for $(c_1,c_2,c_3)$:
+\[
+	\colvec{3}{z_0}{z_{-1}}{z_{-2}} 
+		=\begin{pmatrix} 1 & 1 & 1 \\ 1 & -1 & 1/2 \\ 1 & 1 & 1/4 \end{pmatrix}
+		\colvec{3}{c_1}{c_2}{c_3} \Rightarrow
+		\begin{bmatrix}
+			1	& 1		& 1		&\aug& 2 \\
+			1	& -1	& 1/2	&\aug& 2 \\
+			1	& 1		& 1/4	&\aug& 1
+		\end{bmatrix} \equiv
+		\begin{bmatrix}
+			1	& 0	& 0	&\aug& 1	\\
+			0	& 1	& 0	&\aug& -1/3 \\
+			0	& 0	& 1	&\aug& 4/3
+		\end{bmatrix}
+\]
+$\therefore$ $(c_1,c_2,c_3)=(1,-1/3,4/3)$, so $z_t = 2^t - \frac{1}{3}(-2)^t+\frac{4}{3}$, $\forall t$.
+
+
+%%%________________________________________________________________%%%
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

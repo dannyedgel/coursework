@@ -1,0 +1,249 @@
+%%% Econ703: Math Camp
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Monday, August 24, 11pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#2 }
+\author{ 	Danny Edgel 							\\ 
+			Econ 703: Mathematical Economics I		\\
+			Fall 2020								\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\textit{Collaborated with Emily Case, Garrett Shost, Soong Kit Wong, Alex Von Hafften, Michael Nattinger, and Sarah Bass. Referred to the course textbook and Walter Rudin's} Principles of Mathematics.
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+
+For $A=\left\{\frac{1}{n}\right\}_{n\in\N}=\left\{1,\frac{1}{2},\frac{1}{3},\frac{1}{4},...\right\}\subset\Q$, let $D(S)$ be the set of all limit points of $S\subset\R$.
+\medskip \\
+\textbf{Proof.}
+\begin{enumerate}
+	\item Assume that $D(S)=A$
+	
+	\item Let $p\in D(S)$. Then $\forall\varepsilon>0$, $B_\varepsilon(p)\bigcup(A\setminus \{p\})\neq\emptyset$, where $B_\varepsilon(p)$ is the set of all points, $q\neq p$, such that $d(p,q)<\varepsilon$
+	
+	\item $\exists y\in S: y\in B_\varepsilon(p)$ such that for some $x\in S\wedge x\in\Q^c$, $x\in B_\varepsilon(y)\wedge x\in B_\varepsilon(p)$
+	
+	\item $x\in B_\varepsilon(y)\Rightarrow y\in B_\varepsilon(x)$. Thus, $x\in D(S)$
+	
+	\item $A\subset\Q ^ x\in\Q^c$, so $D(S)\neq A$ $\blacksquare$
+\end{enumerate}
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+
+In order to prove that $f(x)=\cos (x^2)$ is not uniformly continuous, we must prove that:
+\[
+	\exists \varepsilon>0:\forall\delta>0,\exists x,x_0\in\R: |x-x_0|<\delta\wedge|f(x)-f(x_0)|\geq\varepsilon
+\]
+\medskip \\
+\textbf{Proof.}
+\smallskip \\
+The function $f(\theta)=\cos\theta$ is bounded by $-1$ and $1$ such that $f(\theta)=\cos\theta=\cos(\theta+2\pi)$, $\forall\theta\in\R$, where $\forall b\in[-1,1], \exists a\in[\theta,\theta+2\pi]$ such that $f(a)=b$.   Furthermore, $\exists a\in[-\frac{\pi}{2},\frac{\pi}{2}]:|f(\theta)-f(\theta+a)|\geq 1$. Given that $f(x)=\cos(\theta)$, where $\theta = x^2$, by letting $\delta_0=\frac{\delta}{2}$ $\forall\delta>0$, we can derive:
+\begin{align*}
+	x_0 			&= x + \delta_0						\\
+	|f(x)-f(x_0)| 	&= |\cos(x^2)-\cos((x-\delta_0)^2)|
+\end{align*}
+Given $a$ as defined above, we can let $(x+\delta_0)^2 = x^2 + a$ and solve:
+\begin{align*}
+	(x+\delta_0)^2				&= x^2 + a							\\
+	x^2+\delta_0 x + \delta_0^2	&= x^2 + a							\\
+	x							&= \frac{a-\delta_0^2}{\delta_0}
+\end{align*}
+Thus, $\forall \delta>0$, $\exists x,x_0\in\R$ such that $|x-x_0|<\delta\wedge|\cos(x^2)-\cos(x_0^2)|\geq 1$ $\blacksquare$
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+
+Let $f:\R\rightarrow\R_{++}$ be continuous on $[a,b]$. We can show that this implies that its reciprocal, $\frac{1}{f}$, is bounded on $[a,b]$ as follows:
+\begin{enumerate}
+
+	\item $\frac{1}{f}$ is bounded on $[a,b]$  if $\nexists x_0\in[a,b]: \underset{x\rightarrow x_0}{\text{lim }}f(x)\rightarrow0$\footnote{
+			If $g(x)=\frac{1}{f(x)}$ is bounded, then $\exists \alpha,\beta\in\R: \forall x\in\R,g(x)\in[\alpha,\beta]$. $\lmt(\frac{1}{x})=0$ and $\neglmt(\frac{1}{x})=0$, and $\frac{1}{x}$ is continuous on $(-\infty,0)$ and $(0,\infty)$. However, $|\frac{1}{x}|\rightarrow\infty$ as $x\rightarrow 0$. Thus, if $\nexists \{x_n\}\in[a,b]: x_n\rightarrow 0$, then $\frac{1}{x}$ will be bounded on $[a,b]$.
+	} %% end footnote 
+	
+	\item $f:\R\rightarrow\R_{++}\Rightarrow\nexists x\in\R$ such that $f(x)=0$
+	
+	\item If $f$ is continuous on $[a,b]$, then $\forall x,x_0$, $\forall\varepsilon>0,\exists\delta>0:x\in B_\delta(x_0)\Rightarrow f(x)\in B_\varepsilon(f(x_0))$. Thus, $\nexists x_0\in[a,b]:\underset{x\rightarrow x_0}{\text{lim }}f(x)\rightarrow0$
+\end{enumerate}
+$\therefore$, $f:\R\rightarrow\R_{++}$ being continuous on $[a,b]$ implies that $\frac{1}{f}$ is bounded on $[a,b]$ $\blacksquare$
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+
+\subsection*{(4a): Prove sequences $\{l_n\}$ and $\{u_n\}$ converge}
+
+\begin{enumerate}
+	\item By assumption, $a=l_1<u_1=b$
+	
+	\item For every $n$, $l_n$ and $u_n$ are defined in one of three ways:
+	\begin{enumerate}
+		\item $l_n=(l_{n-1}+u_{n-1})/2>l_{n-1}$ and $u_n=u_{n-1}$
+		\item $l_n=l_{n-1}$ and $u_n=(l_{n-1}+u_{n-1})/2<u_{n-1}$
+		\item $l_n=l_{n-1}$ and $u_n=u_{n-1}$
+	\end{enumerate}
+	Thus, $l_n$ is an increasing sequence, and $u_n$ is a decreasing sequence, and $l_n\leq u_n\forall n\in\N$
+	
+	\item By (1) and (2), $\forall n$, $a\leq l_n\leq u_n\leq b$
+	
+	\item By the monotone convergence theorem,
+	\begin{enumerate}
+		\item Since $\{l_n\}$ is increasing and bounded above, $\{l_n\}$ converges
+		\item Since $\{u_n\}$ is increasing and bounded above, $\{u_n\}$ converges $\blacksquare$
+	\end{enumerate}
+\end{enumerate}
+
+
+\subsection*{(4b): Prove $\{l_n\}$ and $\{u_n\}$ converge to the same limit}
+
+\textbf{Proof.}
+\medskip \\
+Using the definitions of $l_n$ and $u_n$ provided in point $1$ of 4(a), we can derive:
+\begin{align*}
+	u_n-l_n &= 
+	\begin{cases}
+		u_{n-1} - \frac{1}{2}(u_{n-1}+l_{n-1})	\\
+		\frac{1}{2}(u_{n-1}+l_{n-1}) - l_{n-1}	\\
+		u_{n-1}-l_{n-1}
+	\end{cases} \\
+	u_n-l_n &= 
+	\begin{cases}
+		\frac{1}{2}(u_{n-1} - l_{n-1})	\\
+		u_{n-1}-l_{n-1}
+	\end{cases}	
+\end{align*}	
+Since $a\leq l_n\leq u_n\leq b$ $\forall n$, $u_n-l_n\geq0$ $\forall n\in\N$. Thus, $\{u_n-l_n\}$ is decreasing and bounded below by $0$. \\
+ $\therefore$ by the monotone convergence theorem, $\lmt u_n-l_n = 0$ $\blacksquare$
+
+
+\subsection*{(4c): Prove that for the common limit, $c$, $f(c)=0$}
+
+Given that $l_n\leq u_n\leq b$ and $\lmt u_n-l_n = 0$, then $\lmt u_n = \lmt l_n$. Define this value as $c$. 
+\medskip \\
+By definition of $\{u_n\}$ and $\{l_n\}$, $u_{n}-l_{n}<u_{n-1}-l_{n-1}$ implies that $|f(\frac{l_n+u_n}{2})|<|f(\frac{l_{n-1}+u_{n-1}}{2})|\rightarrow0$. In other words, $f(\frac{l_n+u_n}{2})\rightarrow 0$ as $u_{n}-l_{n}\rightarrow 0$. Since  $\lmt u_n = \lmt l_n = c$, we can define this limit as:
+\[
+	\underset{x\rightarrow c}{\text{lim }} f(x) = 0
+\]
+Since $f$ is assumed to be continuous over $[a,b]$ and $c\in(a,b)$, we know that $f$ is continuous at $c$ and can thus conclude:
+\[
+	\forall \varepsilon>0,\exists\delta>0:|x-c|<\delta\Rightarrow|f(x)-f(c)|<\varepsilon
+\]
+Therefore, $f(c)=0$ $\blacksquare$
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+
+The temperature at any point on Earth at a given point in time can be defined via a function, $f:\R^2\rightarrow\R$ We can reasonably assume that $f$ is continuous for all values of $\mathbf{x}=(x_1,x_2)$, where $x_1\in[-85,85]$ is the latitude of the point and $x_2\in[-180,180]$ is its longitude.
+\medskip \\
+For simplicity but without loss of generality,\footnote{The following proof applies to any great circle of Earth, which includes the equator, prime meridian, and an infinite set of equations relating the latitude of the circle's points to its longitude.} fix $x_1=0$ and let $g:[-180,180]\rightarrow\R$ represent the temperature along the equator at any point in time. As with $f$, $g$ is continuous on its domain.
+\medskip \\
+Two points, $x$ and $y$ along the equator are antipodal (i.e. diametrically opposed) if $|x - y|=180$
+\medskip \\
+\textbf{Proof.}
+\smallskip \\
+For some $x\in[-180,180]$, define $h(x)=g(x)-g(x-180)$ as the temperature of $x$, less the temperature of its anitpodal point. While $x$ is bounded by $x\in[-180,180]$, The difference $|x-y|$ represents the difference in logitudinal degrees between two points and is therefore bound by $[0,360)$. Thus, $h:[0,360)\rightarrow\R$.
+\smallskip \\
+Since $g(x)$ is continuous, $h(x)$, which is the sum of two continuous functions, is also continuous. For all possible values $x$, there are three possible cases: 
+\begin{enumerate}
+	\item $h(x)=0$. Thus, $g(x)-g(x-180)$, and two antipodal points on Earth share a common temperature.
+	
+	\item $h(x)<0$. Thus, $g(x)-g(x-180)<0$. Since the circumference of the equator is $360$ longitudinal degrees, $g(x+360)=g(x)$. So we can derive:
+		\begin{align*}
+			g(x)-g(x-180)	&<	0	<	g(x-180) - g(x)	\\
+			g(x-180)-g(x)	&=	g(x+180) - g(x)			\\
+			g(x)-g(x-180)	&<	0	<	g(x+180) - g(x)	\\
+			h(x)			&<	0	<	h(x+180)
+		\end{align*}
+	Therefore, by the intermediate value theorem, $\exists c\in(x,x+180):h(c)=0$. Thus, $c$ and its antipodal point share a common temperature.
+	
+	\item $h(x)>0$. Thus, $g(x)-g(x-180)>0$ and we can derive:
+		\begin{align*}
+			g(x)-g(x-180)	&>	0	>	g(x-180) - g(x)	\\
+			g(x)-g(x-180)	&>	0	>	g(x+180) - g(x)	\\
+			h(x)			&>	0	>	h(x+180)
+		\end{align*}
+	Therefore, by the intermediate value theorem, $\exists c\in(x,x+180):h(c)=0$. Thus, $c$ and its antipodal point share a common temperature.
+\end{enumerate}
+$\therefore$ For all values of $x$, there are two antipodal points along the equator that share a common temperature $\blacksquare$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

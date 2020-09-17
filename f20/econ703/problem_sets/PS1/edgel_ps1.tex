@@ -1,0 +1,282 @@
+%%% Econ703: Math Camp
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Thursday August 20, 11am Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{n\rightarrow\infty}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#1 }
+\author{ 	Danny Edgel 							\\ 
+			Econ 703: Mathematical Economics I		\\
+			Fall 2020								\\
+		}
+\maketitle\thispagestyle{empty}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+
+It is possible to divide the plane with $n$ straight lines such that each segment of the plane has a different color than its adjacent segments, assuming that the color in a segment can be reassigned, and assuming that only two colors (say, black and white) are used, with the $n=0$ case providing a fully white plane. Each time a line is added to the plane, the color on only one side of the line is flipped--i.e., white segments become black and black segments become white.
+\medskip \\
+The proof of this methodology is given below, using induction. 
+\medskip \\
+\textit{Step 1: Base Step} \\
+Let $n=1$. Then A single line is drawn through the white plane, turning one half of the plane black. Because there are only two segments that do not have the same color, no segment is adjacent to a segment with the same color.
+\medskip \\
+\textit{Step 2: Induction Step} \\
+Assume there are $n$ lines on the plane, dividing the plane into black and white segments that have no adjacent segments of the same color. If we another line such that there are $n+1$ lines, then for each segment in the plane, one of three events will occur: 
+\begin{enumerate}
+	\item The segment is not divided by the line and is on the side that does not have its color flipped. By assumption of the $n$ case, none of its adjacent segments share its color
+	\item The segment is not divided by the line and is on the side that has its color flipped. All adjacent segments also have their colors flipped, so by assumption from the $n$ case, no adjacent segments share the segment's color
+	\item The segment is divided into two new segments, $a$, which maintains its color, and $b$, which has its color flipped. All of $a$'s existing adjacent segments, by assumption from the $n$ case, do not share its color and have not had their colors flipped. The only new adjacent segment is $b$, which was flipped to the opposite color of $a$. All of $b$'s existing segments were the same color as $b$ in the $n$ case but were flipped when line $n+1$ was added. Thus, none of $b$'s adjacent segments share its color $\blacksquare$
+\end{enumerate}
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+
+For $n=\{1,2,3,4,5,6\}$, $a_n=\{1,3,7,15,31,63\}$. Thus, $a_n$ appears to follow the function $f(n)=2^n-1$.
+\bigskip \\ 
+\textbf{Proof.} 
+\medskip \\
+\textit{Step 1: Base Step} \\
+$f(1)=2^1-1=2-1=1$. Thus, $f(1)=a_1=1$. 
+\medskip \\
+\textit{Step 2: Induction Step} \\
+\begin{equation*}
+	\begin{split}
+		f(n+1) 	&= 2^{n+1} - 1			\\
+		f(n+1) 	&= 2^n * 2 - 1			\\
+		f(n+1) 	&= 2^n * 2 - 2 + 2 - 1	\\
+		f(n+1) 	&= 2(2^n - 1) + 1		\\
+		f(n+1) 	&= 2f(n) + 1 \text{ }\blacksquare
+	\end{split}
+\end{equation*}
+
+
+
+%%%________________________________________________________________%%%
+
+
+\section*{Question 3}
+
+De Morgan's Law is $(A\bigcup B)^c=A^c \bigcap B^c$.
+\medskip \\
+\textbf{Proof.}
+\smallskip \\
+Say $x\in (A\bigcup B)^c$. \\
+$(A\bigcup B)^c\subseteq A^c$, so $x\in (A\bigcup B)^c\Rightarrow x\in A^c$ \\
+$(A\bigcup B)^c\subseteq B^c$, so $x\in (A\bigcup B)^c\Rightarrow x\in B^c$ \\
+Therefore, $x\in (A\bigcup B)^c \Rightarrow x\in A^c \bigcap B^c$
+\medskip \\
+Now say $x\in A^c \bigcap B^c$ \\
+$A^c \bigcap B^c \subseteq A^c$, so $x\in A^c \bigcap B^c \Rightarrow x\in A^c$ \\
+$A^c \bigcap B^c \subseteq B^c$, so $x\in A^c \bigcap B^c \Rightarrow x\in B^c$ \\
+$x\in A^c\Rightarrow x\notin A$ and $x\in B^c\Rightarrow x\notin B$ \\
+So $x\notin A\bigcup B$. Therefore, $x\in (A\bigcup B)^c$ \\
+Thus,  $x\in A^c \bigcap B^c \Rightarrow x\in (A\bigcup B)^c$
+\medskip \\
+Therefore, $x\in (A\bigcup B)^c \iff x\in A^c \bigcap B^c$ $\blacksquare$
+
+
+
+%%%________________________________________________________________%%%
+
+\pagebreak
+\section*{Question 4}
+
+Let $A=\{2k+1\mid k\in\Z\}$ and $B=\{3k\mid k\in\Z\}$.
+\medskip \\
+$A\bigcap B$ is the set of all odd numbers that are divisible by 3, which is defined as:
+\begin{equation*}
+	A\bigcap B = \left\{2k+1\bigm| \frac{2k+1}{3}\in\Z\right\}
+\end{equation*}
+\smallskip \\
+We can generalize this condition in the definition by considering the description of the subset from above. All numbers that are divisible by three are necessarily multiples of three. All odd multiples of three are the product of three and another odd integer. Thus, we can define the intersection as:
+\[
+	A\bigcap B = \left\{3(2k+1)|k\in\Z\right\}
+\]
+\smallskip \\
+$B \setminus A$ is defined as all of the elements of $B$, less the elements of $A\bigcap B$. In practice, this is the set of all even numbers that are divisible by three. Thus:
+\begin{equation*}
+	B \setminus A = \left\{3k\bigm| \frac{3k}{2}\in\Z\right\}
+\end{equation*}
+\smallskip \\
+Again, we can generalize in the set's definition by considering the universe of integers we intend to capture. All even integers that are divisible by three have both $2$ and $3$ as factors. Thus, they are all multiples of $6$. Therefore,
+\[
+	B \setminus A = \left\{6k| k\in\Z\right\} \text{ } \blacksquare
+\]
+
+%%%________________________________________________________________%%%
+
+
+\section*{Question 5}
+\subsection*{(a)}
+Given $d_1(x,y)=\sum_{k=1}^{n}|x_k-y_k|$, where $x=(x_1,...,x_n)$ and $y=(y_1,...,y_n)$, we can prove that $d_1(x,y)$ is a metric function as follows:
+\smallskip \\
+\indent (i) $|x_k-y_k|\geq 0$ and $|x_k-y_k|=0 \iff x_k=y_k$ $\forall k$, so $\sum_{k=1}^{n}|x_k-y_k| \geq 0$, and $\sum_{k=1}^{n}|x_k-y_k|=0 \iff x_k=y_k$ $\forall k\in\{1,...,n\}$
+\smallskip \\
+\indent (ii) $|x_k-y_k|=|-1||y_k-x_k|=|y_k-x_k|$ $\forall k\in\{1,...,n\}$, so $d_1(x,y)=d_1(y,x)$
+\smallskip \\
+\indent (iii) First, we can show that, for some arbitary $k\in\{1,...,n\}$:
+\begin{equation*}
+	\begin{split}
+		|x_k-y_k|^2 &= 		(x_k-y_k)*(x_k-y_k)									\\
+		|x_k-y_k|^2 &= 		((x_k-z_k)+(z_k-y_k))*((x_k-z_k)+(z_k-y_k))			\\
+		|x_k-y_k|^2 &= 		(x_k-z_k)^2 + (z_k-y_k)^2 + 2(x_k-z_k)(z_k-y_k)		\\
+		|x_k-y_k|^2 &\leq 	|x_k-z_k|^2 + |z_k-y_k|^2 + 2*|x_k-z_k|*|z_k-y_k|	\\
+		|x_k-y_k|^2 &\leq	(|x_k-z_k| + |z_k-y_k|)^2
+	\end{split}
+\end{equation*}
+\indent Therefore, $|x_k-y_k| \leq |x_k-z_k| + |z_k-y_k|$. As $d_1(x,y)$ is the sum of $|x_k-y_k|$ for every $k\in\{1,...,n\}$, it follows that
+\[
+	\sum_{k=1}^{n}|x_k-y_k|\leq \sum_{k=1}^{n}(|x_k-z_k| + |z_k-y_k|)
+\]
+Thus, $d_1(x,y)\leq d_1(x,z) + d_1(z,y)$ $\blacksquare$
+\subsection*{(b)}
+Given $d_\infty(x,y)=\usmax |x_k - y_k|$, where $x=(x_1,...,x_n)$ and $y=(y_1,...,y_n)$, both (i) and (ii) are satisfied by the same proofs used in 5(a) and 5(b). The proof that $|x_k - y_k|$ satisfies the triangle inequality for an arbitrary $k$ is proven in 5(c). To determine whether (iii) holds for $\usmax |x_k-y_k|$, choose $k_0$ such that $|x_{k_0}-y_{k_0}|=\usmax |x_k--y_k|$. Given the inquality in 5(c),
+\[
+	|x_{k_0}-y_{k_0}| \leq |x_{k_0}-z_{k_0}| + |z_{k_0}-y_{k_0}|
+\]
+Therefore, 
+\[
+	\usmax |x_k--y_k|\leq \usmax \left(|x_{k}-z_{k}| + |z_{k}-y_{k}|\right)
+	\text{ }\blacksquare
+\]
+
+
+%%%________________________________________________________________%%%
+
+
+\section*{Question 6}
+
+By assumption of $\lmt x_n = x$, $\forall\varepsilon>0$, $\exists N:$ $\forall n\geq N,$ $|x_n-x|<\varepsilon/2$. \\
+Likewise, by assumption of $\lmt y_n = y$, $\forall\varepsilon>0$, $\exists M:$ $\forall n\geq M,$ $|y_n-y|<\varepsilon/2$ .
+\medskip \\
+If we let $k=\text{max}\{N,M\}$, then by the triangle inequality, we get the following:
+\begin{equation*}
+	\begin{split}
+		d(x_k,y_k) 	&\leq d(x_k,y) + d(y,y_k)	\\
+		d(x_k,y)	&\leq d(x_k,x) + d(x,y)		\\
+	\end{split}
+\end{equation*}
+Solving the second inequality for $-d(x,y)$ yields:
+\[
+	-d(x,y)	\leq d(x_k,x) + d(x_k,y)
+\]
+Which we can combine with the first inequality to deduce, $\forall\varepsilon>0$, $\exists k$ such that:
+\begin{equation*}
+	\begin{split}
+		d(x_k,y_k)-d(x,y)&\leq d(x_k,y) + d(y,y_k)+d(x,x_k)-d(x_k,y)	\\
+		d(x_k,y_k)-d(x,y)&\leq d(x_k,x) + d(y_k,y) 						\\
+		d(x_k,y_k)-d(x,y)&< \varepsilon
+	\end{split}
+\end{equation*}
+\bigskip \\
+Therefore, it is true that $\lmt d(x_n,y_n) = d(x,y)$ $\blacksquare$
+
+%%%________________________________________________________________%%%
+
+
+\section*{Question 7}
+
+Given that limits at infinity preserve weak inequalities and the following assumptions:
+\begin{enumerate}
+	\item $x_n\leq y_n\leq z_n$ 
+	\item  $x_n\rightarrow A$ 
+	\item  $z_n\rightarrow A$
+\end{enumerate}
+By the second and third assumptions, we know that, $\forall\varepsilon>0$:
+\begin{align*}
+	\exists &N_x:\forall n>N_x, x_n-A<\varepsilon \\
+	\exists &N_z:\forall n>N_z, z_n-A<\varepsilon
+\end{align*}
+\medskip \\
+Then, $\forall\varepsilon>0$, $\exists N=\text{max}\{N_x,N_z\}$, $\forall n\geq N$:
+\begin{equation*}
+	\begin{split}
+		A-\varepsilon&<x_n<A+\varepsilon \\
+		A-\varepsilon&<z_n<A+\varepsilon 
+	\end{split}
+\end{equation*}
+Then, using the first assumption, we can derive, for all $n\geq N$:
+\begin{equation*}
+	A-\varepsilon<x_n\leq y_n\leq z_n<A+\varepsilon
+\end{equation*}
+\bigskip \\
+Thus, $y_n\rightarrow A$ $\blacksquare$
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
