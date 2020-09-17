@@ -155,12 +155,12 @@ Where $f(k)=zk^\alpha$ and $u(c)=\text{log}(c)$.
 		\begin{enumerate}
 			\item In the R code provided, I compute:
 				\begin{align*}
-					&\colvec{2}{\overline{k}'}{\overline{c}'} = \colvec{2}{3.7458}{1.2602} &J=\begin{pmatrix} 1.0190 & -1 \\ -0.0280 & 1.0299 \end{pmatrix}
+					&\colvec{2}{\overline{k}'}{\overline{c}'} = \colvec{2}{3.7458}{1.2602} &J=\begin{pmatrix} 1.0309 & -1 \\ -0.0308 & 1.0299 \end{pmatrix}
 				\end{align*}
 				
 			\item Let $J=E\Lambda E^{-1}$, where $\Lambda$ is the diagonal matrix of $J$'s eigenvalues. Then, from using the R code provided, we can derive:
 				\[
-					J=E\Lambda E^{-1}\begin{pmatrix} 0.9854 & -0.9871 \\ -0.1704 & -0.1510 \end{pmatrix}\begin{pmatrix} 1.1920 & 0 \\ 0 & 0.8570 \end{pmatrix}\begin{pmatrix} 0.4909 & -3.0292 \\ -0.5230 & -3.0238 \end{pmatrix}
+					J=E\Lambda E^{-1}\begin{pmatrix} 0.9850 & 0.9848 \\ -0.1725 & 0.1734 \end{pmatrix}\begin{pmatrix} 1.2060 & 0 \\ 0 & 0.8548 \end{pmatrix}\begin{pmatrix} 0.5091 & -2.8908 \\ 0.5062 & 2.8913 \end{pmatrix}
 				\]
 				Now, let:
 				\[
@@ -179,7 +179,7 @@ Where $f(k)=zk^\alpha$ and $u(c)=\text{log}(c)$.
 				\[
 					\colvec{2}{\widehat{k}_t}{\widehat{c}_t}  = \colvec{2}{\lambda_1^t\widehat{k}_0}{\lambda_2^t\widehat{c}_0}
 				\]
-				Where $\lambda_1=1.1920$ and $\lambda_2=0.8570$. Since $|\lambda_1|>1$, any non-explosive solution requires that $\widehat{k}_0=0$. Thus, rewriting in terms of $(k_t,c_t)$, we have:
+				Where $\lambda_1=1.2060$ and $\lambda_2=0.8548$. Since $|\lambda_1|>1$, any non-explosive solution requires that $\widehat{k}_0=0$. Thus, rewriting in terms of $(k_t,c_t)$, we have:
 				\begin{align*}
 					\colvec{2}{k_t}{c_t} &= E\colvec{2}{\widehat{k}_t}{\widehat{c}_t} \\
 					\colvec{2}{k_t}{c_t} &= \begin{pmatrix} e_{11} & e_{12} \\ e_{21} & e_{22} \end{pmatrix} \colvec{2}{\lambda_1^t\widehat{k}_0}{\lambda_2^t\widehat{c}_0} \\
@@ -238,10 +238,10 @@ Where $f(k)=zk^\alpha$ and $u(c)=\text{log}(c)$.
 		\begin{align*}
 			&\underset{c_1^{10}}{\text{max }}\text{ln}c_1^{1,0}											 &\text{s.t. } &p_1c_1^{1,0}	\leq M 				\\
 			&\underset{c_1^{20}}{\text{max }}\text{ln}c_1^{2,0}											 &\text{s.t. } &p_1c_1^{2,0}	\leq M + p_1 w_2	\\
-			&\underset{\{c_t^{1t},c_{t+1}^{1t}\}}{\text{max }} \text{ln}c_t^{1t} + \text{ln}c_{t+1}^{1t}
+			&\underset{\{c_t^{1t},c_{t+1}^{1t},M^{1t}_{t+1}\}}{\text{max }} \text{ln}c_t^{1t} + \text{ln}c_{t+1}^{1t}
 				&\text{s.t. } 	&p_tc_t^{1t} + M^{1t}_{t+1}	\leq p_tw1\text{, }p_{t+1}c^{1t}_{t+1}		\leq M^{1t}_{t+1}	\\
-			&\underset{\{c_t^{2t},c_{t+1}^{2t}\}}{\text{max }} \text{ln}c_t^{2t} + \text{ln}c_{t+1}^{2t}
-				&\text{s.t. } 	&p_tc_t^{2t} + M^{2t}_{t+1}	\leq 0\text{, }p_{t+1}c^{2t}_{t+1}		\leq M^{2t}_{t+1}	
+			&\underset{\{c_t^{2t},c_{t+1}^{2t},M^{2t}_{t+1}\}}{\text{max }} \text{ln}c_t^{2t} + \text{ln}c_{t+1}^{2t}
+				&\text{s.t. } 	&p_tc_t^{2t} + M^{2t}_{t+1}	\leq 0\text{, }p_{t+1}c^{2t}_{t+1}		\leq M^{2t}_{t+1} + p_{t+1}w_2	
 		\end{align*}
 		In the competitive equilibrium, the goods and money markets clear:
 		\begin{align*}
@@ -260,9 +260,9 @@ Where $f(k)=zk^\alpha$ and $u(c)=\text{log}(c)$.
 		\begin{align*}
 			&\underset{c_1^{-1}}{\text{max }}\text{ln}c_1^{-1}											 
 				&\text{s.t. } &p_1c_1^{-1}	\leq \frac{1}{N_{-1}}+p_1w_3 							\\
-			&\underset{\{c_1^0,c_2^0\}}{\text{max }}\text{ln}c_1^0+\text{ln}c_2^0						 
+			&\underset{\{c_1^0,c_2^0,M_2^0\}}{\text{max }}\text{ln}c_1^0+\text{ln}c_2^0						 
 				&\text{s.t. } &p_1c_1^0+M_2^0 \leq p_1w_2\text{, }p_2c_2^0\leq p_2w_2 + M_2^0		\\
-			&\underset{\{c_t^{t},c_{t+1}^{t},c_{t+2}^t\}}{\text{max }} \text{ln}c_t^{t} + \text{ln}c_{t+1}^{t} + \text{ln}c_{t+2}^{t}
+			&\underset{\{c_t^{t},c_{t+1}^{t},c_{t+2}^t,M^{t}_{t+1},M^{t}_{t+2}\}}{\text{max }} \text{ln}c_t^{t} + \text{ln}c_{t+1}^{t} + \text{ln}c_{t+2}^{t}
 				&\text{s.t. } 	&p_tc_t^t 			+ M^{t}_{t+1}	\leq p_tw1						\\
 			&	&				&p_{t+1}c^t_{t+1}	+ M^{t}_{t+2}	\leq p_{t+1}w_2+M^{t}_{t+1}		\\
 			&	&				&p_{t+2}c^t_{t+2}					\leq p_{t+2}w_3+M^{t}_{t+2}	
@@ -277,7 +277,7 @@ Where $f(k)=zk^\alpha$ and $u(c)=\text{log}(c)$.
 		\medskip \\
 		Our single agent faces the following problem at time $t$, which determines the agent's consumption in all subsequent periods:
 		\[
-			\underset{\{c_t\}_{t=1}^\infty}{\text{max }}\sum_{t=1}^\infty \beta u(c_t) \text{     s.t. }\sum_{t=1}^\infty c_t = k_1\text{, }c_t\geq 0\forall t
+			\underset{\{c_t\}_{t=1}^\infty}{\text{max }}\sum_{t=1}^\infty \beta^t u(c_t) \text{     s.t. }\sum_{t=1}^\infty c_t = k_1\text{, }c_t\geq 0\forall t
 		\]
 		
 \end{itemize}
