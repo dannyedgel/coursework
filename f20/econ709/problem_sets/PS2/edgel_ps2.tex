@@ -1,0 +1,173 @@
+%%% Econ709: Econometrics
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Monday September 21, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#1 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 709: Economic Statistics and Econometrics I	\\
+			Fall 2020											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+\textbf{Suppose that $Y=X^3$ and $f_X(x)=42x^5(1-x)$, $x\in(0,1)$. Find the PDF of $Y$, and show that the PDF integrates to 1.}
+\bigskip \\
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+\textbf{Consider the CDF $F_X(x)=\begin{cases}1.2x&\text{   if } x\in[0,0.5) \\ 0.2+0.8x&\text{   if } x\in[0.5,1] \end{cases}$, and the function}
+\[
+	f_X(x)=\begin{cases}1.2&\text{   if } x\in[0,0.5) \\ a&\text{   if } x=0.5 \\ 0.8&\text{   if } x\in[0.5,1]\end{cases}
+\]
+\smallskip \\
+\textbf{Show that $f_X$ is the density function of $F_X$ as long as $a\geq0$. That is, show that for all $x\in[0,1]$, $F_X(x)=\int_0^x f_X(t)dt$.}
+\bigskip \\
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+\textbf{Let $X$ have the PDF $F_X(x)=\frac{2}{9}(x+1)$, $x\in[-1,2]$. Find the PDF of $Y=X^2$. Note that this is a bit different from the exercise in the lecture note.}
+\bigskip \\
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+\textbf{A median of a distribution is a value $m$ such that $P(X\leq m)\geq\frac{1}{2}$ and $P(X\geq m)\geq\frac{1}{2}$. Find the median of the distribution $f(x)=\frac{1}{\pi(1+x^2)}$, $x\in\R$.}
+\bigskip \\
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+\textbf{Show that if $X$ is a continuous random variable, then $\underset{a}{\text{min}}E|X-a|=E|X-m|$, where $m$ is the median of $X$.}
+\bigskip \\
+(hint: work out the integral expression of $E|X-a|$ and notice that it is differentiable)
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 6}
+\textbf{Let $\mu_n$ denote the $n$th central moment of a random variable $X$. Two quantities of interest, in addition to the mean and variance are}
+\[
+	\alpha_3 = \dfrac{\mu_3}{\mu_2^{3/2}}\text{ and }\alpha_4=\dfrac{\mu_4}{\mu_2^2}
+\]
+\textbf{The value $\alpha_3$ is called the skewness and $\alpha_4$ is called the kurtosis. The skewness measures the lack of symmetry in the density function. The kurtosis measures the peakedness or flatness of the density function.}
+\begin{enumerate}
+	\item \textbf{Show that if a density function is symmetric about a point $a$, then $\alpha_3=0$}
+		\bigskip \\
+		
+		
+	\item \textbf{Calculate $\alpha_3$ for $f(x)=e^{-x}$, $x\geq0$, a density function that is skewed to the right.}
+		\bigskip \\
+	
+	
+	\item \textbf{Calculate $\alpha_4$ for the following density functions and commend on the peakedness of each:}
+		\begin{enumerate}
+			\item $\mathbf{f(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2}\text{, }x\in\R}$
+				\bigskip \\
+			
+			\item $\mathbf{f(x)=1/2\text{, }x\in(-1,1)}$
+				\bigskip \\
+			\item $\mathbf{f(x)=\frac{1}{2}e^{-|x|}\text{, }x\in\R}$
+				\bigskip \\
+		\end{enumerate}
+		
+		
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
