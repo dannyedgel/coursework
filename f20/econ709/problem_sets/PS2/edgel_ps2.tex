@@ -73,7 +73,7 @@
 
 \begin{document}
 
-\title{	Problem Set \#1 }
+\title{	Problem Set \#2 }
 \author{ 	Danny Edgel 										\\ 
 			Econ 709: Economic Statistics and Econometrics I	\\
 			Fall 2020											\\
@@ -85,19 +85,37 @@
 \section*{Question 1}
 \textbf{Suppose that $Y=X^3$ and $f_X(x)=42x^5(1-x)$, $x\in(0,1)$. Find the PDF of $Y$, and show that the PDF integrates to 1.}
 \bigskip \\
-
+We know that the CDF of $Y$, $F_Y(y)$ is equal to $F_X(f^{-1}(x))$. So we can solve for the PDF of $Y$ by first finding its CDF:
+\begin{align*}
+	f^{-1}(y)		&= \sqrt[3]{y}																			\\
+	F_X(x)			&=\int42x^5(1-x)=42\int x^5-x^6=42(\frac{1}{6}x^6-\frac{1}{7}x^7)						\\
+	F_X(f^{-1}(y)) 	&= 42(\frac{1}{6}y^{6/3}-\frac{1}{7}y^{7/3})=42y^2(\frac{1}{6}-\sqrt[3]{y}) = F_Y(y)	\\
+	f_Y(y)			&= \frac{d}{dy} F_Y(y) = 14y-14y\sqrt[3]{y}												\\
+\end{align*}
+Since we already know $F_Y(y)$, we can easily show that the PDF of $Y$ integrates to $1$:
+\[
+	\int_0^1 f_Y(y)dy = F_Y(1)-F_Y(0) = 1^2(7-6\sqrt[3]{1}) - 0 = 7-6 = 1
+\]
 
 %%%________________________________________________________________%%%
 
 \section*{Question 2}
 \textbf{Consider the CDF $F_X(x)=\begin{cases}1.2x&\text{   if } x\in[0,0.5) \\ 0.2+0.8x&\text{   if } x\in[0.5,1] \end{cases}$, and the function}
 \[
-	f_X(x)=\begin{cases}1.2&\text{   if } x\in[0,0.5) \\ a&\text{   if } x=0.5 \\ 0.8&\text{   if } x\in[0.5,1]\end{cases}
+	f_X(x)=\begin{cases}1.2&\text{   if } x\in[0,0.5) \\ a&\text{   if } x=0.5 \\ 0.8&\text{   if } x\in(0.5,1]\end{cases}
 \]
 \smallskip \\
 \textbf{Show that $f_X$ is the density function of $F_X$ as long as $a\geq0$. That is, show that for all $x\in[0,1]$, $F_X(x)=\int_0^x f_X(t)dt$.}
 \bigskip \\
-
+We can define $F_X(x)=\int_0^x f_X(t)dt$ on a case-by-case basis:
+\begin{align*}
+	x\in[0,0.5): 	\int_0^x f_X(t)dt	&=\int_0^x 1.2dt = [1.2t]_0^x = 1.2x																\\
+	x=0.5:			\int_0^x f_X(t)dt	&=\int0^0.5 1.2dt + \int_0.5^x a dt = [1.2t]^0.5_0 + [at]^x_0.5 									\\
+										&= 1.2(0.5) - 0 + ax - 0.5a	=0.6 + 0.5x - 0.5x = 0.6												\\
+	x\in(0.5,1):	\int_0^x f_X(t)dt	&=\int0^0.5 1.2dt + \int_0.5^x a dt + \int_0.5^x 0.8dt = [1.2t]^0.5_0 + [at]^0.5_0.5 +[0.8]^x_0.5	\\
+										&= 0.6 + 0.8x - 0.4 = 0.8x + 0.2
+\end{align*}
+Since $0.6=1.2x$ when $x=0.5$, then $\int_0^x 1.2dt=\int0^0.5 1.2dt + \int_0.5^x a dt$ when $x=0.5$. Thus,  $\forall x\in[0,1]$, $F_X(x)=\int_0^x f_X(t)dt$.
 
 
 %%%________________________________________________________________%%%
