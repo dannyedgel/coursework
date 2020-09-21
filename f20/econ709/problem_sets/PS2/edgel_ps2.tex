@@ -126,20 +126,28 @@ Since $0.6=1.2x$ when $x=0.5$, then $\int_0^x 1.2dt=\int0^0.5 1.2dt + \int_0.5^x
 %%%________________________________________________________________%%%
 
 \section*{Question 3}
-\textbf{Let $X$ have the PDF $F_X(x)=\frac{2}{9}(x+1)$, $x\in[-1,2]$. Find the PDF of $Y=X^2$. Note that this is a bit different from the exercise in the lecture note.}
+\textbf{Let $X$ have the PDF $f_X(x)=\frac{2}{9}(x+1)$, $x\in[-1,2]$. Find the PDF of $Y=X^2$. Note that this is a bit different from the exercise in the lecture note.}
 \bigskip \\
-Given $f_X(x)$ and $Y=g(X)=X^3$, we can solve:
+To find the PDF of $Y$, we can take the derivative of its CDF, which is defined as $F_Y(y)=P(Y\leq y)$. Since $Y=X^2$, we can solve $P(Y\leq y)=P(X^2\leq y)=P(-\sqrt{y}\leq X\leq \sqrt{y})$. However, since $f_X(x)$ is defined for $x\in[-1,2]$, the CDF of $Y$ is defined as:
 \[
-	f_Y(y) = \begin{cases} f_X\left( g^{-1}(y) \right)|\frac{d}{dy}g^{-1}(y)|, &y\in Y \\ 0, &y\notin Y \end{cases}
+	P(X^2\leq y) = \begin{cases} P(-\sqrt{y}\leq X\leq \sqrt{y}), &x\in[-1,1] \\ P(X\leq \sqrt{y}), &x\in(1,2] \end{cases}
 \]
-Solving for each element of the first case of $f_Y(y)$ yields:
+For each case, we can solve for the CDF using a definite integral:
 \begin{align*}
-	f_X\left( g^{-1}(y) \right)			&= \frac{2}{9}			\\
-	\frac{d}{dy}g^{-1}(y)=1/(2\sqrt{y})	&= \frac{1}{2\sqrt{y}}	
+	P(-\sqrt{y}\leq X\leq \sqrt{y}) &= \int_{-\sqrt{y}}^{\sqrt{y}} \frac{2}{9}(x+1) = \left[ \frac{1}{9}x^2 + \frac{2}{9}x + \right]_{-\sqrt{y}}^{\sqrt{y}} = \frac{4}{9}\sqrt{y}	\\
+	P(X\leq \sqrt{y}) &=  \int_{0}^{\sqrt{y}} \frac{2}{9}(x+1) = \left[ \frac{1}{9}x^2 + \frac{2}{9}x + \right]_{0}^{\sqrt{y}} = \frac{1}{9}y + \frac{2}{9}\sqrt{y} \\
+	\therefore F_Y(y) &= 	\begin{cases}
+								\frac{4}{9}\sqrt{y}, 				& y\in[0,1] \\
+								\frac{1}{9}y + \frac{2}{9}\sqrt{y},	& y\in(1,2]
+							\end{cases}
 \end{align*}
-Since $x\in[-1,2]$ and $\frac{d}{dy}g^{-1}(y)=1/(2\sqrt{y})$, our first case of $f_Y(y)$ is defined on $y\in(0,4]$. Thus, 
+Then, knowing that $f_Y(y)=\frac{d}{dy}F_Y(y)$, we can derive:
 \[
-	f_Y(y) = \begin{cases} \frac{1}{18\sqrt{y}}, &y\in (0,4] \\ 0, &y\leq 0 \lor y>4 \end{cases}
+	f_Y(y) =	\begin{cases}
+					\frac{2}{9}y^{-(1/2)}, 			& y\in(0,1] \\
+					\frac{1}{9}(1 + y^{-(1/2)}),	& y\in(1,2]	\\
+					0,								& y\leq 0\lor y>2
+				\end{cases}
 \]
 
 
@@ -160,7 +168,7 @@ $\therefore$ $m = \sqrt{\pi}(1 + \text{tan}(\sqrt{\pi}/2))$	$\blacksquare$
 
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \section*{Question 5}
 \textbf{Show that if $X$ is a continuous random variable, then $\underset{a}{\text{min}}E|X-a|=E|X-m|$, where $m$ is the median of $X$.}
 \bigskip \\
@@ -210,7 +218,7 @@ $\therefore$ $a=m$	$\blacksquare$
 		\]
 		
 	\item \textbf{Calculate $\alpha_4$ for the following density functions and comment on the peakedness of each:}
-		\begin{enumerate}
+		\begin{itemize}
 			\item $\mathbf{f(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2}\text{, }x\in\R}$
 				\bigskip \\
 				$f$ is simply the normal distribution, so we know that it has moment-generating function $M(t)=e^{t^2/2}$. Then, we can calculate the following derivatives of $M$:
@@ -220,11 +228,13 @@ $\therefore$ $a=m$	$\blacksquare$
 					M^{(3)}(t)	&= (3t-t^3)e^{t^2/2} 			\\
 					M^{(4)}(t)	&= (2t^4-3t^2-6t+3)e^{t^2/2}
 				\end{align*}
-				Using $\mu_k=M^{(k)}(0)$, we can solve for $\alpha_4$:
+				Since $f$ has $E(X)=0$, we can use this to generate central moments. Using $\mu_k=M^{(k)}(0)$, we can solve for $\alpha_4$:
 				\[
 					\alpha_4 = \dfrac{\mu_4}{\mu_2^2} = \dfrac{M^{(4)}(0)}{(M^{(2)}(0))^2} = \dfrac{3}{(-1)^2} = 3
 				\]
 				A kurtosis of 3 is very low, indicating that the tails of the distribution are fairly skinny, with most of the data falling near the mean, where there is a ``peak". 
+			
+			\pagebreak
 			
 			\item $\mathbf{f(x)=1/2\text{, }x\in(-1,1)}$
 				\bigskip \\
@@ -238,7 +248,7 @@ $\therefore$ $a=m$	$\blacksquare$
 					\alpha_4 = \dfrac{\mu_4}{\mu_2^2} = \dfrac{1/5}{(1/3)^2} = \dfrac{9}{5}
 				\]
 				The kurtosis of this function is even smaller than that of the normal distribution, indicating a high peakedness of the distribution, even though this distribution is flat. This is because the values only fall from $-1$ to $1$, wheras most others fall in an infinite range. The density from $-1$ to $1$, then, can be seen as a sharp, steep peak with a flat top.
-				
+			
 			\item $\mathbf{f(x)=\frac{1}{2}e^{-|x|}\text{, }x\in\R}$
 				\bigskip \\
 				This distribution is clearly symmetric about $0$, so $E(X)=0$. Then, 
@@ -265,7 +275,7 @@ $\therefore$ $a=m$	$\blacksquare$
 				\]
 				Therefore, this distribution is half as peaked as the normal distribution.
 				
-		\end{enumerate}
+		\end{itemize}
 		
 		
 \end{enumerate}

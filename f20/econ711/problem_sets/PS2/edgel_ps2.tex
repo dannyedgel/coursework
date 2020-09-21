@@ -94,9 +94,9 @@ Let $f:\R_+^m\rightarrow\R_+$ be a production function for a single-output firm.
 		\]
 		Where $tq + (1-t)q'$ is in $Y$.  $\therefore$ $f$ is concave $\blacksquare$
 		
-	\item[(b)] Fix a vector of input prices, $w$. Then, for any two input vectors $z$ and $z'$, the cost of input vector $tz + (1-t)z'$ is:
+	\item[(b)] Fix a vector of input prices, $w$. Then, for any two input vectors $z$ and $z'$, let $c(q)$ be the minimum cost of producing $q\leq f(z)$ and $c(q')$ be the minimum cost of producing $q'\leq f(z')$. The cost of input vector $tz + (1-t)z'$ is:
 		\[
-			w\cdot(tz + (1-t)z')=t(w\cdot z) + (1-t)(w\cdot z')=tc(q) + (1-t)c(q)
+			w\cdot(tz + (1-t)z')=t(w\cdot z) + (1-t)(w\cdot z')=tc(q) + (1-t)c(q')
 		\]
 		Where $tf(z) + (1-t)f(z')\geq tq + (1-t)q'$. However, we know from the concavity of our output function that: 
 		\[
@@ -114,7 +114,7 @@ Let $f:\R_+^m\rightarrow\R_+$ be a production function for a single-output firm.
 \section*{Question 2}
 Define the following production set for $k=2$, price vector $p=(p_1,p_2)$, and $B>0$ being a known constant:
 \[
-	Y=\left\{(y_1,y_2)|y_1\leq0\text{ and }y_2\leq B(-y_1)^{\frac{2}{3}} \right\}
+	Y=\left\{(y_1,y_2)\text{ }|\text{ }y_1\leq0\text{ and }y_2\leq B(-y_1)^{\frac{2}{3}} \right\}
 \]
 \begin{itemize}
 	\item[(a)] The production set is displayed below. A larger value of $B$ will increase the steepness of the curve.
@@ -128,7 +128,7 @@ Define the following production set for $k=2$, price vector $p=(p_1,p_2)$, and $
 			\frac{d\pi}{dz} 			&= p_2f'(z)-p_1 = 0							\\
 			\frac{2}{3}Bp_2z^{-1}{3}	&= p_1										\\
 			z							&= \left(\dfrac{2Bp_2}{3p_1}\right)^3		\\
-			\pi(p)						&= p_2B\left(\left(\dfrac{2Bp_2}{3p_1}\right)^3\right)^{\frac{2}{3}}-p_1\left(\dfrac{2Bp_2}{3p_1}\right)^3 
+			\pi(p)						&= p_2B\left(\left(\dfrac{2Bp_2}{3p_1}\right)^3\right)^{(2/3)}-p_1\left(\dfrac{2Bp_2}{3p_1}\right)^3 
 										= \frac{4}{27}B^3\dfrac{p_2^3}{p_1^2}		\\
 			Y^*(p)						&= \left( -\left(\dfrac{2Bp_2}{3p_1}\right)^3, B^3\left(\dfrac{2p_2}{3p_1}\right)^2 \right)
 		\end{align*}
@@ -136,7 +136,7 @@ Define the following production set for $k=2$, price vector $p=(p_1,p_2)$, and $
 	\item[(c)] We can verify the homogeneity of $\pi(\cdot)$ and $y(\cdot)$ by solving:
 		\begin{align*}
 			\pi(\lambda p)	&= \frac{4}{27}B^3\dfrac{\lambda p_2^3}{\lambda p_1^2} = \lambda\frac{4}{27}B^3\dfrac{p_2^3}{p_1^2} = \lambda\pi(p)						\\
-			Y^*\lambda (p)	&= \left( -\left(\dfrac{2B\lambda p_2}{3\lambda p_1}\right)^3, B^3\left(\dfrac{2\lambda p_2}{3 \lambda p_1}\right)^2 \right) = Y^*(p)
+			Y^*(\lambda p)	&= \left( -\left(\dfrac{2B\lambda p_2}{3\lambda p_1}\right)^3, B^3\left(\dfrac{2\lambda p_2}{3 \lambda p_1}\right)^2 \right) = Y^*(p)
 		\end{align*}
 		
 	\item[(d)]
@@ -161,7 +161,7 @@ Define the following production set for $k=2$, price vector $p=(p_1,p_2)$, and $
 				\end{pmatrix} \colvec{2}{p_1}{p_2} 
 				= \colvec{2}{		\frac{8}{9}\left(\frac{Bp_2}{p_1}\right)^3 		- \frac{8}{9}\left(\frac{Bp_2}{p_1}\right)^3
 				}{				-	\frac{8}{9}B^3\left(\frac{p_2}{p_1}\right)^2 	+ \frac{8}{9}B^3\left(\frac{p_2}{p_1}\right)^2
-				}
+				} = \colvec{2}{0}{0}
 	\end{align*}
 	
 	
@@ -195,9 +195,9 @@ Let $\pi(p)=Ap_1^{-2}p_2^3$, where $A>0$ is known and $p_1,p_2>0$.
 						y_2 &\leq A^{\frac{-1}{3}}(-y_1)^{\frac{2}{3}}\left(2^{\frac{-2}{3}}+2^\frac{1}{3}\right)		\\
 						y_2 &\leq A^{\frac{-1}{3}}(-y_1)^{\frac{2}{3}}\left(\frac{27}{4}\right)
 		\end{align*}
-		Thus, the production set encompasses the line $y_2=\sqrt[3]{\dfrac{y^2}{4A}}$ and everything below it, for $y_1\leq0$. A visual representation is provided in my answer to question 2(a).
+		Thus, the production set encompasses the line $y_2=\frac{27}{4}\sqrt[3]{\dfrac{(-y)^2}{A}}$ and everything below it, for $y_1\leq0$. A visual representation is provided in my answer to question 2(a).
 		
-	\item[(d)] Let $B=\frac{27}{4}A^{-(1/3)}$ and $z = -y_1$. Then, 
+	\item[(d)] Let $B=\frac{27}{4}A^{-(1/3)}$ and $z = -y_1$. Then, since profit is increasing on $y_2$, $y_2=\frac{27}{4}\sqrt[3]{\dfrac{(-y)^2}{A}}$, and:
 		\[
 			\pi(p) = p_2y_2 + p_1y_1 = p_2Bz^{(2/3)} - p_1z
 		\]
