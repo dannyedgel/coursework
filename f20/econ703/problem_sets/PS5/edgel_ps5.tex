@@ -1,0 +1,252 @@
+%%% Econ703: Math Camp
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Wednesday September 16, 11pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\inv}{^{-1}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#5 }
+\author{ 	Danny Edgel 							\\ 
+			Econ 703: Mathematical Economics I		\\
+			Fall 2020								\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+Let $X$ and $Y$ be normed vector spaces, where $T\in L(X,Y)$. 
+\begin{itemize}
+	\item[(a)] \textbf{Show that if there exists some} $m>0$ \textbf{such that} $m||x||\leq||T(x)||$, \textbf{then} $T$ \textbf{is one-to-one}.
+		\medskip \\
+		$T$ is one-to-one if and only if $T(x)=\vec{0}$ has only the trivial solution (i.e. $x=\vec{0}$). If $\exists m>0$ s.t. $m||x||\leq||T(X)||$, then 
+		\begin{align*}
+			m||0||&\leq||T(\vec{0})|| \\
+			0&\leq||T(\vec{0})||
+		\end{align*}
+		Since $||\cdot||\geq 0$, $T(\vec{0})=0$. We can likewise show that this inequality requires $x=\vec{0}$ if $T(\vec{0})=0$:
+		\begin{align*}
+			m||x||&\leq||T(\vec{0})|| \\
+			m||x||&\leq 0
+		\end{align*}
+		Thus, $T(\vec{0})=\vec{0}\iff x=\vec{0}$, so $T$ is one-to-one.
+		\smallskip \\ 
+		$\therefore$ if $\exists m>0$ s.t. $m||x||\leq||T(X)||$, then $T$ is one-to-one.
+		
+	\item[(b)] \textbf{Use the theorem with five equivalent properties to show that} $T^{-1}(\cdot)$ \textbf{is continuous on} $T(X)$
+		\medskip \\
+		We know that, for any linear $T\in L(X,Y)$, where $X$ and $Y$ are normed vector spaces, that "$T$ is Lipschitz" and "$T$ is continuous" are equivalent statements. $T^{-1}\in L(T(X),X)$, where $X$ and $T(X)\subseteq Y$ are normed vector spaces, so this theorem applies to $T^{-1}$. From $m||x||\leq||T(X)||$, $m>0$, we can derive:
+		\begin{align*}
+			m||T\inv(T(x))||&\leq||T(x)||									\\
+			||T\inv(T(x))||&\leq\frac{1}{m}\leq||T(x)||
+		\end{align*}
+		So $\exists\beta=\frac{1}{m}\in\R$ such that $||T\inv(T(x))||\leq\beta\leq||T(x)||$ $\forall x\in\text{Im}T(X)$. Thus, $T\inv$ is bounded on $T(X)$. $\therefore$, $T\inv$ is continuous on $T(X)$.
+		
+	\item[(c)] \textbf{Use the same theorem to show that if} $T\inv$ \textbf{is continuous on} $T(X)$\textbf{, then there exists some} $m>0$ \textbf{such that} $m||x||\leq||T(x)||$
+		\medskip \\
+		Since the continuity of $T\inv$ implies that $T\inv$ is also Lipschitz, then if $T\inv$ is continuous, if $a,\vec{0}\in\text{Im}T(X)$, $T(x)=a$, and $k>0$:
+		\begin{align*}
+			||a-\vec{0}||&\leq k||T(x)-T(\vec{0})||	\\
+			||T\inv(T(x))||&\leq k||T(x)|| \\
+			\frac{1}{k}||x||&\leq||T(x)||
+		\end{align*}
+		Thus, $\exists m=\frac{1}{k}>0$ such that $m||x||\leq||T(x)||$.
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+Define $T:\R^2\rightarrow\R^2$ as $T(x,y)=(x+5y,8x+7y)$.
+\begin{itemize}
+	\item[(a)] \textbf{Calculate} $||T||$ \textbf{given the norm} $||(x,y)||_1=|x|+|y|$ \textbf{in} $\R^2$
+		\medskip \\
+		$||T||$ is the supremum of $||T||$ using the norm function $||(x,y)||_1=|x|+|y|$, where $||(x,y)||=|x|+|y|=1$. Thus, we can rewrite the problem as:
+		\[
+			||T|| = \underset{|x|+|y|=1}{\text{max }}\left\{|x + 5y| + |8x + 7y|\right\}
+		\]
+		Since there is no multiplicative interaction between $x$ and $y$ in $||T||$, the $(x,y)$ that maximizes $||T||$ will have one zero element and one element equal to one. $y$ clearly maximizes $||T||$ relative to $x$, so:
+		\[
+			||T||=||T(0,1)||=|5| + |7|=12
+		\]
+	
+	\item[(b)] \textbf{Calculate} $||T||$ \textbf{given the norm} $||(x,y)||_\infty=\text{max}\left\{|x|,|y|\right\}$ \textbf{in} $\R^2$
+		\medskip \\
+		Since both $x$ and $y$ contribute positively to $||T||$ and our constraint is $\text{max}\left\{|x|,|y|\right\}=1$, the vector that maximizes $||T||$ is $(1,1)$. Therefore,
+		\[
+			||T||=||T(1,1)||=\text{max}\left\{|1+5|,|8+7|\right\}=15
+		\]
+\end{itemize}
+
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+Define $V=\{(a_1,a_2),(b_1,b_2)\}$ as an orthonormal basis of $R^2$. Define $W$ as the standard basis of $\R^2$. For some $x=(x,y)$, define $x=[x]_W$. Then, for some orthogonal matrix $P$, $x=P[x]_V$. Since $P'P=I$,
+\begin{align*}
+	x	&=P[x]_V		\\
+	P'x&=(P'P)[x]_V		\\
+	P'x&=[x]_V
+\end{align*}
+Let $v=[x]_V$. Then, we can derive:
+\[
+	||[x]_V||=||v||=\sqrt{v'v}=\sqrt{(Px)'(Px)}=\sqrt{(x'P'Px)}=\sqrt{x'x}=||x||
+\]
+$\therefore$ the length of $x$ does not depend on the choice of orthonormal basis $\blacksquare$
+
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+Define:
+\[
+	\frac{d}{dt}y(t)=\begin{pmatrix} 1 & 1 \\ 3 & -1 \end{pmatrix} y(t)\text{,                }y(0)\colvec{2}{1}{3}
+\] 
+Then, to solve for $y(t)=P diag\{e^{t\lambda_1},...,e^{t\lambda_n}\} P^{-1}y(0)$, we begin by finding $A$'s eigenvalues and eigenvectors:
+\begin{align*}
+	|A-\lambda I|&=0 \\
+	(1-\lambda)(-1-\lambda)-3 &=0 \\
+	\lambda^2-4&=0
+\end{align*}
+Thus, $\lambda_1 = 2$ and $\lambda_2=-2$.
+\begin{align*}
+	&(A-\lambda_1I)v_1=0 &(A-\lambda_2I)v_2=0 \\
+	&\begin{bmatrix}
+	-1 & 1	&\aug& 0	\\
+	3 & -3	&\aug& 0
+	\end{bmatrix}
+	&\begin{bmatrix}
+	3 & 1	&\aug& 0	\\
+	3 & 1	&\aug& 0
+	\end{bmatrix} \\
+	&v_1 = \colvec{2}{1}{1} &v_2=\colvec{2}{3}{-1}
+\end{align*}
+Now, define:
+\[
+	A=Pdiag\{\lambda_1,\lambda_2\}P^{-1}=\begin{pmatrix} 1 & 3 \\ 1 & -1 \end{pmatrix}\begin{pmatrix} 2 & 0 \\ 0 & -2 \end{pmatrix}\begin{pmatrix}\frac{3}{4} & \frac{1}{4} \\ -\frac{1}{4} & \frac{1}{4} \end{pmatrix}
+\]
+Letting $y(t)=P diag\{e^{t\lambda_1},...,e^{t\lambda_n}\} P^{-1}$, we can solve:
+\begin{align*}
+	y(t)&=\frac{1}{4}\begin{pmatrix} 1 & 3 \\ 1 & -1 \end{pmatrix}\begin{pmatrix} 2 & 0 \\ 0 & -2 \end{pmatrix}\begin{pmatrix} 4 & 1 \\ -1 & 1 \end{pmatrix}\colvec{2}{1}{3} \\
+	y(t)&=\frac{1}{4}\begin{pmatrix} 1 & 3 \\ 1 & -1 \end{pmatrix}
+	\begin{pmatrix}
+		3e^{2t}		& e^{2t} 			\\  
+		-e^{-2t}	& e^{-2t} 				
+	\end{pmatrix}\colvec{2}{1}{3} \\
+	y(t)&=\frac{1}{4}\begin{pmatrix}
+		3e^{2t} - 3e^{-2t}	& e^{2t} + 3e^{-2t}			\\  
+		3e^{2t} + e^{-2t}	& e^{2t} - e^{-2t} 				
+	\end{pmatrix}\colvec{2}{1}{3} \\
+	y(t)&=\frac{1}{4}\colvec{2}{6e^{2t}+6e^{-2t}}{6e^{2t}-2e^{-2t}} \\
+	y(t)&=\frac{1}{2}\colvec{2}{3e^{2t}+3e^{-2t}}{3e^{2t}-e^{-2t}}
+\end{align*}
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+The solution to question 4 is not stable because $\lambda_1=2>0$, so the solution:
+\[
+	y(t)=\frac{1}{2}\colvec{2}{3e^{2t}+3e^{-2t}}{3e^{2t}-e^{-2t}} 
+\]
+Is not stable. A small change in $y(0)$ will cause infinitely large swings in $e^{2t}$ as $t\rightarrow\infty$.
+
+%%%________________________________________________________________%%%
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
