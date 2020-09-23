@@ -179,12 +179,61 @@ Where each generation is endowed with $w_1$ when young and $w_2<w_1$ when old, a
 			\end{tabular}
 		\end{center}
 		
-	\item[(f)] 
+	\item[(f)] If the initial money supply were halved, the direct impact would occur in the budget constraint of the initial old generation, which would become:
+		\[
+			c_1^0 \leq \frac{\overline{M}}{2p_1}
+		\]
+		Since the initial old generation's utility is increasing in consumption, this budget constraint will hold with equality in equilibrium. For agents in generation $t\geq 1$, the optimal choice of $M_{t+1}^t$ does not depend directly on the initial money supply. Thus, when money markets clear, we can solve:
+		\begin{align*}
+			M_2^1 				&= \frac{\overline{M}}{2}	\\
+			\frac{1}{2}p_1w_1 	&= p_1c^0_1					\\
+			\frac{1}{2}w_1 		&= c^0_1
+		\end{align*}
+		Neither the optimal choice of $\{c_t^t,c_{t+1}^t\}$ nor the goods market clearing condition depend on the initial money supply, so, as in the previous monetary solution, $\{c_t^t,c_{t+1}^t\}=\{\frac{1}{2}w_1,\frac{1}{2}w_1\}$. Thus, the equilibrium allocation does not change when the initial money supply is halved.
 		
 \end{itemize}
 
 
 %%%________________________________________________________________%%%
+
+\section*{Question 2}
+The trade offer curves for each utility function given, using the given endowments, are plotted below.
+
+\begin{itemize}
+	\item[(a)] $U=10c_1-4c_1^2 + 4c_2-c_2^2$, $(w_1,w_2)=(0,2)$
+		\smallskip \\
+		As the chart below shows, the indifference curves for the utility function are ellipses.
+		\begin{center}
+			\includegraphics[scale=.6]{2a_IC-and-BC.png}
+		\end{center}
+		Maximizing utility under each budget contraint (determined by the ratio of prices between each good) results in an asymmetric quasi-parabola which, because $w_1=0$, is bounded by $x_1\geq 0$ but never reaches a boundary point where $c_2=w_2$:
+		\begin{center}
+			\includegraphics[scale=.6]{2a_offer-curve.png}
+		\end{center}
+		
+	\pagebreak
+	\item[(b)] $U=\text{min}\{2c_1+c_2,c_1+2c_2\}$, $(w_1,w_2)=(1,0)$
+		\smallskip \\
+		The indifference curves for this utility function are shaped like tilted, obtuse angles, reflecting the complementary nature of $c_1$ and $c_2$. The graph below displays the indifference curves and budget constraints of this problem.
+		\begin{center}
+			\includegraphics[scale=.6]{2b_IC-and-BC.png}
+		\end{center}
+		Taken together, the offer curve begins at the boundary solution ($c_2=\frac{p_1}{p_2}w_1$) for all price ratios above a certain level. Around $c_2=2$, the agent becomes indifferent between consuming $c_1$ and $c_2$, with the offer curve following the slope of the indifference curve. However, when $c_1=c_2$, the offer curve hits the kink point of the indifference curve, leading the agent to follow the ridge of the utility function inward, leading to less consumption of both goods as the price ratio decreases (which makes sense, given that the agent only has an endowment of good 1). This continues until the slope of the budget constraint equals to the slope of the indifference cuve, at which point consumption follows the indifference curve until $c_2=0$.
+		\begin{center}
+			\includegraphics[scale=.6]{2b_offer-curve.png}
+		\end{center}
+		
+	
+	\item[(c)] $U=\text{min}\{2c_1+c_2,c_1+2c_2\}$, $(w_1,w_2)=(1,10)$
+		\smallskip \\
+		This is the same utility function as in 2(b), so the indifference curves have the same shape. The agent has a greater endowment of good 2, so the budget contraints are shifted outward and no longer bounded by 1 on the $c_1$ axis. The offer curve differs from the last example because at the price ratio where $c_1=c_2$ the agent instead follows the ridge of the utility function \textit{outward} as the price ratio increases, which reflects the agent's greater endowment of good 1 than good 2. Since the agent has a nonzero endowment of good one, the offer curve has a boundary solution at $c_2=0$, which continuous as $c_1\rightarrow\infty$.
+		\begin{center}
+			\includegraphics[scale=.6]{2c_offer-curve.png}
+		\end{center}
+		
+	
+\end{itemize}
+
 
 
 %%%________________________________________________________________%%%
