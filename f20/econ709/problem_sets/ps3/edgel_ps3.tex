@@ -1,0 +1,265 @@
+%%% Econ709: Econometrics
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Monday September 218, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#3 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 709: Economic Statistics and Econometrics I	\\
+			Fall 2020											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+\textbf{A random point $(X,Y)$ is distributed uniformly on the square with vertices $(1,1)$, $(1,-1)$, $(-1.1)$, and $(-1,-1)$. That is, the joint PDF is $f(x,y)=1/4$ on the square and $f(x,y)=0$ outside the square. Determine the probability of:}
+\begin{itemize}
+	\item[(a)] $\mathbf{X^2 + Y^2 < 1}$
+	\bigskip \\
+	$P(X^2+Y^2<1)$ is the area of the circle inscribed within the square. Therefore, $P(X^2+Y^2<1)=\frac{\pi}{4}$.
+
+	\item[(b)] $\mathbf{|X + Y| < 2}$
+	\bigskip \\
+	$P(|X + Y| < 2) = P(-2<X+Y<2)$. Note that $|X + Y| = 2$ only if $X=Y=-1$ or $X=Y=1$. Since $X$ and $Y$ are continuous, $P(X=1)=P(Y=1)=P(X=-1)=P(Y=-1)=0$. Therefore, $P(|X + Y| < 2)=0$.
+	
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+
+
+\section*{Question 2}
+\textbf{Let the joint PDF of $X$ and $Y$ be given by $f(x,y)=g(x)h(y)$ $\forall x,y\in\R$. Let $a$ denote $\intinf g(x)dx$ and $b$ denote $\intinf h(x)dx$.}
+\begin{itemize}
+	\item[(a)] \textbf{What conditions should $a$ and $b$ satisfy in order for $f(x,y)$ to be a bivariate PDF?}
+	\bigskip \\
+	If $f$ is a bivariate PDF, then $\intinf f(x,y)dxdy=1$. Then,
+	\begin{align*}
+		\intinf\intinf g(x)h(y)dxdy = \left( \intinf g(x)dx \right)\left( \intinf h(y)dy \right) = ab
+	\end{align*}
+	Thus, $ab=1$ if $f$ is a bivariable PDF.
+	
+	\item[(b)] \textbf{Find the marginal PDF of $X$ and $Y$.}
+	\bigskip \\
+	\begin{align*}
+		f_X(x) &= \intinf f(x,y)dy = \intinf g(x)h(y)dy = bg(x)	\\
+		f_Y(y) &= \intinf f(x,y)dx = \intinf g(x)h(y)dx = ah(y)	
+	\end{align*}
+
+	\item[(c)] \textbf{Show that $X$ and $Y$ are independent.}
+	\bigskip \\
+	$X$ and $Y$ are independent if and only if $f(x,y)=f_X(x)f_Y(y)$. From (a) and (b), we can derive:
+	\[
+		f_X(x)f_Y(y) = ag(x)bh(y) = g(x)h(y) = f(x,y)
+	\]
+	Thus, $X$ and $Y$ are independent.
+	
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+\textbf{Let the joint PDF of $X$ and $Y$ be given by}
+\[
+	\mathbf{f(x,y) = \begin{cases} cxy &\text{ if } x,y\in[0,1]\text{, }x+y\leq 1 \\ 0 &\text{ otherwise} \end{cases}}
+\]
+\begin{itemize}
+	\item[(a)] \textbf{Find the value of $c$ such that $f(x,y)$ is a joint PDF.}
+	\bigskip \\
+	If $f$ is a PDF, then $\intinf f(x,y)dxdy=1$. Thus,
+	\begin{align*}
+		\intinf\intinf f(x,y)dxdy 											&= 1	\\
+		\int_0^1 \int_0^{1-x} cxy dydx										&= 1	\\
+		\int_0^1 cx\frac{1}{2}[y^2]^{1-x}_0 dx								&= 1	\\
+		\int_0^1 cx\frac{1}{2}(1-x)^2 dx									&= 1	\\
+		c\left[\frac{1}{2}x^2 - \frac{2}{3}x^3 +\frac{1}{4}x^4\right]^1_0	&= 2	\\
+		\frac{1}{12}c														&= 2	\\
+		c																	&= 24
+	\end{align*}
+
+	\item[(b)] \textbf{Find the marginal distributions of $X$ and $Y$.}
+	\bigskip \\
+	\begin{align*}
+		f_X(x) &= \intinf f(x,y)dy = \int_0^1 \int_0^{1-x} cxy dydx = \frac{1}{2}cx(1-x)^2	\\
+		f_Y(y) &= \intinf f(x,y)dx = \int_0^1 \int_0^{1-y} cxy dxdy = \frac{1}{2}cy(1-y)^2
+	\end{align*}
+	
+
+	\item[(c)] \textbf{Are $X$ and $Y$ independent? Compare your answer to Problem 2 and discuss.}
+	\bigskip \\
+	$X$ and $Y$ are independent if and only if $f(x,y)=f_X(x)f_Y(y)$. From (a) and (b), we can derive:
+	\[
+		f_X(x)f_Y(y) = \frac{1}{4}c^2x(1-x)^2y(1-y)^2 \neq cxy
+	\]
+	Thus, $X$ and $Y$ are \textbf{not} independent.
+	
+	
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+\textbf{Show that any random variable is uncorrelated with a constant.}
+\bigskip \\
+Let $X$ be a random variable and $a$ be a constant. Then,
+\[
+	Cov(X,a) = E[Xa] - E[X]E[a] = aE[X] - aE[X] = 0
+\]
+Thus, $Corr(X,a) = Cov(X,a)/\sqrt{Var(X)Var(a)} = 0$, so $X$ and $a$ are uncorrelated.
+
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Question 5}
+\textbf{Let $X$ and $Y$ be independent random variables with means $\mu_X$, $\mu_Y$, and variances $\sigma_X^2$, $\sigma^2_Y$. Find an expression for the correlation of $XY$ and $Y$ in terms of these means and variances.}
+\bigskip \\
+Given the definition of correlation and covariance, we have:
+\[
+	Corr(XY,Y) = \frac{E(XY^2)-E(XY)E(Y)}{\sqrt{Var(XY)Var(Y)}}
+\]
+Separately, since $X$ and $Y$ are independent, we can solve:
+\begin{align*}
+	E(XY^2)-E(XY)E(Y) 	&= E(X)E(Y^2) - E(X) E(Y)^2 = E(X)(E(Y^2) - E(Y)^2) = \mu_X\sigma_Y^2										\\
+	Var(XY)Var(Y)		&= (E(X^2Y^2) - E(XY)^2)\sigma_Y^2 																			\\
+						&= ((\sigma_X^2 - \mu_X^2)(\sigma_Y^2-\mu_Y^2) - E(X)^2E(Y)^2)\sigma_Y^2									\\
+						&= (\sigma_X^2\sigma_Y^2 - \mu_X^2\sigma_Y^2+\mu_Y^2\sigma_X^2+\mu_X^2\mu_Y^2 - \mu_X^2\mu_Y^2)\sigma_Y^2	\\
+						&= (\sigma_X^2\sigma_Y^2 - \mu_X^2\sigma_Y^2+\mu_Y^2\sigma_X^2)\sigma_Y^2
+\end{align*}
+Thus, we can write the correlation as:
+\[
+	Corr(XY,Y) 	= \frac{\mu_X\sigma_Y^2}{\sqrt{(\sigma_X^2\sigma_Y^2 - \mu_X^2\sigma_Y^2+\mu_Y^2\sigma_X^2)\sigma_Y^2}}
+				= \frac{\mu_X\sigma_Y}{\sqrt{\sigma_X^2\sigma_Y^2 - \mu_X^2\sigma_Y^2+\mu_Y^2\sigma_X^2}}
+\]
+
+%%%________________________________________________________________%%%
+
+\section*{Question 6}
+\textbf{Prove the following: For any random vector $(X_1,X_2,...,X_n)$,}
+\[
+	\mathbf{Var\left(\sum_{i=1}^n X_i \right) = \sum_{i=1}^n Var(X_i)+2 \sum_{i\leq i<j\leq n} Cov(X_i,Y_j)}
+\]
+\bigskip \\
+
+%%%________________________________________________________________%%%
+
+\section*{Question 7}
+\textbf{Suppose that $X$ and $Y$ are joint normal, i.e., they have the joint PDF:}
+\[
+	\mathbf{f(x,y) = \frac{1}{2\pi\sigma_X\sigma_Y\sqrt{1-\rho^2}}\text{exp}(-(2(1-\rho^2))^{-1}(x^2/\sigma^2_X-2\rho xy/\sigma_X\sigma_Y + y^2/\sigma_Y^w))}
+\]
+\begin{itemize}
+	\item[(a)] \textbf{Derive the marginal distribution of $X$ and $Y$, and observe that both are normal distributions.}
+	\bigskip \\
+
+
+	\item[(b)] \textbf{Derive the conditional distribution of $Y$ given $X=x$, Observe that it is also a normal distribution.}
+	\bigskip \\
+
+
+	\item[(c)] \textbf{Derive the joint distribution of $(X,Z)$ where $Z=(Y/\sigma_Y)-(\rho X/\sigma_)$, and then show that $X$ and $Z$ are independent.}
+	\bigskip \\
+	
+	
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 8}
+\textbf{Consider a function $g:\R\rightarrow\R$. Recall that the inverse image of a set $A$, denoted $g^{-1}(A)$, is $g^{-1}(A)=\{x\in\R:g(x)\in A\}$.Let there be two functions, $g_1 : \R \rightarrow \R$ and $g_2 : \R\rightarrow\R$. Let $X$ and $Y$ be two random variables that are independent. Suppose that $g_1$ and $g_2$ are both Borel-measurable, which means that $g^{-1}_1(A)$ and $g^{-1}_2(A)$ are both in the Borel $\sigma$-field whenenver A is in the Borel $\sigma$-field. Show that the two random variables $Z := g_1(X)$ and $W := g_2(Y)$ are independent. (Hint: use the 1st or the 2nd definition of independence.)}
+\bigskip \\
+
+
+%%%________________________________________________________________%%%
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
