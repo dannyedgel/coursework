@@ -33,7 +33,8 @@
 \newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
 \newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
 \newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
-\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
 
 %%% define column vector command (from Michael Nattinger)
 \newcount\colveccount
@@ -88,24 +89,102 @@
 \section*{Question 1}
 
 \begin{itemize}
-	\item[(a)] 
+	\item[(a)] Let $q'>q$ and $-\tau'>-\tau$, and let $g(q,-\tau)=(1-\tau)pq-c(q)$. Then, 
+			\begin{align*}
+				\Delta_q									&= g(q',-\tau)-g(q,-\tau) 				\\
+															&= (1-\tau)pq'-c(q')-(1-\tau)pq+c(q)	\\
+															&= (1-\tau)p(q'-q)-c(q')+c(q)			\\
+				\frac{\partial\Delta_q}{\partial-\tau}		&= p(q'-q) >0\text{ }\forall q'>q		\\
+				\Delta_-\tau								&= g(q,-\tau')-g(q,-\tau) 				\\
+															&= (1-\tau')p1-c(q)-(1-\tau)pq+c(q)		\\
+															&= 	pq(-\tau'-(-\tau))					\\
+				\frac{\partial\Delta_{-\tau}}{\partial q}	&= 	p(-\tau'-(-\tau)) >0\text{ }\forall -\tau'>-\tau					
+			\end{align*}
+			Thus, $g$ has increasing differences on $q$ and $-\tau$.
+			\smallskip \\
+			Now assume that $\tau$ increases to $\tau'>\tau$. Then, $\tau>-\tau$. Let $q'>q$ represent the optimal output level associated with $\tau'$. Then, letting $(q,-\tau)$ represent the initial point,
+			\[
+				g(q',-\tau)-g(q,-\tau) > 0
+			\]
+			However, this contradicts increasing differences, since $q$ maximizes $g$ at $-\tau$. Thus, by contradiction, $q'\leq q$ $\blacksquare$
+			\medskip \\
+			This implication of a monotone selection rule is stronger than ``baby Topkis", which holds that, for all $q'>q$, $g(q',-\tau)-g(q,-\tau) \geq 0$. In that case, it would be possible for $-\tau'$ to be associated with an increase in $q$, since $q'$ and $q$ could both be maximizers of $g$ in the equality case.
 		
-	\item[(b)] 
+	\item[(b)] If the firm is not a price taker on the output market, with inverse demand curve $P(q)$, then, presuming $P'(q)<0$ (law of demand),
+		\begin{align*}
+				\Delta_q								&= g(q',-\tau)-g(q,-\tau) 					\\
+														&= (1-\tau)P(q')q'-c(q')-(1-\tau)P(q)q+c(q)	\\
+														&= (1-\tau)(P(q')-P(q))-c(q')+c(q)			\\
+				\frac{\partial\Delta_q}{\partial-\tau}	&= P(q')q'-P(q)q
+		\end{align*}
+		This difference is either increasing or decreasing, depending on the inverse demand curve and the specific values of $q$ and $q'$. Thus, the objective function does not necessarily have increasing differences in $q$ and $-\tau$.
 		
-	\item[(c)] 
+	\item[(c)] If $c(\cdot)$ is strictly increasing, then we can derive that, for $q'>q$,
+		\begin{align*}
+				g(q', -\tau)-g(q,-\tau) 					&\geq 0				\\
+				(1-\tau)P(q')q'-c(q')-(1-\tau)P(q)q+c(q)	&\geq 0				\\
+				(1-\tau)(P(q')-P(q))						&\geq c(q')-c(q)	
+		\end{align*}
+		Where, if $c$ is strictly increasing, then $c(q')-c(q)>0$. Since $\tau\in[0,1]$, this also implies that $P(q')-P(q)>0$. Thus, for $-\tau'>-\tau$, this implies 
+			\begin{align*}
+				(1-\tau')(P(q')-P(q)) 				&> (1-\tau)(P(q')-P(q)) \geq c(q')-c(q)		\\
+				(1-\tau')(P(q')-P(q)) 				&> c(q')-c(q)								\\
+				(1-\tau')(P(q')-P(q))-c(q')+c(q) 	&> 0										\\
+				g(q',-\tau') - g(q,-\tau')			&> 0 
+		\end{align*}
+		Thus, we can conlude that:
+		\[
+			g(q', -\tau)-g(q,-\tau) \geq 0 \Rightarrow g(q',-\tau') - g(q,-\tau') > 0 
+		\]
+		Which is the condition for strictly single-crossing differences. Therefore, the Topkis theorem applies.
+		\medskip \\
+		Say that $\tau'>\tau$, which is associated with optimal $q'>q$, where $q$ is the optimal output for $-\tau$. Then it must be the case that $g(q',-\tau')-g(q,-\tau')\geq 0$. Since $g$ has strictly single-crossing differences and $-\tau>-\tau'$, we know that
+		\[
+			g(q',-\tau) - g(q,-\tau) > 0
+		\]
+		But this is a contradiction, since $q$ maximizes $g$ at $-\tau$. $\therefore$ it is not possible for output to increase when $\tau$ increases $\blacksquare$
 	
 \end{itemize}	
 
 %%%________________________________________________________________%%%
 
 \section*{Question 2}
+Let a car washing firm's production function be represented by $q=f(\ell,m,r,e)=\left(\ell^{0.5}m^{0.3}+r^{0.7}e^{0.1}\right)^z$, were $z=1.1$ and the firm has a unique solution for each input price vector, $(w_\ell,w_m,w_r,w_e)$ and chooses it's output by solving:
+\[
+	\usmax{l,m,r,e\geq0}\{pf(\ell,m,r,e) - w_\ell\ell-w_mm-w_rr-w_ee\}
+\]
 
 \begin{itemize}
-	\item[(a)] 
+	\item[(a)] We can solve for $w_e$ by identifying in which variables, if any, the objective function, $g$, is supermodular. We can do this by solving for the partial derivative of of $g$ with respect to each input:
+		\begin{align*}
+			\frac{\partial g}{\partial\ell} &= (1.1)\left(0.5\ell^{-0.5}m^{0.3}\right)\left(\ell^{0.5}m^{0.3}+r^{0.7}e^{0.1}\right)^{0.1} 	- w_\ell	\\
+			\frac{\partial g}{\partial m} 	&= (1.1)\left(0.3\ell^{0.5}m^{-0.7}\right)\left(\ell^{0.5}m^{0.3}+r^{0.7}e^{0.1}\right)^{0.1} 	- w_m		\\
+			\frac{\partial g}{\partial r} 	&= (1.1)\left(0.7r^{-0.3}e^{0.1}\right)\left(\ell^{0.5}m^{0.3}+r^{0.7}e^{0.1}\right)^{0.1} 		- w_r 		\\
+			\frac{\partial g}{\partial e} 	&= (1.1)\left(0.1r^{0.7}e^{-0.9}\right)\left(\ell^{0.5}m^{0.3}+r^{0.7}e^{0.1}\right)^{0.1} 		- w_e		
+		\end{align*}
+		We can clearly see that each partial derivitive of each input is increasing in other input, as well as the negative of the input's price. For $e$, this means that $e$ has increasing differences in $\ell$, $m$, $r$, and strictly increasing differences in $-w_e$. Further, $\ell$, $m$, and $r$ all have increasing differences in $e$. Therefore, a decrease in $w_e$ (i.e. an increase in $-w_e$) leads to an increase in $e$, which increases $\ell$, $m$, and $r$.
 		
-	\item[(b)] 
+	\item[(b)] If $z$ decreased to $0.9$, then the new partial derivatives of $g$ would be:
+		\begin{align*}
+			\frac{\partial g}{\partial\ell} &= (0.9)\left(0.5\ell^{-0.5}m^{0.3}\right)\left(\ell^{0.5}m^{0.3}+r^{0.7}e^{0.1}\right)^{-0.1} 	- w_\ell	\\
+			\frac{\partial g}{\partial m} 	&= (0.9)\left(0.3\ell^{0.5}m^{-0.7}\right)\left(\ell^{0.5}m^{0.3}+r^{0.7}e^{0.1}\right)^{-0.1} 	- w_m		\\
+			\frac{\partial g}{\partial r} 	&= (0.9)\left(0.7r^{-0.3}e^{0.1}\right)\left(\ell^{0.5}m^{0.3}+r^{0.7}e^{0.1}\right)^{-0.1} 	- w_r 		\\
+			\frac{\partial g}{\partial e} 	&= (0.9)\left(0.1r^{0.7}e^{-0.9}\right)\left(\ell^{0.5}m^{0.3}+r^{0.7}e^{0.1}\right)^{-0.1} 	- w_e		
+		\end{align*}
+		Thus, $g$ still has strictly increasing differences in $e$ and $-w_e$, but it is now supermodular in $(-\ell,-m,r,e)$. In other words, an increase in $e$ will lead to a weak increase in $r$ and weak decrease in $\ell$ and $m$. Thus, the subsidy would increase the firm's demand for robots and decrease the firm's demand for unskilled labor and managers.
 		
-	\item[(c)]
+	\item[(c)] If the supply of managers is fixed in the short run, then the firm will demand fewer managers in the long run but there will be no effect in the short run. Since managers and unskilled labor are complements, the long-term decrease in demand for managers will also cause a long-term decrease in the demand for unskilled labor. 
+		\smallskip \\
+		To see that the effect is stronger in the long term than the short term, consider three periods: 0, 1, and 2. 0 is the pre-subsidy period, 1 is the post-subsidy short run, and 2 is the post-subsidy long run. Then, given the supermodularity of $g$, with $-m_2\geq-m_1=-m_0$, $e_2=e_1>e_0$, and $-\ell_1>-\ell_0$, we can deduce that $-\ell_2\geq-\ell_1$:
+		\begin{align*}
+			g(-\ell_0,-m_0,e_1) - g(-\ell_0,-m_0,e_0)	&> 0									\\
+			g(-\ell_1,-m_0,e_1) - g(-\ell_0,-m_0,e_1)	&> 0									\\
+			g(-\ell_1,-m_1,e_1) - g(-\ell_1,-m_0,e_1)	&= 0\text{ (}m_1=m_0\text{)}	\\
+			g(-\ell_1,-m_1,e_2) - g(-\ell_1,-m_1,e_1)	&= 0\text{ (}e_1=e_0\text{)}	\\
+			g(-\ell_1,-m_2,e_2) - g(-\ell_1,-m_1,e_2)	&> 0									\\
+			g(-\ell_2,-m_2,e_2) - g(-\ell_1,-m_2,e_2)	&> 0	
+		\end{align*}
+		Thus, $-\ell_2>-\ell_1$, so the firm further decreases its demand for unskilled labor in the long run.
 	
 \end{itemize}	
 
