@@ -1,0 +1,171 @@
+%%% Econ703: Math Camp
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Wednesday September 30, 11pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\inv}{^{-1}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#6 }
+\author{ 	Danny Edgel 							\\ 
+			Econ 703: Mathematical Economics I		\\
+			Fall 2020								\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+The time Bob takes to walk to Happy Cow Farm\footnote{Whether "Happy Cow" is an appropriate name for a place that exists primarily to harvest cows is an ethical one and thus beyond the scope of this question.} is given by:
+\[
+	T = \frac{1}{5}D_R + \frac{1}{3}D_F
+\]
+Where $D_R$ is the distance Bob travels on the road, and $D_F$ is the distance he travels through the forest. Letting $x$ represent the difference between $D_R$ and the maximim distance Bob would travel on the road, we can solve the problem as:
+\begin{align*}
+	\usmin{x}\frac{1}{5}(12-x) + \frac{1}{6}\sqrt{25 + x^2}	\\
+	\frac{dT}{dx} 						&= 0			 	\\
+	\frac{x}{3\sqrt{25+x^2}}			&= \frac{1}{5}		\\
+	25x^2								&= 9(25 + x^2)		\\
+	x^2									&= \frac{225}{16}	
+\end{align*}
+Since $x$ cannot be negative, and $\frac{x}{3\sqrt{25+x^2}}-\frac{1}{5}$ is non-decreasing for $x\geq 0$, we know that only $x=\frac{15}{4}$ minimizes $T$. Thus,
+\[
+	T = \frac{1}{5}(12-\frac{15}{4}) + \frac{1}{6}\sqrt{25 + \left(\frac{15}{4}\right)^2} = \frac{56}{15}
+\]
+Thus, the shortest amount of time it will take Bob to walk to Happy Cow Farm is 224 minutes, or 3 hours and 11 minutes.
+	
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+It is not possible for $x_0$ to be a local optimum of $f$. Suppose $f'(x_0)=0$. Then, $x_0$ is an inflection point of $f$ but not a local optimum.
+\medskip \\
+\textbf{Proof.}
+\begin{enumerate}
+	\item Let $x_1<x_0<x_2\in B_\varepsilon(x_0)$.  By assumption, $f'(x_1)<0$ and $f'(x_2)<0$.
+	\item Since $f$ is differentiable for all $x\in  B_\varepsilon(x_0)$, $f$ is also continuous  $\forall x\in  B_\varepsilon(x_0)$. Thus, $f(x_1)>f(x_0)>f(x_2)$
+\end{enumerate}
+$\therefore$ $x_0$ is not a local optimum of $f$ $\blacksquare$
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+By the chain rule, for $\beta\in\{r,s,t\}$, $\frac{\partial w}{\partial\beta}=\sum_{\alpha\in\{x,y,z\}}\frac{\partial w}{\partial\alpha}\cdot\frac{\partial\alpha}{\partial\beta}$. Thus,
+\begin{align*}
+	\frac{\partial w}{\partial r} &= (1)y^2z + (2)(2)xyz + (3)xy^2 = y^2z  + 4xyz + 3xy^2	\\
+	\frac{\partial w}{\partial s} &= (2)y^2z + (3)(2)xyz + (1)xy^2 = 2y^2z + 6xyz + xy^2 	\\
+	\frac{\partial w}{\partial t} &= (1)y^2z + (1)(2)xyz + (1)xy^2 = y^2z  + 2xyz + xy^2
+\end{align*}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+
+
+%%%________________________________________________________________%%%
+
+
+\section*{Question 6}
+
+
+%%%________________________________________________________________%%%
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
