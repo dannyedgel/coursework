@@ -419,7 +419,7 @@ ggplot(dat) +
   theme_classic() + 
   scale_y_continuous(expand = c(0, 0)) +
   scale_x_continuous(expand = c(0, 0)) +
-  coord_cartesian(ylim=c(-7,10), xlim = c(-7,10)) +
+  coord_cartesian(ylim=c(-12,22), xlim = c(-12,22)) +
   ylab(expression(x[2])) + xlab(expression(x[1])) +
   ggtitle('Offer Curve') +
   geom_vline(xintercept=0) +

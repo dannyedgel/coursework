@@ -2,7 +2,7 @@
 %%% Fall 2020
 %%% Danny Edgel
 %%%
-% Due on Canvas Monday September 218, 11:59pm Central Time
+% Due on Canvas Monday September 27, 11:59pm Central Time
 %%%
 
 %%%
@@ -107,7 +107,7 @@
 \textbf{Let the joint PDF of $X$ and $Y$ be given by $f(x,y)=g(x)h(y)$ $\forall x,y\in\R$. Let $a$ denote $\intinf g(x)dx$ and $b$ denote $\intinf h(x)dx$.}
 \begin{itemize}
 	\item[(a)] \textbf{What conditions should $a$ and $b$ satisfy in order for $f(x,y)$ to be a bivariate PDF?}
-	\bigskip \\
+	\medskip \\
 	If $f$ is a bivariate PDF, then $\intinf f(x,y)dxdy=1$. Then,
 	\begin{align*}
 		\intinf\intinf g(x)h(y)dxdy = \left( \intinf g(x)dx \right)\left( \intinf h(y)dy \right) = ab
@@ -115,7 +115,6 @@
 	Thus, $ab=1$ if $f$ is a bivariable PDF.
 	
 	\item[(b)] \textbf{Find the marginal PDF of $X$ and $Y$.}
-	\bigskip \\
 	\begin{align*}
 		f_X(x) &= \intinf f(x,y)dy = \intinf g(x)h(y)dy = bg(x)	\\
 		f_Y(y) &= \intinf f(x,y)dx = \intinf g(x)h(y)dx = ah(y)	
@@ -154,7 +153,6 @@
 	\end{align*}
 
 	\item[(b)] \textbf{Find the marginal distributions of $X$ and $Y$.}
-	\bigskip \\
 	\begin{align*}
 		f_X(x) &= \intinf f(x,y)dy = \int_0^1 \int_0^{1-x} cxy dydx = \frac{1}{2}cx(1-x)^2	\\
 		f_Y(y) &= \intinf f(x,y)dx = \int_0^1 \int_0^{1-y} cxy dxdy = \frac{1}{2}cy(1-y)^2
@@ -213,29 +211,87 @@ Thus, we can write the correlation as:
 \section*{Question 6}
 \textbf{Prove the following: For any random vector $(X_1,X_2,...,X_n)$,}
 \[
-	\mathbf{Var\left(\sum_{i=1}^n X_i \right) = \sum_{i=1}^n Var(X_i)+2 \sum_{i\leq i<j\leq n} Cov(X_i,Y_j)}
+	\mathbf{Var\left(\sum_{i=1}^n X_i \right) = \sum_{i=1}^n Var(X_i)+2 \sum_{i\leq i<j\leq n} Cov(X_i,X_j)}
 \]
 \bigskip \\
+We can prove this by induction:
+\medskip \\
+\textbf{Proof.}
+\begin{enumerate}
+	\item \textit{Base step:} Let $n=2$. Then,
+		\[
+			Var(X_1 + X_2) = Var(X_1) + Var(X_2) + 2Cov(X_1,X_2) = \sum_{i=1}^2Var(X_i) + \sum_{1\leq i\leq j \leq 2} Cov(X_i,X_j)
+		\]
+		
+	\pagebreak	
+	\item \textit{Induction step:} Let $n=n$ and assume $Var\left(\sum_{i=1}^n X_i \right) = \sum_{i=1}^n Var(X_i)+2 \sum_{i\leq i<j\leq n} Cov(X_i,X_j)$. Then,
+		\begin{align*}
+			Var\left(\sum_{i=1}^{n+1} X_i \right) 	&= Var\left(\sum_{i=1}^n X_i \right) + Var(X_{n+1}) + 2Cov\left(\sum_{i=1}^n X_i,X_{n+1}\right) \\
+													&= \sum_{i=1}^n Var(X_i)+ Var(X_{n+1}) + 2 \sum_{i\leq i<j\leq n} Cov(X_i,X_j) + 2Cov\left(\sum_{i=1}^n X_i,X_{n+1}\right) \\
+			Cov\left(\sum_{i=1}^n X_i,X_{n+1}\right) &= Cov(X_1,X_{n+1}) + ... + Cov(X_n,X_{n+1}) = \sum_{i=1}^n Cov(X_i,X_{n+1})	\\
+			\therefore Var\left(\sum_{i=1}^{n+1} X_i \right) 	&=\sum_{i=1}^{n+1} Var(X_i)+2 \sum_{i\leq i<j\leq n+1} Cov(X_i,X_j) \text{ }\blacksquare
+		\end{align*}
+\end{enumerate}
 
 %%%________________________________________________________________%%%
 
 \section*{Question 7}
 \textbf{Suppose that $X$ and $Y$ are joint normal, i.e., they have the joint PDF:}
 \[
-	\mathbf{f(x,y) = \frac{1}{2\pi\sigma_X\sigma_Y\sqrt{1-\rho^2}}\text{exp}(-(2(1-\rho^2))^{-1}(x^2/\sigma^2_X-2\rho xy/\sigma_X\sigma_Y + y^2/\sigma_Y^w))}
+	\mathbf{f(x,y) = \frac{1}{2\pi\sigma_X\sigma_Y\sqrt{1-\rho^2}}\text{exp}(-(2(1-\rho^2))^{-1}(x^2/\sigma^2_X-2\rho xy/\sigma_X\sigma_Y + y^2/\sigma_Y^2))}
 \]
 \begin{itemize}
 	\item[(a)] \textbf{Derive the marginal distribution of $X$ and $Y$, and observe that both are normal distributions.}
-	\bigskip \\
-
+		\bigskip \\
+		The marginal distribution of $X$ is defined as $f_X(x) = \intinf f(x,y)dy$ and the marginal distribution of $y$ is defined as $f_Y(y)=\intinf f(x,y)dx$. We can solve:
+		\begin{align*}
+			f_X(x) &= \intinf\frac{1}{2\pi\sigma_X\sigma_Y\sqrt{1-\rho^2}}\text{exp}(-(2(1-\rho^2))^{-1}(x^2/\sigma^2_X-2\rho xy/\sigma_X\sigma_Y + y^2/\sigma_Y^2)) dy \\
+			f_X(x) &= \frac{1}{\sigma_X\sqrt{2\pi}}\intinf \frac{\text{exp}(-(2(1-\rho^2))^{-1}(x^2/\sigma^2_X+(y/\sigma_Y - \rho x/\sigma_X)^2-\rho^2x^2/\sigma^2_X))}{\sigma_Y\sqrt{2\pi}\sqrt{1-\rho^2}} dy \\
+			f_X(x) &= \frac{1}{\sigma_X\sqrt{2\pi}} \text{exp}\left(\frac{x^2/\sigma^2_X-\rho^2x^2/\sigma^2_X}{-(2(1-\rho^2))}\right)
+			\intinf \frac{1}{\sigma_Y\sqrt{2\pi}\sqrt{1-\rho^2}}  dy	\\
+			f_X(x) &= \frac{1}{\sigma_X\sqrt{2\pi}} e^{-\frac{x^2}{2\sigma^2_X}}
+			\intinf \frac{1}{\sigma_Y\sqrt{2\pi}\sqrt{1-\rho^2}} e^{\frac{(y - \sigma_Y\rho x/\sigma_X)^2}{-(2\sigma_Y^2(1-\rho^2))}} dy
+		\end{align*}
+		Where the definite integral is a normal distribution with mean $\frac{\sigma_Y\rho x}{\sigma_X}$ and standard deviation $\sigma_Y\sqrt{1-\rho^2}$. Thus, the integral is equal to one and:
+		\[
+			f_X(x) = \frac{1}{\sigma_X\sqrt{2\pi}} e^{-\frac{x^2}{2\sigma^2_X}}
+		\]
+		Using the same simplifying process, we can solve:
+		\begin{align*}
+			f_Y(y) &= \intinf\frac{1}{2\pi\sigma_X\sigma_Y\sqrt{1-\rho^2}}\text{exp}(-(2(1-\rho^2))^{-1}(x^2/\sigma^2_X-2\rho xy/\sigma_X\sigma_Y + y^2/\sigma_Y^2)) dx \\
+			f_Y(y) &= \frac{1}{\sigma_Y\sqrt{2\pi}} e^{-\frac{y^2}{2\sigma^2_Y}}
+			\intinf \frac{1}{\sigma_X\sqrt{2\pi}\sqrt{1-\rho^2}} e^{\frac{(x - \sigma_X\rho y/\sigma_Y)^2}{-(2\sigma_X^2(1-\rho^2))}} dx \\
+			f_Y(y) &= \frac{1}{\sigma_Y\sqrt{2\pi}} e^{-\frac{y^2}{2\sigma^2_Y}}
+		\end{align*}
+		Clearly, each of these marginal distributions are normal distributions with a zero mean.
 
 	\item[(b)] \textbf{Derive the conditional distribution of $Y$ given $X=x$, Observe that it is also a normal distribution.}
-	\bigskip \\
-
-
+		\bigskip \\	
+		Since both $X$ and $Y$ are continuous random variables, $f_{Y|X}(y|x)= \frac{f_{Y,X}(y,x)}{f_X(x)}$. Then, we can derive:
+		\begin{align*}
+			f_{Y|X}(y|x) &= \frac{\sigma_X\sqrt{2\pi}\text{exp}\left(-\frac{x^2/\sigma_X^2-2\rho xy/\sigma_X\sigma_y+y^2/\sigma_Y^2}{2(1-\rho^2)}\right)}{2\pi\sigma_X\sigma_Y\sqrt{1-\rho^2}\text{exp}\left(-\frac{x^2}{2\sigma_X^2}\right)}	\\
+			f_{Y|X}(y|x) &= \frac{1}{\sqrt{2\pi}\sigma_Y\sqrt{1-\rho^2}}\text{exp}\left(\frac{\sigma_X^2(x^2/\sigma_X^2 - 2\rho xy/\sigma_X\sigma_Y+y^2/\sigma^2_Y)+(1-\rho^2)x^2}{2\sigma_X^2(1-\rho^2)}\right) \\
+			f_{Y|X}(y|x) &= \frac{1}{\sqrt{2\pi}\sigma_Y\sqrt{1-\rho^2}}\text{exp}\left( \frac{\left(\frac{\sigma_X}{\sigma_Y}y-\rho x\right)^2}{2\sigma_X(1-\rho^2)} \right) \\
+			f_{Y|X}(y|x) &= \frac{1}{\sqrt{2\pi}\sigma_Y\sqrt{1-\rho^2}}e^{\frac{\left(y-\frac{\sigma_Y}{\sigma_X}\rho x\right)^2}{2\sigma^2_Y(1-\rho^2)}}
+		\end{align*}
+		Thus, the conditional distribution of $Y$ on $X=x$ is normal with mean $\frac{\sigma_Y}{\sigma_X}\rho x$ and standard deviation $\sigma_Y\sqrt{1-\rho^2}$.
+		
 	\item[(c)] \textbf{Derive the joint distribution of $(X,Z)$ where $Z=(Y/\sigma_Y)-(\rho X/\sigma_)$, and then show that $X$ and $Z$ are independent.}
-	\bigskip \\
-	
+		\bigskip \\
+		Solving $Z \ Y/\sigma_Y - \rho X /\sigma_X$ for $Y$ yields $Y=\sigma_YZ + \sigma_Y\rho X/\sigma_X$. Now, let $g:\colvec{2}{X}{Y}\rightarrow\colvec{2}{X}{Y/\sigma_Y - \rho X /\sigma_X}$ represent the mapping from $\colvec{2}{X}{Y}$ to $\colvec{2}{X}{Z}$. $g$ has the inverse mapping $g^{-1}:\colvec{2}{X}{Z}\rightarrow\colvec{2}{X}{\sigma_YZ + \sigma_Y\rho X/\sigma_X}$, which has Jacobian matrix $J$:
+		\[
+			J = \begin{pmatrix} 1 & 0 \\ \frac{\sigma_Y}{\sigma_X}\rho & \sigma_Y \end{pmatrix}
+		\]
+		Then, we can solve for $f(x,z)$:
+		\begin{align*}
+			f(z,x) &= f_{X,Y}(g^{-1}(x,z))|J| = f_{X,Y}(x,\sigma_YZ + \sigma_Y\rho X/\sigma_X)\sigma_Y 	\\
+			&= \frac{\sigma_Y}{2\pi\sigma_X\sigma_Y\sqrt{1-\rho^2}}\text{exp}\left(\frac{\frac{x^2}{\sigma_X^2}-\frac{2\rho x(\sigma_Yz+\sigma_Y\rho x/\sigma_X}{\sigma_X\sigma_Y} + \frac{(\sigma_Yz+\sigma_Y\rho x/\sigma_X)^2}{\sigma_Y^2}}{2(1-\rho^2)}\right) \\
+			&= \left(\frac{1}{2\pi\sigma_X\sqrt{1-\rho^2}}\right)\text{exp}\left(\frac{\frac{x^2}{\sigma_X^2}-\frac{\sigma_Y}{\sigma_Y}\left(\frac{2\rho xz + 2\rho^2 x^2/\sigma_X}{\sigma_X}\right) + \frac{\sigma_Y^2}{\sigma_Y^2}\left(z+ \frac{\rho x}{\sigma_X}\right)^2}{2(1-\rho^2)}\right) \\
+			&= \left(\frac{1}{\sqrt{2\pi}\sigma_X}\right)\left(\frac{1}{\sqrt{2\pi}\sqrt{1-\rho^2}}\right)\text{exp}\left(\frac{\frac{x^2}{\sigma_X^2}-\frac{2\rho xz}{\sigma_X}-\frac{2\rho^2x^2}{\sigma_X^2}+z^2+\frac{2\rho xz}{\sigma_X}+\frac{\rho^2x^2}{\sigma_X^2}}{2(1-\rho^2)}\right) \\
+			f_{Z,X}(z,x) &= \left(\frac{1}{\sqrt{2\pi}\sigma_X}\right)e^{-\frac{x^2}{2\sigma_X^2}}\left(\frac{1}{\sqrt{2\pi}\sqrt{1-\rho^2}}\right)e^{-\frac{z^2}{2(1-\rho^2)}}
+		\end{align*}
+		We can see that the joint distribution of $X$ and $Z$ is the marginal distribution of $X$, multiplied by a normal distribution of $Z$ with mean zero and standard deviation $\sqrt{1-\rho^2}$. Since the joint distribution is the product of each variable's marginal distribution, $X$ and $Y$ are independent.
+		
 	
 \end{itemize}
 
@@ -243,9 +299,17 @@ Thus, we can write the correlation as:
 %%%________________________________________________________________%%%
 
 \section*{Question 8}
-\textbf{Consider a function $g:\R\rightarrow\R$. Recall that the inverse image of a set $A$, denoted $g^{-1}(A)$, is $g^{-1}(A)=\{x\in\R:g(x)\in A\}$.Let there be two functions, $g_1 : \R \rightarrow \R$ and $g_2 : \R\rightarrow\R$. Let $X$ and $Y$ be two random variables that are independent. Suppose that $g_1$ and $g_2$ are both Borel-measurable, which means that $g^{-1}_1(A)$ and $g^{-1}_2(A)$ are both in the Borel $\sigma$-field whenenver A is in the Borel $\sigma$-field. Show that the two random variables $Z := g_1(X)$ and $W := g_2(Y)$ are independent. (Hint: use the 1st or the 2nd definition of independence.)}
+\textbf{Consider a function $g:\R\rightarrow\R$. Recall that the inverse image of a set $A$, denoted $g^{-1}(A)$, is $g^{-1}(A)=\{x\in\R:g(x)\in A\}$. Let there be two functions, $g_1 : \R \rightarrow \R$ and $g_2 : \R\rightarrow\R$. Let $X$ and $Y$ be two random variables that are independent. Suppose that $g_1$ and $g_2$ are both Borel-measurable, which means that $g^{-1}_1(A)$ and $g^{-1}_2(A)$ are both in the Borel $\sigma$-field whenever A is in the Borel $\sigma$-field. Show that the two random variables $Z := g_1(X)$ and $W := g_2(Y)$ are independent. (Hint: use the 1st or the 2nd definition of independence.)}
 \bigskip \\
-
+To show that $Z$ and $W$ are independent, I will show that the joint CDF of $Z$ and $W$ is equal to the product of their respective CDFs. Remebering that $X$ and $Y$ are independent and that any point in the Borel $\sigma$-field of $Z$ or $W$ must also be in the Borel $\sigma$-field of $X$ or $Y$:
+\begin{align*}
+	P(Z\leq z, W\leq w) &= P(g_1(X)\leq z, g_2(Y)\leq w)			\\
+						&= P(X\leq g_1^{-1}(z), Y\leq g_2^{-1}(w))	\\
+						&= P(X\leq g_1^{-1}(z))P(Y\leq g_2^{-1}(w))	\\
+						&= P(g_1(X)\leq z)P(g_2(Y)\leq w)			\\
+	P(Z\leq z, W\leq w) &= P(Z\leq z)P(W\leq w)
+\end{align*}
+Thus, $Z$ and $W$ are independent.
 
 %%%________________________________________________________________%%%
 
