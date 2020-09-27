@@ -36,6 +36,7 @@
 \newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
 \newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
 \newcommand{\inv}{^{-1}}
+\newcommand{\at}[2][]{#1|_{#2}}
 
 %%% define column vector command (from Michael Nattinger)
 \newcount\colveccount
@@ -135,18 +136,50 @@ By the chain rule, for $\beta\in\{r,s,t\}$, $\frac{\partial w}{\partial\beta}=\s
 %%%________________________________________________________________%%%
 
 \section*{Question 4}
-
+Let $f:X\rightarrow\R^n$ be continuously differentiable on $X$. Then, for any $x_0\in X$,
+\[
+	\underset{x\rightarrow x_0}{\text{lim }}\frac{d(f(x),f(x_0)}{d(x,x_0)} = a
+\]
+Taking the absolute value of each side of this inequality and multiplying by the limit's denominator allows us to say, for any $x_0\in X$, with $k=|a|$, $\exists\varepsilon>0$ such that, $\forall x,y\in B_\varepsilon(x_0)$,
+\[
+	d(f(x),f(y))\leq kd(x,y)
+\]
+$\therefore$ $f$ is locally Lipschitz on $X$ $\blacksquare$
 
 %%%________________________________________________________________%%%
 
 \section*{Question 5}
-
+We know that $f(1,1)=0$. $D_xf(x,y) = 5x-2x+1$, so $D_Xf(1,1) \neq 0$. Then the implicit function theorem applies, and we can calcluate:
+\[
+	\frac{\partial x(y)}{\partial y}\at[\big]{y=1} = -(D_xf(1,1))^{-1}(D_y(1,1)) = -\frac{-3-2}{5-2+1} = \frac{5}{4}
+\]
 
 %%%________________________________________________________________%%%
 
 
 \section*{Question 6}
-
+First, we must solve for the critical points of $f(x,y)=2x^4 + y^2 - xy + 1$:
+\[
+	\colvec{2}{\frac{\partial f}{\partial x}}{\frac{\partial f}{\partial y}} = \colvec{2}{8x^3-y}{2y-x} = \colvec{2}{0}{0}
+\]
+By substituting $y=8x^3$ into $x=2y$, we can solve that this is satisfied when $x(16x^2-1)=0$. Thus, the critical points are $\colvec{2}{0}{0}$, $\colvec{2}{1/4}{1/8}$ and $\colvec{2}{-1/4}{-1/8}$. To determine whether these are maxima, minima, or saddle points, we must calculate the function's Hessian matrix:
+\[
+	H = \begin{pmatrix} \frac{\partial^2 f}{\partial x^2}  & \frac{\partial f}{\partial y\partial x} \\ \frac{\partial f}{\partial x\partial y} & \frac{\partial^2 f}{\partial y^2}\end{pmatrix}  = \begin{pmatrix} 24x^2 & -1 \\ -1 & 2 \end{pmatrix}
+\]
+Then the determinant of $H$ is $48x^2 - 1$. For each of our critical points, we can solve:
+\begin{align*}
+	\colvec{2}{0}{0}: 						&	|H|	 = -1 <0 					\\
+	\colvec{2}{\frac{1}{4}}{\frac{1}{8}}: 	&	|H| = \frac{48}{16} - 1 =2 >0	\\
+	\colvec{2}{-\frac{1}{4}}{-\frac{1}{8}}: &	|H| = \frac{48}{16} - 1 =2 >0	\\
+\end{align*}
+Thus, $\colvec{2}{0}{0}$ is a saddle point. Since $\frac{\partial^2 f}{\partial x^2}>0$ $\forall x\in\R$, $\colvec{2}{1/4}{1/8}$ and $\colvec{2}{-1/4}{-1/8}$ are local minima. To determine whether either of these points are global minima, we must determine the function's behavior at its limits:
+\begin{align*}
+	\underset{x\rightarrow\infty,y\rightarrow\infty}{\text{lim }}f(x,y) 	&= \infty \\
+	\underset{x\rightarrow-\infty,y\rightarrow\infty}{\text{lim }}f(x,y) 	&= \infty \\
+	\underset{x\rightarrow\infty,y\rightarrow-\infty}{\text{lim }}f(x,y) 	&= \infty \\
+	\underset{x\rightarrow-\infty,y\rightarrow-\infty}{\text{lim }}f(x,y) 	&= \infty \\
+\end{align*}
+Further, $f(1/4,1/8)=f(-1/4,-1/8)$. Thus, both  $\colvec{2}{1/4}{1/8}$ and $\colvec{2}{-1/4}{-1/8}$ are global minima.
 
 %%%________________________________________________________________%%%
 
