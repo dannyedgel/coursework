@@ -1,0 +1,150 @@
+%%% Econ712: Macroeconomics I
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Thursday October 1, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\loge}[1]{\text{ln}\left(#1\right)}
+\newcommand{\usmax}[1]{\underset{\{#1\}}{\text{max }}}
+\renewcommand{\L}{\mathcal{L}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#4 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 712: Macroeconomics I		\\
+			Fall 2020						\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+\bigskip \\
+\noindent We have an overlapping generations problem with an infinite number of discrete periods and households that live for two periods. Each generation has a measure of households of population $(1+n)^t$, assuming that the inital old generation has a unit measure population. The inital old are endowed with $\overline{M_1}$ units of fiat currency and $w_2$ units of consumption goods. The money supply increases at a rate of $z\geq 0$, with new fiat money distributed to each period's old generation in proportion to their money holdings such that $M_{t+1}^t$ chosen when young becomes $(1+z)M_{t+1}^t$ when old. \\
+
+Consumption goods are non-storable and each young generation is endowed with $w_1$, where $w_1>w_2$. The utility of households in generation $t\geq 1$ is represented by
+\[
+	U(c_t^t,c_{t+1}^t) = \loge{c_t^t} + \loge{c_{t+1}^t}
+\]
+Where $U(c_1^0)=\loge{c_1^0}$ represents the utility of the initial old generation.
+
+%%%________________________________________________________________%%%
+
+\begin{enumerate}
+
+	\item An allocation in this environment is defined as $\{c_0^1,\{c_t^t,c_t^{t-1}\}_{t=1}^\infty\}$, so the social planner's problem, weighting all generations equally, is:
+		\begin{align*}
+			\usmax{c_0^1,\{c_t^t,c_t^{t-1}\}_{t=1}^\infty} &U(c_1^0) + \sum_{t=1}^\infty U(c_t^t,c_{t+1}^t) 				\\
+			&\text{ s.t. }(1+n)^tc_t^t + (1+n)^{t-1}c_t^{t-1}\leq (1+n)^t w_1 + (1+n)^{t-1}w_2\text{ }\forall t\geq 1							\\
+			\usmax{c_0^1,\{c_t^t,c_t^{t-1}\}_{t=1}^\infty} &\loge{c_1^0} + \sum_{t=1}^\infty \loge{c_t^t} +\loge{c_t^{t-1}}	\\
+			 &\text{ s.t. } (1+n)^t c_t^t + (1+n)^{t-1}c_t^{t-1}\leq (1+n)w_1 + w_2\text{ }\forall t\geq 1
+		\end{align*}
+		The Lagrangian for this problem is
+		\[
+			\L= \sum_{t=1}^\infty \loge{c_t^t} + \loge{c_t^{t-1}} -\lambda_t\left(c_t^{t-1} + c_t^{t-1}- (1+n)w_1 - w_2\right)
+		\]
+		Taking first-order conditions and letting $t$ represent any $t\geq 1$, we get:
+		\begin{align*}
+			\frac{\partial\L}{\partial c_t^t} 		&= \frac{1}{c_t^t} 		- (1+n)\lambda_t	= 0	\\
+			\frac{\partial\L}{\partial c_t^{t-1}} 	&= \frac{1}{c_t^{t-1}} 	- \lambda_t			= 0	\\
+			\frac{\partial\L}{\partial \lambda_t} 	&= (1+n)c_t^t + c_t^{t-1} - (1+n)w_1 - w_2	= 0		
+		\end{align*}
+		Since $c_1^0$ is the consumption of the old generation in time $t$, we need only solve for $c_t^{t-1}$ and $c_t^t$ to derive $c_0^1$:
+		\begin{align*}
+			& \frac{1}{c_t^t}  = \frac{1+n}{c_t^{t-1}}					& c^{t-1} = (1+n)(w_1-c_t^t) + w_2 	\\
+			& c_t^{t-1} = (1+n)c_t^t = (1+n)(w_1-c_t^t) + w_2												\\
+			& 2c_t^t 	= w_1 + \frac{w_2}{1+n}																\\
+			& c_t^t		= \frac{1}{2}\left(w_1 + \frac{w_2}{1+n}\right) & c_t^{t-1}	= \frac{1}{2}\left((1+n)w_1 + w_2\right)
+		\end{align*}
+		Thus, the social planner's optimal allocation, $\{c_0^1,\{c_t^t,c_t^{t-1}\}_{t=1}^\infty\}$, is 
+		\[
+			\left\{\frac{1}{2}\left((1+n)w_1 + w_2\right),\left\{\frac{1}{2}\left(w_1 + \frac{w_2}{1+n}\right),\frac{1}{2}\left((1+n)w_1 + w_2\right)\right\}_{t=1}^\infty\right\}
+		\]
+
+
+\end{enumerate}
+
+
+%%%________________________________________________________________%%%
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
