@@ -86,7 +86,7 @@
 
 %%%________________________________________________________________%%%
 
-\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
 
 %%%________________________________________________________________%%%
 
@@ -107,7 +107,7 @@ Since $x$ cannot be negative, and $\frac{x}{3\sqrt{25+x^2}}-\frac{1}{5}$ is non-
 \[
 	T = \frac{1}{5}(12-\frac{15}{4}) + \frac{1}{6}\sqrt{25 + \left(\frac{15}{4}\right)^2} = \frac{56}{15}
 \]
-Thus, the shortest amount of time it will take Bob to walk to Happy Cow Farm is 224 minutes, or 3 hours and 11 minutes.
+Thus, the shortest amount of time it will take Bob to walk to Happy Cow Farm is 224 minutes, or 3 hours and 44 minutes.
 	
 %%%________________________________________________________________%%%
 
@@ -116,8 +116,8 @@ It is not possible for $x_0$ to be a local optimum of $f$. Suppose $f'(x_0)=0$. 
 \medskip \\
 \textbf{Proof.}
 \begin{enumerate}
-	\item Let $x_1<x_0<x_2\in B_\varepsilon(x_0)$.  By assumption, $f'(x_1)<0$ and $f'(x_2)<0$.
-	\item Since $f$ is differentiable for all $x\in  B_\varepsilon(x_0)$, $f$ is also continuous  $\forall x\in  B_\varepsilon(x_0)$. Thus, $f(x_1)>f(x_0)>f(x_2)$
+	\item Let $x_1<x_0<x_2\in B_\varepsilon(x_0)$.\footnote{Since the domain of $f$ is $\R$, the existence of $x_1$ and $x_2$ are trivially proven by the fact that $B_\varepsilon(x_0)$ contains an infinite number of elements for all $\varepsilon>0$.}  By assumption, $f'(x)<0$ for all $x\in  B_\varepsilon(x_0)$. 
+	\item Since $f$ is differentiable for all $x\in  B_\varepsilon(x_0)$, $f$ is also continuous  $\forall x\in  B_\varepsilon(x_0)$. Thus, $f(x_1)>f(x_2)$ and, by the mean value theorem, $f(x_1)>f(x_0)>f(x_2)$
 \end{enumerate}
 $\therefore$ $x_0$ is not a local optimum of $f$ $\blacksquare$
 
@@ -126,24 +126,39 @@ $\therefore$ $x_0$ is not a local optimum of $f$ $\blacksquare$
 
 \section*{Question 3}
 By the chain rule, for $\beta\in\{r,s,t\}$, $\frac{\partial w}{\partial\beta}=\sum_{\alpha\in\{x,y,z\}}\frac{\partial w}{\partial\alpha}\cdot\frac{\partial\alpha}{\partial\beta}$. Thus,
+(r+2s+t)
+(2r+3s+t) 
+(3r+s+t)
 \begin{align*}
-	\frac{\partial w}{\partial r} &= (1)y^2z + (2)(2)xyz + (3)xy^2 = y^2z  + 4xyz + 3xy^2	\\
-	\frac{\partial w}{\partial s} &= (2)y^2z + (3)(2)xyz + (1)xy^2 = 2y^2z + 6xyz + xy^2 	\\
-	\frac{\partial w}{\partial t} &= (1)y^2z + (1)(2)xyz + (1)xy^2 = y^2z  + 2xyz + xy^2
+	\frac{\partial w}{\partial r} 	&= y^2z  + 4xyz + 3xy^2 \\
+									&= (2r+3s+t)^2(3r+s+t)  + 4(r+2s+t)(2r+3s+t)(3r+s+t) + 3(r+2s+t)(2r+3s+t)^2	\\
+	\frac{\partial w}{\partial s} 	&= 2y^2z + 6xyz + xy^2  \\
+									&= (2r+3s+t)^2(3r+s+t)  + 4(r+2s+t)(2r+3s+t)(3r+s+t) + 3(r+2s+t)(2r+3s+t)^2	\\
+	\frac{\partial w}{\partial t} 	&= y^2z  + 2xyz + xy^2  \\
+									&= (2r+3s+t)^2(3r+s+t)  + 4(r+2s+t)(2r+3s+t)(3r+s+t) + 3(r+2s+t)(2r+3s+t)^2
 \end{align*}
 
 
 %%%________________________________________________________________%%%
 
 \section*{Question 4}
-Let $f:X\rightarrow\R^n$ be continuously differentiable on $X$. Then, for any $x_0\in X$,
+Let $f:X\rightarrow\R^n$ be continuously differentiable on $X\subset\R^n$. Then, for any $x,y\in X$ and $i,j\in\{1,...,n\}$,
 \[
-	\underset{x\rightarrow x_0}{\text{lim }}\frac{d(f(x),f(x_0)}{d(x,x_0)} = a
+	\frac{\partial f^i}{\partial x_j}(x) = \underset{y_j\rightarrow x_j}{\text{lim }}\frac{f^i(y_j)-f^i(x_j)}{y_j-x_j}
 \]
-Taking the absolute value of each side of this inequality and multiplying by the limit's denominator allows us to say, for any $x_0\in X$, with $k=|a|$, $\exists\varepsilon>0$ such that, $\forall x,y\in B_\varepsilon(x_0)$,
+Removing the limit and taking absolute values enables us to derive, when $y\in B_\varepsilon(x)$ for some $\varepsilon>0$,
 \[
-	d(f(x),f(y))\leq kd(x,y)
+	|f^i(y_j)-f^i(x_j)| \leq k|y_j-x_j|
 \]
+Where $k=|\frac{\partial f^i}{\partial x_j}(x)|$. Now let $k=\usmax{j\in\{1,...,n\}}\left\{\frac{\partial f^i}{\partial x_j}(x)\right\}$. Then, for every $i\in\{1,...,n\}$,
+\[
+	|f^i(y)-f^i(x)| \leq k|y_i-x_i|
+\]
+Thus, if we let $k=\usmax{i,j\in\{1,...,n\}}\left\{\frac{\partial f^i}{\partial x_j}(x)\right\}$, we can conclude that:
+\begin{align*}
+	\sqrt{\sum_{i=1}^n\left(f(y_i)-f(x_i)\right)^2} &\leq \sqrt{\sum_{i=1}^nk^2\left(y_i-x_i\right)^2} \\
+	d(f(x),f(y)) &\leq \sqrt{n}kd(x,y)
+\end{align*}
 $\therefore$ $f$ is locally Lipschitz on $X$ $\blacksquare$
 
 %%%________________________________________________________________%%%
@@ -160,7 +175,7 @@ We know that $f(1,1)=0$. $D_xf(x,y) = 5x-2x+1$, so $D_Xf(1,1) \neq 0$. Then the 
 \section*{Question 6}
 First, we must solve for the critical points of $f(x,y)=2x^4 + y^2 - xy + 1$:
 \[
-	\colvec{2}{\frac{\partial f}{\partial x}}{\frac{\partial f}{\partial y}} = \colvec{2}{8x^3-y}{2y-x} = \colvec{2}{0}{0}
+	\colvec{2}{\partial f/\partial x}{\partial f/\partial y} = \colvec{2}{8x^3-y}{2y-x} = \colvec{2}{0}{0}
 \]
 By substituting $y=8x^3$ into $x=2y$, we can solve that this is satisfied when $x(16x^2-1)=0$. Thus, the critical points are $\colvec{2}{0}{0}$, $\colvec{2}{1/4}{1/8}$ and $\colvec{2}{-1/4}{-1/8}$. To determine whether these are maxima, minima, or saddle points, we must calculate the function's Hessian matrix:
 \[
@@ -168,16 +183,16 @@ By substituting $y=8x^3$ into $x=2y$, we can solve that this is satisfied when $
 \]
 Then the determinant of $H$ is $48x^2 - 1$. For each of our critical points, we can solve:
 \begin{align*}
-	\colvec{2}{0}{0}: 						&	|H|	 = -1 <0 					\\
-	\colvec{2}{\frac{1}{4}}{\frac{1}{8}}: 	&	|H| = \frac{48}{16} - 1 =2 >0	\\
-	\colvec{2}{-\frac{1}{4}}{-\frac{1}{8}}: &	|H| = \frac{48}{16} - 1 =2 >0	\\
+	\colvec{2}{0}{0}:\text{ } 		&	|H|	= -1 <0 					\\
+	\colvec{2}{1/4}{1/8}:\text{ } 	&	|H| = \frac{48}{16} - 1 =2 >0	\\
+	\colvec{2}{-1/4}{-1/8}:\text{ } &	|H| = \frac{48}{16} - 1 =2 >0
 \end{align*}
 Thus, $\colvec{2}{0}{0}$ is a saddle point. Since $\frac{\partial^2 f}{\partial x^2}>0$ $\forall x\in\R$, $\colvec{2}{1/4}{1/8}$ and $\colvec{2}{-1/4}{-1/8}$ are local minima. To determine whether either of these points are global minima, we must determine the function's behavior at its limits:
 \begin{align*}
 	\underset{x\rightarrow\infty,y\rightarrow\infty}{\text{lim }}f(x,y) 	&= \infty \\
 	\underset{x\rightarrow-\infty,y\rightarrow\infty}{\text{lim }}f(x,y) 	&= \infty \\
 	\underset{x\rightarrow\infty,y\rightarrow-\infty}{\text{lim }}f(x,y) 	&= \infty \\
-	\underset{x\rightarrow-\infty,y\rightarrow-\infty}{\text{lim }}f(x,y) 	&= \infty \\
+	\underset{x\rightarrow-\infty,y\rightarrow-\infty}{\text{lim }}f(x,y) 	&= \infty
 \end{align*}
 Further, $f(1/4,1/8)=f(-1/4,-1/8)$. Thus, both  $\colvec{2}{1/4}{1/8}$ and $\colvec{2}{-1/4}{-1/8}$ are global minima.
 
