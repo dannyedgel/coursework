@@ -1,0 +1,216 @@
+%%% Econ709: Econometrics
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Sunday, October 4th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#4 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 709: Economic Statistics and Econometrics I	\\
+			Fall 2020											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+\textbf{Suppose that another observation $X_{n+1}$ becomes available. Show that:}
+
+\begin{itemize}
+	\item[(a)] $\mathbf{\overline{X}_{n+1}=(n\overline{X}_n + X_{n+1})/(n+1)}$ \\
+		\begin{align*}
+			\overline{X}_{n+1} 	&= \frac{1}{n+1}\sum_{i=1}^{n+1}X_i 	\\
+								&= \frac{1}{n+1}\left(\sum_{i=1}^nX_i + X_{n+1}\right)	\\
+								&= \frac{1}{n+1}\left(n\overline{X}_n + X_{n+1}\right)
+		\end{align*}
+	
+	\item[(b)] $\mathbf{s^2_{n+1}=\frac{1}{n}((n-1)s_n^2+(n/(n+1))(X_{n+1}-\overline{X}_n)^2)}$ \\
+	
+		Using the relation from (a), we can derive:
+		\begin{align*}
+			s^2_{n+1} 	&= \frac{1}{n}\sum_{i=1}^{n+1}(X_i-\overline{X}_{n+1})^2 	\\
+						&= \frac{1}{n}\sum_{i=1}^{n+1}\left((X_i-\olx{n})+(\olx{n}-\olx{n+1})\right)^2	\\
+						&= \frac{1}{n}\sum_{i=1}^{n+1}\left[(X_i-\olx{n})^2+2(X_i-\olx{n})(\olx{n}-\olx{n+1})+(\olx{n}-\olx{n+1})^2\right]	\\
+						&= \frac{1}{n}\left[\sum_{i=1}^{n}(X_i-\olx{n})^2 + (X_{n+1}-\olx{n})^2 +2(\olx{n}-\olx{n+1})\sum_{i=1}^{n+1}(X_i-\olx{n})
+						+\sum_{i=1}^{n+1}(\olx{n}-\olx{n+1})^2\right]	\\
+						&= \frac{1}{n}\left[(n-1)s^2_n + (X_{n+1}-\olx{n})^2 +2(n+1)(\olx{n}-\olx{n+1})(\olx{n+1}-\olx{n}) +(n+1)(\olx{n}-\olx{n+1})^2\right]	\\
+						&= \frac{1}{n}\left[(n-1)s^2_n + (X_{n+1}-\olx{n})^2 -2(n+1)(\olx{n}-\olx{n+1})^2 +(n+1)(\olx{n}-\olx{n+1})^2\right]	\\
+						&= \frac{1}{n}\left[(n-1)s^2_n + (X_{n+1}-\olx{n})^2 -(n+1)(\olx{n}-\olx{n+1})^2 \right]	\\
+						&= \frac{1}{n}\left[(n-1)s^2_n + (X_{n+1}-\olx{n})^2 -(n+1)\left(\olx{n}-\frac{1}{n+1}(n\olx{n}+X_{n+1})\right)^2 \right]	\\
+						&= \frac{1}{n}\left[(n-1)s^2_n + (X_{n+1}-\olx{n})^2 -(n+1)\left(\frac{1}{n+1}\olx{n}-\frac{1}{n+1}X_{n+1})\right)^2 \right]	\\
+						&= \frac{1}{n}\left[(n-1)s^2_n + (X_{n+1}-\olx{n})^2 -(n+1)\left(-\frac{1}{n+1}\right)^2\left(X_{n+1}-\olx{n})\right)^2 \right]	\\
+						&= \frac{1}{n}\left[(n-1)s^2_n + \left(1-\frac{1}{n+1}\right)(X_{n+1}-\olx{n})^2 \right]	\\
+						&= \frac{(n-1)s^2_n + \frac{n}{n+1}(X_{n+1}-\olx{n})^2}{n}
+		\end{align*}
+	
+\end{itemize}	
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+\textbf{For some integer $k$, set $\mu_k=E(X^k)$. Construct an unbiased estimator $\hat{\mu}_k$ for $\mu_k$, and show its unbiasedness.}
+\bigskip
+Define $\hat{\mu}_k = \frac{1}{n}\sum_{i=1}^nX_i^k$. If the bias of this estimator is equal to zero, then it is unbiased:
+\begin{align*}
+	E(\hat{\mu}_k)-\mu_k &= 0						\\
+	E(\frac{1}{n}\sum_{i=1}^nX_i^k) - E(X^k) &= 0	\\
+	\frac{1}{n}\sum_{i=1}^nX_i^k &= X^k
+\end{align*}
+Since $\{X_i\}_{i=1}^n$ is assumed to be a random sample, this is equality holds. Thus, $\hat{\mu}_k$ is an unbiased estimator.
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+\textbf{Consider the central moment $m_k=E((X-\mu)^k)$. Construct an estimator $\hat{m}_k$ for $m_k$ without assuming a known $\mu$. In general, do you expect $\hat{m}_k$ to be biased or unbiased?}
+\bigskip
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+\textbf{Calculate the variance of $\hat{\mu}_k$ that you proposed above, and call it $Var(\hat{\mu}_k)$.}
+\bigskip
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+\textbf{Show that $E(s_n)\leq\sigma$ using Jensen's inequality (CB Theorem 4.7.7).}
+\bigskip
+
+%%%________________________________________________________________%%%
+
+\section*{Question 6}
+\textbf{Show algebraically that $\hat{\sigma}^2=n^{-1}\sum_{i-1}^n(X_i-\mu)^2-(\overline{X}_n-\mu)^2$.}
+\bigskip
+
+%%%________________________________________________________________%%%
+
+\section*{Question 7}
+\textbf{Find the covariance of $\hat{\sigma}^2$ and $\overline{X}_n$. Under what condition is this zero? (See lecture question for hint)}
+\bigskip
+
+%%%________________________________________________________________%%%
+
+\section*{Question 8}
+\textbf{Suppose that $X_i$ are independent but not necessarily identically distributed (i.n.i.d.) with $E(X_i)=\mu_i$ and $Var(X_i)=\sigma_i^2$.}
+
+\begin{itemize}
+	\item[(a)] \textbf{Find $E(\overline{X}_n)$.} \\
+	
+	\item[(b)] \textbf{Find $Var(\overline{X}_n)$.} \\
+	
+\end{itemize}	
+
+%%%________________________________________________________________%%%
+
+\section*{Question 9}
+\textbf{Show that if $Q\sim \chi^2_r$, then $E(Q)=r$ and $Var(Q)=2r$ (hint: use the representation $Q=\sum_{i=1}^n X_i^2$ with $X_i$ being i.i.d $\N(0,1)$).}
+\bigskip
+
+%%%________________________________________________________________%%%
+
+\section*{Question 10}
+\textbf{Suppose that $X_i\sim\N(\mu_X,\sigma^2_X):i=1,...,n_1$ and $Y_i\sim\N(\mu_Y,\sigma_Y^2),i=1,...,n_2$ are mutually independent. Set $\overline{X}_n=n_1^{-1}\sum_{i=1}^{n_2}Y_i$.}
+
+\begin{itemize}
+	\item[(a)] \textbf{Find $E(\overline{X}_n-\overline{Y}_n)$.} \\
+	
+	\item[(b)] \textbf{Find $Var(\overline{X}_n-\overline{Y}_n)$.} \\
+	
+	\item[(c)] \textbf{Find the distribution of $\overline{X}_n-\overline{Y}_n$.} \\
+	
+\end{itemize}	
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
