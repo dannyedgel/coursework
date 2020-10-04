@@ -1,0 +1,137 @@
+%%% Econ703: Math Camp
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Wednesday October 7th, 11pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\inv}{^{-1}}
+\newcommand{\at}[2][]{#1|_{#2}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#7 }
+\author{ 	Danny Edgel 							\\ 
+			Econ 703: Mathematical Economics I		\\
+			Fall 2020								\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+Let $X\subset\R^n$ be convex. We can prove that, for any $k\in\N$, $\lambda_1,...,\lambda_k\geq 0$, $\sum_{i=1}^k\lambda_i=1$, if ${x_1,...,x_k\in X}$, then ${\sum_{i=1}^k\lambda_ix_1\in X}$.
+\medskip \\
+\textbf{Proof.}
+\begin{enumerate}
+	\item \textit{Base step.} Suppose $x_1,x_2\in X$. Since $X$ is convex, $(1-\lambda)x_1 + \lambda x_2$ is also in $X$ for all $\lambda\in[0,1]$
+	\item \textit{Induction Step.} Assume that, for some $k\in\N$, $\sum_{i=1}^k\lambda_ix_i\in X$, where $\sum_{i=1}^k=1$. Let $x_{k+1}\in X$ and $\lambda'\in[0,1]$. Then, since $X$ is convex, 
+		\[
+			(1-\lambda')x_{k+1} + \lambda'\sum_{i=1}\lambda_ix_i
+		\]
+		is also in $X$. Now, define
+		\[
+			{\lambda'}_i = \begin{cases} \lambda'\lambda_i, &i\in\{1,...,k\} \\ 1 - \lambda', &i=k+1 \end{cases}
+		\]
+		Then, $\sum_{i=1}^{k+1}{\lambda'}_ix_i\in X$ and $\sum_{i=1}^{k+1}{\lambda'}_i=1$
+\end{enumerate}
+$\therefore$ $\sum_{i=1}^k\lambda_ix_i\in X$ for any $k\in\N$ $\blacksquare$
+
+	
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+
+
+%%%________________________________________________________________%%%
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
