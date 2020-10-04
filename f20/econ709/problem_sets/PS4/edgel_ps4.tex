@@ -116,7 +116,7 @@
 						&= \frac{1}{n}\left[(n-1)s^2_n + (X_{n+1}-\olx{n})^2 -(n+1)\left(\frac{1}{n+1}\olx{n}-\frac{1}{n+1}X_{n+1})\right)^2 \right]	\\
 						&= \frac{1}{n}\left[(n-1)s^2_n + (X_{n+1}-\olx{n})^2 -(n+1)\left(-\frac{1}{n+1}\right)^2\left(X_{n+1}-\olx{n})\right)^2 \right]	\\
 						&= \frac{1}{n}\left[(n-1)s^2_n + \left(1-\frac{1}{n+1}\right)(X_{n+1}-\olx{n})^2 \right]	\\
-						&= \frac{(n-1)s^2_n + \frac{n}{n+1}(X_{n+1}-\olx{n})^2}{n}
+			s^2_{n+1} 	&= \frac{(n-1)s^2_n + \frac{n}{n+1}(X_{n+1}-\olx{n})^2}{n}
 		\end{align*}
 	
 \end{itemize}	
@@ -243,7 +243,7 @@ Thus, this covariance is zero if $E[(X_i-\mu)^3]=0$, which is if the distributio
 %%%________________________________________________________________%%%
 \pagebreak
 \section*{Question 9}
-\textbf{Show that if $Q\sim \chi^2_r$, then $E(Q)=r$ and $Var(Q)=2r$ (hint: use the representation $Q=\sum_{i=1}^n X_i^2$ with $X_i$ being i.i.d $\N(0,1)$).}
+\textbf{Show that if $Q\sim \chi^2_r$, then $E(Q)=r$ and $Var(Q)=2r$ (hint: use the representation $Q=\sum_{i=1}^r X_i^2$ with $X_i$ being i.i.d $\N(0,1)$).}
 \begin{align*}
 	E[Q]	&= E\left[\sum_{i=1}^r X_i^2\right] = \sum_{i=1}^r E[X_i^2] = \sum_{i=1}^r(\sigma_x^2 + \mu_x^2) = \sum_{i=1}^r(1) = r	\\
 	Var(Q)	&= E[Q^2] - \left(E[Q]\right)^2 = E\left[\left(\sum_{i=1}^rX_i^2\right)^2\right] - r^2	\\
