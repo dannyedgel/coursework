@@ -262,20 +262,32 @@ Notice that $E\left[X_i^4\right]$ is the fourth moment of $X_i$, which is normal
 \bigskip \\
 First, I will show that the sum of any set of independent, normally-distributed random variables is itself a normally-distributed random variable. Suppose that $X_1,X_2,...,X_n$ are independent, normal random variables, where $X_i\sim\N(\mu_i,\sigma^2_i)$ for all $i\in\{1,...,n\}$. Then the moment-generating function of their sum is:
 \[
-	M_{\sum X_i}(t) = E\left[e^{t(\sum X_i)}\right] = E\left[\prod_{i=1}^n e^{tX_i}\right] = \prod_{i=1}^n M_{X_i}(t)
+	M_{\sum X_i}(t) = E\left[e^{t(\sum X_i)}\right] = E\left[\prod_{i=1}^n e^{tX_i}\right] = \prod_{i=1}^n M_{X_i}(t) 
+	= e^{t\sum\mu_i}e^{\frac{1}{2}t^2(\sum\sigma_i^2)}
 \]
-
-Since the linear transformation of any normal random variable is also a normal random variable, $\olx{n}$ and $\olx{y}$ are normal random variables. Thus, $\overline{X}_n-\overline{Y}_n$ is also a normal random variable with the MGF:
-%\[
-	
-%\]
+Thus, the sum of any set of normal random variables is normally distrubuted, with a mean and variance equal to the sum of the means and variances of each random variable in the set.
+\smallskip \\
+Since the linear transformation of any normal random variable is also a normal random variable, $\olx{n}$ and $\olx{y}$ are normal random variables with mean and variance $\mu_X$ and $\mu_Y$ and $\frac{1}{n_1}\sigma_X^2$ and $\frac{1}{n_2}\sigma_Y^2$, respectively. Thus, $\overline{X}_n-\overline{Y}_n$ is also a normal random variable with the MGF:
+\[
+	M_{\overline{X}_n-\overline{Y}_n}(t) = e^{t(\mu_X-\mu_Y)}e^{\frac{1}{2}t^2(\frac{1}{n_1}\sigma_X^2+\frac{1}{n_2}\sigma_Y^2)}
+\]
+This MGF will be used to quickly answer each of the questions below.
 
 \begin{itemize}
-	\item[(a)] \textbf{Find $E(\overline{X}_n-\overline{Y}_n)$.} \\
+	\item[(a)] \textbf{Find $E(\overline{X}_n-\overline{Y}_n)$.}
+	\[
+		E(\overline{X}_n-\overline{Y}_n) = \mu_X-\mu_Y
+	\]
 	
-	\item[(b)] \textbf{Find $Var(\overline{X}_n-\overline{Y}_n)$.} \\
+	\item[(b)] \textbf{Find $Var(\overline{X}_n-\overline{Y}_n)$.}
+	\[
+		Var(\overline{X}_n-\overline{Y}_n) = \frac{1}{n_1}\sigma_X^2+\frac{1}{n_2}\sigma_Y^2
+	\]
 	
-	\item[(c)] \textbf{Find the distribution of $\overline{X}_n-\overline{Y}_n$.} \\
+	\item[(c)] \textbf{Find the distribution of $\overline{X}_n-\overline{Y}_n$.} 
+	\[
+		\olx{n}-\oly{n}\sim\N\left(\mu_X-\mu_Y,\frac{1}{n_1}\sigma_X^2+\frac{1}{n_2}\sigma_Y^2\right)
+	\]
 	
 \end{itemize}	
 
