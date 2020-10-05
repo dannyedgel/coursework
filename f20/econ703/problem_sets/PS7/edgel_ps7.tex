@@ -37,6 +37,7 @@
 \newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
 \newcommand{\inv}{^{-1}}
 \newcommand{\at}[2][]{#1|_{#2}}
+\newcommand{\cl}[1]{\text{cl}#1}
 
 %%% define column vector command (from Michael Nattinger)
 \newcount\colveccount
@@ -110,8 +111,21 @@ $\therefore$ $\sum_{i=1}^k\lambda_ix_i\in X$ for any $k\in\N$ $\blacksquare$
 
 	
 %%%________________________________________________________________%%%
-
+\pagebreak
 \section*{Question 2}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+Suppose $X$ is convex.
+\begin{enumerate}
+	\item Let $x,y\in\cl{X}$ and suppose $\exists z=(1-\lambda)x + \lambda y$, $z\notin\cl{X}$
+	\item If $x,y\in X$, then, since $X$ is convex, $(1-\lambda)x + \lambda y\in X$ $\forall \lambda$. Thus, $x,y\in X\Rightarrow z\in\cl{X}$
+	\item If $x\in\cl{X}$, $x\notin X$, and $y\in X$, then $x$ is a limit point of $X$. Then, $\forall x'=(1-\lambda')x + \lambda'y$, $x'\in X$ or $x'=x$. Thus, either $z\in X$ or $z$ is a limit point of $x$. Thus, $z\in\cl{X}$.
+	\item If $x,y\in\cl{X}$ and $x,y\notin X$, then both $x$ and $y$ are limit points of $X$. Thus, $\forall\varepsilon>0$, $\exists x'\in B_\varepsilon(x)$, $y'\in B_\varepsilon(y)$ such that $x'$ and $y'$ are both in $X$ and are convex combinations of $x$ and $y$. Then, either $z$ is equal to $x$ or $y$, or $\exists\varepsilon$ such that $x'\in B_\varepsilon(x)$, $y'\in B_\varepsilon(y)$, and $z=(1-\lambda')x'+\lambda'y'$ for some $\lambda'\in[0,1]$. Thus, $z\in\cl{X}$
+\end{enumerate}
+$\therefore$ by contradiction, $\cl{X}$ is convex $\blacksquare$
 
 
 %%%________________________________________________________________%%%
