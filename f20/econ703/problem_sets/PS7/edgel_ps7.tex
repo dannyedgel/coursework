@@ -38,6 +38,11 @@
 \newcommand{\inv}{^{-1}}
 \newcommand{\at}[2][]{#1|_{#2}}
 \newcommand{\cl}[1]{\text{cl}#1}
+\newcommand{\hyp}[1]{\text{hyp}#1}
+\newcommand{\coS}{\text{co}S}
+\newcommand{\infsum}[2]{\underset{\pi\in\Pi_{#1}}{\text{inf}}\sum_{i=1}^n\pi_i({#2})}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\union}{\bigcup}
 
 %%% define column vector command (from Michael Nattinger)
 \newcount\colveccount
@@ -113,6 +118,25 @@ $\therefore$ $\sum_{i=1}^k\lambda_ix_i\in X$ for any $k\in\N$ $\blacksquare$
 %%%________________________________________________________________%%%
 \pagebreak
 \section*{Question 2}
+Define $C$ as the set of all convex combinations of $S$.
+\begin{enumerate}
+	\item Suppose $x\in C$
+		\begin{enumerate}
+			\item By definition, $\exists s_1,...,s_n\in S$, $\lambda_1,...,\lambda_n\in[0,1]$, $\sum_{i=1}^n\lambda_i=1$ such that ${\sum_{i=1}^n\lambda_i s_i=x}$
+			\item Let $X\supset S$ be a convex set. Since $x\in S$, $x\in X$. Since $\coS=\intersect_{\alpha\in\Omega}X_\alpha$, where $\Omega$ is the set of all convex sets that contain $S$, ${x\in S\land x\in X\Rightarrow x\in\coS}$
+			\item Thus, $x\in C\Rightarrow x\in\coS$
+		\end{enumerate}
+		$\therefore$ $C\subseteq\coS$
+	
+	\item Suppose $x\in\coS$
+		\begin{enumerate}
+			\item Any intersection of convex sets is also convex, so $\coS$ is convex, so $\exists y_1,...,y_m\in\coS$, $\lambda_1,...,\lambda_m\in[0,1]$, $\sum_{i=1}^m\lambda_i=1$ such that ${\sum_{i=1}^m\lambda_i y_i = x}$
+			\item It is clearly apparent that $\coS\subseteq S$, so $y_1,...,y_m\in S$. Then, $x$ is a convex combination of elements of $S$. so $x\in C$
+		\end{enumerate}
+		$\therefore$ $\coS\subseteq C$
+		
+\end{enumerate}
+$\therefore$ $C=\coS$ $\blacksquare$
 
 
 %%%________________________________________________________________%%%
@@ -126,6 +150,95 @@ Suppose $X$ is convex.
 	\item If $x,y\in\cl{X}$ and $x,y\notin X$, then both $x$ and $y$ are limit points of $X$. Thus, $\forall\varepsilon>0$, $\exists x'\in B_\varepsilon(x)$, $y'\in B_\varepsilon(y)$ such that $x'$ and $y'$ are both in $X$ and are convex combinations of $x$ and $y$. Then, either $z$ is equal to $x$ or $y$, or $\exists\varepsilon$ such that $x'\in B_\varepsilon(x)$, $y'\in B_\varepsilon(y)$, and $z=(1-\lambda')x'+\lambda'y'$ for some $\lambda'\in[0,1]$. Thus, $z\in\cl{X}$
 \end{enumerate}
 $\therefore$ by contradiction, $\cl{X}$ is convex $\blacksquare$
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+\begin{enumerate}
+	\item Let $f:X\rightarrow\R$ be a concave function where $X\subseteq\R^n$.
+		\begin{enumerate}
+			\item Let $x_1,x_2\in X$ and define $y_1=f(x_1)$ and $y_2=f(x_2)$. Then, ${z_1=(x_1,y_1)}$ and ${z_2=(x_2,y_2)}$ are both in $\hyp{f}$
+			\item Since $X$ is convex and $f$ is concave, $\forall\lambda\in[0,1]$, ${f((1-\lambda)x_1+\lambda x_2)\geq (1-\lambda)f(x_1) + \lambda f(x_2)}$
+			\item Thus, 
+				\[
+					(1-\lambda)x_1 + \lambda x_2\in X\text{ and } (1-\lambda)y_1 + \lambda y_2\leq f((1-\lambda)x_1+\lambda x_2)
+				\]
+				so $(1-\lambda)z_1 + \lambda z_2\in\hyp{f}$
+		\end{enumerate}
+		$\therefore$ $f$ concave $\Rightarrow$ $\hyp{f}$ convex
+	
+	\item Let $\hyp{f}$ be a convex hypograph of $f:X\rightarrow\R$, where $X\subseteq\R^n$.
+		\begin{enumerate}
+			\item Let $z_1,z_2\in\hyp{f}$. Then, $\forall\lambda\in[0,1]$, ${(1-\lambda)z_1 + \lambda z_2\in\hyp{f}}$. Then,
+				\[
+					(1-\lambda)x_1 + \lambda x_2 \in X\text{ and } (1-\lambda)y_1 + \lambda y_2\leq f((1-\lambda)x_1 + \lambda x_2)
+				\]
+				Thus, $X$ is a convex set and, $\forall x_1,x_2\in X$, $(1-\lambda)f(x_1) + \lambda f(x_2)$
+				\[
+					f((1-\lambda)x_1+\lambda x_2)\geq (1-\lambda)f(x_1) + \lambda f(x_2)
+				\]
+		\end{enumerate}
+		$\therefore$ $\hyp{f}$ convex $\Rightarrow f$ concave
+		
+\end{enumerate}
+$\therefore$ $f$ is convave if and only if $\hyp{f}$ is convex $\blacksquare$
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+\begin{enumerate}
+	\item Let $X$ and $Y$ be closed, convex sets, and let $X$ be compact
+	\item Fix $y_0\in Y$ and define $A=\{y-x|x\in X\}$. Let $a_n$ be a sequence in $A$ such that $a_n = y_n-x_n$ for all $n$
+	\item Since $X$ is compact, $\exists x_{n_k}\rightarrow x\in X$, and $y_n\rightarrow y\in\R^n$. Thus, $a_{n_k}\rightarrow a\in A$. Therefore, $A$ is closed and, given that $X$ and $Y$ are convex, $A$ is also convex. 
+	\item Since $X$ and $Y$ are disjoint, $0\notin A$. Thus $\exists H(p,\beta)$ that strictly separates $A$ and $\{0\}$. Then, we can solve:
+		\begin{align*}
+			0<&\beta<p\cdot a	\\
+			0<&\beta<p\cdot(y-x) \\
+			0<&\beta<p\cdot y - p\cdot x \\
+			p\cdot x < &\beta + p\cdot x < p\cdot y
+		\end{align*}
+\end{enumerate}
+$\therefore$ $\exists H(p,\alpha)$ that strictly separates $X$ and $Y$ $\blacksquare$
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 6}
+\begin{enumerate}
+	\item Suppose $\exists x\in\R^n$ such that ${\infsum{A}{x_i}>0}$ and ${\infsum{B}{-x_i}>0}$
+		\begin{enumerate}
+			\item Further suppose $\exists \pi'\in\Pi_A\intersect\Pi_B$
+			\item If ${\sum_{i=1}^n\pi_i'x_i>0}$, then ${\sum_{i=1}^n\pi_i'(-x_i)<0}$. If ${\sum_{i=1}^n\pi_i'(-x_i)>0}$, then ${\sum_{i=1}^n\pi_i'x_i<0}$
+			\item Thus, $\exists \pi'\in\Pi_A\intersect\Pi_B\Rightarrow$$\nexists x\in\R^n$ such that ${\infsum{A}{x_i}>0}$ and ${\infsum{B}{(-x_i)}>0}$
+		\end{enumerate}
+		$\therefore$ By contradition, if $\exists x\in\R^n$ such that ${\infsum{A}{x_i}>0}$ and ${\infsum{B}{(-x_i)}>0}$, then ${\Pi_A\intersect\Pi_B=\emptyset}$
+	
+	\item Suppose ${\Pi_A\intersect\Pi_B=\emptyset}$, Therefore, $\Pi_A$ and $\Pi_B$ are disjoint.
+		\begin{enumerate}
+			\item Since $\Pi_A$ and $\Pi_B$ are disjoint and both compact, convex sets in $\R^n$, $A=\Pi_A-\Pi_B$ is a compact, convex set where $0\notin A$. Then, by the second theorem for a lecture,
+				\[
+					\exists H(x^*,\beta)\text{ s.t. } 0<\beta<a^*\cdot x^*
+				\]
+				Where ${a^*=\underset{\pi_A\in\Pi_A,\pi_B\in\Pi_B}{\text{inf}}\{\pi_A\cdot x^* - \pi_B\cdot x^*\}}$ Then, ${a^*=\pi_A^*\cdot x^* - \pi_B^*\cdot x^*}$, where:
+				\[
+					\pi_A^*=\underset{\pi_A\in\Pi_A}{\text{inf}}\{\pi_A\cdot x^*\}\text{, and }
+					\pi_B^*=\underset{\pi_B\in\Pi_B}{\text{sup}}\{\pi_B\cdot x^*\}
+				\]
+				Then, we can solve $0<\beta<a^*\cdot x^*$ to derive ${\pi_B^*\cdot x^*<\beta+\pi_B^*\cdot x^*<\pi_A^*\cdot x^*}$. Define ${\alpha=\beta+\pi_B^*\cdot x^*}$ and $\overline{alpha}\in\R^n$ such that ${\overline{alpha}_i=\alpha}$ ${\forall i\in\{1,...,n\}}$. Thus, ${\forall\pi_A\in\Pi_A,\pi_B\in\Pi_B}$,
+				\[
+					\pi_B\cdot(x^*-\overline{\alpha})\leq\pi_B^*\cdot x^*-\alpha<0<\pi_A^*\cdot x^*-\alpha\leq\pi_A\cdot(x^*-\overline{\alpha})
+				\]
+				So $(x^*-\overline{\alpha})$ is an agreeable trade.
+				
+		\end{enumerate}
+		$\therefore$ ${\Pi_A\intersect\Pi_B=\emptyset\Rightarrow}$ $\exists x\in\R^n$ such that ${\infsum{A}{x_i}>0}$ and ${\infsum{B}{-x_i}>0}$
+		
+\end{enumerate}
+$\therefore$ There is an agreeable trade if and only if there is no common prior $\blacksquare$
+
+
 
 
 %%%________________________________________________________________%%%
