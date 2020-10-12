@@ -300,11 +300,13 @@ Let $X=\R^k_+$ and $(a_1,...,a_k)\in\R^k_{++}$ where $\sum_{i=1}^k a_1=1$. Assum
 		\[
 			v(p,e)=\L(x^*,\lambda^*,\mu^*) = u(x^*)-\lambda^*(p\cdot x^*-p\cdot e) - \mu^*\cdot x
 		\]
-		and by the envelope theorem,
+		where this solution satisfies the Kuhn-Tucker conditions. Therefore, $\lambda\geq 0$ and $\lambda(p\cdot x-p\cdot e)=0$. Since preferences are locally non-satiated, $p\cdot x^*-p\cdot e=0$ and $\lambda^*>0$. By the envelope theorem,
 		\[
 			\frac{\partial v(p,e)}{\partial p_i} = \frac{\partial\L}{\partial p_i} = -\lambda^*(x_i - e_i)
 		\]
-		Where $\lambda^*>0$. If the agent is a net buyer, then $-\lambda^*(x_i - e_i)<0$. If the agent is a net seller, then $-\lambda^*(x_i - e_i)<0$.
+		 Thus, if the agent is a net buyer, then $-\lambda^*(x_i - e_i)<0$. If the agent is a net seller, then $-\lambda^*(x_i - e_i)<0$.
+		
+	\item[(c)] Recall that $v(p,e)$ represents the agent's maximum utility at any given set of prices, $p$, and endowments, $e$. From the answer to part (b), we know that, for a positive increase in the price of any good, this utility strictly increases is the agent is a net buyer of that good, and it strictly decreases if the agent is a net seller of that good. Therefore, the statement, ``If the consumer is a net buyer of good $i$ and its price goes up, the consumer must be worse off" is true. In fact, that statement is essentially the verbal representation of my answer to (b).
 	
 \end{itemize}
 
