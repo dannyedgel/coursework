@@ -98,13 +98,13 @@
 			\text{F.O.C.: }	\frac{\partial\L}{\partial x_1} &= \alpha x_1^{\alpha-1}-\lambda p_1 = 0 				\\ 
 							\frac{\partial\L}{\partial x_2} &= \alpha x_2^{\alpha-1}-\lambda p_2 = 0 				\\
 							\frac{\alpha x_1^{\alpha-1}}{\alpha x_2^{\alpha-1}} &= \frac{\lambda p_1}{\lambda p_2}	\\
-			\text{Plus BC: } x_1 &= x_2\left(\frac{p_1}{p_2}\right)^{\frac{1}{\alpha-1}} = \frac{1}{p_1}(2-p_2 x_2)	\\
-							\left(\frac{p_1^{\frac{\alpha}{\alpha-1}}}{p_2^\frac{1}{\alpha-1}}+p_2\right)x_2 &= w	\\
-							x_2 &= \left( \frac{p_2^\frac{\alpha}{\alpha-1}}{p_1^\frac{\alpha}{\alpha-1} + p_2^\frac{\alpha}{\alpha-1}} \right)w
+			\text{Plus BC: } x_1 &= x_2\left(\frac{p_1}{p_2}\right)^{\frac{1}{\alpha-1}} = \frac{1}{p_1}(w-p_2 x_2)	\\
+							\left(\frac{p_1^{\frac{1}{\alpha-1}}}{p_2^\frac{1}{\alpha-1}}+p_2\right)x_2 &= w	\\
+							x_2 &= \left( \frac{p_2^\frac{1}{\alpha-1}}{p_1^\frac{\alpha}{\alpha-1} + p_2^\frac{\alpha}{\alpha-1}} \right)w
 		\end{align*}
 			Solving for $x_1$ gives the same value, but with $p_1$ in the numerator of the fraction instead of $p_2$. Taken together:
 			\[
-				x(p,w) = \frac{w}{p_1^\frac{\alpha}{\alpha-1} + p_2^\frac{\alpha}{\alpha-1}}\left(p_1^\frac{\alpha}{\alpha-1},p_2^\frac{\alpha}{\alpha-1}\right)
+				x(p,w) = \frac{w}{p_1^\frac{\alpha}{\alpha-1} + p_2^\frac{\alpha}{\alpha-1}}\left(p_1^\frac{1}{\alpha-1},p_2^\frac{1}{\alpha-1}\right)
 			\]
 			Which yields the indirect utility function:
 			\[
