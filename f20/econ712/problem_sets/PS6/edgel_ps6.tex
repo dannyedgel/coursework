@@ -1,0 +1,193 @@
+%%% Econ712: Macroeconomics I
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Thursday October 15, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\loge}[1]{\text{ln}\left(#1\right)}
+\newcommand{\usmax}[1]{\underset{\{#1\}}{\text{max }}}
+\newcommand{\Mt}{M_{t+1}^t}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\olq}{\overline{q}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#6 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 712: Macroeconomics I		\\
+			Fall 2020						\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+
+%%%________________________________________________________________%%%
+
+\section{(Non-) Commitment in a black-box example with discrete choice sets}
+For clarity, the choice of the individual household is diplayed below. The household chooses between $\xi_k=x_L$ (left) and $\xi_k=x_H$ (right).
+\begin{center}
+	\begin{tabular}{|c|c|c|}
+		\multicolumn{3}{c}{$\xi_k=x_L$}	\\ \hline
+				& $x_L$ & $x_H$ \\ \hline 
+		$y_L$	& 12 & 30 		\\ \hline
+		$y_H$	& 0  & -1 		\\ \hline
+	\end{tabular} \quad
+	\begin{tabular}{|c|c|c|}
+		\multicolumn{3}{c}{$\xi_k=x_H$}	\\ \hline
+				& $x_L$ & $x_H$ \\ \hline 
+		$y_L$	& -1 & 25 		\\ \hline
+		$y_H$	& 30 & 24 		\\ \hline
+	\end{tabular}
+\end{center}
+
+\begin{enumerate}
+	\item The Ramsey outcome is reached when the government moves first and is thus able to optimize based on predicted household behavior. To find this outcome, we induct backward from the household problem, where households maximize utility at each $x_i$ and $y_j$:
+		\[
+			\xi_k = \underset{\xi\in X}{\text{argmax}}u(\xi,x,y) =
+			\begin{cases}
+				x_L, &	x_i = X_L\land y_j=y_L\\
+				x_L, &	x_i = X_L\land y_j=y_H\\
+				x_H, &	x_i = X_H\land y_j=y_H\\
+				x_L, &	x_i = X_H\land y_j=y_L
+			\end{cases}
+		\]
+		The government then chooses $y_j$ to maximize utility, given the HH solution and $\xi_k=x_i$. If the government chooses $y_L$, then households will chose $x_L$, resulting in a total utility of 12. If the government chooses $y_H$, then households will choose $x_H$, resulting in a total utilty of 24. Thus, $(x_H,x_H,y_H)$ is the Ramsey outcome.
+		\medskip \\
+		In the no-commitment outcome, households move first, choosing $\xi_k$ after inducting backward from the government's response to their choice. After households choose, government will be faced with maximizing total utility given $\xi_k=x_i$:
+		\begin{center}
+			\begin{tabular}{|c|c|c|}
+				\multicolumn{3}{c}{$\xi_k=x_i$}	\\ \hline
+						& $x_L$ & $x_H$ \\ \hline 
+				$y_L$	& 12 & 25 		\\ \hline
+				$y_H$	& 0  & 24 		\\ \hline
+			\end{tabular} 
+		\end{center}
+		$y_L$ clearly dominates $y_H$, so households maximize utility assuming that $y_j=y_L$:
+		\begin{center}
+			\begin{tabular}{|c|c|c|}
+					\multicolumn{3}{c}{$x_i$}	\\ \hline
+							& $x_L$ & $x_H$ 	\\ \hline 
+				$\xi_k=x_L$	& 12 	& 30 		\\ \hline
+				$\xi_k=x_H$	& -1  	& 25 		\\ \hline
+			\end{tabular} 
+		\end{center}
+		Regardless of $x_i$, households will be better-off choosing $x_L$, so the equilibrium in this case is $(x_L,x_L,y_L)$.
+		
+	\item In a repeated economy, the Ramsey outcome cannot be supported because the government can achieve a higher level of utility by deviating from $(x_H,x_H,y_H)$ to choose $y_L$ such that $u(x_H,x_H,y_L)=25$. It would choose to do so in the final period, knowing that there will not be an opportunity for households to respond by moving to $(x_L,x_L,y_L)$, where utility is lower, at 12. Households know that this is the government's optimal choice, so they factor this into their maximization problem by choosing $x_L$ in the fourth period. Governments then anticipate this in the third period, and so on. As a result, there is no period where the Ramsey equilibrium can be supported.
+	
+	\item  The tables below display the full incentive structure of the agents in this economy. The pure strategy Nash equilibria are $(x_{LL},x_{LL},y_{LL})$ and $(x_L,x_L,y_L)$, since at these bundles, neither households nor the government can inprove household utility unilaterally.
+	\begin{center}
+		\begin{tabular}{|c|c|c|c|}
+			\multicolumn{4}{c}{$\xi_k=x_{LL}$}	\\ \hline
+					&$x_{LL}$ & $x_L$ & $x_H$ \\ \hline 
+		$y_{LL}$	& 2 	 & 30 	 & 30	\\ \hline
+		$y_L$		& 1 	 & -1 	 & 30	\\ \hline
+		$y_H$		& -1  	 & 30 	 & -1	\\ \hline
+		\end{tabular} \quad
+		\begin{tabular}{|c|c|c|c|}
+			\multicolumn{4}{c}{$\xi_k=x_L$}	\\ \hline
+					&$x_{LL}$ & $x_L$ & $x_H$ \\ \hline 
+		$y_{LL}$	& -1 	 & 6 	 & 30	\\ \hline
+		$y_L$		& 30 	 & 12 	 & 30	\\ \hline
+		$y_H$		& 30  	 & 0 	 & -1	\\ \hline
+		\end{tabular} \quad
+		\begin{tabular}{|c|c|c|c|}
+			\multicolumn{4}{c}{$\xi_k=x_H$}	\\ \hline
+				    &$x_{LL}$ & $x_L$ & $x_H$ \\ \hline 
+		$y_{LL}$	& -1 	 & 30 	 & 10	\\ \hline
+		$y_L$		& 30 	 & -1 	 & 25	\\ \hline
+		$y_H$		& 30  	 & 30 	 & 24	\\ \hline
+		\end{tabular}
+	\end{center}
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+\section{Static taxation}
+
+
+%%%________________________________________________________________%%%
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
