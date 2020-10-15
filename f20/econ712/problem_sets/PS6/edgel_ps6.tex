@@ -288,9 +288,9 @@ Where $\overline{\ell}$ is aggregate labor.
 		\[
 			\left(\frac{\beta}{1-\beta}\right)\left(u(l^r,c^r,g^r,\tau^r)-u(l^n,c^n,g^n,\tau^n)\right)\geq u(l^r,c^r,g^r,\tau)-u(l^r,c^r,g^r,\tau^r)
 		\]	
-		Note that, as $\tau=\frac{1}{2}$ is the social planner's choice of $\tau$ and the government only chooses a lower $\tau$ to prevent households from choosing a lower level of $\ell$. Therefore, $\tau=\frac{1}{2}$ is the best possible deviation from the Ramsey equilibrium for the government. To test whether there is a $\beta<1$ such that the government would never choose to deviate, I used the attached R code to derive value to the government, $V(\alpha,\beta)$, of staying on the equilibrium path for each $\alpha$ and $\beta$:
+		Note that, as $\tau=\frac{1}{2}$ is the social planner's choice of $\tau$ and the government only chooses a lower $\tau$ to prevent households from choosing a lower level of $\ell$, and in the RE, household leisure is above the social planner's level at each $\alpha$. Therefore, $\tau=\frac{1}{2}$ is the best possible deviation from the Ramsey equilibrium for the government. To test whether there is a $\beta<1$ such that the government would never choose to deviate, I used the attached R code to derive value to the government, $V(\alpha,\beta)$, of staying on the equilibrium path for each $\alpha$ and $\beta$:
 		\[
-			V(\alpha,\beta)=\left(\frac{\beta}{1-\beta}\right)\left(u(l^r,c^r,g^r,\tau^r)-u(l^n,c^n,g^n,\tau^n)\right)-\left(u(l^r,c^r,g^r,\tau)-u(l^r,c^r,g^r,\tau^r)\right)
+			V(\alpha,\beta)=\left(\frac{\beta}{1-\beta}\right)\left(u(l^r,c^r,g^r,\tau^r)-u(l^n,c^n,g^n,\tau^n)\right)-\left(u(l^r,c^r,g^r,\tau^{SP})-u(l^r,c^r,g^r,\tau^r)\right)
 		\]
 		By identifying the minimum value of each $\beta$ at each $\alpha$, we can determine that, ${\forall\alpha\in(0,0.5)\text{ }\exists\beta\in(0,1)}$ such that ${V(\alpha,\beta)\geq0}$:
 		\begin{center}
