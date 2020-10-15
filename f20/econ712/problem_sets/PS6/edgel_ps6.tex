@@ -145,34 +145,167 @@ For clarity, the choice of the individual household is diplayed below. The house
 	\item In a repeated economy, the Ramsey outcome cannot be supported because the government can achieve a higher level of utility by deviating from $(x_H,x_H,y_H)$ to choose $y_L$ such that $u(x_H,x_H,y_L)=25$. It would choose to do so in the final period, knowing that there will not be an opportunity for households to respond by moving to $(x_L,x_L,y_L)$, where utility is lower, at 12. Households know that this is the government's optimal choice, so they factor this into their maximization problem by choosing $x_L$ in the fourth period. Governments then anticipate this in the third period, and so on. As a result, there is no period where the Ramsey equilibrium can be supported.
 	
 	\item  The tables below display the full incentive structure of the agents in this economy. The pure strategy Nash equilibria are $(x_{LL},x_{LL},y_{LL})$ and $(x_L,x_L,y_L)$, since at these bundles, neither households nor the government can inprove household utility unilaterally.
-	\begin{center}
-		\begin{tabular}{|c|c|c|c|}
-			\multicolumn{4}{c}{$\xi_k=x_{LL}$}	\\ \hline
-					&$x_{LL}$ & $x_L$ & $x_H$ \\ \hline 
-		$y_{LL}$	& 2 	 & 30 	 & 30	\\ \hline
-		$y_L$		& 1 	 & -1 	 & 30	\\ \hline
-		$y_H$		& -1  	 & 30 	 & -1	\\ \hline
-		\end{tabular} \quad
-		\begin{tabular}{|c|c|c|c|}
-			\multicolumn{4}{c}{$\xi_k=x_L$}	\\ \hline
-					&$x_{LL}$ & $x_L$ & $x_H$ \\ \hline 
-		$y_{LL}$	& -1 	 & 6 	 & 30	\\ \hline
-		$y_L$		& 30 	 & 12 	 & 30	\\ \hline
-		$y_H$		& 30  	 & 0 	 & -1	\\ \hline
-		\end{tabular} \quad
-		\begin{tabular}{|c|c|c|c|}
-			\multicolumn{4}{c}{$\xi_k=x_H$}	\\ \hline
-				    &$x_{LL}$ & $x_L$ & $x_H$ \\ \hline 
-		$y_{LL}$	& -1 	 & 30 	 & 10	\\ \hline
-		$y_L$		& 30 	 & -1 	 & 25	\\ \hline
-		$y_H$		& 30  	 & 30 	 & 24	\\ \hline
-		\end{tabular}
-	\end{center}
+		\begin{center}
+			\begin{tabular}{|c|c|c|c|}
+				\multicolumn{4}{c}{$\xi_k=x_{LL}$}	\\ \hline
+						&$x_{LL}$ & $x_L$ & $x_H$ \\ \hline 
+			$y_{LL}$	& 2 	 & 30 	 & 30	\\ \hline
+			$y_L$		& 1 	 & -1 	 & 30	\\ \hline
+			$y_H$		& -1  	 & 30 	 & -1	\\ \hline
+			\end{tabular} \quad
+			\begin{tabular}{|c|c|c|c|}
+				\multicolumn{4}{c}{$\xi_k=x_L$}	\\ \hline
+						&$x_{LL}$ & $x_L$ & $x_H$ \\ \hline 
+			$y_{LL}$	& -1 	 & 6 	 & 30	\\ \hline
+			$y_L$		& 30 	 & 12 	 & 30	\\ \hline
+			$y_H$		& 30  	 & 0 	 & -1	\\ \hline
+			\end{tabular} \quad
+			\begin{tabular}{|c|c|c|c|}
+				\multicolumn{4}{c}{$\xi_k=x_H$}	\\ \hline
+						&$x_{LL}$ & $x_L$ & $x_H$ \\ \hline 
+			$y_{LL}$	& -1 	 & 30 	 & 10	\\ \hline
+			$y_L$		& 30 	 & -1 	 & 25	\\ \hline
+			$y_H$		& 30  	 & 30 	 & 24	\\ \hline
+			\end{tabular}
+		\end{center}
+		Households and the government have the following problems:
+		\begin{align*}
+			&\usmax{\xi_k^1,\xi_k^2,\xi_k^3}u(\xi_k^1,x_i^1,y_j^1) + \beta u(\xi_k^2,x_i^2,y_j^2) + \beta^2u(\xi_k^3,x_i^3,y_j^3) 	&\text{(Household Problem)}	\\
+			&\usmax{y_j^1,y_j^2,y_j^3}u(x_i^1,x_i^1,y_j^1) + \beta u(x_i^2,x_i^2,y_j^2) + \beta^2u(x_i^3,x_i^3,y_j^3) 				&\text{(Government Problem)}
+		\end{align*}
+		In this three-period economy with discounted utility where $\beta=0.9$, it is possible for the Ramsey equilibrium to be supported in the first and second periods if the households undertake a strategy to use the lower-utility equilibrium, $(x_{LL},x_{LL},y_{LL})$, as a punishing equilibrium for any premature deviation by the government from the Ramsey equilibrium. Consider a strategy where households expect the government to deviate from the Ramsey equilibirum in the final period but choose $x_{LL}$ if it does so before that. The household strategy is then $(x_H,x_H,x_L)$. 
+		\medskip \\
+		The govenment optimizes $u$ by choosing $y_j^t$ in each period knowing that choosing $y_L$ for any $t<3$ will result in households choosing $x_{LL}$ for all remaining periods. The government, then, chooses the utility-maximizing strategy from the following options:
+		\begin{align*}
+			(y_L,y_{LL},y_{LL}):\text{ }& u(x_H,x_H,y_L) + \beta u(x_{LL},x_{LL},y_{LL}) + \beta^2 u(y_{LL},x_{LL},x_{LL}) \\
+										& = 25 + (0.9)2 + (0.81)2 	= 28.42	\\
+			(y_H,y_L,y_{LL}):\text{ }	& u(x_H,x_H,y_H) + \beta u(x_H,x_H,y_H) + \beta^2 u(y_{LL},x_{LL},x_{LL}) 	 \\
+										& = 24 + (0.9)25 + (0.81)2 	= 48.12 \\
+			(y_H,y_H,y_L):\text{ }		& u(x_H,x_H,y_H) + \beta u(x_H,x_H,y_H) + \beta^2 u(x_H,x_H,y_H) 		 \\
+										& = 24 + (0.9)25 + (0.81)12	= 56.22
+		\end{align*}
+		Thus, the government's optimal response to the household's optimal strategy is to remain on the equilibrium path and not prematurely deviate.
 \end{enumerate}
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \section{Static taxation}
+For a unit measure of households with preferences over leisure ($l$), private consumption ($c$), and public goods ($g$), let utility be defined by
+\[
+	u(l,c,g) = \loge{l} + \loge{\alpha + c} + \loge{\alpha + g}\text{, }\alpha\in(0,0.5) 
+\]
+Assume each household is endowed with one unit of time, which can be split between labor, $\ell$, or leisure, $l$, where the government taxes labor proportionally to provide public goods, i.e. $g=\tau\ell$. One unit of labor, net of taxes, is worth one unit of consumption such that $(1-\tau)\ell = c$. Finally, the economy's resource contraint is:
+\[
+	\overline{l} + g + \overline{c} = 1
+\]
+Where $\overline{l}$ and $\overline{c}$ are aggregate leisure and consumption, respectively. In terms of labor, the resource constraint is:
+\[
+	\overline{\ell} - \overline{c} = g
+\]
+Where $\overline{\ell}$ is aggregate labor.
+
+\begin{enumerate}
+	\item Given that we have a unit measure of households, for the social planner, $\ell=\overline{\ell}$ and $c=\overline{c}$. The social planner's problem, then, is:
+		\[
+			\usmax{\ell,c,g}\loge{1-\ell} + \loge{\alpha + c} + \loge{\alpha + g}\text{, s.t. }\ell-c=g\text{, }\tau\ell=g
+		\]
+		Which, using the constraints, can be written as an unconstrained problem in terms of only $\tau$ and $\ell$:
+		\[
+			\usmax{\ell,\tau}\loge{1-\ell} + \loge{\alpha + (1-\tau)\ell} + \loge{\alpha + \tau\ell}	
+		\]
+		Where the first-order condition for $\tau$ yields
+		\begin{align*}
+			\frac{-\ell}{\alpha + (1-\tau)\ell} + \frac{\ell}{\alpha + \ell\tau} &= 0	\\
+			\alpha + \ell\tau &= \alpha + (1-\tau)\ell \\
+			2\ell\tau &= \ell \\
+			\tau &= \frac{1}{2}
+		\end{align*}
+		Combining this optimal value for $\tau$ with the FOC for $\ell$ gives:
+		\begin{align*}
+			\frac{-1}{1-\ell} + \frac{1-\tau}{\alpha + (1-\tau)\ell}  + \frac{\tau}{\alpha + \ell\tau} &= 0	\\
+			\frac{1}{2\alpha + \ell} + \frac{1}{2\alpha + \ell} &= \frac{1}{1-\ell}	\\
+			\frac{2}{2\alpha + \ell} &= \frac{1}{1-\ell}	\\
+			2\alpha + \ell &= 2 - 2\ell \\
+			\ell &= \frac{2}{3}\left(1-\alpha\right)
+		\end{align*}
+		Thus, the social planner's allocation, which maximizes aggregate utility, is 
+		\[
+			{\{l,c,g,\tau\}=\left\{\frac{1}{3}\left(1-2\alpha\right),\frac{1}{3}\left(1-\alpha\right),\frac{1}{3}\left(1-\alpha\right),\frac{1}{2} \right\}}
+		\]
+		
+	\item The Ramsey outcome occurs when the government has commitment/moves first. It is derived by inducting backward from the household's response to the government's choice of $\tau$, in which household's face the problem:
+		\[
+			\usmax{\ell,c}\loge{1-\ell} + \loge{\alpha + c} + \loge{\alpha + g}\text{, s.t. }c=(1-\tau)\ell
+		\]
+		Substituting the right side of the budget constraint for $c$ turns this into an unconstrained problem of a single choice variable, $\ell$. The FOC for $\ell$ is:
+		\begin{align*}
+			\frac{-1}{1-\ell} + \frac{1-\tau}{\alpha + (1-\tau)\ell}  &= 0	\\
+			\frac{\alpha + (1-\tau)\ell}{1-\tau}&= 1-\ell  \\
+			(1-\tau)(1-\ell) &= \alpha + (1-\tau)\ell \\
+			1-\tau-2(1-\tau)\ell &= \alpha \\
+			\ell &= \frac{1-\tau-\alpha}{2(1-\tau)}
+		\end{align*}
+		Which gives the optimal household choice of $c$, $\ell$, and $l$, based on the government's chosen $\tau$, as:
+		\[
+			\{c,\ell,l\} = \left\{\frac{1}{2}\left(1-\tau-\alpha\right),\frac{1-\tau-\alpha}{2(1-\tau)},\frac{1-\tau+\alpha}{2(1-\tau)} \right\}
+		\]
+		The government then factors the household's optimal choice into its choice of $\tau$. Substituting $\tau\ell$ for $g$, the government maximizes the following Lagrangian function:
+		\[
+			\L = \loge{1-\ell}+\loge{\alpha+c} + \loge{\alpha + \tau\ell} - \lambda((1-\tau)-c)
+		\]
+		Which has the following first order conditions:
+		\begin{align*}
+			\frac{\partial\L}{\partial\ell} &= \frac{-1}{1-\ell} + \frac{\tau}{\alpha+\tau\ell} - \lambda(1-\tau) = 0	\\
+			\frac{\partial\L}{\partial c} 	&= \frac{1}{\alpha+c} + \lambda = 0	\\
+			\frac{\partial\L}{\partial\tau} &= \frac{\ell}{\alpha+\tau\ell} + \lambda\ell = 0
+		\end{align*}
+		The FOC for $\tau$ solves to $\lambda=\frac{-1}{\alpha+\tau\ell}$, which can be combined with the other two FOCs to solve each variable in terms of $\tau$:
+		\begin{align*}
+			 \frac{\tau}{\alpha+\tau\ell} + \frac{1-\tau}{\alpha+\tau\ell} &= \frac{1}{1-\ell}	\\
+			\frac{1}{\alpha+\tau\ell} &= \frac{1}{1-\ell}	\\
+			\alpha+\tau\ell &= 1-\ell	\\
+			(1+\tau)\ell &= 1-\alpha \\
+			\ell &= \frac{1-\alpha}{1+\tau} \medskip \\
+			\frac{1}{\alpha+c} + \frac{-1}{\alpha+\tau\ell} &= 0 \\
+			\alpha+c &= \alpha+\tau\ell  \\
+			c &= \tau\left(\frac{1-\alpha}{1+\tau}\right)
+		\end{align*}
+		Setting either of these values equal to their optimal value from the household problem will allow us to solve for the government's choice of $\tau$ in the Ramsey equalibrium. Using consumption, we get:
+		\begin{align*}
+			c &= \tau\left(\frac{1-\alpha}{1+\tau}\right) = \frac{1}{2}(1-\tau-\alpha)	\\
+			2\tau(1-\alpha) = (1-\tau-\alpha)(1-\tau)					\\
+			2\tau-2\tau\alpha = 1-\tau-\alpha-\tau+\tau^2+\tau\alpha	\\
+			\tau^2 + (3\alpha-4)\tau+1-\alpha &= 0
+		\end{align*}
+		Using the quadratic formula, we get two maxima. Using a graphing calculator, I found that the following has $\tau\in[0,1]$ when $\alpha\in(0,0.5)$:
+		\[
+			\tau = \frac{1}{2}\left(4 - 3\alpha - \sqrt{12 - 20\alpha + 9 \alpha^2}\right)
+		\]
+		Thus, given $\alpha\in(0,0.5)$, the government chooses $\tau\in(0.219,0.268)$ in the Ramsey equilibrium.
+		
+	\item In the no-commitment scenario, households move first after anticipating the government's behavior. Since the government seeks to maximize aggregate utility, the government would choose the social planner's allocation, $\tau=\frac{1}{2}$. Households would respond by maximizing their own utility, given this tax rate. Using the known optimal household values from 2 and plugging in $\tau=\frac{1}{2}$, we get:
+	\[
+		{\{l,c,g,\tau\}=\left\{\frac{1}{2}(1+2\alpha),\frac{1}{4}(1-2\alpha),\frac{1}{4}(1-2\alpha),\frac{1}{2} \right\}}
+	\]
+	
+	\item There is a much higher tax rate, at $\frac{1}{2}$, in both the NE and the social planner's allocation than in the Ramsey equilibrium. However, there is a much lower provision of the public good, $g$ in the NE than in either the social planner's allocation or the Ramsey equilibrium. This is because the social planner considers the increase in utility that households get from contributing to the public good and thus chooses a higher tax rate \textit{and} higher labor. However, when households individually optimize, taxes only enter their problem as a decrease in the marginal benefit of labor. Thus, higher tax rates increase households' substitution of leisure for consumption. The government, knowing that this is the case, attempts to offset the corresponding decrease in the public good (and thus decrease in utility) by setting taxes lower so that households will choose to work more than they otherwise would have, hence the lower $tau$ and higher $\ell$ in the Ramsey equilibrium. However, in the NE, households expect the government to set taxes high, so they preemptively substitute leisure for consumption.
+	
+	\item If the economy is repeated for an infinite number of periods, then the discounted utility at any point in time is equal to:
+		\[
+			u(l,c,g) + \left(\frac{\beta}{1-\beta}\right)u(l,c,g)
+		\]
+		In order for the Ramsey equilibrium to be sustained, we would need to be able to set up the following inquality to solve for some $\beta<1$:
+		\[
+			u(l^r,c^r,g^r,\tau^r) + \left(\frac{\beta}{1-\beta}\right)u(l^r,c^r,g^r,\tau^r))\geq 
+			u(l^r,c^r,g^r,\tau) + \left(\frac{\beta}{1-\beta}\right)u(l^n,c^n,g^n,\tau^n)
+		\]
+		Where the $r$ superscript indicates an RE value and a $n$ superscript indicates a NE value. We determine whether $\exists\beta<1$ such that $\nexists\tau\neq\tau^r$ such that the righthand side exceeds the lefthand side of this inequality. First, we can solve:
+		\[
+			\left(\frac{\beta}{1-\beta}\right)\left(u(l^r,c^r,g^r,\tau^r)-u(l^n,c^n,g^n,\tau^n)\right)\geq u(l^r,c^r,g^r,\tau)-u(l^r,c^r,g^r,\tau^r)
+		\]	
+		
+		
+\end{enumerate}
 
 
 %%%________________________________________________________________%%%
