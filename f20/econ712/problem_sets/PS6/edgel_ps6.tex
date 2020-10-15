@@ -249,46 +249,31 @@ Where $\overline{\ell}$ is aggregate labor.
 		\[
 			\{c,\ell,l\} = \left\{\frac{1}{2}\left(1-\tau-\alpha\right),\frac{1-\tau-\alpha}{2(1-\tau)},\frac{1-\tau+\alpha}{2(1-\tau)} \right\}
 		\]
-		The government then factors the household's optimal choice into its choice of $\tau$. Substituting $\tau\ell$ for $g$, the government maximizes the following Lagrangian function:
-		\[
-			\L = \loge{1-\ell}+\loge{\alpha+c} + \loge{\alpha + \tau\ell} - \lambda((1-\tau)-c)
-		\]
-		Which has the following first order conditions:
+		The government then factors the household's optimal choice into its choice of $\tau$. Substituting the household's choice of each variable into the utility function allows us to solve utility as a function of only $\tau$:
 		\begin{align*}
-			\frac{\partial\L}{\partial\ell} &= \frac{-1}{1-\ell} + \frac{\tau}{\alpha+\tau\ell} - \lambda(1-\tau) = 0	\\
-			\frac{\partial\L}{\partial c} 	&= \frac{1}{\alpha+c} + \lambda = 0	\\
-			\frac{\partial\L}{\partial\tau} &= \frac{\ell}{\alpha+\tau\ell} + \lambda\ell = 0
+			u(\tau) &= \loge{\frac{1-\tau+\alpha}{2(1-\tau)} } + \loge{\alpha + frac{1}{2}\left(1-\tau-\alpha\right)} + \loge{\alpha + \tau\frac{1-\tau-\alpha}{2(1-\tau)}} \\
+					&= \loge{1-\tau+\alpha} - \loge{2} - \loge{1-\tau} + \loge{\frac{1}{2}(1-\tau+\alpha)} +
+					   \loge{\frac{2\alpha + (1-3\alpha)\tau-\tau^2}{2(1-\tau)}} \\
+					&= 2\loge{1-\tau+\alpha} + \loge{2\alpha + (1-3\alpha)\tau-\tau^2} - 2\loge{1-\tau} - 3\loge{2}
 		\end{align*}
-		The FOC for $\tau$ solves to $\lambda=\frac{-1}{\alpha+\tau\ell}$, which can be combined with the other two FOCs to solve each variable in terms of $\tau$:
+		Which has the first order condition:
 		\begin{align*}
-			 \frac{\tau}{\alpha+\tau\ell} + \frac{1-\tau}{\alpha+\tau\ell} &= \frac{1}{1-\ell}	\\
-			\frac{1}{\alpha+\tau\ell} &= \frac{1}{1-\ell}	\\
-			\alpha+\tau\ell &= 1-\ell	\\
-			(1+\tau)\ell &= 1-\alpha \\
-			\ell &= \frac{1-\alpha}{1+\tau} \medskip \\
-			\frac{1}{\alpha+c} + \frac{-1}{\alpha+\tau\ell} &= 0 \\
-			\alpha+c &= \alpha+\tau\ell  \\
-			c &= \tau\left(\frac{1-\alpha}{1+\tau}\right)
+			\frac{\partial u}{\partial\tau} &= \frac{-2}{1-\tau+\alpha} + \frac{1-3\alpha - 2\tau}{2\alpha + (1-3\alpha)\tau-\tau^2} + \frac{2}{1-\tau} = 0
 		\end{align*}
-		Setting either of these values equal to their optimal value from the household problem will allow us to solve for the government's choice of $\tau$ in the Ramsey equalibrium. Using consumption, we get:
-		\begin{align*}
-			c &= \tau\left(\frac{1-\alpha}{1+\tau}\right) = \frac{1}{2}(1-\tau-\alpha)	\\
-			2\tau(1-\alpha) = (1-\tau-\alpha)(1-\tau)					\\
-			2\tau-2\tau\alpha = 1-\tau-\alpha-\tau+\tau^2+\tau\alpha	\\
-			\tau^2 + (3\alpha-4)\tau+1-\alpha &= 0
-		\end{align*}
-		Using the quadratic formula, we get two maxima. Using a graphing calculator, I found that the following has $\tau\in[0,1]$ when $\alpha\in(0,0.5)$:
-		\[
-			\tau = \frac{1}{2}\left(4 - 3\alpha - \sqrt{12 - 20\alpha + 9 \alpha^2}\right)
-		\]
-		Thus, given $\alpha\in(0,0.5)$, the government chooses $\tau\in(0.219,0.268)$ in the Ramsey equilibrium.
+		This does not have an analytical solution (or at least not one that one can reasonably request in a problem set), but I solved for each value of $\alpha$ in the attached code. The Ramsey equilibrium allocation is displayed in the chart below.
+		\begin{center}
+			\includegraphics[scale=.8]{figure1.png}
+		\end{center}
 		
 	\item In the no-commitment scenario, households move first after anticipating the government's behavior. Since the government seeks to maximize aggregate utility, the government would choose the social planner's allocation, $\tau=\frac{1}{2}$. Households would respond by maximizing their own utility, given this tax rate. Using the known optimal household values from 2 and plugging in $\tau=\frac{1}{2}$, we get:
 	\[
 		{\{l,c,g,\tau\}=\left\{\frac{1}{2}(1+2\alpha),\frac{1}{4}(1-2\alpha),\frac{1}{4}(1-2\alpha),\frac{1}{2} \right\}}
 	\]
 	
-	\item There is a much higher tax rate, at $\frac{1}{2}$, in both the NE and the social planner's allocation than in the Ramsey equilibrium. However, there is a much lower provision of the public good, $g$ in the NE than in either the social planner's allocation or the Ramsey equilibrium. This is because the social planner considers the increase in utility that households get from contributing to the public good and thus chooses a higher tax rate \textit{and} higher labor. However, when households individually optimize, taxes only enter their problem as a decrease in the marginal benefit of labor. Thus, higher tax rates increase households' substitution of leisure for consumption. The government, knowing that this is the case, attempts to offset the corresponding decrease in the public good (and thus decrease in utility) by setting taxes lower so that households will choose to work more than they otherwise would have, hence the lower $tau$ and higher $\ell$ in the Ramsey equilibrium. However, in the NE, households expect the government to set taxes high, so they preemptively substitute leisure for consumption.
+	\item The allocations of leisure, consumption, and public goods for each equilibirum are plotted below. There is a much higher tax rate, at $\frac{1}{2}$, in both the NE and the social planner's allocation than in the Ramsey equilibrium. However, there is a much lower provision of the public good, $g$ in the NE than in either the social planner's allocation or the Ramsey equilibrium. This is because the social planner considers the increase in utility that households get from contributing to the public good and thus chooses a higher tax rate \textit{and} higher labor. However, when households individually optimize, taxes only enter their problem as a decrease in the marginal benefit of labor. Thus, higher tax rates increase households' substitution of leisure for consumption. The government, knowing that this is the case, attempts to offset the corresponding decrease in the public good (and thus decrease in utility) by setting taxes lower so that households will choose to work more than they otherwise would have, hence the lower $tau$ and higher $\ell$ in the Ramsey equilibrium. However, in the NE, households expect the government to set taxes high, so they preemptively substitute leisure for consumption.
+		\begin{center}
+			\includegraphics[scale=1]{figure2.png}
+		\end{center}
 	
 	\item If the economy is repeated for an infinite number of periods, then the discounted utility at any point in time is equal to:
 		\[
@@ -303,7 +288,15 @@ Where $\overline{\ell}$ is aggregate labor.
 		\[
 			\left(\frac{\beta}{1-\beta}\right)\left(u(l^r,c^r,g^r,\tau^r)-u(l^n,c^n,g^n,\tau^n)\right)\geq u(l^r,c^r,g^r,\tau)-u(l^r,c^r,g^r,\tau^r)
 		\]	
-		
+		Note that, as $\tau=\frac{1}{2}$ is the social planner's choice of $\tau$ and the government only chooses a lower $\tau$ to prevent households from choosing a lower level of $\ell$. Therefore, $\tau=\frac{1}{2}$ is the best possible deviation from the Ramsey equilibrium for the government. To test whether there is a $\beta<1$ such that the government would never choose to deviate, I used the attached R code to derive value to the government, $V(\alpha,\beta)$, of staying on the equilibrium path for each $\alpha$ and $\beta$:
+		\[
+			V(\alpha,\beta)=\left(\frac{\beta}{1-\beta}\right)\left(u(l^r,c^r,g^r,\tau^r)-u(l^n,c^n,g^n,\tau^n)\right)-\left(u(l^r,c^r,g^r,\tau)-u(l^r,c^r,g^r,\tau^r)\right)
+		\]
+		By identifying the minimum value of each $\beta$ at each $\alpha$, we can determine that, ${\forall\alpha\in(0,0.5)\text{ }\exists\beta\in(0,1)}$ such that ${V(\alpha,\beta)\geq0}$:
+		\begin{center}
+			\includegraphics[scale=.75]{figure3.png}
+		\end{center}
+		Therefore, the Ramsey equilibrium can be supported in this economy.
 		
 \end{enumerate}
 
