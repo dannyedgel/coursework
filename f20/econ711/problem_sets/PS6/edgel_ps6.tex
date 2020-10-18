@@ -1,0 +1,157 @@
+%%% Econ711: Microeconomics I
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Monday October 19, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\union}{\bigcup}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\P}{\mathcal{P}}
+\renewcommand{\L}{\mathcal{L}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#6 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 711: Microeconomics I		\\
+			Fall 2020						\\
+		}
+\maketitle\thispagestyle{empty}
+
+%\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1: Rationalizing Demand}
+Suppose we observe the following ``data":
+\begin{center}
+	\begin{tabular}{c c c}
+		w 		& p 		& x 		\\ \hline 
+		100		& (5,5,5)	& (12,4,4) 	\\
+		100		& (7,4,5)	& (9,3,5) 	\\
+		100		& (2,4,1)	& (27,9,10) \\
+		150		& (7,4,5)	& (15,5,5)
+	\end{tabular} 
+\end{center}
+
+\begin{enumerate}[(a)]
+	\item Under Walras's law, $p_i\cdot x_i = w$ $\forall i$. Then, we can calulate:
+		\begin{align*}
+			5*12+5*4+4*5	&= 100 = w	\\
+			7*9+4*3+5*5		&= 100 = w	\\
+			2*27+4*9+10		&= 100 = w	\\
+			7*15+4*5+5*5	&= 150 = w
+		\end{align*}
+		Thus, the data are consistent with Walras's Law.
+		
+	\item Given that Walras's Law is satisfied for each observation, $x^i>x^j\Rightarrow p\cdot x^i>p\cdot x^j$ for any $p>>0$, and all price vectors in our data are strictly positive, we can conclude the following:
+		\begin{enumerate}[i.]
+			\item $x^3>x^i$ $\forall i\neq 3$ implies that: 1) all other goods bundles were affordable at $p^3$, and 2) $x^3$ was unaffordable at all $p^i\neq p^3$. Thus, ${x^3\succ^D x^i\text{ }\forall i\neq 3}$.
+			\item $x^4>x^1$ implies that 1) $x^1$ was affordable at $p^4$, and 2) $x^4$ was not affordable at $p^1$. Thus, ${x^4\succ^D x^1}$.
+			\item Since $p^4=p^2$ and $w^4>w^2$, we know 1) $x^2$ was affordable when $x^4$ was chosen, and 2) $x^4$ was not affordable when $x^2$ was chosen. Thus, ${x^4\succ^D x^2}$.
+			\item $p^1\cdot x^2 = 85<100$, so $p^1\cdot x^2 < p^2\cdot x^2$, and $x^2$ was chosen at $p^2$. Therefore, ${x^2\succ^D x^1}$
+			\item $p^2\cdot x^1=120>w^2$, so $x^1$ was not affordable when $x^2$ was chosen. Thus, $\neg(x^2\succsim^D x^1)$
+		\end{enumerate}
+		Taken together, these preference relations indicate:
+		\[
+			x^3\succ^D x^4 \succ^D x^1 \succ^D x^2
+		\]
+		Where it is not possible to have any preference relation ``loops". Therefore, these data satisfy GARP. By Afrias's theorem, satisfying GARP is a sufficient condition for conluding that these data can be rationalized by a continuous, monotonic, and concave utility function.
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2: Aggregating Demand}
+Suppose there are $n$ consumers, where consumer $i\in\{1,2,...,n\}$ has the indirect utility function 
+\[
+	v^i(p,w_i) = a_i(p) + b(p)w_i 
+\]
+where $\{a_i\}_{i=1}^n$ and $b$ are differentiable functions from $\R_+^k$ to $\R$.
+\begin{enumerate}[(a)]
+	\item Assuming that 
+\end{enumerate}
+
+
+%%%________________________________________________________________%%%
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
