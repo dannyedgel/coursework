@@ -96,11 +96,11 @@
 Suppose we observe the following ``data":
 \begin{center}
 	\begin{tabular}{c c c}
-		w 		& p 		& x 		\\ \hline 
-		100		& (5,5,5)	& (12,4,4) 	\\
-		100		& (7,4,5)	& (9,3,5) 	\\
-		100		& (2,4,1)	& (27,9,10) \\
-		150		& (7,4,5)	& (15,5,5)
+		w 		& p 		& x 			\\ \hline 
+		100		& (5, 5, 5)	& (12, 4, 4) 	\\
+		100		& (7, 4, 5)	& (9, 3, 5) 	\\
+		100		& (2, 4, 1)	& (27, 9, 10)	\\
+		150		& (7, 4, 5)	& (15, 5, 5)
 	\end{tabular} 
 \end{center}
 
@@ -138,9 +138,66 @@ Suppose there are $n$ consumers, where consumer $i\in\{1,2,...,n\}$ has the indi
 \]
 where $\{a_i\}_{i=1}^n$ and $b$ are differentiable functions from $\R_+^k$ to $\R$.
 \begin{enumerate}[(a)]
-	\item Assuming that 
+	\item Assuming that $b(p)>0$ and $(p,w_i)>>0$ $\forall i$, then by Roy's identity,
+		\begin{align*}
+			x^i(p,w_i) 	&= \left(-\frac{\partial v^i(p,w_i)/\partial p_1}{\partial v^i(p,w_i)/\partial w_i},...,
+							-\frac{\partial v^i(p,w_i)/\partial p_k}{\partial v^i(p,w_i)/\partial w_i} \right)	\\
+						&= \left(-\frac{\frac{\partial a_i(p)}{\partial p_1} + \frac{\partial b(p)}{\partial p_1}w_i}{b(p)},...,
+							-\frac{\frac{\partial a_i(p)}{\partial p_k} + \frac{\partial b(p)}{\partial p_k}w_i}{b(p)} \right)
+		\end{align*}
+		
+	\item Using Roy's identity on the representative consumer, we get
+		\[
+			X(p,W) = \left(-\frac{\left(\sum_{i=1}^n\frac{\partial a_i(p)}{\partial p_1}\right) + \frac{\partial b(p)}{\partial p_1}W}{b(p)},...,
+							-\frac{\left(\sum_{i=1}^n\frac{\partial a_i(p)}{\partial p_k}\right) + \frac{\partial b(p)}{\partial p_k}w_i}{b(p)} \right)
+		\]
+		Where, if $W=\sum_{i=1}^n w_i$, we can solve, for each $j=1,...,k$:
+		\begin{align*}
+			X_j(p,W)	&= -\frac{\left(\sum_{i=1}^n\frac{\partial a_i(p)}{\partial p_j}\right) + \frac{\partial b(p)}{\partial p_j}W}{b(p)}	\\
+						&= -\frac{\sum_{i=1}^n\left(\frac{\partial a_i(p)}{\partial p_j}+ \frac{\partial b(p)}{\partial p_j}w_i\right)}{b(p)}	\\
+						&= \sum_{i=1}^n\left(-\frac{\frac{\partial a_i(p)}{\partial p_j}+ \frac{\partial b(p)}{\partial p_j}w_i}{b(p)}\right)	\\
+			X_j(p,W)	&= \sum_{i=1}^n x^i_j(p,w_i)
+		\end{align*}
+		
 \end{enumerate}
 
+%%%________________________________________________________________%%%
+
+\section*{Question 3: Homothetic Proferences}
+Complete, transitive preferences, $\succsim$, are homothetic if, $\forall x,y\in\R_+^k,t>0$,
+\[
+	x\succsim y\iff tx\succsim ty
+\]
+\begin{enumerate}[(a)]
+	\item Let $x^*\in x(p,w)$ and define $Y=\{y\in\R^k_+|y\notin x(p,w)\}$.
+		\begin{enumerate}[1.]
+			\item Suppose, for some $t>0$, that ${tx^*(p,w)\notin x(p,tw)}$
+				\begin{enumerate}[a.]
+					\item Since preferences are complete, there must exist some ${y^*\in Y}$ such that ${ty^*\in x(p,tw)}$
+					\item ${x^*\in x(p,w)\land y^*\notin x(p,w)\Rightarrow x^*\succsim y^*}$. By homothetic preferences, this implies that ${tx^*\succsim ty^*\text{ }\forall t>0}$
+					\item $tx^*\succsim ty^*\Rightarrow u(tx)\geq u(ty)$. Since $x^*\in x(p,w)$, then ${p\cdot x^*\leq w}$. This implies also that ${p\cdot (tx^*)\leq tw}$
+					\item Since ${ty^*\in x(p,tw)}$, 
+						\[
+							ty^*=\underset{x}{\text{argmax}}u(x)\text{ s.t. }p\cdot x\leq tw
+						\]
+						And by c., $u(tx^*)\geq u(ty^*)$, where ${p\cdot (tx^*)\leq tw}$. Thus, $tx^*\in x(p,tw)$ 
+						\smallskip \\
+						$\therefore$ by contradiction, ${x^*\in x(p,w)\Rightarrow tx^*\in x(p,tw)}$ $\blacksquare$
+				\end{enumerate}
+			\item Suppose $\exists y^*\in Y$ such that $ty^*\in x(p,tw)$
+				\begin{enumerate}[a.]
+					\item By definition, $ty\succsim z$ $\forall z\in\R^k_+$ such that ${p\cdot z\leq tw}$
+					\item $p\cdot(tx^*)=t(p\cdot x^*)$ where, by definition, $p\cdot x^*\leq w$. Then ${p\cdot(tx^*)\leq tw}$. Thus, ${ty^*\succsim tx^*}$
+					\item Since preferences are homothetic, ${ty^*\succsim tx^*\Rightarrow y^*\succsim x^*}$. Thus, $y^*\in x(p,w)$ 
+					\smallskip \\
+					$\therefore$ by contradiction, ${tx^*\in x(p,tw)\Rightarrow x^*\in x(p,w)}\text{ }\blacksquare$
+				\end{enumerate}
+			\[
+				\therefore\text{for any }t>0\text{, }x(p,tw)=tx(p,w)\text{ }\blacksquare
+			\]
+		\end{enumerate}
+		
+\end{enumerate}
 
 %%%________________________________________________________________%%%
 
