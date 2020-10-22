@@ -167,6 +167,57 @@
 		\end{align*}
 		Where, by assumption, $-\frac{u''(x)}{u'(x)}$ is decreasing in $x$. Since ${w+2a>w-a}$, this inequality holds. Therefore, ${\frac{\partial a^*}{\partial w}>0}$. Thus, if the agent is wealthier, they will invest more in the start-up regardless of ${p\in(\frac{1}{3},\olp)}$.
 		
+	\item Let $u(x)=\frac{1}{1-\rho}x^{1-\rho}$, where $\rho\leq 1$ and $\rho\neq 0$. Define investment in terms of $t$, where $a=tw$. Then, the utility function is
+		\begin{align*}
+			U(t) 	&= p\frac{1}{1-\rho}((1_t)w)^{1-\rho} + (1-p)\frac{1}{1-\rho}(w(1-t))^{1-\rho}	\\
+					&= \frac{w^{1-\rho}}{1-\rho}\left[ p(1+2t)^{1-rho} + (1-p)(1-t)^{1-\rho} \right]
+		\end{align*}
+		We can find $t^*$ by solving the first-order condition:
+		\begin{align*}
+			\frac{\partial U(t)}{\partial t} = \frac{w^{1-\rho}}{1-\rho}\left[ 2p(1-\rho)(1+2t)^{-rho} - (1-p)(1-\rho)(1-t)^{-\rho} \right] &= 0 \\
+					2p(1+2t)^{-rho} - (1-p)(1-t)^{-\rho} &= 0	\\
+					2p(1+2t)^{-rho}  &= (1-p)(1-t)^{-\rho}		\\
+					\left(\frac{1-t}{1+2t}\right)^\rho &= \frac{1-p}{2p}	\\
+					1-t &= \left(\frac{1-p}{2p}\right)^\frac{1}{\rho}(1+2t)	\\
+					t &= 1-\left(\frac{1-p}{2p}\right)^\frac{1}{\rho}- 2t\left(\frac{1-p}{2p}\right)^\frac{1}{\rho} \\
+					\left[1+2\left(\frac{1-p}{2p}\right)^\frac{1}{\rho}\right]t &= 1-\left(\frac{1-p}{2p}\right)^\frac{1}{\rho}	\\
+					t^* &= \frac{1-\left(\frac{1-p}{2p}\right)^\frac{1}{\rho}}{1+2\left(\frac{1-p}{2p}\right)^\frac{1}{\rho}}
+		\end{align*}
+		Thus, $t^*$ does not depend on $w$.
+		
+	\item Suppose $R(x)=-\frac{xu''(x)}{u'(x)}$ is increasing. The first-order condition for a general $u$ is:
+		\begin{align*}
+			\frac{\partial U(t)}{\partial t} = pu'((1+2t)w)(2w) + (1-p)u'(w(1-t))(-w) &= 0 \\
+			2pu'((1+2t)w) - (1-p)u'(w(1-t)) &= 0
+		\end{align*}
+		Which gives the relation:
+		\[
+			\frac{u'((1+2t)w)}{u'(w(1-t))} = \frac{1-p}{2p}
+		\]
+		Let $t=t^*=t(w)$ and assume that all references to $t$ below are to the optimal value of $t$ as a function of $w$. Taking the partial derivative of the first-order condition at $t=t^*$ yields:
+		\begin{align*}
+			\frac{\partial}{\partial w}[2pu'((1+2t)w) - (1-p)u'(w(1-t))] &= \frac{\partial}{\partial w}(0)	\\
+			2pu''((1+2t)w)[2t'(w)w + 1 + 2t] - (1-p)u''(w(1-t))[w(-t'(w)) + 1 - t] &= 0
+		\end{align*}
+		\begin{align*}
+			&[4pu''((1+2t)w)w + (1-p)u''(w(1-t))]t'(w) = (1-p)u''(w(1-t))(1-t) - 2pu''((1+2t)w)(1 + 2t)			\\
+			&t'(w) = \frac{(1-p)u''(w(1-t))(1-t) - 2pu''((1+2t)w)(1 + 2t)}{4pu''((1+2t)w)w + (1-p)u''(w(1-t))}
+		\end{align*}
+		For $t'(w)<0$, the following inequality must be satisfied:
+		\[
+			(1-p)u''(w(1-t))(1-t) > 2pu''((1+2t)w)(1 + 2t)
+		\]
+		Recall the relation derived from the first-order condition, ${\frac{u'((1+2t)w)}{u'(w(1-t))} = \frac{1-p}{2p}}$. Then, we can simplify the above relation as:
+		\begin{align*}
+			\frac{1-p}{2p} &< \frac{u''((1+2t)w)(1 + 2t)}{u''(w(1-t))(1-t)}	\\
+			\frac{u'((1+2t)w)}{u'(w(1-t))} &< \frac{u''((1+2t)w)(1 + 2t)}{u''(w(1-t))(1-t)}	\\
+			\frac{u''(w(1-t))(1-t)}{u'(w(1-t))} &> \frac{u''((1+2t)w)(1 + 2t)}{u'((1+2t)w)}	
+		\end{align*}
+		Which, if we let $w(1-t)=x_0$ and $w(1_2t)=x_1$, then multiplying each side of the inequality by $-w<0$, we have:
+		\[
+			-\frac{u''(x_0)x_0}{u'(x_0)} < -\frac{u''(x_1)x_1}{u'(x_1)}	
+		\]
+		Since $x_0<x_1$ and, by assumption, $-\frac{xu''(x)}{u'(x)}$ is increasing in $x$, this inequality holds. Thus, if $R(x)$ is increasing, the agent invests a smaller fraction of their welath as $w$ increases.
 \end{enumerate}
 
 
