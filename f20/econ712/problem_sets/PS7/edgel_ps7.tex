@@ -102,18 +102,18 @@ Assume that the initial old hold the housing stock and $1+\alpha > \beta y$.
 \begin{enumerate}
 	\item The social planner's problem (SPP) is:
 		\[
-			\usmax{\{c_t^t,h_t,c^{-t}_t\}^\infty_{t=1}}\loge{c_t^t} + \alpha h_t + \beta c^{t-1}_t \text{ s.t. } h_t=1\text{, }x_t^t+c_t^{t-1}=y
+			\usmax{\{c_t^t,h_t,c^{-t}_t\}^\infty_{t=1}}\loge{c_t^t} + \alpha h_t + \beta c^{t-1}_t \text{ s.t. } h_t=1\text{, }c_t^t+c_t^{t-1}=y
 		\]
-		The using the budget constraint to solve for the consumption of the old generation as a function of the consumption of the young generation and setting $h_t=1$ in each period, the SPP can be re-written as:
+		Note that, as the choice variables begin at $t=1$, this problem includes the initial old, and the social planner can reallocate the initial old's housing at will. The using the budget constraint to solve for the consumption of the old generation as a function of the consumption of the young generation and setting $h_t=1$ in each period, the SPP can be re-written as:
 		\[
 			\usmax{\{c_t^t\}^\infty_{t=1}}\loge{c_t^t} + \alpha + \beta (y-c_t^t)
 		\]
 		Where the FOC for $c_t^t$ can be used to solve for the social planner's allocation in each period:
 		\begin{align*}
-			\frac{1}{x_t^t}-\beta &= 0	\\
+			\frac{1}{c_t^t}-\beta &= 0	\\
 			c_t^t &= \frac{1}{\beta}	\\
 			c_t^{t-1} &= y-\frac{1}{\beta}	\\
-			b_t &= 1
+			h_t &= 1
 		\end{align*}
 		
 	\pagebreak	
