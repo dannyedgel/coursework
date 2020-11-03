@@ -1,0 +1,188 @@
+%%% Econ709: Econometrics
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Wednesday, November 11th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\DeclareMathOperator{\E}{\mathbb{E}}% expected value
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#6 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 709: Economic Statistics and Econometrics I	\\
+			Fall 2020											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+\textbf{Find} $\mathbf{\E[\E[\E[Y|X_1,X_2,X_3]|X_1,X_2]|X_1]}$
+\bigskip \\
+By the Law of Iterated Expectation,
+\begin{align*}
+	\E[\E[\E[Y|X_1,X_2,X_3]|X_1,X_2]|X_1] &= \E[\E[Y|X_1,X_2]|X_1]	\\
+	\E[\E[Y|X_1,X_2]|X_1] &= \E[Y|X_1]
+\end{align*}
+Thus, $\E[\E[\E[Y|X_1,X_2,X_3]|X_1,X_2]|X_1]=\E[Y|X_1]$
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+\textbf{Prove that for any function $h(x)$ such that $\E|h(X)e|<\infty$ then ${\E[h(X)e]=0}$, where $e=Y-m(X)$ and $m(X)=\E[Y|X]$} 
+\bigskip \\
+According to the conditioning theorem, if $\E|Y|<\infty$, then
+\[
+	\E[g(X)Y|X] = g(X)\E[Y|X]
+\]
+Thus, Since $\E|h(X)e|<\infty$ trivially implies $\E|Y|<\infty$, we can use the Law of Iterated Expectation to solve:
+\begin{align*}
+	\E[h(X)e] 	&= \E[h(X)Y-h(X)m(X)] = \E[h(X)Y] - \E[h(X)m(X)]	\\
+				&= \E[\E[h(X)Y|X]] - \E[h(X)m(X)] = \E[h(X)\E[Y|X]] - \E[h(X)m(X)]	\\
+				&= \E[h(X)m(X)] - \E[h(X)m(X)] = 0
+\end{align*}
+$\therefore$ for any function $h(x)$ such that $\E|h(X)e|<\infty$ then ${\E[h(X)e]=0}$ $\blacksquare$
+
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Question 3}
+\begin{align*}
+	\E[Y|X] &= \begin{cases} .4, & X= 0 \\ .3, & X = 1 \end{cases} \\
+	\E[Y^2|X] &= \begin{cases} .4, & X= 0 \\ .3, & X = 1 \end{cases} \\
+	Var(Y|X) &= \E[Y^2|X] - \left(\E[Y|X]\right)^2 = \begin{cases} .24, & X= 0 \\ .21, & X = 1 \end{cases} 
+\end{align*}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+\textbf{Show that $\sigma^2(X)$ minimizes the mean-squared error and is thus the best predictor.}
+\bigskip \\
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+ 2.8
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 6}
+2.10 - 2.14 Explain your answers.
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 7}
+2.16
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 8}
+4.1 - 4.6
+
+
+
+%%%________________________________________________________________%%%
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
