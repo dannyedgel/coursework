@@ -227,7 +227,93 @@ Since $X$ and $Y$ have symmetric marginal distributions, $\E(X)=\E(Y)$. Thus,
 %%%________________________________________________________________%%%
 \pagebreak
 \section*{Question 8}
-4.1 - 4.6
+\begin{itemize}
+	\item[4.1] \textbf{For $k\in\Z$, set $\mu_k=\E[Y^k]$}.
+		\begin{enumerate}[(a)]
+			\item \textbf{Construct an estimator, $\hat{\mu}_k$, for $\mu_k$} \\
+				\[
+					\hat{\mu}_k = \frac{1}{n}\sum_{i=1}^nY_i^k
+				\]
+			
+			\item \textbf{Show that $\hat{\mu}_k$ is unbiased} \\
+				As long as $\{Y_i\}_{i=1}^n$ are i.i.d., then,
+				\[
+					\E[\hat{\mu}_k] = \E[\frac{1}{n}\sum_{i=1}^nY_i^k] = \frac{1}{n}\sum_{i=1}^n\E[Y_i^k] = \frac{1}{n}\sum_{i=1}^n\mu_k = \mu_k
+				\]
+			
+			\item \textbf{Calculate the variance of $\hat{\mu}_k$. What assumption is needed for it to be finite?} \\
+				By the weak law of large numbers, if $Var\left(\hat{\mu}_k\right)<\infty$,
+				\[
+					\sqrt{n}\left(\hat{\mu}_k - \mu_k\right)\rightarrow_d\N\left(0,V\right)
+				\]
+				Where $V=Var(\mu_k)$. Since ${\sqrt{n}\left(\hat{\mu} - \mu\right)\rightarrow_d\N\left(0,\sigma^2\right)}$ where $\sigma^2$ is the variance of $Y$, by the delta method, with ${g(\theta)=\theta^k}$,
+				\[
+					V= g'(\mu)^2\sigma^2 = \mu^{2k-2}k^2\sigma^2
+				\]
+			
+			\item \textbf{Propose an estimator for the variance of $\hat{\mu}_k$.} \\
+				\[
+					\widehat{Var(\hat{\mu}_k} = \frac{1}{n}\sum_{i=1}^n \left(Y_i - \hat{\mu}_k\right)^3
+				\]
+			
+		\end{enumerate}
+		
+	\pagebreak
+	\item[4.2] \textbf{Calculate $\E\left[\left(\bar{y}-\mu\right)^3\right]$. Under what condition is it zero?} \\
+		\begin{align*}
+			E\left[(\oly{n}-\mu)^3\right] &= E\left[\left(\est{n}(Y_i-\mu)\right)^3\right] \\
+				&= \frac{1}{n^3}E\left[\left(\left(\sum_{i=1}^n(Y_i-\mu)\right)^2 + 2\sum_{i\neq j}^n(Y_i-\mu)(Y_j-\mu)\right)\left(\sum_{i=1}^n(Y_i-\mu)\right)\right] \\
+				&= \frac{1}{n^3}E\left[\left(\sum_{i=1}^n(Y_i-\mu)\right)^3 \right] + E\left[\sum_{i\neq j}^n(Y_i-\mu)(Y_j-\mu)\right] \\
+				&+ E\left[2\sum_{i\neq j}^n(Y_i-\mu)(Y_j-\mu)+ 3\sum_{i\neq j\neq k}^n(Y_i-\mu)(Y_j-\mu)(Y_k-\mu)\right] \\
+				&= \frac{1}{n^3}E\left[\left(\sum_{i=1}^n(Y_i-\mu)\right)^3 \right] \\
+				&= \frac{1}{n^2}E\left[(Y_i-\mu)^3 \right] 
+		\end{align*}
+		This value is zero if $\E(Y_i)=\E(Y)=\mu=0$.
+		
+	\item[4.3] \textbf{Explain the difference between $\bar{y}$ and $\mu$, and the difference between ${\frac{1}{n}\sum_{i=1}^nX_iX'_i}$ and $\E[X_iX'_i]$.} \\
+		The difference between $\overline{Y}$ and $\mu$ is that $\overline{Y}$ is a random variable that equals $\mu$ \textit{in expectation}, whereas $\mu$ is a constant. Furthermore, $\overline{Y}$ is both the mean of a random sample and an esimator of $\mu$, whereas $\mu$ is the mean of the full distribution of $Y$.
+		\smallskip \\
+		Similarly, $\frac{1}{n}\sum_{i=1}^n X_iX'_i$ is a random variable and estimator of $\E[X_iX'_i]$, which is a constant.
+		
+	\item[4.4] \textbf{True or False: if $\hat{e}_i$ is the OLS residual from the linear regression of $Y_i$ on $X_i$, then ${\sum_{i=1}^n X_i^2\hat{e}_i=0}$} \\
+		True. Since $\E[e_i|X_i]=0$, $\E[\hat{e_i}]=e_i$. Then,
+		\[
+			E\left[\sum_{i=1}^n X_i^2\hat{e_i}\right] = E\left[E\left[\sum_{i=1}^n X_i^2\hat{e_i}|X_i\right]\right] = \left[X_i^2E\left[\sum_{i=1}^n \hat{e_i}|X_i\right]\right]
+			=0
+		\]
+		
+	\pagebreak
+	\item[4.5] \textbf{Prove (4.15) and (4.16)} \\
+		\begin{align*}
+			\E[\widehat{\beta}|X] 	&= \E\left[\left(\sum_{i=1}^n X_iX'_i\right)^{-1}\left(\sum_{i=1}^n X_iY_i\right)\bigm|X\right]	\\
+									&= \left(\sum_{i=1}^n X_iX'_i\right)^{-1}\E\left[\left(\sum_{i=1}^n X_iY_i\right)\bigm|X\right]	\\
+									&= \left(\sum_{i=1}^n X_iX'_i\right)^{-1}\sum_{i=1}^n \E\left[X_iY_i\bigm|X\right]	\\
+									&= \left(\sum_{i=1}^n X_iX'_i\right)^{-1}\sum_{i=1}^n X_i\E\left[Y_i\bigm|X\right]	\\
+									&= \left(\sum_{i=1}^n X_iX'_i\right)^{-1}\sum_{i=1}^n X_iX_i'\beta	\\
+			\E[\widehat{\beta}|X] 	&= \beta							&\text{(4.15)}	\\
+			Var[\widehat{\beta}|X] 	&= Var\left(\left(\sum_{i=1}^n X_iX'_i\right)^{-1}\left(\sum_{i=1}^n X_iY_i\right)\bigm|X\right)	\\
+									&= \left(\sum_{i=1}^n X_iX'_i\right)^{-1}Var\left(\sum_{i=1}^n X_iY_i\bigm|X\right)\left(\sum_{i=1}^n X_iX'_i\right)^{-1}	\\
+									&= \left(\sum_{i=1}^n X_iX'_i\right)^{-1}X'_iVar\left(\sum_{i=1}^n Y_i\bigm|X\right)X_i\left(\sum_{i=1}^n X_iX'_i\right)^{-1}	\\
+									&= \left(\sum_{i=1}^n X_iX'_i\right)^{-1}(X'_i\sigma^2IX_i)\left(\sum_{i=1}^n X_iX'_i\right)^{-1}	\\
+			Var[\widehat{\beta}|X] 	&= (X'X)^{-1}(X'\Omega X)(X'X)^{-1}	&\text{(4.16)}	\\
+		\end{align*}
+		
+	\pagebreak
+	\item[4.6] \textbf{Prove Theorem 4.5} \\
+		Suppose that $Var(\varepsilon|X)=\Omega$ for some positive semi-definite $\Omega$. Then for ${Y = X'\beta + \varepsilon}$, the linear unbiased estimator of $\beta$ is:
+		\[
+			\tilde{\beta} = \left(X'\Omega^{-1}X\right)^{-1}X'\Omega^{-1}Y
+		\]
+		Then, the variance of $\tilde{\beta}$ is:
+		\begin{align*}
+			Var\left(\tilde{\beta}\bigm|X\right) 	&= Var\left(\left(X'\Omega^{-1}X\right)^{-1}X'\Omega^{-1}Y\bigm|X\right)									\\
+													&= \left(X'\Omega^{-1}X\right)^{-1}Var\left(X'\Omega^{-1}Y\bigm|X\right)\left(X'\Omega^{-1}X\right)^{-1}	\\
+													&= \left(X'\Omega^{-1}X\right)^{-1}X'\Omega^{-1}Var\left(Y\bigm|X\right)\Omega^{-1}X\left(X'\Omega^{-1}X\right)^{-1}	\\
+													&= \left(X'\Omega^{-1}X\right)^{-1}X'\Omega^{-1}\Omega\Omega^{-1}X\left(X'\Omega^{-1}X\right)^{-1}	\\
+													&= \left(X'\Omega^{-1}X\right)^{-1}X'\Omega^{-1}X\left(X'\Omega^{-1}X\right)^{-1}	\\
+			Var\left(\tilde{\beta}\bigm|X\right) 	&= \left(X'\Omega^{-1}X\right)^{-1}
+		\end{align*}
+\end{itemize}
 
 
 
