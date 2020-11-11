@@ -269,9 +269,24 @@
 \subsection*{Question 4}
 
 \begin{enumerate}[(a)]
-	\item 
+	\item The social planner's Bellman equation is
+		\[
+			V(k) = \usmax{k'}\left\{\frac{1}{1-\gamma}\left[(k'-(1-\delta)k-f(k))G^\eta\right]^{1-\gamma} + \beta V(k')\right\}
+		\]
+		The conditions for maximization come from the first order condition:
+		\begin{align*}
+			\left[\left(k'-(1-\delta)k-f(k)\right)\right]^{-\gamma}G^{1-\eta}+\beta V'(k') &= 0	\\
+			V'(k') &= -\left[1-\delta+f'(k)\right]G'^{1-\eta}\left(k''-(1-\delta)k'-f(k)\right)^{-\gamma}	\\
+			c^{-\gamma}G^{1-\eta} &= \beta(1-\delta + f'(k'))G'^{1-\eta}c'^{-\gamma}	\\
+			\left(\frac{c}{c'}\right)^{-\gamma} &= \left(\frac{G'}{G}\right)^{\eta(1-\gamma)}\beta\left(1-\delta+f'(k')\right)	\\
+			\frac{c}{c'} &= \left(\frac{G}{G'}\right)^{\frac{\eta(1-\gamma)}{\gamma}}\left[\beta(1-\delta+f'(k')\right]^{-\frac{1}{\gamma}}
+		\end{align*}
 	
-	\item 
+	\item If government spending grows at constant rate $g$, then $G'=(1_g)G$, so the maximization condition becomes:
+		\[
+			\frac{c}{c'} = \left(\frac{G}{(1+g)G}\right)^{\frac{\eta(1-\gamma)}{\gamma}}\left[\beta(1-\delta+f'(k')\right]^{-\frac{1}{\gamma}}
+		\]
+		The steady-state values of $k$ and $c$ can be derived by setting $c=c'=\overline{c}$ in the maximization condition:
 	
 	\item 
 	

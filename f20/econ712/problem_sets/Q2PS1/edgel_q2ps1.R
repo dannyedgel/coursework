@@ -70,8 +70,7 @@ ggplot(dat) +
                                  x2 = k[abs(ss2-I) == min(abs(ss2-I))],
                                  y2 = ss2[abs(ss2-I) == min(abs(ss2-I))]),
                aes(x = x1, y = y1, xend = x2, yend = y2),
-               color = 'red', arrow = arrow(length = unit(0.2,"cm")), size = 1) +
-  labs(y='I') + theme(legend.title = element_blank()) +
-  theme_classic()
+               color = 'red', arrow = arrow(length = unit(0.2,"cm")), size = 1)+
+  theme_classic() + ylab('I') + theme(legend.title = element_blank()) 
 dev.off()
 
