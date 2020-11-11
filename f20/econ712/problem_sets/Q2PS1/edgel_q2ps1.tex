@@ -266,6 +266,7 @@
 \end{enumerate}
 
 %%%________________________________________________________________%%%
+\pagebreak
 \subsection*{Question 4}
 
 \begin{enumerate}[(a)]
@@ -286,9 +287,16 @@
 		\[
 			\frac{c}{c'} = \left(\frac{G}{(1+g)G}\right)^{\frac{\eta(1-\gamma)}{\gamma}}\left[\beta(1-\delta+f'(k')\right]^{-\frac{1}{\gamma}}
 		\]
-		The steady-state values of $k$ and $c$ can be derived by setting $c=c'=\overline{c}$ in the maximization condition:
+		The steady-state values of $k$ and $c$ can be derived by setting ${c=c'=\overline{c}}$ and ${k=k'=\overline{k}}$ in the maximization condition:
+		\begin{align*}
+			\frac{1+g)^{\eta(1-\gamma)}}{\beta(1-\delta+f'(\overline{k}))} &= 1	\\
+			f'(\overline{k}) &= \frac{1}{\beta}(1+g)^{\eta(1-\gamma)}+\delta-1	\\
+			\overline{k} &= f'^{-1}\left(\frac{1}{\beta}(1+g)^{\eta(1-\gamma)}+\delta-1\right)	\\
+			\overline{c} &= f(\overline{k})-\delta\overline{k}
+		\end{align*}
+		The set of feasible values for $k$ is convex and its values are continuous, and the objective function of the maximization problem on the righthand side of the Bellman equation is continuous, concave, and bounded above. Thus, the steady state is unique.
 	
-	\item 
+	\item $f'(\overline{k})$ is decreasing in $g$ and, since $f$ is strictly concave, $f'$ is decreasing in $\overline{k}$. Taken together, an increase in $g$ leads to a decrease in $\overline{k}$. $\overline{c}$ is both increasing and decreasing in $\overline{k}$, but taking the derivative of $\overline{c}$ with respect to $\overline{k}$ reveals that the increasing effect overpowers the decreasing effect, so $\overline{c}$ will also increase. The increase in $g$ shifts the saddle path up. Capital levels adjust over time, but consumption can change immediately after the increase in $g$. Thus, consumption will immediately jump to the level where capital intersects the new saddle path. Then, over time, consumption and capital will increase along the saddle path until it reaches $(\overline{k},\overline{c})$.
 	
 \end{enumerate}
 
