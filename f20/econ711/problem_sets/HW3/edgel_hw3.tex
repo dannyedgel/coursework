@@ -1,0 +1,200 @@
+%%% Econ711: Microeconomics I
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Sunday November 15, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\union}{\bigcup}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\P}{\mathcal{P}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\olp}{\overline{p}}
+\renewcommand{\exp}[1]{\text{exp}\left\{#1\right\}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Homework \#3 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 711: Microeconomics I		\\
+			Fall 2020						\\
+		}
+\maketitle\thispagestyle{empty}
+
+%\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 1}
+
+\begin{enumerate}[(a)]
+	\item $\gamma$ is an additive constant to the marginal payoff of purchasing weapons, whereas $\rho$ subtracts from the marginal payoff. Intuitively, depending on the rest of the marginal payoff function, ${\gamma<\rho}$ would lead to a boundary solution at $w_i=0$. Plugging in the price of weapon's and recognizing that ${\overline{w}=\frac{1}{2}(w_i + w_j)}$, agent $i$'s payoff function can be simplified as follows:
+		\begin{align*}
+			u_i(w_i,w_j) 	&= \gamma w_i - \beta(w_i-w_j)^2-P(\overline{w})w_i	\\
+							&= \gamma w_i - \beta(w_i-w_j)^2-\left[\rho+\frac{\alpha}{2}(w_i + w_j)\right]w_i	\\
+							&= (\gamma-\rho)w_i-\beta(w_i-w_j)^2 - \frac{\alpha}{2}(w_i+w_j) w_i	\\
+		\end{align*}
+		Where all parameters are strictly positive, so ${\beta(w_i-w_j)^2\geq0}$ and ${\frac{\alpha}{2}(w_i+w_j) w_i\geq0}$Thus, $\gamma>\rho$ guarantees an interior solution to the agent's problem.
+	
+	\item This game is supermodular if each payoff function, $u_i(w_i,w_{-i})$ had increasing differences for all $i$. Since there are only two agents with symmetric and twice-differentiable payoff functions, this is true if
+		\[
+			\frac{\partial^2 u_i}{\partial w_i \partial w_j}(w_i,w_j) \geq 0
+		\]
+		So, to determine whether this game is supermodular,
+		\begin{align*}
+			\frac{partial u_i}{\partial w_i}(w_i,w_j) &= \gamma-\rho-2\beta(w_i-w_j)-\alpha w_i - \frac{\alpha}{2}w_j	\\
+			\frac{\partial^2 u_i}{\partial w_i \partial w_j}(w_i,w_j)  &= 2\beta - \frac{\alpha}{2}
+		\end{align*}
+		Where, by assumption, $\alpha,\beta >0$, so this is a supermodular game if ${2\beta \geq \frac{\alpha}{2}}$
+	
+	\item 
+	
+	\item 
+	
+	\item 
+	
+	\item 
+	
+	\item 
+	
+\end{enumerate}
+
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 2}
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 3}
+
+\begin{enumerate}[(a)]
+	\item 
+	
+	\item 
+	
+	\item 
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 4}
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 5}
+
+
+
+%%%________________________________________________________________%%%
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
