@@ -1,0 +1,225 @@
+%%% Econ712: Macroeconomics I
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Thursday November 19th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\loge}[1]{\text{ln}\left(#1\right)}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\Mt}{M_{t+1}^t}
+\newcommand{\vhat}{\hat{v}}
+\newcommand{\olp}{\overline{p}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\olq}{\overline{q}}
+\newcommand{\zinf}{_{t=0}^\infty}
+\newcommand{\aneg}{A^{-1}}
+\newcommand{\sneg}{s^{-1}}
+
+\DeclareMathOperator{\E}{\mathbb{E}} % expected value
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#2 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 712: Macroeconomics I		\\
+			Fall 2020						\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+\subsection*{Question 1}
+
+\begin{enumerate}[(a)]
+	\item In a balanced growth path, households' utility and firms' profits are maximized. Thus, to find a system of equations that $C_0$, $N_0$, $w_0$, and $r_0$ must solve in a balanced growth path, we must characterize and solve the household and firm problems. To start, the household problem is given by 
+		\[
+			\usmax{\left\{C_t,K^s_{t+1},N^s_t\right\}_{t=0}^\infty}\sum_{t=0}^\infty \beta_t u(C_t,1-N_t)\text{ s.t. }
+				\sum_{t=0}^\infty p_t\left(C_t + K_{t+1}\right) \leq \sum_{t=0}^\infty p_t\left(r_tK_t + w_tA_tN_t\right) + \pi_0
+		\]
+		And the firm's problem is:
+		\[
+			\usmax{\left\{K_t^d,N_t^d\right\}_{t=0}^\infty}\pi_0 = \sum\zinf p_t\left(Y_t-r_tK_t^d - w_tN_t^d\right)\text{ s.t. } Y_t\leq F(K_t^d,A_tN_t^d)
+		\]
+		Where, recognizing that $\pi_0$ is monotone in $Y_t$, the firm's problem can be reduced to:
+		\[
+			\usmax{\left\{K_t^d,N_t^d\right\}_{t=0}^\infty}\pi_0 = \sum\zinf p_t\left(F(K_t^d,A_tN_t^d)-r_tK_t^d - w_tN_t^d\right)
+		\]
+		Since the firm is a price-taker whose decision in each period has no bearing on its conditions in any other period, the firm's problem can be solved by solving a single arbitrary period, $t$, using first-order conditions. For all choice variables, $X$, let ${\frac{X_t}{A_t} = x_t}$:
+		\[
+			\usmax{\left\{k_t^d,N_t^d\right\}_{t=0}^\infty}\pi_0 = \sum\zinf A_tp_t\left(F(k_t^d,N_t^d)-r_tk_t^d - \frac{w_t}{A_t}N_t^d\right)
+		\]
+		\begin{align*}
+			&K_t^d: & A_tp_tF_K(k_t^d,N_t^d) -A_tp_tr_t = 0	\\
+			&		& F_K(k_t^d,N_t^d) = r_t				\\
+			&N_t^d:	& A_tp_tF_N(k_t^d,N_t^d) -p_tw_t = 0	\\
+			&		& F_N(k_t^d,N_t^d) = \frac{w_t}{A_t}
+		\end{align*}
+		This solution ensures that that $\pi_0=0$. Assuming that the utility function is concave, strictly increasing, and differentiable, the constrating of the household problem holds with equality and an interior solution exists. Given the firm's solution, we can solve the constraint as:
+		\begin{align*}
+				C_t &= r_tK^s_t + w_tA_tN^s_t - K^s_{t+1}	\\
+				c_t &= r_tk^s_t + w_tN^s_t - k^s_{t+1}
+		\end{align*}
+		Such that the household's problem becomes: 
+		\[
+			\usmax{\left\{k^s_{t+1},N^s_t\right\}_{t=0}^\infty}\sum_{t=0}^\infty \beta_t u(A_t(r_tk^s_t + w_tN^s_t - k^s_{t+1}),1-N_t)
+		\]
+		With the Bellman equation:
+		\[
+			V(k) = \usmax{k',N}\left\{ u\left(A(rk+wN-k'),N\right) + \beta V(k') \right\}
+		\]
+		Which has the first-order conditions:
+		\begin{align*}
+			&k': 						&-u_c(Ac,N) + \beta V'(k') = 0		\\
+			&\text{Envelope condition:}	& V'(k') = r'A'u'(A'c',N')			\\
+			&\Rightarrow				& u_c(Ac,N) = \beta r'A'u_c(A'c',N')	\\
+			&N:							& Awu_c(Ac,N) + u_N(Ac,N) = 0			\\
+			&\Rightarrow				& -\frac{u_N(Ac,N)}{u_c(Ac,N)} = wA
+		\end{align*}
+		Where the final equation determines the household's optimal level of consumption given wages and productivity. In equilibrium, all markets clear:
+		\begin{align*}
+			K_t^s &= K_t^d					&\text{(Capital)}	\\
+			N_t^s &= N_t^d 					&\text{(Labor)}		\\
+			C_t + K_{t+1} &= F(K_t,A_tN_t)	&\text{(Goods)}
+		\end{align*}
+		And each initial choice variable, $N_0$ and $C_0$, and price, $w_0$ and $r_0$, satisfies the firm and household optimization conditions for a balanced growth path:
+		\begin{align*}
+			F_K(k_0^d,N_0^d) &= r_0					\\
+			F_N(k_0^d,N_0^d) &= \frac{w_0}{A_0}		\\
+			-\frac{u_N(A_0c_0,N_0)}{u_c(A_0c_0,N_0)} &= w_0A_0
+		\end{align*}
+	
+	\item 
+	
+	\item 
+	
+	\item 
+	
+	\item 
+	
+	\item 
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+\subsection*{Question 2}
+
+\begin{enumerate}[(a)]
+	\item (I think this is what the state-contingent problem is)
+		\[
+			\usmax{\{c_t,s_t\}\zinf}\E\left[\sum\zinf\beta^t\frac{c_t^{1-\gamma}}{1-\gamma}\right]\text{ s.t. }x_{t+1}= A_ts_t\text{, }s_t\leq x_t-c_t
+		\]
+		The expectations operator in this case averages utility in each period across states of the world, weighting by that state's probability. Specifically, for each $t$, letting $c_t = A_{t-1}s_{t-1} - s_t$:
+		\[
+			\E\left[\beta^t\frac{(A_{t-1}s_{t-1} - s_t)^{1-\gamma}}{1-\gamma}\right] = \pi\left[\beta^t\frac{(A_hs_{t-1} - s_t)^{1-\gamma}}{1-\gamma}\right] + (1-\pi)\left[\beta^t\frac{(A_ls_{t-1} - s_t)^{1-\gamma}}{1-\gamma}\right] 
+		\]
+		
+	\item In each period, the consumer's consumption-savings problem is constrained by her savings in the last period, multiplied by draw of $A$ she received that period. Thus, her relevant state variable is $A_{t-1}s_{t-1}$. The Bellman for this problem, letting $A^{-1}$ and $s^{-1}$ be the values for $A$ and $s$ in the prior period, is:
+		\[
+			V(A^{-1}s^{-1}) = \usmax{s}\left\{ \frac{\left(\aneg\sneg-s\right)^{1-\gamma}}{1-\gamma} + \beta\left[\pi V(A_hs) + (1-\pi)V(A_ls)\right] \right\}
+		\]
+		Given that $\gamma\in(0,1)$, $\frac{\left(\aneg\sneg-s\right)^{1-\gamma}}{1-\gamma}$ is clearly concave, increasing, and continuous in $\sneg$. [how do I prove this?]
+	
+	\item 
+	
+	\item 
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+\subsection*{Question 3}
+
+\begin{enumerate}[(a)]
+	\item 
+	
+	\item 
+	
+	\item 
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
