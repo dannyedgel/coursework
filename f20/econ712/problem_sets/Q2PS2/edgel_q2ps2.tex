@@ -108,7 +108,7 @@
 		\]
 		And the firm's problem is:
 		\[
-			\usmax{\left\{K_t^d,N_t^d\right\}_{t=0}^\infty}\pi_0 = \sum\zinf p_t\left(Y_t-r_tK_t^d - w_tN_t^d\right)\text{ s.t. } Y_t\leq F(K_t^d,A_tN_t^d)
+			\usmax{\left\{K_t^d,N_t^d\right\}_{t=0}^\infty}\pi_0 = \sum\zinf p_t\left(Y_t-r_tK_t^d - w_tA_tN_t^d\right)\text{ s.t. } Y_t\leq F(K_t^d,A_tN_t^d)
 		\]
 		Where, recognizing that $\pi_0$ is monotone in $Y_t$, the firm's problem can be reduced to:
 		\[
@@ -125,36 +125,37 @@
 			&		& F_N(k_t^d,N_t^d) = \frac{w_t}{A_t}
 		\end{align*}
 		This solution ensures that that $\pi_0=0$. Assuming that the utility function is concave, strictly increasing, and differentiable, the constrating of the household problem holds with equality and an interior solution exists. Given the firm's solution, we can solve the constraint as:
-		\begin{align*}
-				C_t &= r_tK^s_t + w_tA_tN^s_t - K^s_{t+1}	\\
-				c_t &= r_tk^s_t + w_tN^s_t - k^s_{t+1}
-		\end{align*}
-		Such that the household's problem becomes: 
 		\[
-			\usmax{\left\{k^s_{t+1},N^s_t\right\}_{t=0}^\infty}\sum_{t=0}^\infty \beta_t u(A_t(r_tk^s_t + w_tN^s_t - k^s_{t+1}),1-N_t)
+				c_t = r_tk^s_t + w_tN^s_t - k^s_{t+1}
 		\]
-		With the Bellman equation:
+		Such that the household's problem has the Lagrangian function:
 		\[
-			V(k) = \usmax{k',N}\left\{ u\left(A(rk+wN-k'),N\right) + \beta V(k') \right\}
+			\L = \sum\zinf\left[u(A_tc_t,N_t) - p_t\lambda_t\left(c_t + k_{t+1} - r_tk_t - w_tN_t\right)\right]
 		\]
 		Which has the first-order conditions:
 		\begin{align*}
-			&k': 						&-u_c(Ac,N) + \beta V'(k') = 0		\\
-			&\text{Envelope condition:}	& V'(k') = r'A'u'(A'c',N')			\\
-			&\Rightarrow				& u_c(Ac,N) = \beta r'A'u_c(A'c',N')	\\
-			&N:							& Awu_c(Ac,N) + u_N(Ac,N) = 0			\\
-			&\Rightarrow				& -\frac{u_N(Ac,N)}{u_c(Ac,N)} = wA
+			&c_t: 			& A_tu_c(A_tc_t,N_t) = 	p_t\lambda_t 							\\
+			&c_{t+1}:		& A_{t+1}u_c(A_{t+1}c_{t+1},N_{t+1}) = 	p_{t+1}\lambda_{t+1} 	\\
+			&N_t:			& -u_N(A_tc_t,N_t)/w_t = p_t\lambda_t							\\
+			&N_{t+1}:		& -u_N(A_{t+1}c_{t+1},N_{t+1})/w_{t+1} = p_{t+1}\lambda_{t+1}	\\
+			&k_{t+1}:		& \frac{p_t\lambda_t}{p_{t+1}\lambda_{t+1}} = r_{t+1}			\\
+			&\Rightarrow	& -u_N(A_tc_t,N_t)/w_t = A_tu_c(A_tc_t,N_t) 
 		\end{align*}
-		Where the final equation determines the household's optimal level of consumption given wages and productivity. In equilibrium, all markets clear:
+		Where the growth of households' optimal level of consumption is dependent on wage growth:
+		\[
+			\frac{u_c(A_tc_t,N_t)}{u_c(A_{t+1}c_{t+1},N_{t+1})} = (1+g)\frac{u_N(A_tc_t,N_t)}{u_N(A_{t+1}c_{t+1},N_{t+1})}\left(\frac{w_{t+1}}{w_t}\right)
+		\]
+		
+		In equilibrium, all markets clear:
 		\begin{align*}
-			K_t^s &= K_t^d					&\text{(Capital)}	\\
-			N_t^s &= N_t^d 					&\text{(Labor)}		\\
-			C_t + K_{t+1} &= F(K_t,A_tN_t)	&\text{(Goods)}
+			K_t^s &= K_t^d									&\text{(Capital)}	\\
+			N_t^s &= N_t^d 									&\text{(Labor)}		\\
+			C_t + K_{t+1} - (1-\delta)K_t &= F(K_t,A_tN_t)	&\text{(Goods)}
 		\end{align*}
 		And each initial choice variable, $N_0$ and $C_0$, and price, $w_0$ and $r_0$, satisfies the firm and household optimization conditions for a balanced growth path:
 		\begin{align*}
-			F_K(k_0^d,N_0^d) &= r_0					\\
-			F_N(k_0^d,N_0^d) &= \frac{w_0}{A_0}		\\
+			F_K(k_0,N_0) &= r_0					\\
+			F_N(k_0,N_0) &= \frac{w_0}{A_0}		\\
 			-\frac{u_N(A_0c_0,N_0)}{u_c(A_0c_0,N_0)} &= w_0A_0
 		\end{align*}
 	
@@ -197,13 +198,35 @@
 
 %%%________________________________________________________________%%%
 \subsection*{Question 3}
+To begin, we can analytically determine the steady-state of this system, which can be used to check the policy function derived by the program. Letting $\alpha$ represent the exponent on capital for Cobb-Douglas production, the Bellman of the social planner's problem is:
+\[
+	V(K) = \usmax{K'}\left\{\frac{\left(zK^\alpha + (1-\delta)K -K'\right)^{1-\gamma}}{1-\gamma} + \beta V(K')\right\}
+\]
+Taking first-order conditions and applying the envelope condition, we get:
+\[
+	\beta\left(z\alpha K'^{\alpha-1}+1-\delta\right)c'^{-\gamma} = c^{-\gamma}
+\]
+In the steady-state, $c=c'=\overline{c}$ and $K=K'=\overline{K}$, which allows us to solve:
+\begin{align*}
+	\overline{K} &= \left[\frac{1}{\alpha}\left(\frac{1}{\beta} + \delta - 1\right)\right]^{-\frac{1}{\alpha-1}}	\\
+	\overline{c} &= z\overline{K}^\alpha - \delta\overline{K}
+\end{align*}
 
 \begin{enumerate}[(a)]
-	\item 
+	\item The following chart displays the phase diagram for ${\Delta c=0}$ and ${\Delta K=0}$, alongside the optimal policy function, $c(K)$, which intersects the intersection of ${\Delta c=0}$ and ${\Delta K=0}$ at the steady state.
+		\begin{center}
+			\includegraphics[scale = .8]{figure1.png}
+		\end{center}
 	
 	\item 
+		\begin{center}
+			\includegraphics[scale = .8]{figure2.png}
+		\end{center}
 	
 	\item 
+		\begin{center}
+			\includegraphics[scale = .8]{figure3.png}
+		\end{center}
 	
 \end{enumerate}
 
