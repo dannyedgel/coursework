@@ -44,6 +44,12 @@
 \newcommand{\zinf}{_{t=0}^\infty}
 \newcommand{\aneg}{A^{-1}}
 \newcommand{\sneg}{s^{-1}}
+\newcommand{\olk}{\overline{k}}
+\newcommand{\olc}{\overline{c}}
+\newcommand{\olr}{\overline{r}}
+\newcommand{\olpi}{\overline{\pi}}
+\newcommand{\Aneg}{A^{-1}}
+\renewcommand{\sneg}{s^{-1}}
 
 \DeclareMathOperator{\E}{\mathbb{E}} % expected value
 
@@ -190,7 +196,7 @@
 		\]
 		Thus, there will be a balanced growth path for $\gamma >0$, $\gamma\neq 1$. For $\gamma=1$, we can see that the first-order conditions will yield the same result, but with a different inflation (and thus interest) rate:
 		\begin{align*}
-			\beta(1+g)\left(\frac{c_t}{c_{t+1}}\right) &= \overline{pi}	\\
+			\beta(1+g)\left(\frac{c_t}{c_{t+1}}\right) &= \overline{\pi}	\\
 			\beta\left(\frac{h'(1-N_{t+1})}{h'(1-N_{t+1})}\right) &= \left(\frac{w_{t+1}}{w_t}\right)\overline{\pi}
 		\end{align*}
 		
@@ -212,22 +218,34 @@
 	
 	In the short run, capital levels are fixed. Thus, in order to move from the initial steady state to the new steady state, consumption will spike, followed by a gradual decrease in both $c$ and $k$ until the new steady state is reached.
 	
+	\pagebreak
 	\item Define $\overline{s}$ as the gross output that is invested in capital in the steady state and $\overline{\theta}$ be the fraction of output saved. Then, using the law of motion, we can solve,
 		\begin{align*}
 			\overline{s} 	&= f(\overline{k}) - \overline{c}	\\
-							&= (g+\delta)\overline{k}			\\
 			\overline{\theta} &= \frac{\overline{s}}{f(\overline{k}} 	\\
-							&= \frac{(g+\delta)\overline{k}}{f(\overline{k}}	\\
-			\frac{\partial\overline{\theta}}{\partial g} &= \frac{\partial\overline{k}}{\partial g}(f(\overline{k}))^{-1} - (g + \delta)\overline{k}(f(\overline{k}))^{-2}\frac{\partial\overline{k}}{\partial g}
+							&= 1-\frac{\overline{c}}{f(\overline{k}}	\\
+			\frac{\partial\overline{\theta}}{\partial g} &= -\frac{f(\overline{k})\frac{\partial\overline{c}}{\partial g}-\overline{c}f'(\overline{k})\frac{\partial\overline{k}}{\partial g}}{f(\overline{k})^2}	\\
+			\frac{\partial\olc}{\partial g} &= f'(\olk)\frac{\partial\olk}{\partial g} - \frac{\partial\olk}{\partial g}	\\
+			\frac{\partial\olk}{\partial g} &= \left(\frac{f''(f^{-1}(\olr))}{f'(f^{-1}(\olr))}\right)\frac{\partial\olr}{\partial g}	\\
+			\frac{\partial\olr}{\partial g} &= -\frac{1}{\olpi}\left(\frac{\partial\olpi}{\partial g}\right)	\\
+			\frac{\partial\olpi}{\partial g} &= (1-\gamma)\beta(1+g)^{-\gamma}	\\
+\Rightarrow	\frac{\partial\overline{\theta}}{\partial g} &= \left(\frac{\partial\overline{k}}{\partial g}\right)\frac{\overline{c}f'(\overline{k})-f(\overline{k})(f'(\overline{k})-1)}{f(\overline{k})^2} 	\\
+					&= \left(\frac{f''(f^{-1}(\olr))}{f'(f^{-1}(\olr))}\right)\left(\frac{(\gamma-1)\beta(1+g)^{-\gamma}}{\olpi^2}\right)\frac{\overline{c}f'(\overline{k})-f(\overline{k})(f'(\overline{k})-1)}{f(\overline{k})^2}	\\
+					&= \left(\frac{f''(f^{-1}(\olr))}{f'(f^{-1}(\olr))}\right)\left(\frac{(\gamma-1)\beta(1+g)^{-\gamma}}{\olpi^2}\right)\frac{f'(\olk)\left(\overline{c}-f(\olk) + \frac{f(\olk)}{f'(\olk)}\right)}{f(\overline{k})^2}
 		\end{align*}
-	
+		So the change in fraction of output saved, with respect to $g$, comes down to a product of three terms. Recall that $\gamma>1$ and $f$ is strictly increasing and concave. Thus, the first term is negative and the second term is positive. Further, since savings are always positive, ${\olc<f(\olk)}$, so the third term is negative. Therefore, the overall product is positive, and we can conclude that the fraction of output saved increases when $g$ increases.
+		\medskip \\
+		Specialzed to Cobb-Douglas production, ${f(k)=k^\alpha}$, so the derivative from above is:
+		\[
+			\frac{\partial\overline{\theta}}{\partial g} = \left((\alpha-1)\olr^{-\frac{1}{\alpha}}\right)\left(\frac{(\gamma-1)\beta(1+g)^{-\gamma}}{\olpi^2}\right)\frac{\alpha\olk^{\alpha-1}\left(\overline{c}-\olk^\alpha + \frac{1}{\alpha}\olk\right)}{f(\overline{k})^2}
+		\]
 \end{enumerate}
 
 %%%________________________________________________________________%%%
 \subsection*{Question 2}
 
 \begin{enumerate}[(a)]
-	\item (I think this is what the state-contingent problem is)
+	\item The consumer's problem is:
 		\[
 			\usmax{\{c_t,s_t\}\zinf}\E\left[\sum\zinf\beta^t\frac{c_t^{1-\gamma}}{1-\gamma}\right]\text{ s.t. }x_{t+1}= A_ts_t\text{, }s_t\leq x_t-c_t
 		\]
@@ -240,11 +258,29 @@
 		\[
 			V(A^{-1}s^{-1}) = \usmax{s}\left\{ \frac{\left(\aneg\sneg-s\right)^{1-\gamma}}{1-\gamma} + \beta\left[\pi V(A_hs) + (1-\pi)V(A_ls)\right] \right\}
 		\]
-		Given that $\gamma\in(0,1)$, $\frac{\left(\aneg\sneg-s\right)^{1-\gamma}}{1-\gamma}$ is clearly concave, increasing, and continuous in $\sneg$. [how do I prove this?]
+		Given that $\gamma\in(0,1)$, $\frac{\left(\aneg\sneg-s\right)^{1-\gamma}}{1-\gamma}$ is clearly concave, increasing, and continuous in $\sneg$. Though the utility function itself is unbounded, the set of feasible choices for $s$ is bounded (and convex, continuous, and nonempty), since $\beta$ is bounded above by 1 and $A$ is bounded above by $1/\beta$. Thus, we can treat $u$ as if it is bounded, since there exists a maximum level of utility that could feasibly be reached by the consumer.
 	
-	\item 
+	\item Given the conditions shown in (b), we can obtain a solution to the Bellman equation by taking first order conditions:
+		\begin{align*}
+		& -\left(A^{-1}s^{-1}-s\right)^{-\gamma} + \beta\left(\pi V'(A_hs) + (1-\pi)V'(A_ls)\right) = 0	&\text{(FOC w/r/t }s\text{)}	\\
+		& V'(As) = \left(As-s'\right)^{-\gamma}		&\text{(envelope condition)}	\\
+		\Rightarrow & \beta\left[\pi(A_h - s')^{-\gamma} + (1-\pi)(A_ls - s')^{-\gamma}\right] = \left(A^{-1}s^{-1}-s\right)^{-\gamma}
+		\end{align*}
+		Guess that the optimal policy function is to save a constant fraction of wealth, such that ${A^{-1}s^{-1}-s = \alpha A^{-1}s^{-1}}$. Then, solving for the optimization condition yields:
+		\begin{align*}
+			A^{-1}s^{-1}-s &= \alpha A^{-1}s^{-1}	\\
+			s &= (1-\alpha)A^{-1}S^{-1}				\\
+\Rightarrow \beta\left[\pi(\alpha A_hs)^{-\gamma} + (1-\pi)(\alpha A_ls)^{-\gamma}\right] &= (\alpha\Aneg\sneg)^{-\gamma}	\\
+			\beta\left[\pi(\alpha A_h(1-\alpha)\Aneg\sneg)^{-\gamma} + (1-\pi)(\alpha A_l(1-\alpha)\Aneg\sneg)^{-\gamma}\right]  &= \alpha^{-\gamma}(\Aneg\sneg)^{-\gamma}	\\
+			(\alpha - \alpha^2)^{-\gamma}(\Aneg\sneg)^{-\gamma}\beta\left[\pi A_h^{-\gamma} + (1-\pi)A_l^{-\gamma}\right] &= \alpha^{-\gamma}(\Aneg\sneg)^{-\gamma}	
+		\end{align*}
+		\begin{align*}
+			(1-\alpha)^{-\gamma} &= \left(\beta\left[\pi A_h^{-\gamma} + (1-\pi)A_l^{-\gamma}\right]\right)^{-1}	\\
+			\alpha &= 1 - \left(\beta\left[\pi A_h^{-\gamma} + (1-\pi)A_l^{-\gamma}\right]\right)^{1/\gamma}
+		\end{align*}
+		Thus, the optimal savings are a constant fraction of current wealth that does not depend on current wealth, previous period savings, or previous period's shock.
 	
-	\item 
+	\item We know that this policy function is the unique solution to the sequence problem because of all of the conditions specified in (b), that the utility function is strictly increasing, continuous and (effectively) bounded; the feasible set is convex, continuous, and nonempty; and $0<\beta<1$.
 	
 \end{enumerate}
 
@@ -263,18 +299,20 @@ In the steady-state, $c=c'=\overline{c}$ and $K=K'=\overline{K}$, which allows u
 	\overline{K} &= \left[\frac{1}{\alpha}\left(\frac{1}{\beta} + \delta - 1\right)\right]^{-\frac{1}{\alpha-1}}	\\
 	\overline{c} &= z\overline{K}^\alpha - \delta\overline{K}
 \end{align*}
-
+\pagebreak
 \begin{enumerate}[(a)]
 	\item The following chart displays the phase diagram for ${\Delta c=0}$ and ${\Delta K=0}$, alongside the optimal policy function, $c(K)$, which intersects the intersection of ${\Delta c=0}$ and ${\Delta K=0}$ at the steady state.
 		\begin{center}
 			\includegraphics[scale = .8]{figure1.png}
 		\end{center}
 	
+\pagebreak
 	\item When $\gamma$ decreases to 1.01, the steady-state values of $K$ and $c$ do not change. This is unsurprising, given that $\gamma$ does not appear in our analytical solution of the steady state. However, the saddle path gets steeper, meaning that one-time shocks will cause a larger change in consumption, and consumption will proceed to move to the steady state more quickly.
 		\begin{center}
 			\includegraphics[scale = .8]{figure2.png}
 		\end{center}
 	
+\pagebreak
 	\item Productivity, $z$, appears only in the steady-state value of consumption. Thus, a permanent, unexpected shock to productivity will change the steady-state value of consumption, but not that of capital. Since movements along the saddle path to the steady state are achieved by immediate changes to consumption but gradual accumulation or depreciation of capital, this shock to productivity will cause an immediate, one-time increase in consumption that moves the agent from the old steady-state to the new one. This is shown in the plot below.
 		\begin{center}
 			\includegraphics[scale = .8]{figure3.png}

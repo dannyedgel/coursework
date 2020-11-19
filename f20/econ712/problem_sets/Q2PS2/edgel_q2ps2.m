@@ -21,11 +21,13 @@ cd 'C:/Users/edgel/Google Drive/UW-Madison/f20/econ712/problem_sets/Q2PS2/'
 %%%____________________________________________
 
 %%% set VF convergence tolerance
-tol = 1e-5;
+tol = 1e-10;
 
 %%% vector for number of scenarios (automating a, b, and c)
 runs = [1,2,3]; %,2,3
-gtitle = {'',', \gamma = 2', ', z = 1.2'};
+gtitle = {'Policy function: Consumption', ...
+    'Policy function: Consumption, \gamma = 2', ...
+    'Transition dynamics: 20% shock to z'};
 
 %%% define constants
 beta  = 0.95;
@@ -122,17 +124,25 @@ for run = runs
               plot(kap,old_saddle,'r--')
               plot(old_ss(1),old_ss(2),'ro')
           end
+          if run == 3
+              quiver(old_ss(1),old_ss(2),k_ss-old_ss(1),c_ss-old_ss(2),.9);
+          end
           hold off
-          title(['Policy function: Consumption',gtitle{run}])
-          xlabel('K_t')
-          ylabel('C_t')
+          title(gtitle{run}); xlabel('K_t'); ylabel('C_t')
           if run == 1
               legend('\Delta k=0','\Delta c=0','Saddle Path', ...
                   'Steady State', 'location','Southeast')
-          else
+          end
+          if run == 2
               legend('\Delta k=0','\Delta c=0','Saddle Path', ...
                   'Steady State','Old Saddle Path', ...
                   'Old Steady State','location','Southeast')
+          end
+          if run == 3
+              legend('\Delta k=0','\Delta c=0','Saddle Path', ...
+                  'Steady State','Old Saddle Path', ...
+                  'Old Steady State', 'One-time jump', ...
+                  'location','Southeast')
           end
           saveas(gcf,['figure',num2str(run),'.png'])
 
