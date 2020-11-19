@@ -26,7 +26,7 @@ tol = 1e-10;
 %%% vector for number of scenarios (automating a, b, and c)
 runs = [1,2,3]; %,2,3
 gtitle = {'Policy function: Consumption', ...
-    'Policy function: Consumption, \gamma = 2', ...
+    'Policy function: Consumption, \gamma = 1.01', ...
     'Transition dynamics: 20% shock to z'};
 
 %%% define constants
@@ -81,12 +81,12 @@ for run = runs
         tv     = t1; % RHS of Bellman
         tdecis = t2; % index of capital level that gave tv
         
-        % EDIT BELOW
+        % calculate error and set up next iteration
         tv1     = tv';
         tdecis1 = tdecis';
         test= max(any(tdecis1-decis));
         err = max(max(abs(tv1-v)));
-        nprin=10;
+        nprin=10; % print every 10 iterations
         if iter==nprin*round(iter/nprin)
             disp(['Iteration = ', num2str(iter),... 
                 ', k Error = ', num2str(max(max(abs(tdecis1-decis)))),...
@@ -100,10 +100,10 @@ for run = runs
     toc
     
     %% calculate saddle path based on policy function
-    kpol  = kgrid(decis);
+    kpol  = kgrid(decis);   % policy function for capital
     kpol  = kpol(2:end);
     kap   = kgrid(2:end);
-    cpol  = z*kap.^alpha + (1-delta)*kap - kpol;
+    cpol  = z*kap.^alpha + (1-delta)*kap - kpol; % policy function for consumption
     
     %% define policy function for next period's capital in the consumption
     %% steady-state
@@ -116,6 +116,7 @@ for run = runs
     k_ss = knext;
     c_ss = z*k_ss^alpha - delta*k_ss;
     
+    %% plot phase diagram
     figure(run)
           plot(kap,delk0,kap,delc0,kap,cpol,'k--')
           hold on
