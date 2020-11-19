@@ -112,38 +112,37 @@
 		\]
 		Where, recognizing that $\pi_0$ is monotone in $Y_t$, the firm's problem can be reduced to:
 		\[
-			\usmax{\left\{K_t^d,N_t^d\right\}_{t=0}^\infty}\pi_0 = \sum\zinf p_t\left(F(K_t^d,A_tN_t^d)-r_tK_t^d - w_tN_t^d\right)
+			\usmax{\left\{K_t^d,N_t^d\right\}_{t=0}^\infty}\pi_0 = \sum\zinf p_t\left(F(K_t^d,A_tN_t^d)-r_tK_t^d - w_tA_tN_t^d\right)
 		\]
 		Since the firm is a price-taker whose decision in each period has no bearing on its conditions in any other period, the firm's problem can be solved by solving a single arbitrary period, $t$, using first-order conditions. For all choice variables, $X$, let ${\frac{X_t}{A_t} = x_t}$:
 		\[
-			\usmax{\left\{k_t^d,N_t^d\right\}_{t=0}^\infty}\pi_0 = \sum\zinf A_tp_t\left(F(k_t^d,N_t^d)-r_tk_t^d - \frac{w_t}{A_t}N_t^d\right)
+			\usmax{\left\{k_t^d,N_t^d\right\}_{t=0}^\infty}\pi_0 = \sum\zinf A_tp_t\left(F(k_t^d,N_t^d)-r_tk_t^d - w_tN_t^d\right)
 		\]
 		\begin{align*}
 			&K_t^d: & A_tp_tF_K(k_t^d,N_t^d) -A_tp_tr_t = 0	\\
 			&		& F_K(k_t^d,N_t^d) = r_t				\\
-			&N_t^d:	& A_tp_tF_N(k_t^d,N_t^d) -p_tw_t = 0	\\
-			&		& F_N(k_t^d,N_t^d) = \frac{w_t}{A_t}
+			&N_t^d:	& p_tF_N(k_t^d,N_t^d) -p_tw_t = 0	\\
+			&		& F_N(k_t^d,N_t^d) = w_t
 		\end{align*}
 		This solution ensures that that $\pi_0=0$. Assuming that the utility function is concave, strictly increasing, and differentiable, the constrating of the household problem holds with equality and an interior solution exists. Given the firm's solution, we can solve the constraint as:
 		\[
-				c_t = r_tk^s_t + w_tN^s_t - k^s_{t+1}
+				c_t = (r_t+1-\delta)k^s_t + w_tN^s_t - k^s_{t+1}
 		\]
 		Such that the household's problem has the Lagrangian function:
 		\[
-			\L = \sum\zinf\left[u(A_tc_t,N_t) - p_t\lambda_t\left(c_t + k_{t+1} - r_tk_t - w_tN_t\right)\right]
+			\L = \sum\zinf\left[\beta^tu(A_tc_t,N_t) - p_t\lambda\left(c_t + k_{t+1} - (r_t+1-\delta)k_t - w_tN_t\right)\right]
 		\]
 		Which has the first-order conditions:
 		\begin{align*}
-			&c_t: 			& A_tu_c(A_tc_t,N_t) = 	p_t\lambda_t 							\\
-			&c_{t+1}:		& A_{t+1}u_c(A_{t+1}c_{t+1},N_{t+1}) = 	p_{t+1}\lambda_{t+1} 	\\
-			&N_t:			& -u_N(A_tc_t,N_t)/w_t = p_t\lambda_t							\\
-			&N_{t+1}:		& -u_N(A_{t+1}c_{t+1},N_{t+1})/w_{t+1} = p_{t+1}\lambda_{t+1}	\\
-			&k_{t+1}:		& \frac{p_t\lambda_t}{p_{t+1}\lambda_{t+1}} = r_{t+1}			\\
-			&\Rightarrow	& -u_N(A_tc_t,N_t)/w_t = A_tu_c(A_tc_t,N_t) 
+			&c_t: 			& \beta^tA_tu_c(A_tc_t,N_t) = 	p_t\lambda 									\\
+			&c_{t+1}:		& \beta^{t+1}A_{t+1}u_c(A_{t+1}c_{t+1},N_{t+1}) = 	p_{t+1}\lambda 			\\
+			&N_t:			& -\beta^t\frac{u_N(A_tc_t,N_t)}{w_t} = p_t\lambda							\\
+			&N_{t+1}:		& \beta^{t+1}\frac{-u_N(A_{t+1}c_{t+1},N_{t+1})}{w_{t+1}} = p_{t+1}\lambda	\\
+			&k_{t+1}:		& \frac{p_t}{p_{t+1}} = r_{t+1} + 1 - \delta
 		\end{align*}
 		Where the growth of households' optimal level of consumption is dependent on wage growth:
 		\[
-			\frac{u_c(A_tc_t,N_t)}{u_c(A_{t+1}c_{t+1},N_{t+1})} = (1+g)\frac{u_N(A_tc_t,N_t)}{u_N(A_{t+1}c_{t+1},N_{t+1})}\left(\frac{w_{t+1}}{w_t}\right)
+			-u_N(A_tc_t,N_t)/w_t = A_tu_c(A_tc_t,N_t) 
 		\]
 		
 		In equilibrium, all markets clear:
@@ -154,13 +153,34 @@
 		\end{align*}
 		And each initial choice variable, $N_0$ and $C_0$, and price, $w_0$ and $r_0$, satisfies the firm and household optimization conditions for a balanced growth path:
 		\begin{align*}
-			F_K(k_0,N_0) &= r_0					\\
-			F_N(k_0,N_0) &= \frac{w_0}{A_0}		\\
-			-\frac{u_N(A_0c_0,N_0)}{u_c(A_0c_0,N_0)} &= w_0A_0
+			F_K(k_0,N_0) &= r_0									\\
+			F_N(k_0,N_0) &= w_0									\\
+			-\frac{u_N(A_0c_0,N_0)}{u_c(A_0c_0,N_0)} &= w_0A_0	\\
+			c_0 + k_{1} - (1-\delta)K_0 &= F(k_0,N_0)
 		\end{align*}
 	
-	\item 
-	
+	\item Let $u(C,N) = \frac{C^{1-\gamma}}{1-\gamma}h(1-N)$, where $\gamma>0$, $\gamma\neq 1$. Then, the first-order conditions, provided in (a), can be used to derive:
+		\begin{align}
+			\beta(1+g)^{1-\gamma}\left(\frac{c_{t+1}}{c_t}\right)^{-\gamma}\left(\frac{h(1-N_{t+1})}{h(1-N_t)}\right) &= \frac{p_{t+1}}{p_t}	\\
+			\beta(1+g)^{1-\gamma}\left(\frac{c_{t+1}}{c_t}\right)^{1-\gamma}\left(\frac{h'(1-N_{t+1})}{h'(1-N_t)}\right) &= \left(\frac{w_{t+1}}{w_t}\right)\left(\frac{p_{t+1}}{p_t}\right)	\\
+			r_{t+1} + 1 - \delta &= \frac{p_t}{p_{t+1}}
+		\end{align}
+		In a balanced growth path, capital is rented at a constant $\overline{r}$. Thus, by equation (3), the price level grows at constant rate $\overline{\pi}$:
+			\[
+				\overline{pi} = \frac{1}{\overline{r} + 1 - \delta}
+			\]
+		Further, in a balanced growth path, ${N_t=N_{t+1}=\overline{N}}$. Thus, equations (1) and (2) become:
+		\begin{align}
+			\beta(1+g)^{1-\gamma}\left(\frac{c_{t+1}}{c_t}\right)^{-\gamma} &= \frac{1}{\overline{\pi}}	\\
+			\beta(1+g)^{1-\gamma}\left(\frac{c_{t+1}}{c_t}\right)^{1-\gamma} &= \left(\frac{w_{t+1}}{w_t}\right)\left(\frac{1}{\overline{\pi}}\right)	
+		\end{align}
+		By (4), we can derive a constant growth rate of ${\left(\overline{\pi}\beta(1+g)^{1-\gamma}\right)^{1/\gamma}}$ for consumption and, by dividing (5) by (4), solve for the wage growth rate:
+		\[
+			\frac{c_{t+1}}{c_t} = \frac{w_{t+1}}{w_t}
+		\]
+		So consumption growth is equal to wage growth.
+		
+		
 	\item 
 	
 	\item 
@@ -218,12 +238,12 @@ In the steady-state, $c=c'=\overline{c}$ and $K=K'=\overline{K}$, which allows u
 			\includegraphics[scale = .8]{figure1.png}
 		\end{center}
 	
-	\item 
+	\item When $\gamma$ decreases to 1.01, the steady-state values of $K$ and $c$ do not change. This is unsurprising, given that $\gamma$ does not appear in our analytical solution of the steady state. However, the saddle path gets steeper, meaning that one-time shocks will cause a larger change in consumption, and consumption will proceed to move to the steady state more quickly.
 		\begin{center}
 			\includegraphics[scale = .8]{figure2.png}
 		\end{center}
 	
-	\item 
+	\item Productivity, $z$, appears only in the steady-state value of consumption. Thus, a permanent, unexpected shock to productivity will change the steady-state value of consumption, but not that of capital. Since movements along the saddle path to the steady state are achieved by immediate changes to consumption but gradual accumulation or depreciation of capital, this shock to productivity will cause an immediate, one-time increase in consumption that moves the agent from the old steady-state to the new one. This is shown in the plot below.
 		\begin{center}
 			\includegraphics[scale = .8]{figure3.png}
 		\end{center}
