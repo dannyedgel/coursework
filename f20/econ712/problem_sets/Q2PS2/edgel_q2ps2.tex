@@ -104,15 +104,15 @@
 	\item In a balanced growth path, households' utility and firms' profits are maximized. Thus, to find a system of equations that $C_0$, $N_0$, $w_0$, and $r_0$ must solve in a balanced growth path, we must characterize and solve the household and firm problems. To start, the household problem is given by 
 		\[
 			\usmax{\left\{C_t,K^s_{t+1},N^s_t\right\}_{t=0}^\infty}\sum_{t=0}^\infty \beta_t u(C_t,1-N_t)\text{ s.t. }
-				\sum_{t=0}^\infty p_t\left(C_t + K_{t+1}\right) \leq \sum_{t=0}^\infty p_t\left(r_tK_t + w_tA_tN_t\right) + \pi_0
+				\sum_{t=0}^\infty p_t\left(C_t + K_{t+1}\right) \leq \sum_{t=0}^\infty p_t\left(r_tK_t + W_tN_t\right) + \pi_0
 		\]
 		And the firm's problem is:
 		\[
-			\usmax{\left\{K_t^d,N_t^d\right\}_{t=0}^\infty}\pi_0 = \sum\zinf p_t\left(Y_t-r_tK_t^d - w_tA_tN_t^d\right)\text{ s.t. } Y_t\leq F(K_t^d,A_tN_t^d)
+			\usmax{\left\{K_t^d,N_t^d\right\}_{t=0}^\infty}\pi_0 = \sum\zinf p_t\left(Y_t-r_tK_t^d - W_tN_t^d\right)\text{ s.t. } Y_t\leq F(K_t^d,A_tN_t^d)
 		\]
 		Where, recognizing that $\pi_0$ is monotone in $Y_t$, the firm's problem can be reduced to:
 		\[
-			\usmax{\left\{K_t^d,N_t^d\right\}_{t=0}^\infty}\pi_0 = \sum\zinf p_t\left(F(K_t^d,A_tN_t^d)-r_tK_t^d - w_tA_tN_t^d\right)
+			\usmax{\left\{K_t^d,N_t^d\right\}_{t=0}^\infty}\pi_0 = \sum\zinf p_t\left(F(K_t^d,A_tN_t^d)-r_tK_t^d - W_tN_t^d\right)
 		\]
 		Since the firm is a price-taker whose decision in each period has no bearing on its conditions in any other period, the firm's problem can be solved by solving a single arbitrary period, $t$, using first-order conditions. For all choice variables, $X$, let ${\frac{X_t}{A_t} = x_t}$:
 		\[
@@ -167,19 +167,32 @@
 		\end{align}
 		In a balanced growth path, capital is rented at a constant $\overline{r}$. Thus, by equation (3), the price level grows at constant rate $\overline{\pi}$:
 			\[
-				\overline{pi} = \frac{1}{\overline{r} + 1 - \delta}
+				\overline{\pi} = \frac{1}{\overline{r} + 1 - \delta}
 			\]
 		Further, in a balanced growth path, ${N_t=N_{t+1}=\overline{N}}$. Thus, equations (1) and (2) become:
 		\begin{align}
-			\beta(1+g)^{1-\gamma}\left(\frac{c_{t+1}}{c_t}\right)^{-\gamma} &= \frac{1}{\overline{\pi}}	\\
-			\beta(1+g)^{1-\gamma}\left(\frac{c_{t+1}}{c_t}\right)^{1-\gamma} &= \left(\frac{w_{t+1}}{w_t}\right)\left(\frac{1}{\overline{\pi}}\right)	
+			\beta(1+g)^{1-\gamma}\left(\frac{c_{t+1}}{c_t}\right)^{-\gamma} &= \overline{\pi}	\\
+			\beta(1+g)^{1-\gamma}\left(\frac{c_{t+1}}{c_t}\right)^{1-\gamma} &= \left(\frac{w_{t+1}}{w_t}\right)\overline{\pi}
 		\end{align}
-		By (4), we can derive a constant growth rate of ${\left(\overline{\pi}\beta(1+g)^{1-\gamma}\right)^{1/\gamma}}$ for consumption and, by dividing (5) by (4), solve for the wage growth rate:
+		By dividing (5) by (4), solve for the wage growth rate:
 		\[
 			\frac{c_{t+1}}{c_t} = \frac{w_{t+1}}{w_t}
 		\]
-		So consumption growth is equal to wage growth.
-		
+		So consumption growth is equal to wage growth. In a balanced growth path, standardized variables (those scaled by $A_t$) are stationary, so we can solve for $\overline{pi}$ and $\overline{r}$ using (4):
+		\begin{align*}
+			\beta(1+g)^{1-\gamma} &= \overline{\pi}	\\
+			(\overline{r} + 1 - \delta)\beta(1+g)^{1-\gamma} &= 1	\\
+			\overline{r} &= \frac{1 - (1-\delta)\beta(1+g)^{1-\gamma}}{\beta(1+g)^{1-\gamma}}
+		\end{align*}
+		Knowing that, when scaled by $A_t$, capital, consumption, and output will all be constant, we can also solve for those values using the law of motion:
+		\[
+			\overline{c} + \delta\overline{k} = F(\overline{k},\overline{N})
+		\]
+		Thus, there will be a balanced growth path for $\gamma >0$, $\gamma\neq 1$. For $\gamma=1$, we can see that the first-order conditions will yield the same result, but with a different inflation (and thus interest) rate:
+		\begin{align*}
+			\beta(1+g)\left(\frac{c_t}{c_{t+1}}\right) &= \overline{pi}	\\
+			\beta\left(\frac{h'(1-N_{t+1})}{h'(1-N_{t+1})}\right) &= \left(\frac{w_{t+1}}{w_t}\right)\overline{\pi}
+		\end{align*}
 		
 	\item 
 	
