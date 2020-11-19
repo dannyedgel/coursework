@@ -186,7 +186,7 @@
 		\end{align*}
 		Knowing that, when scaled by $A_t$, capital, consumption, and output will all be constant, we can also solve for those values using the law of motion:
 		\[
-			\overline{c} + \delta\overline{k} = F(\overline{k},\overline{N})
+			\overline{c} + (g+\delta)\overline{k} = F(\overline{k},\overline{N})
 		\]
 		Thus, there will be a balanced growth path for $\gamma >0$, $\gamma\neq 1$. For $\gamma=1$, we can see that the first-order conditions will yield the same result, but with a different inflation (and thus interest) rate:
 		\begin{align*}
@@ -194,13 +194,32 @@
 			\beta\left(\frac{h'(1-N_{t+1})}{h'(1-N_{t+1})}\right) &= \left(\frac{w_{t+1}}{w_t}\right)\overline{\pi}
 		\end{align*}
 		
-	\item 
+	\item We cannot characterize this system with a phase diagram because the optimal level of capital and consumption depend not only on each other, but also on labor supply, which adds a third dimension to the system. Since we don't know the specific relationship between labor supply and utility, we cannot say whether an increase in, say, $\delta$, will ultimately lead to a higher or lower level of consumption and capital because a higher marginal rate of substitution (MRS) of consumption for liesure could lead to greater consumption, while a lower MRS could lead to higher liesure levels but lower capital and consumption.
 	
-	\item 
+	\item If $h$ is a constant function, then, since liesure is not valued, $N_t=1$ for all $t$, and, letting ${F(k,1)=f(k)}$, each of the system's variables can be solved by equations with known parameterized values:
+		\begin{align*}
+			& \overline{\pi}	= \beta(1+g)^{1-\gamma}						&\text{(consumption FOC)} 		\\
+			& \overline{r}   	= \frac{1}{\overline{\pi}} - (1 - \delta)	&\text{(capital  FOC)} 			\\
+			& \overline{w} 		= f(\overline{k}) -\overline{r}\overline{k}	&\text{(zero profit)} 			\\
+			& \overline{k} 		= f'(f^{-1}(\overline{r}))					&\text{(firm FOC)}				\\
+			& \overline{c} 		= f(\overline{k}) - (g+\delta)\overline{k}	&\text{(law of motion)}		 	\\
+			& \overline{y} 		= f(\overline{k}) 							&\text{(production function)}	
+		\end{align*}
 	
-	\item 
+	\item Suppose there is a decrease in the rate of technology, $g$. This causes a decrease in the rate of inflation, $\overline{pi}$, which increases the interest rate, $\overline{r}$. Long-run $\overline{k}$ is equal to the derivative of the production function at the inverse of the production function at $\overline{r}$. Since $f$ is increasing but concave, an increase in $\overline{r}$ causes a decrease in the long-run value of $\overline{k}$.
 	
-	\item 
+	Now consider the effect on consumption. A decrease in $\overline{k}$ causes a decrease in $\overline{k}$ but decreases $(g+\delta)\overline{k}$ (which is also shrunk by the first-order effect of a decrease in $g$). Thus, the effect of $g$'s decrease in consumption in the long term depends on the specification of $f$.
+	
+	In the short run, capital levels are fixed. Thus, in order to move from the initial steady state to the new steady state, consumption will spike, followed by a gradual decrease in both $c$ and $k$ until the new steady state is reached.
+	
+	\item Define $\overline{s}$ as the gross output that is invested in capital in the steady state and $\overline{\theta}$ be the fraction of output saved. Then, using the law of motion, we can solve,
+		\begin{align*}
+			\overline{s} 	&= f(\overline{k}) - \overline{c}	\\
+							&= (g+\delta)\overline{k}			\\
+			\overline{\theta} &= \frac{\overline{s}}{f(\overline{k}} 	\\
+							&= \frac{(g+\delta)\overline{k}}{f(\overline{k}}	\\
+			\frac{\partial\overline{\theta}}{\partial g} &= \frac{\partial\overline{k}}{\partial g}(f(\overline{k}))^{-1} - (g + \delta)\overline{k}(f(\overline{k}))^{-2}\frac{\partial\overline{k}}{\partial g}
+		\end{align*}
 	
 \end{enumerate}
 
