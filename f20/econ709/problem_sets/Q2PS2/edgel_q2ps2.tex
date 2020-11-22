@@ -1,0 +1,267 @@
+%%% Econ709: Econometrics
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Wednesday, November 22nd, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}_{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}{\mathbbm{1}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\DeclareMathOperator{\E}{\mathbb{E}}% expected value
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#2 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 709: Economic Statistics and Econometrics I	\\
+			Fall 2020											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+Recall that ${\bols=(X'X)^{-1}X'y}$. Then, if ${Z=XC}$,
+\begin{align*}
+	\bhat_Z &= (Z'Z)^{-1}Zy = \left[(XC)'XC\right]^{-1}(XC)'y	\\
+			&= \left(C'X'XC\right)^{-1}C'X'y = C^{-1}(X'X)^{-1}C'^{-1}C'X'y \\
+			&= C^{-1}(X'X)^{-1}X'y = C^{-1}\bols
+\end{align*}
+Also recall that ${\vols = Y-X\bols}$. Then,
+\begin{align*}
+	\hat{\varepsilon}_Z &= Y-Z\bhat_Z = y - Z(Z'Z)^{-1}Zy 		\\
+						&= \left(I - XC((XC)'XC)^{-1}XC\right)y = \left(I - XCC^{-1}(X'X)^{-1}C'^{-1}C'X\right)y	\\
+						&= \left(I - X(X'X)^{-1}X\right)y = y - X(X'X)^{-1}Xy	\\
+						&= y - X\bols = \vols
+\end{align*}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+\begin{itemize}
+	\item[3.5)] Recall from question 1 that ${\vols = (I - X(X'X)^{-1}X')Y}$. Then,
+		\begin{align*}
+			\bhat_e &= (X'X)^{-1}X'\vols = (X'X)^{-1}X'(I - X(X'X)^{-1}X')Y	\\
+					&= ((X'X)^{-1}X' - (X'X)^{-1}X'X(X'X)^{-1}X')Y = ((X'X)^{-1}X' - (X'X)^{-1}X')Y	\\
+					&= 0
+		\end{align*}
+	
+	\item[3.6)] Let ${\hat{Y} =  X(X'X)^{-1}X'Y}$ and $\bhat_Y$ represent the OLS coefficient from a regression of $\hat{Y}$ on $X$. Then,
+		\begin{align*}
+			\bhat_Y &= (X'X)^{-1}X'\hat{Y} = (X'X)^{-1}X'X(X'X)^{-1}X'Y	\\
+					&= (X'X)^{-1}X'Y = \bols
+		\end{align*}
+	
+	\item[3.7)] Let ${X= [X_1\text{ }X_2]}$ be an $m$ by $n$ matrix and recall that ${P=X(X'X)^{-1}X'}$ and ${M = I-P}$. Let ${n = n_1 + n_2}$, where $X_1$ is an $m$ by $n_1$ matrix and $X_2$ is $m$ by $n_2$. Then, we can define ${\Gamma = \colvec{2}{I_{n_1}}{0}}$ such that ${X_1 = X\Gamma}$. Thus,
+		\begin{align*}
+			PX_1 &= PX\Gamma = X(X'X)^{-1}X'X\Gamma = X\Gamma = X_1	\\
+			MX_1 &= (I-P)X_1 = X_1 - PX_1 = X_1-X_1 = 0
+		\end{align*}
+	
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+\begin{itemize}
+	\item[3.11)] Let $X$ contain only a non-zero constant, ${c\in\R}$, such that ${X=c\one_n}$, where $n$ is the number of elements in $Y$ and $\one_n$ is an ${n\times 1}$ vector of ones. Then,
+		\begin{align*}
+			\hat{Y} &= X(X'X)^{-1}X'Y = (c\one_n)\left[(c\one_n)'(c\one_n)\right]^{-1}(c\one_n)'Y 							\\
+					&= c\one_n\left(c^2(\one_n'\one_n)\right)^{-1}c(\one_n'Y) = c^2\one_n\left(c^2n\right)^{-1} n\bar{Y}	\\
+					&= \frac{c^2n}{c^2n}\bar{Y} \one_n = \bar{Y} \one_n
+		\end{align*}
+		Thus, $\hat{Y}$ is a column vector where every entry is $\overline{Y}$
+	
+	\item[3.12)] Equation (3.53) cannot be estimated by OLS. Equation (3.53) can be rewritten as ${Y = X\beta + \varepsilon}$, where ${X=[\one_n\text{ }D_1\text{ }D_2]}$ and ${\beta=\colvec{3}{\mu}{\alpha_1}{\alpha_2}}$. $D_1+D_2=\one_n$, so ${\text{rank}(X)\neq k}$, violating the first Gauss-Markov asusumption. 
+		\begin{enumerate}[(a)]
+			\item Neither (3.54) nor (3.55) is more general. The two specifications have the same explanatory power. In (3.54), the average of $Y$ for men is given by $\alpha_1$, and the average for women is given by $\alpha_2$. In (3.55), the averages are ${\mu+\phi}$ and $\mu$, respectively. Thus, given the parameters for one specification, you could calculate the parameters of the other with:
+				\begin{align*}
+				& \mu + \phi 	= \alpha_1	& \phi 		= \alpha_2 - \alpha_1	\\
+				& \mu 			= \alpha_2	& \alpha_2 	= \mu
+				\end{align*}
+			
+			\item $\one_n'D_1 = n_1$, $\one_n'D_2=n_2$
+			
+		\end{enumerate}
+	
+	\item[3.13)]
+		\begin{enumerate}[(a)]
+			\item Letting ${X=[D_1\text{ }D_2]}$ and ${\bhat = \colvec{2}{\hat{\gamma}_1}{\hat{\gamma}_2}}$, we can solve:
+				\begin{align*}
+					\bhat 	&= (X'X)^{-1}X'Y	\\
+							&= \begin{pmatrix} \one_n'D_1 & 0 \\ 0 & \one_n D_2 \end{pmatrix}^{-1}\colvec{2}{D_1'Y}{D_2'Y} 
+							=  \frac{1}{n_1n_2}\begin{pmatrix} n_2 & 0 \\ 0 & n_1 \end{pmatrix}\colvec{2}{\sum_{i=1}^n D_{1i}Y_i}{\sum_{i=1}^n D_{2i}Y_i} \\
+							&= \frac{1}{n_1n_2}\colvec{2}{n_2\sum_{i=1}^n D_{1i}Y_i}{n_1\sum_{i=1}^n D_{2i}Y_i}	
+							= \colvec{2}{\frac{1}{n_1}\sum_{i=1}^n D_{1i}Y_i}{\frac{1}{n_2}\sum_{i=1}^n D_{2i}Y_i}
+							= \colvec{2}{\overline{Y}_1}{\overline{Y}_2}
+				\end{align*}
+			
+			\item In plain English, $Y^*$ is the demeaned value of $Y$, using the means for men and women separately. Econometrically, as shown below, $Y^*$ is the residualized value of $Y$, or, rather, the value of $Y$ that cannot be explained by gender alone:
+				\begin{align*}
+					Y^* &= Y-D_1\overline{Y}_1-D_2\overline{Y}_2 = Y-\left(D_1\overline{Y}_1 + D_2\overline{Y}_2\right)	\\
+						&= Y - [D_1\text{ }D_2]\colvec{2}{\hat{\gamma}_1}{\hat{\gamma}_2} = \hat{\mu}
+				\end{align*}
+				It logically follows, then, that $X^*$ is the residualized value of $X$, from a regression of $X$ on $D_1$ and $D_2$.
+			
+		\end{enumerate}
+	
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+3.16
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+\begin{itemize}
+	\item[3.21)]
+	
+	\item[3.22)]
+	
+	\item[3.23)]
+	
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 6}
+(due w/ PS3)
+\begin{itemize}
+	\item[3.24)]
+	
+	\item[3.25)]
+	
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 7}
+\textbf{Given the $n\times 1$ vector $y$ and the $n\times k$ matrix $X$, assume ${P\text{rank}(X)=k}$; ${\E(y|X)=X\beta}$; and ${Var(y|X)=\sigma^2I}$.} \\
+\textbf{Partiion $X$: ${X=[X_1\text{ }X_2]}$ where $X_1$ is $n\times k_1$, $X_2$ is $n\times k_2$, and ${k_1+k_2=k}$. Similarly partition ${\beta:\beta = \colvec{2}{\beta_1}{\beta_2}}$, where $\beta_1$ is $k_1\times 1$ and $\beta_2$ is $k_2\times 1$.}
+\begin{enumerate}[(a)]
+	\item \textbf{Consider the OLS regression of $y$ on $X$ that yields the OLS estimator $\hat{\beta}$. Whatis $\E(\hat{\beta_1}|X)$? Simplify your answer.}
+	
+	
+	\item \textbf{Let $\hat{y}=X\hat{\beta}$. Now, consider the OLS regression of $\hat{y}$ on $X_1$ that yields the OLS estimator $\hat{\beta}_1$. What is $\E(\hat{\beta}_1|X)$? (Simplify your answer.) Is $\hat{\beta}_1$ an unbiasedestimator of $\beta_1$?}
+	
+	
+	\item \textbf{Consider the OLS regression of $y$ on $X_1$ that yields the OLS estimator $\beta_1$. Let ${\tilde{y}=X_1\tilde{\beta}_1}$. Now consider the OLS regression of $\tilde{y}$ on $X$ that yields the OLS estimator $\tilde{\beta}$. How is $\tilde{\beta}$ related to $\tilde{\beta}_1$? (Provide a mapping between $\tilde{\beta}$ and $\tilde{\beta}_1$ that does not involve $X$.)}
+	
+	
+	\item \textbf{What is the $R^2$ for the OLS regression of $\tilde{y}$ on $X$ (from part (c))? Simplify your answer.}
+	
+	
+	\item \textbf{What is $Var(\tilde{\beta}_1|X)$? Simplify your answer.}
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
