@@ -49,6 +49,7 @@
 \renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
 \newcommand{\bols}{\hat{\beta}_{OLS}}
 \newcommand{\bhat}{\hat{\beta}}
+\newcommand{\vhat}{\hat{\varepsilon}}
 \newcommand{\vols}{\hat{\varepsilon}_{OLS}}
 \newcommand{\one}{\mathbbm{1}}
 \newcommand{\tr}[1]{\text{tr}\left(#1\right)}
@@ -190,23 +191,64 @@ Also recall that ${\vols = Y-X\bols}$. Then,
 						&= Y - [D_1\text{ }D_2]\colvec{2}{\hat{\gamma}_1}{\hat{\gamma}_2} = \hat{\mu}
 				\end{align*}
 				It logically follows, then, that $X^*$ is the residualized value of $X$, from a regression of $X$ on $D_1$ and $D_2$.
+				
+			\item Let ${D = [D_1\text{ }D_2]}$, ${\hat{\alpha} = \colvec{2}{\hat{\alpha}_1}{\hat{\alpha}_2}}$, and ${\hat{\gamma} = \colvec{2}{\hat{\gamma}_1}{\hat{\gamma}_2}}$. From part (b), we can rewrite:
+				\[
+					Y^* = Y - D_1\hat{\gamma}_1 - D_2\hat{\gamma}_2 = Y - D\hat{\gamma} = (I_n - D(D'D)^{-1}D')Y = M_DY
+				\]
+				Where $M_D$ is the orthogonal projection matrix for $D$. Similarly, ${X^* = M_DX}$. Thus, we can derive:
+				\begin{align*}
+					Y^* &= X^*\tilde{\beta}	\\
+					M_DY &= M_DX\tb	\\
+					\tb &= (X'M_DX)^{-1}M_DX'Y
+				\end{align*}
+				Since The second recgression is a partition of $D$ and $X$, then by Theorem 3.4, 
+				\[
+					\bhat = (X'M_DX)^{-1}X'M_DY
+				\]
+				Thus, ${\bhat = \tb}$.
 			
 		\end{enumerate}
 	
 \end{itemize}
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \section*{Question 4}
-3.16
+Let ${\bhat = \colvec{2}{\bhat_1}{\bhat_2}}$ and ${X = [X_1\text{ }X_2]}$. By the definition of $R^2$,
+\begin{align*}
+	R^2_1	&= 1 - \frac{\vhat'\vhat}{(Y-\overline{Y})'(Y-\overline{Y})} = 1 - \frac{(Y-X\bhat)'(Y-X\bhat)}{(Y-\overline{Y})'(Y-\overline{Y})} \\
+			&= 1 - \frac{(Y-X_1\bhat_1-X_2\bhat_2)'(Y-X_1\bhat_1-X_2\bhat_2)}{(Y-\overline{Y})'(Y-\overline{Y})} \\
+\end{align*}
+Now let ${\tb_2 = 0^*\bhat_2}$. Then, for ${\tb=\colvec{2}{\tb_1}{\tb_2}}$, ${X\tb=X_1\tb_1}$ and ${\tb_1=\bhat_1 = (X_1'M_2X_1)^{-1}X_1'M_2Y}$:
+\begin{align*}
+	R^2_2	&=  1 - \frac{(Y-X\tb)'(Y-X\tb)}{(Y-\overline{Y})'(Y-\overline{Y})} = 1 - \frac{(Y-X_1\tb_1-X_2\tb_2)'(Y-X_1\tb_1-X_2\tb_2)}{(Y-\overline{Y})'(Y-\overline{Y})} \\
+			&= 1 - \frac{(Y-X_1\bhat_1)'(Y-X_1\bhat_1)}{(Y-\overline{Y})'(Y-\overline{Y})} \\
+			&\leq 1 - \frac{(Y-X_1\bhat_1-X_2\bhat_2)'(Y-X_1\bhat_1-X_2\bhat_2)}{(Y-\overline{Y})'(Y-\overline{Y})} = R^2_1
+\end{align*}
+It is possible for $R^2_1=R^2_2$, if $\bhat_2=0$, which occurs if $X_2$ is orthogonal to $Y$.
 
 %%%________________________________________________________________%%%
 
 \section*{Question 5}
 \begin{itemize}
-	\item[3.21)]
+	\item[3.21)] As a standard OLS coefficient in a non-partitioned regression, ${\tb_1=(X_1'X_1)^{-1}X_1'Y}$. By Theorem 3.4, ${\bhat_1 = (X_1'M_2X_1)^{-1}X_1'M_2Y}$. Thus, ${\tb_1=\bhat_1}$ if ${X_1'M_2=X_1'}$. This will be true if:
+		\begin{align*}
+			X_1'M_2								&= X_1'	\\
+			X_1'(I - X_2(X_2'X_2)^{-1}X_2')		&= X_1'	\\
+			X_1' - X_1'X_2(X_2'X_2)^{-1}X_2')	&= X_1'
+		\end{align*}
+		Which holds if ${X_1'X_2=0}$, in which case $X_1$ and $X_2$ are orthogonal. The same is true for $\tb_2$ and $\bhat_2$, by the same mathematical logic. The coefficients will also be equal if either $X_1$ or $X_2$ (or both) are orthogonal to $Y$, since this will lead to OLS coefficients of zero.
 	
-	\item[3.22)]
+	\item[3.22)] Recall that, by Theorem 3.4, ${\bhat_2 = (X_2'M_1X_2)^{-1}X_2'M_1Y}$. Then,
+		\begin{align*}
+			\tilde{u} 	&= Y-X_1\tb_1 = Y - X_1(X_1'X_1)^{-1}X_1'Y = (I - X_1(X_1'X_1)^{-1}X_1')Y = M_1Y	\\
+			\tilde{u} 	&= X_2\tb_2	\\
+			M_1Y 		&= X_2\tb_2	\\
+			M_1M_1Y		&= M_1X_2\tb_2\\
+			X_2'M_1Y	&= X_2'M_1X_2\tb_2\\
+			\tb_2		&= (X_2'M_1X_2)^{-1}X_2'M_1Y = \bhat_2
+		\end{align*}
 	
 	\item[3.23)]
 	
