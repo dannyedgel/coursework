@@ -240,17 +240,21 @@ It is possible for $R^2_1=R^2_2$, if $\bhat_2=0$, which occurs if $X_2$ is ortho
 		\end{align*}
 		Which holds if ${X_1'X_2=0}$, in which case $X_1$ and $X_2$ are orthogonal. The same is true for $\tb_2$ and $\bhat_2$, by the same mathematical logic. The coefficients will also be equal if either $X_1$ or $X_2$ (or both) are orthogonal to $Y$, since this will lead to OLS coefficients of zero.
 	
-	\item[3.22)] Recall that, by Theorem 3.4, ${\bhat_2 = (X_2'M_1X_2)^{-1}X_2'M_1Y}$. Then,
+	\pagebreak
+	\item[3.22)] In a partitioned regression, ${\bhat_2 = (X_2'X_2)^{-1}X_2'(y-X_1)\bhat_1}$. Then,
 		\begin{align*}
 			\tilde{u} 	&= Y-X_1\tb_1 = Y - X_1(X_1'X_1)^{-1}X_1'Y = (I - X_1(X_1'X_1)^{-1}X_1')Y = M_1Y	\\
-			\tilde{u} 	&= X_2\tb_2	\\
-			M_1Y 		&= X_2\tb_2	\\
-			M_1M_1Y		&= M_1X_2\tb_2\\
-			X_2'M_1Y	&= X_2'M_1X_2\tb_2\\
-			\tb_2		&= (X_2'M_1X_2)^{-1}X_2'M_1Y = \bhat_2
+			\tilde{u} 	&= X_2\tb_2																			\\
+			\tb_2		&= (X_2'X_2)^{-1}X_2'\tilde{u} = (X_2'X_2)^{-1}X_2'(Y-X_1\tb_1)
 		\end{align*}
+		Thus, $\tb_2=\bhat_2$ only if ${\tb_1=\bhat_1}$, which, as we solved in 3.21, is only true if $X_1$ and $X_2$ are orthogonal. This is rarely the case, but weirder things have happened in 2020 alone.
 	
-	\item[3.23)]
+	\item[3.23)] The equation for the regression of $Y$ on $X$ is ${Y = X_1\bhat_1 + X_2\bhat_2 + \vhat}$, and the equation for the regression of $Y$ on $Z$ can be simplified as follows:
+		\begin{align*}
+			Y	&= Z_1\tb_1 + Z_2\tb_2 + \tilde{\varepsilon} = X_1\tb_1 + (X_2 - X_1)\tb_2 + \tilde{\varepsilon} 
+				&= X_1(\tb_1 - \tb_2) + X_1\tb_2 + \tilde{\varepsilon} 
+		\end{align*}
+		The two regressions capture the same variation in $Y$, where ${\bhat = \tb_1-\tb2}$ and $\bhat_2=\tb_2$. Most importantly, ${\vhat=\tilde{\varepsilon}}$, so ${\hat{\sigma}^2=\tilde{\sigma}^2}$.
 	
 \end{itemize}
 
@@ -258,33 +262,70 @@ It is possible for $R^2_1=R^2_2$, if $\bhat_2=0$, which occurs if $X_2$ is ortho
 
 \section*{Question 6}
 (due w/ PS3)
-\begin{itemize}
-	\item[3.24)]
-	
-	\item[3.25)]
-	
-\end{itemize}
 
 
 %%%________________________________________________________________%%%
 
 \section*{Question 7}
-\textbf{Given the $n\times 1$ vector $y$ and the $n\times k$ matrix $X$, assume ${P\text{rank}(X)=k}$; ${\E(y|X)=X\beta}$; and ${Var(y|X)=\sigma^2I}$.} \\
-\textbf{Partiion $X$: ${X=[X_1\text{ }X_2]}$ where $X_1$ is $n\times k_1$, $X_2$ is $n\times k_2$, and ${k_1+k_2=k}$. Similarly partition ${\beta:\beta = \colvec{2}{\beta_1}{\beta_2}}$, where $\beta_1$ is $k_1\times 1$ and $\beta_2$ is $k_2\times 1$.}
 \begin{enumerate}[(a)]
-	\item \textbf{Consider the OLS regression of $y$ on $X$ that yields the OLS estimator $\hat{\beta}$. Whatis $\E(\hat{\beta_1}|X)$? Simplify your answer.}
+	\item 
+		Recall the estimator $\bhat_1$ for a partition regression: ${\bhat_1 = (X_1'X_1)^{-1}X_1'(Y-X_2\bhat_2)}$. Then,
+			\begin{align*}
+				\E(\bhat_1|X) 	&= \E\left[(X_1'X_1)^{-1}X_1'(Y-X_2\bhat_2)|X\right]	\\
+								&= (X_1'X_1)^{-1}X_1'\E\left[Y-X_2\bhat_2|X\right]		\\
+								&= (X_1'X_1)^{-1}X_1'\E\left[Y|X\right] - (X_1'X_1)^{-1}X_1'X_2\E\left[\bhat_2|X\right]
+			\end{align*}
+			Where ${\bhat_2=(X_2'M_1X_2)^{-1}X_2'M_1Y}$ and ${M_1=I-X_1(X_1'X_1)^{-1}X_1'}$, so:
+			\begin{align*}
+				\E(\bhat_1|X) 	&= (X_1'X_1)^{-1}X_1'\E\left[Y|X\right] - (X_1'X_1)^{-1}X_1'X_2(X_2'M_1X_2)^{-1}X_2'M_1\E\left[Y|X\right]	\\
+								&= (X_1'X_1)^{-1}X_1'\left[I - X_2(X_2'M_1X_2)^{-1}X_2'M_1\right]\E\left[Y|X\right]	\\
+			\end{align*}
+	
+	\pagebreak
+	\item 
+		\begin{align*}
+			\hat{\bhat}_1 			&= (X_1'X_1)^{-1}X_1'\hat{y} = (X_1'X_1)^{-1}X_1'X\bhat	\\
+			\E(\hat{\bhat}_1|X)		&= \E\left[(X_1'X_1)^{-1}X_1'X\bhat|X\right] = (X_1'X_1)^{-1}X_1'X\E\left[\bhat|X\right] 
+		\end{align*}
+		Since the Gauss-Markov assumptions are satisfied, ${\E(\bhat|X)=\beta}$, so:
+		\begin{align*}
+			\E(\hat{\bhat}_1|X)		&= \E\left[(X_1'X_1)^{-1}X_1'X\bhat|X\right] = (X_1'X_1)^{-1}X_1'X\beta	\\
+									&= (X_1'X_1)^{-1}X_1'(X_1\beta_1 + X_2\beta_2) 							\\
+									&= (X_1'X_1)^{-1}X_1'X_1\beta_1 + (X_1'X_1)^{-1}X_1'X_2\beta_2 			\\
+									&= \beta_1 + (X_1'X_1)^{-1}X_1'X_2\beta_2
+		\end{align*}
+		Thus, $\hat{\bhat}_1$ is only an unbiased estimator of $\beta_1$ if ${X_1'X_2=0}$, i.e. if $X_1$ and $X_2$ are orthogonal.
+		
 	
 	
-	\item \textbf{Let $\hat{y}=X\hat{\beta}$. Now, consider the OLS regression of $\hat{y}$ on $X_1$ that yields the OLS estimator $\hat{\beta}_1$. What is $\E(\hat{\beta}_1|X)$? (Simplify your answer.) Is $\hat{\beta}_1$ an unbiasedestimator of $\beta_1$?}
+	\item 
+		Note that ${X_1 = X\Gamma}$, where ${\Gamma = [I_{k_1}\text{ }0*X_2]}$
+		\begin{align*}
+			\tb_1 		&= (X_1'X_1)^{-1}X_1'y		\\
+			\tilde{y}	&= X_1\tb_1					\\
+			\tilde{\tb}	&= (X'X)^{-1}X'\tilde{y} = (X'X)^{-1}X'X_1\tb_1 = \Gamma\tb_1	\\
+			\tilde{\tb}	&= \colvec{2}{\tb_1}{0}
+		\end{align*}
+	
+	\item $R^2=1$, as shown below.
+		\begin{align*}
+			R^2 				&= 1 - \frac{\tilde{\varepsilon}'\tilde{\varepsilon}}{(Y-\overline{Y})'(Y-\overline{Y})}	\\
+			\tilde{\varepsilon}	&= \tilde{y} - X\tilde{\tb} = X_1\tb_1 - X\colvec{2}{\tb_1}{0} =  X_1\tb_1 -  X_1\tb_1 = 0	
+		\end{align*}
 	
 	
-	\item \textbf{Consider the OLS regression of $y$ on $X_1$ that yields the OLS estimator $\beta_1$. Let ${\tilde{y}=X_1\tilde{\beta}_1}$. Now consider the OLS regression of $\tilde{y}$ on $X$ that yields the OLS estimator $\tilde{\beta}$. How is $\tilde{\beta}$ related to $\tilde{\beta}_1$? (Provide a mapping between $\tilde{\beta}$ and $\tilde{\beta}_1$ that does not involve $X$.)}
-	
-	
-	\item \textbf{What is the $R^2$ for the OLS regression of $\tilde{y}$ on $X$ (from part (c))? Simplify your answer.}
-	
-	
-	\item \textbf{What is $Var(\tilde{\beta}_1|X)$? Simplify your answer.}
+	\item Note that 
+		\begin{align*}
+			Var(\tb_1|X) 	&= Var((X_1'X_1)^{-1}X_1'y|X)  		\\
+							&= (X_1'X_1)^{-1}X_1'Var(y|X) X_1(X_1'X_1)^{-1}		\\
+							&= (X_1'X_1)^{-1}X_1' \sigma^2I X_1(X_1'X_1)^{-1}	\\
+							&= \sigma^2(X_1'X_1)^{-1}X_1'X_1(X_1'X_1)^{-1}		\\
+							&= \sigma^2(X_1'X_1)^{-1}		
+		\end{align*}
+		Where $\tilde{\tb}=\colvec{2}{\tb_1}{0}$, such that:
+		\[
+			Var(\tilde{\tb}|X)	= \begin{pmatrix} \sigma^2(X_1'X_1)^{-1} & 0 \\  0 & 0 \end{pmatrix}
+		\]
 	
 \end{enumerate}
 
