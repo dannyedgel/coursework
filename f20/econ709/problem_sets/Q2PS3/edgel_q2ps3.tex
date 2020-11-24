@@ -96,7 +96,7 @@
 
 \begin{document}
 
-\title{	Problem Set \#2 }
+\title{	Problem Set \#3 }
 \author{ 	Danny Edgel 										\\ 
 			Econ 709: Economic Statistics and Econometrics I	\\
 			Fall 2020											\\
@@ -209,6 +209,12 @@ I show below that both estimators, $\bhat$ and $\tb$ are consistent for $\beta$.
 	\item[7.14)] 
 	
 	\item[7.15)] 
+	\begin{align*}
+		\tb	=	& \frac{\sum_{i=1}^n X_i^3Y_i}{\sum_{i=1}^nX_i^4} = \frac{n^{-1}\sum_{i=1}^n X_i^3(X_i\beta+e_i)}{n^{-1}\sum_{i=1}^nX_i^4} \\
+			= 	& \beta\left(\frac{n^{-1}\sum_{i=1}^n X_i^4}{n^{-1}\sum_{i=1}^nX_i^4}\right) + \left(\frac{n^{-1}\sum_{i=1}^n X_i^3e_i}{n^{-1}\sum_{i=1}^nX_i^4}\right)	\\
+\tb - \beta	=	& \left(\frac{\frac{1}{n}\sum_{i=1}^n X_i^3e_i}{\frac{1}{n}\sum_{i=1}^nX_i^4}\right)	\\
+\sqrt{n}(\tb - \beta) =	& \left(\frac{\frac{1}{\sqrt{n}}\sum_{i=1}^n X_i^3e_i}{\frac{1}{n}\sum_{i=1}^nX_i^4}\right)	\rightarrow_d N\left(0,\frac{\E(X^6\varepsilon^2)}{\E(X^4)^2}\right)
+	\end{align*}
 	
 \end{itemize}
 
@@ -226,7 +232,7 @@ I show below that both estimators, $\bhat$ and $\tb$ are consistent for $\beta$.
 %%%________________________________________________________________%%%
 
 \section*{Question 9}
-\begin{enumerate}
+\begin{enumerate}[(a)]
 	\item 
 	
 	
