@@ -1,0 +1,268 @@
+%%% Econ709: Econometrics
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Wednesday, November 22nd, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}_{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\vhat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}{\mathbbm{1}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\DeclareMathOperator{\E}{\mathbb{E}}% expected value
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#2 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 709: Economic Statistics and Econometrics I	\\
+			Fall 2020											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+\begin{itemize}
+	\item[3.24)] The table below displays the results of each of the regressions that must be estimated for this question. The first column displays the estimates for equation (3.50), and the fourth column displays the estimates for the residual approach, using the residuals from the regressions displayed in columns (2) and (3).
+		\begin{center}
+			\input{table1b.tex}
+		\end{center}
+		\begin{enumerate}[(a)]
+			\item As shown in the table above, ${R^2=0.389}$ and the sum of squared errors is 82.50.
+			
+			\item Comparing the coefficients from the "Education" row in column (1) and the $\hat{\varepsilon_{educ}}$ row of column (4) shows that the coefficient on education is the same using either a partition regression or a residual regression. They each equal 0.144.
+			
+			\item The bottom three rows of the table above provide summary statistics for each regression. These show that the sum-of-squared errors for the regressions in (a) and (b) are the same, but the $R^2$ is slightly smaller when the residual regression approach is used than when a partition regression is used. This is to be expected, as using a regression with more independent variables always weakly increases $R^2$, and the residual regression uses two fewer independent variables than the partition regression.
+			
+		\end{enumerate}
+	
+	\item[3.25)] Each of the values below is rounded to the nearest thousandth.
+		\input{3.25_results.tex}
+	
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+\begin{itemize}
+	\item[7.2)] To find the limit of $\bhat$ as ${n\rightarrow\infty}$, we can first rewrite $\bhat$ in terms of expectation:
+		\begin{align*}
+			\bhat 	&= \left(\sum_{i=1}^n X_iX_i' + \lambda I_k\right)^{-1}\left(\sum_{i=1}^n X_iY_i\right)	\\
+					&= \left(\sum_{i=1}^n X_iX_i' + \lambda I_k\right)^{-1}n\left(\frac{1}{n}\sum_{i=1}^n X_iY_i\right)	\\
+					&= \left(\frac{1}{n}\sum_{i=1}^n X_iX_i' + \frac{1}{n}\lambda I_k\right)^{-1}\left(\frac{1}{n}\sum_{i=1}^n X_iY_i\right)	\\
+		\end{align*}
+		And, recognizing ${Y_i = X_i\beta + \varepsilon_i}$, 
+		\begin{align*}
+			\bhat 	\rightarrow_p 	&\E\left(X_iX_i' + 0 I_k\right)^{-1}\E\left(X_i(X_i\beta + \varepsilon_i)\right)	\\
+					= 				&\E\left(X_iX_i'\right)^{-1}\left[\E\left(X_iX_i'\beta\right) + \E\left(X_i\varepsilon_i)\right)\right]	\\
+					= 				&\beta\E\left(X_iX_i'\right)^{-1}\E\left(X_iX_i'\right) \\
+					= 				&\beta
+		\end{align*}
+	
+	\item[7.3)] Let $\lambda=cn$ where $c>0$. Then,
+		\begin{align*}
+			\bhat 	= 				&\left(\frac{1}{n}\sum_{i=1}^n X_iX_i' + \frac{1}{n}(cn) I_k\right)^{-1}\left(\frac{1}{n}\sum_{i=1}^n X_iY_i\right)	\\
+			\bhat 	\rightarrow_p 	&\E\left(X_iX_i' + cI_k\right)^{-1}\E\left(X_i(X_i\beta + \varepsilon_i)\right)	\\
+					= 				&\E\left(X_iX_i' + cI_k\right)^{-1}\left[\E\left(X_iX_i'\beta\right) + \E\left(X_i\varepsilon_i)\right)\right]	\\
+					= 				&\E\left(X_iX_i' + cI_k\right)^{-1}\beta\E\left(X_iX_i'\right) \\
+					= 				&\E\left(X_iX_i' + cI_k\right)^{-1}\beta\left[\E\left(X_iX_i'\right) + cI_k - cI_k\right] \\
+					= 				&\E\left(X_iX_i' + cI_k\right)^{-1}\left[\E\left(X_iX_i'\right) + cI_k\right]\beta - \lambda\beta \\
+					= 				&\beta - c\E\left(X_iX_i' + cI_k\right)^{-1}\beta
+		\end{align*}
+	
+	\item[7.4)] 
+		\begin{enumerate}[(a)]
+			\item $ \E(X_1) = \frac{4}{8}(-1) + \frac{4}{8}(1) = 0 $
+			\item $ \E(X_1^2) =  \frac{4}{8}(-1)^2 + \frac{4}{8}(1)^2 = 1  $
+			\item $ \E(X_1X_1) = \frac{3}{8}(1)(1) + \frac{3}{8}(-1)(-1) + \frac{1}{8}(1)(-1) + \frac{1}{8}(-1)(1) = \frac{6}{8} - \frac{2}{8} = \frac{1}{2} $
+			\item $ \E(e^2) = \pfrac{3}{4}\left(\frac{5}{4}\right) + \pfrac{1}{4}\left(\frac{1}{4}\right) = \frac{15}{16} + \frac{1}{16} = 1 $
+			\item $ \E(X_1^2e^2) = \pfrac{3}{4}\left(\frac{5}{4}\right) + \pfrac{1}{4}\left(\frac{1}{4}\right) = 1  $
+			\item $ \E(X_1X_1e^2) = \pfrac{3}{4}\pfrac{5}{4}(1) + \pfrac{1}{4}\pfrac{1}{4}(-1) = \frac{15}{16} - \frac{1}{16} = \frac{7}{8} $
+		\end{enumerate}
+	
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+7.8
+Using the notation from 6.8, where ${Z_n\rightarrow_p0\equiv Z_n=o_p(a_n)}$
+\begin{align*}
+	\sqrt{N}\left(\hat{\sigma}^2-\sigma^2\right)	&=	\sqrt{n}\left(\frac{1}{n}\sum_{i=1}^n\hat{\varepsilon}_i^2-\sigma^2\right)
+\end{align*}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+I show below that both estimators, $\bhat$ and $\tb$ are consistent for $\beta$.
+\begin{align*}
+			\bhat	= 	&\frac{\sum_{i=1}^nX_iY_i}{\sum_{i=1}^nX_i^2} = \frac{n^{-1}\sum_{i=1}^nX_i(X_i'\beta + e_i)}{n^{-1}\sum_{i=1}^nX_i^2}	\\
+		\rightarrow_p	&\frac{\E(X_i(X_i'\beta + e_i))}{\E(X_iX_i')} = \frac{\E(X_iX_i'\beta) + \E(X_i'e_i))}{\E(X_iX_i')} \\
+					= 	&\beta\frac{\E(X_iX_i')}{\E(X_iX_i')}+\frac{\E(X_i'e_i))}{\E(X_iX_i')} = \beta(1) + 0	\\
+\therefore	\bhat\rightarrow_p&\beta																					\\
+			\tb		=	&\frac{1}{n}\sum_{i=1}^n\frac{Y_i}{X_i} = \frac{1}{n}\sum_{i=1}^n\frac{X_i'\beta + e_i}{X_i} = \frac{1}{n}\sum_{i=1}^n\beta\left(1+\frac{e_i}{X_i}\right)	\\
+		\rightarrow_p	&\beta\E\left(1+\frac{e_i}{X_i}\right) = \beta\left(1+\E\left(\frac{1}{X_i}\E(e_i|X)\right)\right) = \beta(1+0)	\\
+\therefore	\tb\rightarrow_p&\beta																			
+\end{align*}
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+7.10
+
+%%%________________________________________________________________%%%
+
+\section*{Question 6}
+\begin{itemize}
+	\item[7.13)] 
+	
+	\item[7.14)] 
+	
+	\item[7.15)] 
+	
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 7}
+7.17
+
+%%%________________________________________________________________%%%
+
+\section*{Question 8}
+7.19
+
+%%%________________________________________________________________%%%
+
+\section*{Question 9}
+\begin{enumerate}
+	\item 
+	
+	
+	\item 
+	
+	
+	\item 
+	
+	
+	\item 
+	
+	
+	\item 
+	
+	
+	\item 
+	
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
