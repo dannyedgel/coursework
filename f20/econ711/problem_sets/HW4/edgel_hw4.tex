@@ -201,8 +201,12 @@ This continues for 8 minutes, when the elevator comes for the eighth time and no
 \subsection*{Question 4}
 
 \begin{enumerate}[(a)]
-	\item 
+	\item We can eliminate option (I) for both players, as it has no fundamental or strategic benefit but costs them by discounting their possible payoff. Therefore, it is strictly dominated. Beyond leading to the strict domination of doing nothing, $\delta$ does not affect play, since it is very close to 1 and thus does not meaningfully impact payoffs when raised to the 11th power (which is the maximum possible discount in this game). Thus, at any turn, if a player faced, say, winning with costs of 21 and losing with a cost of 2, the player will chose to win, as ${20\delta^k-21>-2}$ for any ${k=1,2,...,11}$. For simplicity of notation, then, I will calculate payoffs as though ${\delta=1}$.
 	
+	At any turn, each player optimizes by either forcing a win (if they can) or minimizing their costs if their opponent can force a win. For example, the first mover in this game has the option to force a win by moving three steps with each turn, resulting in a payoff of $-10$. If they take three steps as their first choice, the equilibrium of the subgame that follows is for each player to take two steps until the first-moving player wins (see table below). If the first-moving player takes fewer than three steps as a first move, then the second-moving player can similarly force a win by taking three steps. Thus, there is a unique SPNE at $(3,1,1,1,1,1,1)$.
+		\begin{center}
+			\includegraphics[scale=.5]{table4a.png}
+		\end{center}
 	
 	\item 
 	
