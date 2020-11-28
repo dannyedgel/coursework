@@ -127,18 +127,32 @@
 							&+  Pr(b_i>b_j(v_j))[p(v_i-b_i) + q(v_i-b_j) + (1-p-q)v_i]
 		\end{align*}
 		Where $Pr(b_i<b_j(v_j))=F(\binv{b_i})=\binv{b_i}$ and the probability of any two values being equal on a uniform distribution is zero. Recall that the derivative of an inverse function is the reciprocal of the derivative at the inverse. Then, we can calculate player $i$'s best response function using first-order conditions:
+		$$ \frac{\partial}{\partial b_i}\left[\binv{b_i}(1-p-q)(-b_i) + \left(1-\binv{b_i}\right)[p(v_i-b_i) + q(v_i-b_j) + (1-p-q)v_i]\right] = 0	$$
 		\begin{align*}
-			\frac{\partial}{\partial b_i}\left[\binv{b_i}(1-p-q)(-b_i) + \left(1-\binv{b_i}\right)[p(v_i-b_i) + q(v_i-b_j) + (1-p-q)v_i]\right] = 0	\\
-			\frac{(1-p-q)b_i}{b_j'\left(\binv{b_i}\right)} + (1-p-q)\binv{b_i} + p\binv{b_i} + \frac{pb_i}{b_j'\left(\binv{b_i}\right)} = pv_i + q(v_i-b_j(v_j)) + (1-p-q)v_i
+			-\frac{(1-p-q)b_i}{b_j'\left(\binv{b_i}\right)} - (1-p-q)\binv{b_i} -p - \frac{pv_i}{b_j'\left(\binv{b_i}\right)} + pv_i + \frac{pb_i}{b_j'\left(\binv{b_i}\right)} 	\\
+				- \frac{q(v_i-b_j) + (1-p-q)v_i}{b_j'\left(\binv{b_i}\right)} = 0
 		\end{align*}
-		Recognizing that the players' betting functions are symmetric, ${\binv{b_i}=v_i}$, so:
+		Recognizing that the players' betting functions are symmetric, ${\binv{b_i}=v_i}$ and ${b_i=b_j}$, so:
 		\begin{align*}
-			\frac{(1-p-q)b_i}{b_j'(v_i)} + (1-p-q)v_i + pv_i+ \frac{pb_i}{b_j'(v_i)} &= pv_i + q(v_i-b_j(v_j)) + (1-p-q)v_i	\\
-			\frac{(1-q)b_i}{b_j'(v_i)} &= q(v_i - b_j(v_j))	\\
-			b_i	&= \left(\frac{q}{1-q}\right)(v_i - b_j(v_j))b_j'(v_i)
+			-(1-p-q)v_i - \frac{(1-p-q)b_i}{b'(v_i)}-p-\frac{pv_i}{b'(v_i)} + pv_i + \frac{pb_i}{b'(v_i)} - \frac{q(v_i-b_j) + (1-p-q)v_i}{b'(v_i)} = 0	\\
+			-(1-p-q)v_ib'(v_i) - (1-p-q)b_i - pb'(v_i) - pv_i + pv_ib'(v_i) + pb_i - q(v_i-b_j) + (1-p-q)v_i = 0
 		\end{align*}
+		\begin{align*}
+			(1-q)b_i 	&= pv_ib'(v_i) - pv_i - pb'(v_i) - q(v_i - b_j) + (1-p-q)v_i 	\\
+			(1-q)b_i 	&= (1-q)v_i - q(v_i-b_j) - pb'(v_i)(1-v_i)						\\
+			b_i			&= v_i - \frac{q}{1-q}(v_i-b_j) - \frac{p}{1-q}b'(v_i)(1-v_i)	
+		\end{align*}
+		\begin{align*}
+			b_i			&= v_i - \frac{q}{1-q}\left(v_i-v_i + \frac{q}{1-q}(v_i-b_i) + \frac{p}{1-q}b'(v_i)(1-v_i)\right) - \frac{p}{1-q}b'(v_i)(1-v_i)	 \\
+			\left(1-\left(\frac{q}{1-q}\right)^2\right)b_i &= \left(1-\left(\frac{q}{1-q}\right)^2\right)v_i - \left(\frac{1}{1-q}\right)\frac{p}{1-q}b'(v_i)(1-v_i)	\\
+			b_i &= v_i - \frac{pb'(v_i)(1-v_i)}{(1-q^2)^2 - q^2}
+		\end{align*}
+		[HASN'T BEEN UPDATED YET] Thus, the symmetric Bayesian Nash equilibium is:
+		\[
+			\left(\frac{v_1b'(v_1)\left(q^{-1}-1-b'(v_1)\right)}{q^{-1} - 1 + b'(v_1)},\frac{v_2b'(v_2)\left(q^{-1}-1-b'(v_2)\right)}{q^{-1} - 1 + b'(v_2)}\right)
+		\]
 	
-	\item 
+	\item % The equilibrium bidding strategy does not directly depend on $p$. As ${q\rightarrow0}$, the equilibrium bidding strategy tends toward 1 regardless of the player's valuation. As ${q\rightarrow1}$, the equilibrium 
 	
 	
 \end{enumerate}
@@ -254,16 +268,20 @@ In a two-player game of perfect information, each player knows precisely what th
 		Thus, the subgame perfect equilibrium is ${\left(\left(\frac{3\alpha}{4-2\alpha^2}\right)d,\left(\frac{\alpha^2 + 4}{2-\alpha}\right)\frac{1}{4}d \right)}$.
 		
 	
-	\item Letting $p_i^{sim}$ and $u_i^{sim}$ be the equilibrium price chosen and payoff earned, respectively, by $i$ under simultaneous play, with sequential play denoted without a superscrit, we can solve:
+	\item Letting $p_i^{sim}$ and $u_i^{sim}$ be the equilibrium price chosen and payoff earned, respectively, by $i$ under simultaneous play, with sequential play denoted without a superscript, we can solve [NOT FINISHED BELOW; am I missing a major cancellation or something? It can't actually be this messy]:
 		\begin{align*}
-			p_A	&= \left(\frac{3\alpha}{4-2\alpha^2}\right)d = \left(\frac{3\alpha}{2(2+\alpha)}\right)\left(\frac{1}{2-\alpha}\right)d	\\
-				&= \left(\frac{3\alpha}{2(2+\alpha)}\right)p_A^{sim}		\\
-			p_B	&= \left(\frac{\alpha^2 + 4}{2-\alpha}\right)\frac{1}{4}d  = \left(\frac{\alpha^2 + 4}{(2-\alpha)(2+\alpha)}\right)\left(\frac{1}{4}\right)d	\\
-				&= \left(\frac{\alpha^2+4}{4(2+\alpha)}\right)p_B^{sim}	\\
+			p_A	&= \left(\frac{3\alpha}{4-2\alpha^2}\right)d = \left(\frac{3\alpha}{2-\alpha^2}\right)\left(\frac{2-\alpha}{2}\right)\left(\frac{1}{2-\alpha}\right)d	\\
+				&= \left(\frac{3\alpha}{2}\right)\left(\frac{2-\alpha}{2-\alpha^2}\right)p_A^{sim}		\\
+			p_B	&= \left(\frac{\alpha^2 + 4}{2-\alpha}\right)\frac{1}{4}d  = \left(\frac{\alpha^2 + 4}{4}\right)\left(\frac{1}{2-\alpha}\right)d	\\
+				&= \left(\frac{\alpha^2}{4} + 1\right)p_B^{sim}	\\
 			u_A^{sim} 	&= p_A^{sim}\left(d-p_A^{sim} + \alpha p_B^{sim}\right) = \left(\frac{1}{2-\alpha}d\right)\left(d - \frac{1}{2-\alpha}d + \frac{\alpha}{2-\alpha}d\right)	\\
 						&=  \left(\frac{1}{2-\alpha}d\right)^2	\\
 			u_B^{sim} 	&= u_A^{sim} = \left(\frac{1}{2-\alpha}d\right)^2	\\
-			u_A	&= \left(\frac{3\alpha}{2(2-\alpha^2)}\right)d\left(d-\left(\frac{3\alpha}{4-2\alpha^2}\right)d + \alpha \left(\frac{\alpha^2 + 4}{4(2-\alpha)}\right)d\right)
+			u_A	&= p_A\left(d-p_A + \alpha p_B\right) 	\\
+				&= \left(\frac{3\alpha}{2}\right)\left(\frac{2-\alpha}{2-\alpha^2}\right)p_A^{sim}\left(d-\left(\frac{3\alpha}{2}\right)\left(\frac{2-\alpha}{2-\alpha^2}\right)p_A^{sim} + \alpha \left(\frac{\alpha^2}{4} + 1\right)p_B^{sim}\right) \\
+				&= \left(\frac{3\alpha}{2(2-\alpha^2)}\right)d\left(d-\left(\frac{3\alpha}{4-2\alpha^2}\right)d + \alpha \left(\frac{\alpha^2 + 4}{4(2-\alpha)}\right)d\right)	\\
+				&= \left[\frac{1}{2-\alpha^2}-\frac{3\alpha}{2(2-\alpha^2)^2}+\alpha\left(\frac{\alpha^2 + 4}{4(2-\alpha)(2-\alpha^2)}\right)\right]\left(\frac{3\alpha}{2}\right)d^2	\\
+			u_B &= \left[1-\frac{\alpha^2+4}{4(2-\alpha)} + \alpha\left(\frac{3\alpha}{2(2-\alpha^2)}\right)\right]\left(\frac{\alpha^2+4}{4(2-\alpha)}\right)d^2
 		\end{align*}
 	
 	
