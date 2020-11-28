@@ -208,28 +208,63 @@ This continues for 8 minutes, when the elevator comes for the eighth time and no
 			\includegraphics[scale=.5]{table4a.png}
 		\end{center}
 	
-	\item 
-	
+	\item In the absence of competition, Arthur would maximize his net payoff by taking two steps at a time, resulting in a payoff of ${20-2-2-2-2-2-2=8}$, compared to his equilibrium behavior of taking three steps on his first turn, then one step at a time until reaching the finish line, for a payoff of $-1$. The intuition behind taking one step at a time is that taking one step costs \$2 per step, which is less than taking either two or three. The difference between Arthur's competitive and non-competitive behavior comes from his need to prevent Beatrix from maximizing her payoff (or, really, minimizing her losses) by competing with Arthur for the prize. Taking three steps on the first move puts the two players in a subgame where each player's best option is to only take one step at a time.
 	
 \end{enumerate}
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 5}
+In a two-player game of perfect information, each player knows precisely what their payoffs, and those of their opponent, are at each terminal node (if the game is finite, every play leads to a terminal node). Further, they know what their opponent will play, either totally (i.e. as a first play or as a play in a simultaneous game) or in response to their own move. Thus, for any decision node, each player can determine their terminal payoff from any move. In a zero-sum game, one player ``wins" and the other loses at every terminal node, so the player who moves first will choose a move that enables them to win, taking into account the moves that they know they and their opponent will make, using the subgame equilibrium at each deicision node. If payoffs strictly differ across terminal nodes, then the player who moves first will choose the move that leads to the terminal node with the highest payoff. If the node with the highest payoff for the first-moving player does not have a unique payoff, then the payoff vector will be the same across all terminal nodes with that payoff for the first-moving player, since the game is zero-sum. Thus, each finite, two-player, zero-sum game with perfect information has a unique, subgame perfect equilbibrium payoff vector, though the set of moves that produces this vector is not necessarily unique.
 
 
 %%%________________________________________________________________%%%
 
-\subsection*{Question 5}
+\subsection*{Question 6}
 
 \begin{enumerate}[(a)]
-	\item 
+	\item This game consists of two firms, ${N=\{A,B\}}$ with symmetric action sets, ${A_i=\{p_i\in\R_+\}}$, and payoff functions, ${u_i=\{p_i(D_i(p_i,p_j))\}}$. Firm $i$'s best response funciton can be found using the first-order condition of its payoff function with respect to its action, $p_i$:
+		\begin{align*}
+			\frac{\partial u_i}{\partial p_i} = d - 2p_i + \alpha p_j &= 0	\\
+												p_i &= \frac{1}{2}d + \frac{\alpha}{2}p_j
+		\end{align*}
+		If both firms choose simultaneously, then, in equilibirum, each firm will input the other's best response funciton into its own and determine its action from there:
+		\begin{align*}
+			p_i &= \frac{1}{2}d + \frac{\alpha}{2}\left(\frac{1}{2}d + \frac{\alpha}{2}p_i\right)	\\
+			\left(\frac{4-\alpha^2}{4}\right) p_i &= \left(\frac{2+\alpha}{4}\right)d 	\\
+			p_i &= \left(\frac{2+\alpha}{4-\alpha^2}\right)d = \left(\frac{1}{2-\alpha}\right)d
+		\end{align*}
+		Thus, the symmetric Nash equilibrium is ${(p_A,p_B) = \left(\left(\frac{1}{2-\alpha}\right)d,\left(\frac{1}{2-\alpha}\right)d\right)}$.
 	
+	\item If firm $A$ moves first, then it knows that firm $B$ will maximize its profit according to its best response function. Thus, firm $A$'s payoff function is:
+		\[
+			u_A=p_A\left(d - p_A + \alpha\left(\frac{1}{2}d + \frac{\alpha}{2}p_A\right)\right) = \frac{3\alpha}{2}dp_A + \left(\frac{\alpha^2-2}{2}\right)p_A^2
+		\]
+		We can find the profit-maximizing price for firm $A$ using the first-order condition of its modified payoff function:
+		\begin{align*}
+			\frac{\partial u_A}{\partial p_A} = \frac{3\alpha}{2}d + \left(\alpha^2-2\right)p_A  &= 0	\\
+			\left(\alpha^2-2\right)p_A  &= -\frac{3\alpha}{2}d	\\
+			p_A &= \left(\frac{3\alpha}{4-2\alpha^2}\right)d
+		\end{align*}
+		Which firm $B$ will take as given, choosing $p_B$ according to its best response function:
+		\begin{align*}
+			p_B &= \frac{1}{2}d + \frac{\alpha}{2}\left(\frac{3\alpha}{4-2\alpha^2}\right)d	= \left(\frac{3\alpha^2}{4-2\alpha^2}+1\right)\frac{1}{2}d \\
+				&= \left(\frac{\alpha^2 + 4}{2-\alpha}\right)\frac{1}{4}d 
+		\end{align*}
+		Thus, the subgame perfect equilibrium is ${\left(\left(\frac{3\alpha}{4-2\alpha^2}\right)d,\left(\frac{\alpha^2 + 4}{2-\alpha}\right)\frac{1}{4}d \right)}$.
+		
 	
-	\item 
-	
-	
-	\item 
+	\item Letting $p_i^{sim}$ and $u_i^{sim}$ be the equilibrium price chosen and payoff earned, respectively, by $i$ under simultaneous play, with sequential play denoted without a superscrit, we can solve:
+		\begin{align*}
+			p_A	&= \left(\frac{3\alpha}{4-2\alpha^2}\right)d = \left(\frac{3\alpha}{2(2+\alpha)}\right)\left(\frac{1}{2-\alpha}\right)d	\\
+				&= \left(\frac{3\alpha}{2(2+\alpha)}\right)p_A^{sim}		\\
+			p_B	&= \left(\frac{\alpha^2 + 4}{2-\alpha}\right)\frac{1}{4}d  = \left(\frac{\alpha^2 + 4}{(2-\alpha)(2+\alpha)}\right)\left(\frac{1}{4}\right)d	\\
+				&= \left(\frac{\alpha^2+4}{4(2+\alpha)}\right)p_B^{sim}	\\
+			u_A^{sim} 	&= p_A^{sim}\left(d-p_A^{sim} + \alpha p_B^{sim}\right) = \left(\frac{1}{2-\alpha}d\right)\left(d - \frac{1}{2-\alpha}d + \frac{\alpha}{2-\alpha}d\right)	\\
+						&=  \left(\frac{1}{2-\alpha}d\right)^2	\\
+			u_B^{sim} 	&= u_A^{sim} = \left(\frac{1}{2-\alpha}d\right)^2	\\
+			u_A	&= \left(\frac{3\alpha}{2(2-\alpha^2)}\right)d\left(d-\left(\frac{3\alpha}{4-2\alpha^2}\right)d + \alpha \left(\frac{\alpha^2 + 4}{4(2-\alpha)}\right)d\right)
+		\end{align*}
 	
 	
 \end{enumerate}
