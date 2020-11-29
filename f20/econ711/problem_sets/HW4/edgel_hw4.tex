@@ -103,31 +103,39 @@
 \subsection*{Question 1}
 
 \begin{enumerate}[(a)]
-	\item This Bayesian game has two players, ${N=\{1,2\}}$, with symmetric action spaces, ${A_i=\{b_i\in\R_+\}}$, and identially-distributed types, ${\Theta_i=v_i}$, with CDF ${F(v_i)=v_i}$. Each player has the payoff function:
+	\item This Bayesian game has two players, ${N=\{1,2\}}$, with symmetric action spaces, ${A_i=\{b_i\in\R_+\}}$, and identially-distributed types, ${\Theta_i=v_i}$, with CDF ${F(v_i)=v_i}$. Note that, in the case where bids are exactly equal, the payoff reduces to:
+	\[
+		\frac{1}{2}(v_i-b_j)\footnote{The expected payoff from the coin flip is 
+		$$\frac{1}{2}\left[p(v_j-b_i) + q(v_i-b_j) + (1-p-q)v_i\right] + \frac{1}{2}\left[(1-p-q)(-b_j)\right]$$
+		Which reduces as follows:
+			\begin{eqnarray*}
+				\frac{1}{2}\left[(p + q)(v_i-b_j) + (1-p-q)v_i\right] + \frac{1}{2}\left[(1-p-q)(-b_j)\right] \\
+				\frac{1}{2}(p + q)(v_i-b_j) + \frac{1}{2}(1-p-q)(v_i-b_j)	\\
+				\frac{1}{2}(v_i-b_j)
+			\end{eqnarray*}
+			}
+	\]
+	
+	Each player has the payoff function:
 		\[
 			u_i(b_i,b_j;v_i) = \begin{cases}
-									(1-p-q)(-b_i), 																							& b_i < b_j 	\\
-									\frac{1}{2}\left[p(v_i-b_i) + q(v_i-b_j) + (1-p-q)v_i\right] + \frac{1}{2}\left[(1-p-q)(-b_i)\right], 	& b_i = b_j 	\\
-									p(v_i-b_i) + q(v_i-b_j) + (1-p-q)v_i, 																	& b_i > b_j
+									(1-p-q)(-b_i), 							& b_i < b_j 	\\
+									\frac{1}{2}(v_i-b_j), 					& b_i = b_j 	\\
+									p(v_i-b_i) + q(v_i-b_j) + (1-p-q)v_i, 	& b_i > b_j
 								\end{cases}
 		\]
 		
-	\item Player $i$'s expected payoff from matching player $j$'s bid is:
+	\item Note that ${Pr(b_j(v_i)<b_j(v_j))=F(\binv{b_j(v_i)})=v_i}$, and that the probability of any two values being equal on a uniform distribution is zero. Then, player $i$'s expected payoff from betting with ${b_j(v_i)}$ is:
 		\begin{align*}
-			\E\left[u_i(b_j,b_j;v_i)\right] &= \frac{1}{2}\left[p(v_j-b_i) + q(v_i-b_j) + (1-p-q)v_i\right] + \frac{1}{2}\left[(1-p-q)(-b_j)\right]	\\
-											&= \frac{1}{2}\left[(p + q)(v_i-b_j) + (1-p-q)v_i\right] + \frac{1}{2}\left[(1-p-q)(-b_j)\right]		\\
-											&= \frac{1}{2}(p + q)(v_i-b_j) + \frac{1}{2}(1-p-q)(v_i-b_j)											\\
-											&= \frac{1}{2}(v_i-b_j)
+			\E\left[u_i(b_j,b_j;v_i)\right]= &Pr(b_j(v_j)>b_i)(1-p-q)(-b_i) +  Pr(b_i=b_j(v_j))\frac{1}{2}(v_i-b_j(v_j)) \\
+							&+  \int_0^{\binv{b_i(v_i)}}\left[p(v_i-b_i) + q(v_i-b_j) + (1-p-q)v_i\right]dv_j	\\
+						= &(1-v_i)(1-p-q)(-b_i)  +  p\int_0^{v_i}(v_i-b_i)dv_j 	\\
+							&+ q\int_0^{v_i}(v_i-b_j)dv_j + (1-p-q)\int_0^{v_i}v_idv_j 
 		\end{align*}
 	
 	
-	\item Player $i$'s expected payof from any bid, $b_i$, is:
-		\begin{align*}
-			\E(u_i(b_i)) = &Pr(b_i<b_j(v_j))(1-p-q)(-b_i) +  Pr(b_i=b_j(v_j))\frac{1}{2}(v_i-b_j(v_j)) \\
-							&+  Pr(b_i>b_j(v_j))[p(v_i-b_i) + q(v_i-b_j) + (1-p-q)v_i]
-		\end{align*}
-		Where $Pr(b_i<b_j(v_j))=F(\binv{b_i})=\binv{b_i}$ and the probability of any two values being equal on a uniform distribution is zero. Recall that the derivative of an inverse function is the reciprocal of the derivative at the inverse. Then, we can calculate player $i$'s best response function using first-order conditions:
-		$$ \frac{\partial}{\partial b_i}\left[\binv{b_i}(1-p-q)(-b_i) + \left(1-\binv{b_i}\right)[p(v_i-b_i) + q(v_i-b_j) + (1-p-q)v_i]\right] = 0	$$
+	\item Recall that the derivative of an inverse function is the reciprocal of the derivative at the inverse. Then, we can calculate player $i$'s best response function using first-order conditions:
+		$$ \frac{\partial}{\partial b_i}\left[(1-\binv{b_i})(1-p-q)(-b_i) + \binv{b_i}[p(v_i-b_i) + q(v_i-b_j) + (1-p-q)v_i]\right] = 0	$$
 		\begin{align*}
 			-\frac{(1-p-q)b_i}{b_j'\left(\binv{b_i}\right)} - (1-p-q)\binv{b_i} -p - \frac{pv_i}{b_j'\left(\binv{b_i}\right)} + pv_i + \frac{pb_i}{b_j'\left(\binv{b_i}\right)} 	\\
 				- \frac{q(v_i-b_j) + (1-p-q)v_i}{b_j'\left(\binv{b_i}\right)} = 0
@@ -147,12 +155,16 @@
 			\left(1-\left(\frac{q}{1-q}\right)^2\right)b_i &= \left(1-\left(\frac{q}{1-q}\right)^2\right)v_i - \left(\frac{1}{1-q}\right)\frac{p}{1-q}b'(v_i)(1-v_i)	\\
 			b_i &= v_i - \frac{pb'(v_i)(1-v_i)}{(1-q^2)^2 - q^2}
 		\end{align*}
-		[HASN'T BEEN UPDATED YET] Thus, the symmetric Bayesian Nash equilibium is:
+		Under the linearity assumption, ${b(v_i) = \alpha + \beta v_i}$, so ${b'(v_i) = \beta}$, where ${\beta>0}$ (since $b_i$ is strictly increasing in $v_i$), so player $i$'s equilibrium bet becomes:
 		\[
-			\left(\frac{v_1b'(v_1)\left(q^{-1}-1-b'(v_1)\right)}{q^{-1} - 1 + b'(v_1)},\frac{v_2b'(v_2)\left(q^{-1}-1-b'(v_2)\right)}{q^{-1} - 1 + b'(v_2)}\right)
+			b_i = v_i - \frac{p\beta(1-v_i)}{(1-q^2)^2 - q^2}
+		\]
+		Thus, the symmetric Bayesian Nash equilibium is:
+		\[
+			\left(v_1 - \frac{p\beta(1-v_1)}{(1-q^2)^2 - q^2},v_2 - \frac{p\beta(1-v_2)}{(1-q^2)^2 - q^2}\right)
 		\]
 	
-	\item % The equilibrium bidding strategy does not directly depend on $p$. As ${q\rightarrow0}$, the equilibrium bidding strategy tends toward 1 regardless of the player's valuation. As ${q\rightarrow1}$, the equilibrium 
+	\item As ${p\rightarrow1}$ and ${q\rightarrow0}$, the equilibrium bidding strategy converges to ${v_i-(1-v_i)\beta}$. This makes sense, given that ${p=1}$ is a first-price auction, where the incentive is to bet just below your valuation in order to maximize your payoff. As ${q\rightarrow1}$, the equilibrium converges to $v_i$, which is similarly intuitive; ${q=1}$ is a second-price auction, where there is no incentive to bet differently than your valuation. As ${q\rightarrow\frac{1}{2}}$ and ${p\rightarrow 0}$, the optimal bid still tends toward $v_i$.
 	
 	
 \end{enumerate}
@@ -189,7 +201,20 @@
 		\end{enumerate}
 	
 	
-	\item 
+	\item This Bayesian game has two players, ${N=\{1,2\}}$, with symmetric action spaces, ${A_i=\{A,B\}}$, and types, ${\Theta_i=\{A,B\}}$, which are determined by the decision rule, ${S_i:\beta_i\rightarrow\Theta_i}$, which determines the players type based on $\beta_i$, drawn from the CDF, $F$. Each player's payoff function is:
+		\[
+			u_i(A_i,A_j;\Theta_i) = 	\begin{cases}
+										0, 			& \Theta_i = A\land \Theta_j = B	\\
+										1, 			& \Theta_i = \Theta_j = A 			\\
+										2, 			& \Theta_i = B\land \Theta_j = A	\\
+										\beta_i, 	& \Theta_i = \Theta_j = B
+									\end{cases}
+		\]
+		Where each player plays $A$ if they're type $\Theta_i=A$, and, according to $S_i$, $\exists\beta^*$ such that ${\Theta_i=A}$ if ${\beta_i<\beta^*}$ and ${\Theta_i=B}$ if ${\beta_i=geq\beta^*}$. $\beta^*$ is determined by finding the payoff, $\beta_i$, at which player $i$ is indifferent to either pure strategy:
+			\begin{align*}
+				(0)(1-F(\beta^*)) + (1)F(\beta^*) &= (2)F(\beta^*) + (\beta^*)(1-F(\beta^*))	\\
+					\beta^* &= -\frac{F(\beta^*)}{1-F(\beta^*)}
+			\end{align*}
 	
 	
 	\item 
