@@ -215,13 +215,18 @@
 				(0)(1-F(\beta^*)) + (1)F(\beta^*) &= (2)F(\beta^*) + (\beta^*)(1-F(\beta^*))	\\
 					\beta^* &= -\frac{F(\beta^*)}{1-F(\beta^*)}
 			\end{align*}
+		Thus, the Bayesian Nash equilibrium is for each player to play $A$ if their $\beta$ is strictly less than $-\frac{F(\beta^*)}{1-F(\beta^*)}$, and to play $B$ otherwise.
 	
 	
-	\item 
+	\item Note that, since ${F(X)\in[0,1]}$ for all $X$, $\beta^*\leq0$. Thus, if ${\beta_1,\beta_2>0}$, the only equilibrium is $(B,B)$. Thus, no correlated equilibrium can be achieved.
 	
 	
-	\item 
-	
+	\item Since payoffs are symmetric (with the exception of $\beta_i$) and each player faces the same weights for equivalent payoffs, it is sufficient to determine only the range of values for $\beta_i$ that would incent player $i$ to follow a mediator's signal. This range is determined using the following inequalities, for signals $A$ and $B$:
+		\begin{align*}
+			\frac{1-2p}{1-p}(1) + \frac{p}{1-p}(0) &\geq \frac{1-2p}{1-p}(2) + \frac{p}{1-p}(\beta_i) &\text{(A)}	\\
+			\frac{p}{p}(2) + \frac{0}{p}(\beta_i) &\geq \frac{p}{p}(1) + \frac{0}{p}(0) &\text{(B)}
+		\end{align*}
+		The condition for following signal $B$ is trivially satisfied for all $p$ and $\beta_i$, but the condition for $A$ solves to ${\beta_i\leq\frac{2p-1}{p}}$. Thus, both $\beta_1$ and $\beta_2$ must be no greater than $\frac{2p-1}{p}$ in order for a correlated equilibrium to be achieved. Note that, since ${p\in[0,1/2]}$, $p$ must be greater than 0, and this value is always negative. Then, the maximum possible value of $\beta_i$ increases as $p$ increases, and it decreases to negative infinity as $p\rightarrow 0$.
 	
 \end{enumerate}
 
@@ -240,14 +245,20 @@ This continues for 8 minutes, when the elevator comes for the eighth time and no
 \subsection*{Question 4}
 
 \begin{enumerate}[(a)]
-	\item We can eliminate option (I) for both players, as it has no fundamental or strategic benefit but costs them by discounting their possible payoff. Therefore, it is strictly dominated. Beyond leading to the strict domination of doing nothing, $\delta$ does not affect play, since it is very close to 1 and thus does not meaningfully impact payoffs when raised to the 11th power (which is the maximum possible discount in this game). Thus, at any turn, if a player faced, say, winning with costs of 21 and losing with a cost of 2, the player will chose to win, as ${20\delta^k-21>-2}$ for any ${k=1,2,...,11}$. For simplicity of notation, then, I will calculate payoffs as though ${\delta=1}$.
+	\item We can eliminate option (I) for both players prior to a forced win, as it has no fundamental or strategic benefit but costs them by discounting their possible payoff. Therefore, it is strictly dominated by moving 1 step for a player with a winning strategy. Beyond leading to the strict domination of doing nothing, $\delta$ does not affect winning strategies, since it is very close to 1 and thus does not meaningfully impact payoffs when raised to the 11th power (which is the maximum possible discount in this game). Thus, at any turn, if a player faced, say, winning with costs of 21 and losing with a cost of 2, the player will chose to win, as ${20\delta^k-21>-2}$ for any ${k=1,2,...,11}$. For simplicity of notation, then, I will calculate payoffs as though ${\delta=1}$. 
 	
-	At any turn, each player optimizes by either forcing a win (if they can) or minimizing their costs if their opponent can force a win. For example, the first mover in this game has the option to force a win by moving three steps with each turn, resulting in a payoff of $-10$. If they take three steps as their first choice, the equilibrium of the subgame that follows is for each player to take two steps until the first-moving player wins (see table below). If the first-moving player takes fewer than three steps as a first move, then the second-moving player can similarly force a win by taking three steps. Thus, there is a unique SPNE at $(3,1,1,1,1,1,1)$.
+	Since $\delta$ only influences the payoff from winning, a losing strategy that involves taking any steps is strictly dominated by a losing strategy that involves taking no steps and earning a payoff of 0. The table below shows that the first mover has the option to force a win by taking three steps as a first turn, but that this move results in a payoff of -1. Thus, taking three steps as a first move is strictly dominated by taking 0 steps at every turn.\footnote{Trivially dominated moves are omitted from the table for brevity. For example, if the player is more than three steps from the finish line and their opponent has taken 5 steps, it is obvious that the player will never choose anything but 0 steps. Likewise, the first-moving player will never play 0 steps after playing three, because they can always force a win by taking three more steps and earning more than giving up and earning -15 or less by no longer moving.}
 		\begin{center}
 			\includegraphics[scale=.5]{table4a.png}
 		\end{center}
 	
-	\item In the absence of competition, Arthur would maximize his net payoff by taking two steps at a time, resulting in a payoff of ${20-2-2-2-2-2-2=8}$, compared to his equilibrium behavior of taking three steps on his first turn, then one step at a time until reaching the finish line, for a payoff of $-1$. The intuition behind taking one step at a time is that taking one step costs \$2 per step, which is less than taking either two or three. The difference between Arthur's competitive and non-competitive behavior comes from his need to prevent Beatrix from maximizing her payoff (or, really, minimizing her losses) by competing with Arthur for the prize. Taking three steps on the first move puts the two players in a subgame where each player's best option is to only take one step at a time.
+	We can determine the optimal play for each player using backward induction. If a player is three steps from the end, then they have current costs of -6, -9, or -15, so they will always choose to take three steps and win if any other move results in a subgame in which they lose. Thus, there is no equilibrium where a player who is three steps away from the finish line loses, and their opponent, knowing this, will minimize their losses by not taking any steps once the player reaches three steps. However, as was shown in the table below, there is no strategy in which taking three steps in one turn is preferable to losing without taking any steps. Thus, if the player who moves first takes a single step, then the player who moves second will never take three steps, and they cannot win by only moving one step. This also suggests that the player who moves first can force a win by moving two steps.
+	
+	Therefore, we need only determine whether the player who moves first will take one step or two. If taking one step forces a win, then their maximum payoff will come from doing so, then taking one step until the reach six. If the second-moving player responds to a one-step opening move by taking two steps, then the first-moving player can force a win by taking two steps and reaching the three-step mark. Thus, the second-moving player's best response to any first move other than 0 steps is to take 0 steps.
+	
+	Therefore, the unique subgame perfect equilbirium is $(1,0,1,0,1,0,1,0,1,0,1)$, which results in a payoff of $(8,0)$.
+	
+	\item In the absence of competition, the result is no different from in equilibirum for the winning player. This is because the winning player is minimizing costs without regard to their opponent's behavior. The losing player's behavior differs because, without competition, they would choose to take two steps at a time for six turns. However, knowing they won't get a payoff due to the other player's advantage, they choose instead to incur zero costs.
 	
 \end{enumerate}
 
