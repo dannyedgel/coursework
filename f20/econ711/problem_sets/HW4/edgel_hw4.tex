@@ -141,6 +141,7 @@
 				- \frac{q(v_i-b_j) + (1-p-q)v_i}{b_j'\left(\binv{b_i}\right)} = 0
 		\end{align*}
 		Recognizing that the players' betting functions are symmetric, ${\binv{b_i}=v_i}$ and ${b_i=b_j}$, so:
+		{\small
 		\begin{align*}
 			-(1-p-q)v_i - \frac{(1-p-q)b_i}{b'(v_i)}-p-\frac{pv_i}{b'(v_i)} + pv_i + \frac{pb_i}{b'(v_i)} - \frac{q(v_i-b_j) + (1-p-q)v_i}{b'(v_i)} = 0	\\
 			-(1-p-q)v_ib'(v_i) - (1-p-q)b_i - pb'(v_i) - pv_i + pv_ib'(v_i) + pb_i - q(v_i-b_j) + (1-p-q)v_i = 0
@@ -155,6 +156,7 @@
 			\left(1-\left(\frac{q}{1-q}\right)^2\right)b_i &= \left(1-\left(\frac{q}{1-q}\right)^2\right)v_i - \left(\frac{1}{1-q}\right)\frac{p}{1-q}b'(v_i)(1-v_i)	\\
 			b_i &= v_i - \frac{pb'(v_i)(1-v_i)}{(1-q^2)^2 - q^2}
 		\end{align*}
+		}%
 		Under the linearity assumption, ${b(v_i) = \alpha + \beta v_i}$, so ${b'(v_i) = \beta}$, where ${\beta>0}$ (since $b_i$ is strictly increasing in $v_i$), so player $i$'s equilibrium bet becomes:
 		\[
 			b_i = v_i - \frac{p\beta(1-v_i)}{(1-q^2)^2 - q^2}
@@ -210,7 +212,7 @@
 										\beta_i, 	& \Theta_i = \Theta_j = B
 									\end{cases}
 		\]
-		Where each player plays $A$ if they're type $\Theta_i=A$, and, according to $S_i$, $\exists\beta^*$ such that ${\Theta_i=A}$ if ${\beta_i<\beta^*}$ and ${\Theta_i=B}$ if ${\beta_i=geq\beta^*}$. $\beta^*$ is determined by finding the payoff, $\beta_i$, at which player $i$ is indifferent to either pure strategy:
+		Where each player plays $A$ if they're type $\Theta_i=A$, and, according to $S_i$, $\exists\beta^*$ such that ${\Theta_i=A}$ if ${\beta_i<\beta^*}$ and ${\Theta_i=B}$ if ${\beta_i\geq\beta^*}$. $\beta^*$ is determined by finding the payoff, $\beta_i$, at which player $i$ is indifferent to either pure strategy:
 			\begin{align*}
 				(0)(1-F(\beta^*)) + (1)F(\beta^*) &= (2)F(\beta^*) + (\beta^*)(1-F(\beta^*))	\\
 					\beta^* &= -\frac{F(\beta^*)}{1-F(\beta^*)}
