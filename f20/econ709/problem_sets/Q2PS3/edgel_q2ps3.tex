@@ -49,6 +49,7 @@
 \renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
 \newcommand{\bols}{\hat{\beta}_{OLS}}
 \newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
 \newcommand{\vhat}{\hat{\varepsilon}}
 \newcommand{\vols}{\hat{\varepsilon}_{OLS}}
 \newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
@@ -58,6 +59,7 @@
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
 
 \DeclareMathOperator{\E}{\mathbb{E}}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
 
 
 %%% define column vector command (from Michael Nattinger)
@@ -410,7 +412,7 @@ Where the $1/\sqrt{2}$ gets squared when it enters the asymptotic variance, then
 	
 	\item Note that the cancellation of the second term in the second to last line of the proof in (a) requires ${\E(\varepsilon_i|w_i)=0}$. This does not hold with (A1'), so that assumption is not strong enough to conclude that ${\bhat\rightarrow_p\beta}$.
 	
-	\item 
+	\item The asymptotic distribution of ${\sqrt{n}(\bhat-\beta)}$ is ${\N\left(0,\sigma^2\begin{pmatrix} 20 & -12 \\ -12 & 8 \end{pmatrix}\right)}$:
 		\begin{align*}
 			\sqrt{n}(\bhat-\beta) &= \left(\est{n}w_iw_i'\one{x_i\in\{1,2\}}\right)^{-1}\frac{1}{\sqrt{n}}\sumn w_i\varepsilon_i\one{x_i\in\{1,2\}}	\\
 			\frac{1}{\sqrt{n}}\sumn w_i\varepsilon_i\one{x_i\in\{1,2\}} &\rightarrow_d \N\left(0,Var\left(w_i\varepsilon_i\one{x_i\in\{1,2\}}\right)\right)	\\
@@ -421,17 +423,54 @@ Where the $1/\sqrt{2}$ gets squared when it enters the asymptotic variance, then
 																&= \E\left[\begin{pmatrix} 1 & x_i \\ x_i & x_i^2 \end{pmatrix}\one{x_i\in\{1,2\}}\right]	\\
 																&=\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{5}{4} \end{pmatrix}	\\
 			\sqrt{n}(\bhat-\beta) 	&\rightarrow_d	\E\left(w_iw_i'\one{x_i\in\{1,2\}}\right)^{-1}\N(0,Var\left(w_i\varepsilon_i\one{x_i\in\{1,2\}}\right))	\\
-									&= \begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{1}{2} \end{pmatrix}^{-1}
-										\N\left(0,\sigma^2\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{1}{2} \end{pmatrix}\right)	\\
-									&= \N\left(0,\sigma^2\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{1}{2} \end{pmatrix}^{-1}\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{1}{2} \end{pmatrix}\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{1}{2} \end{pmatrix}^{-1}\right)	\\
+									&= \begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{5}{4} \end{pmatrix}^{-1}
+										\N\left(0,\sigma^2\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{5}{4} \end{pmatrix}\right)	\\
+									&= \N\left(0,\sigma^2\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{5}{4} \end{pmatrix}^{-1}\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{5}{4} \end{pmatrix}\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{5}{4} \end{pmatrix}^{-1}\right)	\\
 									&= \N\left(0,\sigma^2\begin{pmatrix} 20 & -12 \\ -12 & 8 \end{pmatrix}\right)	
 		\end{align*}
 	
-	\item 
-	
-	\item 
-	
-	\item 
+	\item In (a), we showed that $\bhat$'s consistency does not depend on the values of $x_i$ chosen for the indicator ${\one{x_i\in\{1,2\}}}$. Thus, $\bhat$ and $\hat{\bhat}$ are both consistent estimators of $\beta$. The only difference between the two estimators is their variance. With the new indicator, the steps from (c) become:
+		\begin{align*}
+			\sqrt{n}(\bhat-\beta) &= \left(\est{n}w_iw_i'\one{x_i\in\{1,2\}}\right)^{-1}\frac{1}{\sqrt{n}}\sumn w_i\varepsilon_i\one{x_i\in\{1,2\}}	\\
+			\frac{1}{\sqrt{n}}\sumn w_i\varepsilon_i\one{x_i\in\{1,2\}} &\rightarrow_d \N\left(0,Var\left(w_i\varepsilon_i\one{x_i\in\{1,2\}}\right)\right)	\\
+			Var\left(w_i\varepsilon_i\one{x_i\in\{1,2\}}\right) &= Var\left(Var\left(w_i\varepsilon_i\one{x_i\in\{1,2\}}|w_i\right)\right)	\\
+																&= Var\left(w_i\one{x_i\in\{1,2\}}Var\left(\varepsilon_i|w_i\right)\right)	\\
+																&= \sigma^2 \E\left(w_iw_i'\one{x_i\in\{1,2\}}\right)	\\
+					\E\left(w_iw_i'\one{x_i\in\{1,2\}}\right)	&= \E\left[\begin{pmatrix} 1 & x_i \\ x_i & x_i^2 \end{pmatrix}\one{x_i\in\{\frac{4}{3},\frac{5}{3}\}}\right]	\\
+																&=\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{41}{36} \end{pmatrix}	\\
+			\sqrt{n}(\bhat-\beta) 	&\rightarrow_d	= \N\left(0,\sigma^2\begin{pmatrix} 164 & -108 \\ -108 & 72 \end{pmatrix}\right)	
+		\end{align*}
+		Thus, the variance of $\hat{\bhat}_2$ is $72\sigma^2$, which is much greater than the variance of $\bhat_2$, at $7\sigma^2$. Thus, $\bhat_2$ is the preferred estimator.
+		
+	\item ${\hat{\alpha}\rightarrow_p \gamma + \frac{3}{5}}$:
+		\begin{align*}
+			\ahat	&= \left(\est{n}x_ix_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}x_iy_i\one{x_i\in\{1,2\}}	\\
+					&= \left(\est{n}x_ix_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}x_i(1+x_i'\gamma + \varepsilon_i)\one{x_i\in\{1,2\}}	\\
+					&= \left(\est{n}x_ix_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}(x_i + x_ix_i'\gamma + x_i\varepsilon_i)\one{x_i\in\{1,2\}}	\\
+					&= \gamma + \left(\est{n}x_ix_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}x_i\varepsilon_i\one{x_i\in\{1,2\}} 
+							+ \left(\est{n}x_ix_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}x_i\one{x_i\in\{1,2\}}\\
+					&\rightarrow_p \gamma + \E(x_ix_i'\one{x_i\in\{1,2\}})^{-1}\E(x_i\one{x_i\in\{1,2\}}) + \E(x_ix_i'\one{x_i\in\{1,2\}})^{-1}\E(x_i\varepsilon_i\one{x_i\in\{1,2\}})	\\
+					&= \gamma + \E(x_ix_i'\one{x_i\in\{1,2\}})^{-1}\E(x_i\one{x_i\in\{1,2\}}) 	\\
+					&= \gamma + \left(\frac{1}{4}(1) + \frac{1}{4}(4)\right)^{-1}\left(\frac{1}{4}(1) + \frac{1}{4}(2)\right) 	\\
+					&= \gamma + \frac{3}{5}
+		\end{align*}
+		
+	\item Modifying the specification to include $\alpha$, we have ${y_i = 1 + x_i\left(\alpha-\frac{3}{5}\right) + \varepsilon_i}$, we get:
+	{\small
+		\begin{align*}
+			\sqrt{n}(\ahat-\alpha)	&= \left(\est{n}x_ix_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}\left(x_i-x_i^2\frac{3}{5}+\varepsilon_i\right)\one{x_i\in\{1,2\}}	\\
+									&\rightarrow_d \N\left(0,V\right)	\\
+								V 	&= Var\left(\left(x_i-x_i^2\frac{3}{5}+\varepsilon_i\right)\one{x_i\in\{1,2\}}\right)				\\
+									&= \E\left[\left(\left(x_i-x_i^2\frac{3}{5}+\varepsilon_i\right)\right)^2\one{x_i\in\{1,2\}}\right]	\\
+									&= \left(\exp{x_i^2} + 2\exp{\varepsilon_ix_i} + \exp{\varepsilon_i} + \left(\frac{3}{5}\right)^2\exp{x_i^4} - 2\left(\frac{3}{5}\right)\exp{x^3_i} - 2\left(\frac{3}{5}\right)\exp{x_i^2\varepsilon_i}\right)\one{x_i\in\{1,2\}}	\\
+									&= \exp{x_i^2\one{x_i\in\{1,2\}}} + 2\exp{\varepsilon_ix_i\one{x_i\in\{1,2\}}} + \exp{\varepsilon_i\one{x_i\in\{1,2\}}}  	\\
+									&\text{  }+ \left(\frac{3}{5}\right)^2\exp{x_i^4\one{x_i\in\{1,2\}}}- 2\left(\frac{3}{5}\right)\exp{x^3_i\one{x_i\in\{1,2\}}} - 2\left(\frac{3}{5}\right)\exp{x_i^2\varepsilon_i\one{x_i\in\{1,2\}}}	\\
+									&= \exp{x_i^2\one{x_i\in\{1,2\}}} + \frac{9}{25}\exp{x_i^4\one{x_i\in\{1,2\}}}- \frac{6}{10}\exp{x^3_i\one{x_i\in\{1,2\}}}	\\
+									&= \frac{5}{4} - \frac{27}{10} + \frac{153}{100} + \frac{5}{4}\sigma^2 \\
+									&= \frac{16}{25}\left(\frac{2}{25} + \frac{5}{4}\sigma^2\right)
+		\end{align*}
+	}%
+		Thus, ${\hat{\alpha}-\alpha \rightarrow_d \N\left(0,\frac{16}{25}\left(\frac{2}{25} + \frac{5}{4}\sigma^2\right)\right)}$.
 	
 \end{enumerate}
 
