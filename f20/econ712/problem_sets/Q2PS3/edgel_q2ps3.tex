@@ -155,8 +155,32 @@ For this problem, we will consider an Arrow-Debreu market structure.
 			\overline{c}^1(s_1) = \frac{1-\beta}{1-\beta+\beta\delta}, 		& \text{ }\overline{c}^1(s_2) = \frac{1-\beta}{1-\beta+\beta\delta}		\\
 			\overline{c}^2(s_1) = \frac{\beta\delta}{1-\beta+\beta\delta}, 	& \text{ }\overline{c}^2(s_2) = \frac{\beta\delta}{1-\beta+\beta\delta}		
 		\end{align*}
+		To determine the pricing kernel for claims to the endowment in each state, we can use the first-order condition for two different periods:
+		\begin{align*}
+			q_t^0(s^t) &= \frac{1}{\lambda^i}\beta^t\frac{P(s^t|s^0)}{\overline{c}^i(s^t)}	\\
+			q_{t+1}^0(s^{t+1}) &= \frac{1}{\lambda^i}\beta^t\frac{P(s^{t+1}|s^0)}{\overline{c}^i(s^{t+1})}	\\
+			q_t^0(s^t) &= q_{t+1}^0(s^{t+1})\frac{1}{\beta}\frac{P(s^t|s^0)}{P(s^{t+1}|s^0)}				\\
+			q_t^0(s_1) &= \frac{q_{t+1}^0(s_1)}{\beta(1-\delta)}			\\
+			q_t^0(s_2) &= q_{t+1}^0(s_2)\frac{1}{\beta}\left(\frac{1-(1-\delta)^t}{1-(1-\delta)^{t+1}}\right) \\
+		\end{align*}
+		With each iteration of the recursive pricing function for $s_2$, the numerator and denominator of the probability of $s_2$ cancel out, providing the closed-form solution:
+			\[
+				q_t^0(s_2) = \underset{n\rightarrow\infty}{\text{lim }}\left\{\frac{1}{\beta}\left(\frac{1-(1-\delta)^t}{1-(1-\delta)^n}\right)\right\} = \frac{1-(1-\delta)^t}{\beta}
+			\]
+		The price of a claim to the endowment in $s_1$, however, blows up to infinity in each period in the closed form. Let $\overline{q^0_t}(s_1)$ represent the price of a claim to the endowment in $s_1$, normalized by the price in the first period. Then,
+			\[
+				\overline{q^0_t}(s_1) = \frac{\left[\beta(1-\delta)\right]^{t-n}}{\left[\beta(1-\delta)\right]^{-n}} = \left[\beta(1-\delta)\right]^t
+			\]
 	
-	\item 
+	\item The price of a claim to the endowment in each period depends on the state in that period. Prices and allocations for the whole time horizon, and for each possible state in the horizon, are determined in period 0.\footnote{Note that this means that each consumer ends up holding unused claims in each period, which were purchased as insurance \textit{for if the other state occurred in that period}.} For this reason, the price of a claim to the endowment in $s_2$ increases for later dates (when $s_2$ is likelier), as the price of a claim to the endowment in $s_1$ declines (when $s_1$ gets increasingly unlikely). Thus, the price of a claim to the endowment in period $t$ is represented by:
+		\[
+			q_t(s^t) = \begin{cases}\left[\beta(1-\delta)\right]^t, & s^t=s_1 \\ \frac{1-(1-\delta)^t}{\beta}, & s^t = s_2 \end{cases}
+		\]
+	A risk-free asset would hold one claim in each state, with the price ${\overline{q^0_t}(s_1)+q_t^0(s_2)}$. Setting this equal to the reciprocal of the interest rate, we can solve:
+		\begin{align*}
+			\overline{q^0_t}(s_1)+q_t^0(s_2) &= \frac{(\beta^{t+1}(1-\delta)^t+1-(1-\delta)^t}{\beta} = \frac{1}{R^f}	\\
+			R^f &= \frac{\beta}{(\beta^{t+1}(1-\delta)^t+1-(1-\delta)^t}
+		\end{align*}
 	
 	
 	\item Since there is no aggregate uncertainty in this economy, the social planner has no need to maximize \textit{expected} utility and can simply allocate the aggregate endowment (which is constant in each period, regardless of state) across the two consumers however she pleases. Thus, the social planner's problem is:
@@ -182,6 +206,7 @@ For this problem, we will consider an Arrow-Debreu market structure.
 \end{enumerate}
 
 %%%________________________________________________________________%%%
+\pagebreak
 \subsection*{Question 2}
 
 \begin{enumerate}[(a)]
