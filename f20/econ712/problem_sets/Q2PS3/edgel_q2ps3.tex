@@ -107,20 +107,76 @@
 
 %%%________________________________________________________________%%%
 \subsection*{Question 1}
-
+For this problem, we will consider an Arrow-Debreu market structure.
 \begin{enumerate}[(a)]
-	\item 
+	\item Each consumer faces the following problem:
+		\[
+			\usmax{\left\{c_t\right\}_{t=0}^\infty}\E{\beta^t\loge{c_t^i}}\text{ s.t. }\sum_{t=0}^\infty\sum_{s^t} q^0_t(s^t)c_t^i(s^t)\leq \sum_{t=0}^\infty\sum_{s^t} q_t^0(s^t)e^i_t(s^t)
+		\]
+		Where ${s^t\in\{s_1,s_2\}}$ and ${s^0=s_1}$ such that ${P(s_1|s^0)=(1-\delta)^t}$.
+	
+		A competitive equilibrium in this Arrow-Debreau market is a price system, ${\{q^0_t(s^t)\}}$, and an allocation, ${\{c_t^i(s^t)\}}$, that:
+		\begin{enumerate}[(i)]
+			\item Solves both consumers' problem 
+			\item Clears markets: ${c^1_t(s^t) + c^2_t(s^t) = e^1_t(s^t) + e^2_t(s^t)\text{ }\forall t}$
+				
+		\end{enumerate}
+		Where, in this market, ${e^1_t(s_t) + e^2_t(s^t)=1}$ $\forall t$.
+		
+	\item We begin by solving each consumer's problem separately. Since utility functions and budget constraints are symmetric, we can solve a representative problem, then determine each consumer's maximization conditions based on their endowments in each state. The first-order condition of consumer $i$'s Lagrangian function is:
+		\begin{align*}
+			\frac{\partial\L}{\partial c_t^i(s^t)} = \beta^t\frac{P(s^t|s^0)}{c_t^i(s^t)} - \lambda^iq_t^0(s^t) &= 0	\\
+			\frac{1}{\lambda^i}\beta^t\frac{P(s^t|s^0)}{c_t^i(s^t)}  &= q_t^0(s^t)
+		\end{align*}
+		
+		Since there is no aggregate uncertainty, each consumer is able to perfectly smooth their consumption across time (but not across states, where there is idiosyncratic uncertainty). Thus, ${c^i_t(s^t)=\overline{c}^i(s^t)}$ for all $t$. We also know that endowments vary only by states, but not by time, such that ${e_t^i(s^t) = e^i(s^t)}$ for all $t$. Then, using the first-order condition for an arbitrary ${c_t^i(s^t)}$, we can use the consumer's budget constraint (which holds with equality at the solution) to derive:
+		\begin{align*}
+			\sum_{t=0}^\infty\sum_{s^t} \left(\frac{1}{\lambda^i}\beta^t\frac{P(s^t|s^0)}{\overline{c}^i(s^t)}\right)\overline{c}^i(s^t)
+				&= \sum_{t=0}^\infty\sum_{s^t} \left(\frac{1}{\lambda^i}\beta^t\frac{P(s^t|s^0)}{\overline{c}^i(s^t)}\right)e^i(s^t)	\\
+			\sum_{t=0}^\infty\sum_{s^t}\beta^tPr(s^t|s^0) &= \sum_{t=0}^\infty\sum_{s^t}\frac{e^i(s^t)}{\overline{c}^i(s^t)}\beta^tPr(s^t|s^0)	\\
+			\sum_{t=0}^\infty\beta^t(1-\delta)^t + \beta^t(1-(1-\delta)^t)  &= 
+			\sum_{t=0}^\infty\frac{e^i(s^t)}{\overline{c}^i(s_1)}\beta^t(1-\delta)^t	+ \frac{e^i(s^t)}{\overline{c}^i(s_2)}\beta^t(1-(1-\delta)^t) \\
+			\frac{1}{1-\beta}	&= \sum_{t=0}^\infty\frac{e^i(s^t)}{\overline{c}^i(s_1)}\beta^t(1-\delta)^t	+ \frac{e^i(s^t)}{\overline{c}^i(s_2)}\beta^t(1-(1-\delta)^t)	
+		\end{align*}
+		
+		To simplify the algebra, we can consider that ${e^1(s_1)=e^2(s_2)=1}$ and ${e^1(s_2)=e^2(s_1)=0}$:
+		\begin{align*}
+			\overline{c}^1(s_1) &= \left(1-\beta\right)\sum_{t=0}^\infty\beta^t(1-\delta)^t	 = \frac{1-\beta}{1-\beta(1-\delta)} = \frac{1-\beta}{1-\beta+\beta\delta}	\\
+			\overline{c}^2(s_2) &= \left(1-\beta\right)\sum_{t=0}^\infty\beta^t(1-(1-\delta)^t)	= \left(1-\beta\right)\left(\frac{1}{1-\beta} - \frac{1}{1-\beta+\beta\delta}\right) = \frac{\beta\delta}{1-\beta+\beta\delta}
+		\end{align*}
+		
+		Which we can combine with each state's market clearing conditions:
+			\begin{align*}
+				\overline{c}^1(s_1) + \overline{c}^2(s_1) &= e^1(s_1) + e^2(s_1) = 1	\\
+				\overline{c}^1(s_2) + \overline{c}^2(s_2) &= e^1(s_2) + e^2(s_2) = 1
+			\end{align*}
+		Now we have four equations with four unknowns, which allows us to solve for the equilibrium consumption allocation for each consumer in each state:
+		\begin{align*}
+			\overline{c}^1(s_1) = \frac{1-\beta}{1-\beta+\beta\delta}, 		& \text{ }\overline{c}^1(s_2) = \frac{1-\beta}{1-\beta+\beta\delta}		\\
+			\overline{c}^2(s_1) = \frac{\beta\delta}{1-\beta+\beta\delta}, 	& \text{ }\overline{c}^2(s_2) = \frac{\beta\delta}{1-\beta+\beta\delta}		
+		\end{align*}
 	
 	\item 
 	
 	
-	\item 
+	\item Since there is no aggregate uncertainty in this economy, the social planner has no need to maximize \textit{expected} utility and can simply allocate the aggregate endowment (which is constant in each period, regardless of state) across the two consumers however she pleases. Thus, the social planner's problem is:
+		\[
+			\usmax{\left\{c^1_t,c^2_t\right\}_{t=0}^\infty}\sum_{t=0}^\infty\beta^t\left[\lambda\loge{c^1_t}+(1-\lambda)\loge{c^2_t}\right]\text{ s.t. } c^1_t + c^2_t\leq 1
+		\]
+		This is a straightforward maximization problem that can be solved with first-order conditions, letting ${c^1_t=1-c^2_t}$:
+		\begin{align*}
+			\beta^t\left[\frac{\partial u_t}{\partial c^2_t} = -\frac{\lambda}{1-c^2_t} + \frac{1-\lambda}{c^1_t} \right]&= 0	\\
+			\frac{1-\lambda}{c^1_t} &= \frac{\lambda}{1-c^2_t} \\
+			1-c^2_t-\lambda+\lambda c^2_t &= \lambda c_t^2 	\\
+			c^2_t &= 1-\lambda \\
+			c^1_t &= \lambda
+		\end{align*}
+		Thus, the social planner's allocation is ${\{c^1_t,c^2_t\}=\{\lambda,1-\lambda\}}$ for all $t$. Put another way, the Pareto optimal allocation for a given $\lambda$ is to allocate a fraction of the aggregate endowment to each consumer in each period according to the consumer's weight, as determined by $\lambda$.
 	
-	
-	\item 
-	
-	
-	\item 
+	\item The competitive equilibrium is Pareto optimal, with ${\lambda = \frac{1-\beta}{1-\beta+\beta\delta}}$. Engineering a competitive solution to match any Lambda is more difficult, but still possible. For ${\lambda=0}$ or ${\lambda=1}$, $\delta$ can simply be set to give either consumer the endowment in every period. For ${\lambda\in(0,1)}$, There are an infinite number of combinations of $\beta$ and $\delta$ that result in the Pareto allocation given $\delta$, with the relation between $\beta$ and $\delta$ of:
+	\[
+		\beta = \frac{1-\lambda}{1-(1-\delta)\lambda}
+	\]
 	
 	
 \end{enumerate}
@@ -206,10 +262,26 @@
 
 
 
+%%% RIP!!!!
 
 
 
-
+		
+		From this condition, we can derive each of the following conditions:
+		\begin{align*}
+			\beta^t\frac{(1-\delta)^t}{c_t^1(s_1)} 		&= \lambda^1q_t^0(s^1)	\\
+			\beta^t\frac{1-(1-\delta)^t}{c_t^1(s_2)}  	&= \lambda^1q_t^0(s^2)	\\
+			\beta^t\frac{(1-\delta)^t}{c_t^2(s_1)}  	&= \lambda^2q_t^0(s^1)	\\
+			\beta^t\frac{1-(1-\delta)^t}{c_t^2(s_2)}  	&= \lambda^2q_t^0(s^2)
+		\end{align*}
+		Combining each consumer's FOC from each states allows us to find a relation that doesn't include the heterogeneous Lagrangian multiplier:
+		\[
+			\frac{(1-\delta)^t}{1-(1-\delta)^t}\left(\frac{c_t^i(s_2)}{c_t^i(s_1)}\right) = \frac{q_t^0(s^1)}{q_t^0(s^2)}
+		\]
+		Which can then be combined across consumers to eliminate each state's proability mass:
+		\[
+			\left(\frac{c_t^2(s_1)}{c_t^1(s_1)}\right)\left(\frac{c_t^1(s_2)}{c_t^2(s_2)}\right) = 1
+		\]
 
 
 
