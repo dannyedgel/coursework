@@ -216,23 +216,53 @@ For this problem, we will consider an Arrow-Debreu market structure.
 			\item $\forall x$, $V(a,x)$ is attained by $c=x$, $x'=1$
 		\end{enumerate}
 	
-	\item The stochastic endowment in this model, $x_t$, is the dividend. In equilibrium, ${p_t = \E{\beta\frac{u'(c_{t+1})}{u(c_t)}(p_{t+1}+x_{t+1})}}$ where ${c_t=x_t}$ and ${x_{t+1}=1}$. Thus, with logarithmic utility and using a Taylor expansion around ${\dc{t+1}=0}$ and ${p_{t+1}=}$, we can solve:
+	\item To find the equilibrium price/dividend ratio of a claim to the entire consumption stream, we must first solve for the recursive equilibrium, beginning with the solution to the Bellman equation:
+		\[
+			V(a,x) = \usmax{a'}\left\{\frac{c^{1-\gamma}}{1-\gamma} + \beta\int V(a',x')F(x',x)\right\}\text{ s.t. } c+pa' \leq (p+x)a
+		\]
+		At the solution, the budget constraint holds wiht equality, so we can substitute the budget constraint into the Bellman for consumption, then use the first-order condition and envelope condition to derive a solution:
+		\[
+			V(a,x) = \usmax{a'}\left\{\frac{\left((p+x)a-pa'\right)^{1-\gamma}}{1-\gamma} + \beta\E{V(a',x')}\right\}
+		\]
 		\begin{align*}
-			p_t 			&= \Et{\beta\frac{c_t}{c_{t+1}}(p_{t+1}+x_{t+1})}			\\
-							&= \Et{\beta\frac{1}{1+\dc{t+1}}(p_{t+1}+1)}				\\
-			\frac{p_t}{x_t}	&= \frac{1}{x_t}\Et{\beta\frac{1}{1+\dc{t+1}}(p_{t+1}+1)}	\\
+			\left((p+x)a-pa'\right)^{-\gamma}(-p) + \beta\E{V'(a',x')} &= 0	\\
+			V'(a',x') &= \left((p'+x')a'-pa''\right)^{-\gamma}(p'+x')						\\
+			\left((p+x)a-pa'\right)^{-\gamma}p &= \beta\E{\left((p'+x')a'-p'a''\right)^{-\gamma}(p'+x')}
 		\end{align*}
+		Substituting consumption back in for the budget constraint allows us to solve in terms of consumption growth:
+		\begin{align*}
+			pc^{-\gamma} &= \E{\beta c'^{-\gamma}(p'+x')}	\\
+			p &= \E{\beta \left(\frac{c'}{c}\right)^{-\gamma}(p'+x')}
+		\end{align*}
+		In this model, the dividend is represented by $x$. Thus, the price-to-dividend ratio is:
+		\[
+			\frac{p}{x} = \E{\beta \left(\frac{c'}{c}\right)^{-\gamma}\left(\frac{p'+x'}{x}\right)}
+		\]
+		With logarithmic utility, ${u'(c)=\frac{1}{c}}$, so this ratio would be represented by:
+		\[
+			\frac{p}{x} = \E{\beta \left(\frac{c'}{c}\right)^{-1}\left(\frac{p'+x'}{x}\right)}
+		\]
+		It is clear from this relationship that an increase in the expected growth rate\footnote{This increase can come from any number of changes to the distribution of the growth rate: a decrease in the probability mass of low consumption states, a lengthening of the upper tail, etc.} will decrease the price-to-dividend ratio.
+		
+	\item Since $\gamma>0$, the news that future consumption will be higher will increase expected consumption growth, which will decrease prices. A higher $\gamma$ will lead to a greater decrease in prices than a lower $\gamma$ would. Since the intertemporal elasticity of substitution (IES) is $1/\gamma$, a higher $\gamma$ indicates less elastic preferences. Put another way, consumers with higher $\gamma$ prefer to have their consumption change less from one period to another. In the macro-economy, this preference takes the form of a flatter saddle path. Thus, they prefer to internalize one-time shocks with large one-time changes in behavior, then creeping slowly to the steady-state. In this case, a shock to the next period's consumption is consistent with a decrease in steady-state asset holdings, so a low-IES consumer will save much less in the shock period, thus lowering the price of the asset by more than higher-IES consumers, who would smooth the change in behavior more across the saddle path.
 	
-	
-	\item 
-	
-	
-	\item 
-	
+	\item Let $p(\overline{p})$ represent the price of an asset with a known next-period price and $p(p')$ represent that of one with a stochastic price in the next period. Then, using the pricing solution determined in part (b),
+		\[
+			p(\overline{p}) = \E{\beta \left(\frac{c'}{c}\right)^{-\gamma}(\overline{p}+x')} 
+							= \beta\overline{p}\int \left(\frac{c'}{c}\right)^{-\gamma}F(x',x) + \beta\int x'\left(\frac{c'}{c}\right)^{-\gamma}F(x',x)
+		\]
+		The consumer will choose to purchase this asset if ${p(\overline{p})\geq p(p')}$, or:
+		\begin{align*}
+			\E{\beta \left(\frac{c'}{c}\right)^{-\gamma}(\overline{p}+x')} &\geq \E{\beta \left(\frac{c'}{c}\right)^{-1}\left(\frac{p'+x'}{x}\right)}	\\
+			\beta\overline{p}\int \left(\frac{c'}{c}\right)^{-\gamma}F(x',x) + \beta\int x'\left(\frac{c'}{c}\right)^{-\gamma}F(x',x) &\geq
+				\beta \int\left(\frac{c'}{c}\right)^{-1}\left(\frac{p'+x'}{x}\right)F(x',x)	\\
+			\beta\int(\overline{p}-p')\left(\frac{c'}{c}\right)^{-1}F(x',x) &\geq 0
+		\end{align*}
 	
 \end{enumerate}
 
 %%%________________________________________________________________%%%
+\pagebreak
 \subsection*{Question 3}
 
 \begin{enumerate}[(a)]
