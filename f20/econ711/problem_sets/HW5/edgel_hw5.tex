@@ -147,21 +147,21 @@ Thus, assuming that each coffee lover buys the same amount of coffee, firm $i$ s
 	\pi_k = \begin{cases} 	p_i, & p_i - p_j < c\left[(w_k-x_j)^2 - (w_k-x_i)^2\right] \\ \frac{1}{2}p_i, & p_i - p_j = c\left[(w_k-x_j)^2 - (w_k-x_i)^2\right] \\ 
 							0, & p_i - p_j > c\left[(w_k-x_j)^2 - (w_k-x_i)^2\right]	\end{cases}
 \]
-Where ${j\neq i}$ is the rival coffee shop. Solving this inequality for $w_k$ allows us to find the cutoff value, $w^*$, for which, holding prices constant, a consumer will patronize coffee shop $i$:
+Where ${j\neq i}$ is the rival coffee shop. Solving this inequality for $w_k$ allows us to find the mass of consumers which, holding prices constant, will patronize coffee shop $i$:
 \begin{align*}
-	p_i - p_j &\leq c\left[(w^*-x_j)^2 - (w^*-x_i)^2\right] = c\left[2w^*(x_i-x_j) + x_j^2-x_i^2\right]	\\
-	2w^*(x_i-x_j) &\geq \frac{1}{c}(p_i-p_j) - x_j^2 + x_i^2 	\\
-	w^* &\leq 	\begin{cases} 	\frac{p_i - p_j}{2c(x_i - x_j)} + \frac{1}{2}(x_i + x_j), & x_i<x_j \\
-								\frac{p_i - p_j}{2c(x_j - x_i)} - \frac{1}{2}(x_i + x_j), & x_i>x_j
-				\end{cases}
+	&Pr\left(p_i - p_j \leq c\left[2w_k(x_i-x_j) + x_j^2-x_i^2\right]\right)	\\
+	&Pr\left(2w_k(x_i-x_j) \geq \frac{1}{c}(p_i-p_j) - x_j^2 + x_i^2 \right)	\\
+	&\begin{cases} 	Pr\left(w_k \leq 	\frac{p_i - p_j}{2c(x_i - x_j)} + \frac{1}{2}(x_i + x_j)\right), & x_i<x_j \\
+					1-Pr\left(w_k \leq 	\frac{p_i - p_j}{2c(x_i - x_j)} + \frac{1}{2}(x_i + x_j)\right), & x_i>x_j
+	\end{cases}
 \end{align*}
-If the rival coffee shops co-locate, then they will compete on price alone. Thus, expected profits depend on both relative location and relative prices, each with three possibiliies. Since we know the distribution of $w_k$, we can derive firm $i$'s total expected profits $\pi$, given $(p_1,p_2)$ and $(x_1,x_2)$, which is best summarized in a matrix:\footnote{The values in the matrix for all cases except ${x_i=x_j}$ were determined by integrating over the distribution of $w$. For example, expected profit for the ${x_i<x_j}$ cases were calculated with: $$ \int_0^{w^*}p_idF(w) = p_i\left(\frac{p_i - p_j}{2c(x_i - x_j)} + \frac{1}{2}(x_i + x_j)\right) $$}
+If the rival coffee shops co-locate, then they will compete on price alone. Thus, expected profits depend on both relative location and relative prices, each with three possibiliies. Since we know the distribution of $w_k$, we can derive firm $i$'s total expected profits $\pi$, given $(p_1,p_2)$ and $(x_1,x_2)$, which is best summarized in a matrix:
 \begin{center}
 	\begin{tabular}{r|c c c}
 				& $x_i<x_j$ 																& $x_i=x_j$ 		& $x_i>x_j$	\\ \hline
-	$p_i<p_j$	& $p_i\left(\frac{p_i - p_j}{2c(x_i - x_j)} + \frac{1}{2}(x_i + x_j)\right)$	& $p_i$				& $p_i\left(\frac{p_i - p_j}{2c(x_j - x_i)} - \frac{1}{2}(x_i + x_j)\right)$			\\
-	$p_i=p_j$	& $\frac{p_i}{2}(x_i + x_j)$												& $\frac{1}{2}p_i$	& 	$- \frac{p_i}{2}(x_i + x_j)$		\\
-	$p_i>p_j$	& $p_i\left(\frac{p_i - p_j}{2c(x_i - x_j)} + \frac{1}{2}(x_i + x_j)\right)$	& 0					& $p_i\left(\frac{p_i - p_j}{2c(x_j - x_i)} - \frac{1}{2}(x_i + x_j)\right)$		
+	$p_i<p_j$	& $p_i\left(\frac{p_i - p_j}{2c(x_i - x_j)} + \frac{1}{2}(x_i + x_j)\right)$	& $p_i$				& $p_i\left(1-\frac{p_i - p_j}{2c(x_i - x_j)} - \frac{1}{2}(x_i + x_j)\right)$			\\
+	$p_i=p_j$	& $\frac{p_i}{2}(x_i + x_j)$												& $\frac{1}{2}p_i$	& 	$p_i\left(1- \frac{1}{2}(x_i + x_j)\right)$		\\
+	$p_i>p_j$	& $p_i\left(\frac{p_i - p_j}{2c(x_i - x_j)} + \frac{1}{2}(x_i + x_j)\right)$	& 0					& $p_i\left(1-\frac{p_i - p_j}{2c(x_i - x_j)} - \frac{1}{2}(x_i + x_j)\right)$		
 	\end{tabular}
 \end{center}
 Firm $i$'s best response function for the pricing decision, then, is 
@@ -169,27 +169,24 @@ Firm $i$'s best response function for the pricing decision, then, is
 	p_i = 	\begin{cases}
 				\frac{1}{2}\left(p_j + c(x_j^2 - x_i^2)\right), 					& x_i<x_j	\\
 				\underset{\varepsilon\rightarrow0^+}{\text{lim }}p_j - \varepsilon,	& x_i=x_j 	\\
-				\frac{1}{2}\left(p_j + c(x_i^2 - x_j^2)\right), 					& x_i>x_j
+				\frac{1}{2}\left(p_j + c(x_i(x_i-2) - x_j(x_j-2))\right), 			& x_i>x_j
 			\end{cases}
 \]
-Thus, a Nash equilibrium in the $x_i=x_j$ case is ${p_1=p_j=0}$ and the ${x_i<x_j}$ case can be solved with by imputting firm $j$'s best response function into firm $i$'s:
-\begin{align*}
-	p_i 			&= \frac{1}{2}\left(\frac{1}{2}\left(p_i + c(x_j^2 - x_i^2)\right) + c(x_j^2 - x_i^2)\right)	\\
-	2p_i			&= \frac{1}{2}p_i + \frac{1}{2}cx_j^2 - \frac{1}{2}cx_i^2 + cx_j^2 - cx_i^2						\\
-	\frac{3}{2}p_i	&= \frac{3}{2}c\left(x_j^2 - x_i^2\right)														\\
-	p_i 			&= c\left(x_j^2 - x_i^2\right)																	
-\end{align*}
-Since payoffs are symmetric, ${p_i=p_j}$ and, in the ${x_i>x_j}$ case, ${p_i=p_j= c(x_i^2 - x_j^2})$. Thus, the three Nash equilibria in the pricing subgame are:
-{\small
-\begin{align*}
-	\left(c(x_2^2 - x_1^2),c(x_2^2 - x_1^2)\right)	&\text{ w/ payoffs } \left(-\frac{c}{2}(x_1^2-x_2^2)(x_1+x_2),\frac{c}{2}(x_1^2-x_2^2)(x_1+x_2)\right)	
-		&\text{ if } x_1<x_2	\\
-	\left(0,0\right)								&\text{ w/ payoffs } \left(0,0\right)	
-		&\text{ if } x_1=x_2	\\
-	\left(c(x_1^2 - x_2^2),c(x_1^2 - x_2^2)\right)	&\text{ w/ payoffs } \left(\frac{c}{2}(x_1^2-x_2^2)(x_1+x_2),-\frac{c}{2}(x_1^2-x_2^2)(x_1+x_2)\right)
-		&\text{ if } x_1>x_2	
-\end{align*}
-}%
+Thus, the unique Nash equilibrium in the $x_1=x_2$ case is ${p_1=p_2=0}$, which results in the minimum possible payoff for each firm of 0. For all other combinations, $(x_1,x_2)$, It should be immediately apparent that any outcome in which ${p_i<p_j}$ and ${x_i\neq x_j}$ cannot be an equilibrium, as the player could have achieved maximum profits had they located differently, resulting in a non-equilibrium in the normal form version of this game.\footnote{Recall that any subgame perfect equilibrium must also be a normal form equilibrium.} Thus, in any subgame perfect equilibrium, ${p_1=p_2}$.
+
+As a result, the two coffee shops compete entirely on location in the first game. Given ${p_1=p_2}$, firm $i$'s best response function for $x_i$ is
+\[
+	x_i = 	\begin{cases}
+				\underset{\varepsilon\rightarrow0^+}{\text{lim }}x_j + \varepsilon, & x_j<\frac{1}{2}	\\
+				x_j, 																& x_j=\frac{1}{2}	\\
+				\underset{\varepsilon\rightarrow0^+}{\text{lim }}x_j - \varepsilon, & x_j>\frac{1}{2}	\\
+			\end{cases}
+\]
+Therefore, there is a unique subgame perfect equilibrium at 
+\[
+	\left((x_1,p_1),(x_2,p_2)\right) = \left((1/2,0),(1/2,0)\right)
+\]
+
 	
 
 
@@ -200,7 +197,19 @@ Since payoffs are symmetric, ${p_i=p_j}$ and, in the ${x_i>x_j}$ case, ${p_i=p_j
 
 
 
-
+% RIP my old, incorrect solution:
+Since payoffs are symmetric, ${p_i=p_j}$ and, in the ${x_i>x_j}$ case, ${p_i=p_j= c(x_i^2 - x_j^2})$. Thus, the three Nash equilibria in the pricing subgame are:
+{\small
+\begin{align*}
+	\left(c(x_2^2 - x_1^2),c(x_2^2 - x_1^2)\right)	&\text{ w/ payoffs } \left(-\frac{c}{2}(x_1^2-x_2^2)(x_1+x_2),\frac{c}{2}(x_1^2-x_2^2)(x_1+x_2)\right)	
+		&\text{ if } x_1<x_2	\\
+	\left(0,0\right)								&\text{ w/ payoffs } \left(0,0\right)	
+		&\text{ if } x_1=x_2	\\
+	\left(c(x_1^2 - x_2^2),c(x_1^2 - x_2^2)\right)	&\text{ w/ payoffs } \left(-\frac{c}{2}(x_1^2-x_2^2)(x_1+x_2),\frac{c}{2}(x_1^2-x_2^2)(x_1+x_2)\right)
+		&\text{ if } x_1>x_2	
+\end{align*}
+}%
+The equilibrium from the location game follows logically from these pricing equilibria. If ${x_1<x_2}$, then coffee shop 1 earns positive profits while coffee shop 2 earns negative profits. If ${x_1>x_2}$, then the opposite is true. 
 
 
 
