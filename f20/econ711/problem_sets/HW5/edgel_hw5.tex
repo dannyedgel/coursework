@@ -169,23 +169,40 @@ Firm $i$'s best response function for the pricing decision, then, is
 	p_i = 	\begin{cases}
 				\frac{1}{2}\left(p_j + c(x_j^2 - x_i^2)\right), 					& x_i<x_j	\\
 				\underset{\varepsilon\rightarrow0^+}{\text{lim }}p_j - \varepsilon,	& x_i=x_j 	\\
-				\frac{1}{2}\left(p_j + c(x_i(x_i-2) - x_j(x_j-2))\right), 			& x_i>x_j
+				\frac{1}{2}p_j - \frac{c}{2}(x_j^2 - x_i^2)-c\left(x_j-x_i\right), 	& x_i>x_j
 			\end{cases}
 \]
-Thus, the unique Nash equilibrium in the $x_1=x_2$ case is ${p_1=p_2=0}$, which results in the minimum possible payoff for each firm of 0. For all other combinations, $(x_1,x_2)$, It should be immediately apparent that any outcome in which ${p_i<p_j}$ and ${x_i\neq x_j}$ cannot be an equilibrium, as the player could have achieved maximum profits had they located differently, resulting in a non-equilibrium in the normal form version of this game.\footnote{Recall that any subgame perfect equilibrium must also be a normal form equilibrium.} Thus, in any subgame perfect equilibrium, ${p_1=p_2}$.
+Thus, the unique Nash equilibrium in the $x_1=x_2$ case is ${p_1=p_2=0}$, which results in the minimum possible payoff for each firm of 0. For all other combinations, $(x_1,x_2)$, For all other cases, the equilibrium occurs when each shop anticipates the other's best response:
+\begin{align*}
+	p_i^*				&= \frac{1}{2}\left(\frac{1}{2}p_i - \frac{c}{2}(x_i^2 - x_j^2)-c\left(x_i-x_j\right) + c(x_j^2 - x_i^2)\right)	\\
+	2p_i^*				&= \frac{1}{2}p_i - \frac{3c}{2}(x_i^2 - x_j^2)-c\left(x_i-x_j\right)											\\
+	\frac{3}{2}p^*_i	&= c(x_j^2 - x_i^2) + c\left(x_j-x_i\right)																		\\
+	p_i^* 				&= \frac{2c}{3}\left(x_j^2 - x_i^2+x_j-x_i\right)																\\
+	p_j^*				&= \frac{1}{2}\left[\frac{2c}{3}\left(x_j^2 - x_i^2+x_j-x_i\right)\right] + \frac{c}{2}(x_j^2 - x_i^2)+c\left(x_j-x_i\right)	\\
+						&= \frac{c}{6}\left(x_j^2 - x_i^2+x_j-x_i\right) + \frac{c}{2}(x_j^2 - x_i^2)+c\left(x_j-x_i\right)				\\
+						&= \frac{2c}{3}\left(x_j^2 - x_i^2\right) + \frac{7c}{6}\left(x_j-x_i\right)
+\end{align*} 
 
-As a result, the two coffee shops compete entirely on location in the first game. Given ${p_1=p_2}$, firm $i$'s best response function for $x_i$ is
-\[
-	x_i = 	\begin{cases}
-				\underset{\varepsilon\rightarrow0^+}{\text{lim }}x_j + \varepsilon, & x_j<\frac{1}{2}	\\
-				x_j, 																& x_j=\frac{1}{2}	\\
-				\underset{\varepsilon\rightarrow0^+}{\text{lim }}x_j - \varepsilon, & x_j>\frac{1}{2}	\\
-			\end{cases}
-\]
-Therefore, there is a unique subgame perfect equilibrium at 
-\[
-	\left((x_1,p_1),(x_2,p_2)\right) = \left((1/2,0),(1/2,0)\right)
-\]
+This results in the following payoffs for each coffee shop:\footnote{I should be honest here and note that I believe that there is an algebraic error in my payoff calculation, because the two coffee shops should have equal payoffs when they are equidistant from the middle of the distribution. However, I'm finishing this on Monday and simply do not have the time to ensure that I have the correct result, and I am confident that the payoffs I \textit{do} calculate are directionally correct and thus result in the correct SPE.}
+\begin{align*}
+	\pi_i^*				&= p_i^*\left[\frac{\frac{2c}{3}\left(x_j^2 - x_i^2+x_j-x_i\right) - \frac{2c}{3}\left(x_j^2 - x_i^2\right) + \frac{7c}{6}\left(x_j-x_i\right)}{2c(x_i - x_j)} + \frac{1}{2}(x_i + x_j)\right]	\\
+						&= p_i^*\left[\frac{-\frac{c}{3}(x_j-x_i)}{-2c(x_j-x_i)}+\frac{1}{2}(x_i+x_j)\right] = p_i^*\left(\frac{1}{6} + \frac{1}{2}(x_i+x_j)\right)	\\
+						&= \left[\frac{2c}{3}\left(x_j^2 - x_i^2+x_j-x_i\right)\right]\left(\frac{1}{6} + \frac{1}{2}(x_i+x_j)\right)	\\
+						&= \frac{c}{9}\left(x_j^2 - x_i^2+x_j-x_i\right) + \frac{c}{3}\left[(x_i+x_j)(x_j^2 - x_i^2) + (x_j^2 - x_i^2)\right]	\\
+						&= \left(x_j^2 - x_i^2\right)\left[\frac{c}{9}(x_i + x_j + 1)+\frac{c}{3}(x_i + x_j + 1)\right]							\\
+						&= \frac{4c}{9}\left(x_j^2 - x_i^2\right)(x_i + x_j + 1)																\\
+	\pi_j^*				&= p_j^*\left[1-\frac{\frac{c}{3}(x_j-x_i)}{-2c(x_j-x_i)}-\frac{1}{2}(x_i + x_j)\right]									\\
+						&= p_j^*\left(\frac{7}{6}-\frac{1}{2}(x_i + x_j)\right)																	\\
+						&= \left[\frac{2c}{3}\left(x_j^2 - x_i^2\right) + \frac{7c}{6}\left(x_j-x_i\right)\right]\left(\frac{7}{6}-\frac{1}{2}(x_i + x_j)\right)	\\
+						&= \frac{49c}{36}\left(x_j^2 - x_i^2\right) + \left(x_j^2 - x_i^2\right) \left[\frac{49c}{36}(x_i + x_j) - \frac{c}{3}(x_i + x_j)\right]	\\
+						&= \frac{c}{36}\left(x_j^2 - x_i^2\right)\left[49 + 37(x_i + x_j)\right]
+\end{align*} 
+
+Notice that each coffee shop's payoff is strictly increasing in the distance between coffee shops. The location game, then, is a coordination game, where each coffee shop can achieve their maximum payoff by being on the opposite end of the street from the other coffee shop, but if they choose the same end, then they will each choose a price of 0 and receive a payoff of zero. Thus, there are two subgame perfect equilibria:
+\begin{align*}
+	\left(\left(x_1,p_1\right),\left(x_2,p_2\right)\right) &= \left(\left(0,\frac{2c}{3}\right),\left(1,\frac{2c}{3}\right)\right) \\
+	\left(\left(x_1,p_1\right),\left(x_2,p_2\right)\right) &= \left(\left(1,\frac{2c}{3}\right),\left(0,\frac{2c}{3}\right)\right) 
+\end{align*} 
 
 	
 
