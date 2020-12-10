@@ -149,10 +149,8 @@
 	
 	\item The probability mass functions of income and consumption are displayed below. You could be forgiven for thinking that these are cumulative distribution functions, given that they appear to be continuously and strictly increasing in consumption and income. This suggests that the overwhelming majority of consumers in this economy are at the higher end of the distribution of consumption and income at any point in time, with a small share of unlucky consumers who drew the low labor state multiple times in a row, eroding their store of assets. 
 		\begin{center}
-			\includegraphics[scale=.75]{figure1bi.png}
-		\end{center}
-		\begin{center}
-			\includegraphics[scale=.75]{figure1bii.png}
+			\includegraphics[scale=.35]{figure1bi.png}
+			\includegraphics[scale=.35]{figure1bii.png}
 		\end{center}
 	
 	
@@ -169,10 +167,7 @@
 \begin{enumerate}[(a)]
 	\item The Matlab code provided solves the Bellman equation to find the policy functions for next-period capital and current-period consumption to generate the following plots, comparing them to the deterministic model:
 		\begin{center}
-			\includegraphics[scale=.75]{figure2ai.png}
-		\end{center}
-		\begin{center}
-			\includegraphics[scale=.75]{figure2aii.png}
+			\includegraphics[scale=.35]{figure2ai.png} \includegraphics[scale=.35]{figure2aii.png}
 		\end{center}
 		As you can see, the consumer's optimal policy is to consume more in high-productivity states and less in low-productivity states, with the deterministic optimal consumption between the policy for the two states. The same is true for savings under each scenario.
 	
@@ -187,7 +182,7 @@
 \end{enumerate}
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \subsection*{Question 3}
 The household in this model faces the following optimization problem:
 \[
@@ -374,8 +369,14 @@ Where ${g>0}$, ${\sigma_c>0}$, and ${\varepsilon_t\sim\N(0,1)}$.
 	
 	\item Our pricing kernel for the Lucas tree is ${p(s_t) = \Et{\beta S_t(p(s_{t+1})+s_{t+1})}}$ where, in equilibrium, ${s_t = c_t}$ for all $t$. Then, 
 		\begin{align*}
-			p(c_t) = \Et{\beta S_t(p(c_{t+1})+c_{t+1})}
+			p(c_t) 	&= \Et{\beta S_t(p(c_{t+1})+c_{t+1})} = \Et{\beta S_t(p(c_t(g + \sigma_c\varepsilon_{t+1}))+c_t(g + \sigma_c\varepsilon_{t+1}))}	\\
+					&= \Et{\beta S_tp(c_t(g + \sigma_c\varepsilon_{t+1}))}+ gc_t + c_t\sigma_c\Et{\varepsilon_{t+1}}
 		\end{align*}
+		Since we know $p(c_t)$ is an expectation function $p(c_t)$ can be separated from the outermost expectation, leaving $\Et{\beta S_t}$, which was shown in (d) to be the reciprocal of the risk-free rate:
+		\[
+			p(c_t) 	= \frac{p(c_{t+1})}{R^f(s_t)} + gc_t
+		\]
+		Whereas in the CRRA case, ${p_t = \Et{x_{t+1}}{R} + Cov(m_{t+1},x_{t+1})}$. Thus, our case does not substantially differ from the CRRA case; $gc_t$ takes the place of the covariance between next period's divident and the discount factor.
 	
 	
 \end{enumerate}

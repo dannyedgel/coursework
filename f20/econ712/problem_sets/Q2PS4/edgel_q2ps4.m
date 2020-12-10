@@ -3,7 +3,7 @@
     the second quarter of Econ 712
 
     Date created:  08 Dec 2020
-    Last modified: 08 Dec 2020
+    Last modified: 10 Dec 2020
     Author: Danny Edgel
 %}
 
@@ -15,7 +15,7 @@ tol = 1e-3;
 inckap = 0.01;           % size of capital grid increments
 
 %%% choose which files to run
-q1 = 1;
+q1 = 0;
 q2 = 0;
 q1c = 0;
 
@@ -25,62 +25,43 @@ if q2 == 1; ps4_q2; end
 
 %%% read table from 1a and 1c to create a comparative table
 
-%% read and parse table 1a
+%% save file names and variable names (from column of LaTeX tables) in
+%% cells for extracting values in loop
+files   = {'1a.tex','1c.tex'};
+vars    = {'\\hline Capital','Interest rate','Wage'};
 
-% read table 1a as a string of text
-atbl = fileread('1a.tex');
+%% loop through each file and variable to extract the numbers to be output
+%% in the new table
 
-% extract equilibrium values for each variable
-tkap = regexp(atbl,'[^\n]*\\hline Capital[^\n]*','match');
-tr = regexp(atbl,'[^\n]*Interest rate[^\n]*','match');
-tw = regexp(atbl,'[^\n]*Wage[^\n]*','match');
+values = cell(length(vars),length(files));  % contains properly-indexed
+                                            % table values
 
-tkap1 = regexp(tkap{1},'&','end')+1;
-tkap2 = regexp(tkap{1},'\\\\','start')-1;
-tkap = tkap{1}(tkap1:tkap2);
+for i = 1:length(files)
+    % read existing table as single string
+    atbl = fileread(files{i});
+    
+    for j = 1:length(vars)
+        % extract line that contains current loop's variable
+        vline = regexp(atbl,['[^\n]*',vars{j},'[^\n]*'],'match');
+        
+        % extract the variable's value from vline
+        vstart      = regexp(vline{1},'&','end')+1;
+        vend        = regexp(vline{1},'\\\\','start')-1;
+        values{i,j} = vline{1}(vstart:vend);
+    end
+    
+end
 
-tr1 = regexp(tr{1},'&','end')+1;
-tr2 = regexp(tr{1},'\\\\','start')-1;
-tr = tr{1}(tr1:tr2);
 
-tw1 = regexp(tw{1},'&','end')+1;
-tw2 = regexp(tw{1},'\\\\','start')-1;
-tw = tw{1}(tw1:tw2);
-
-values_1a = {tkap,tr,tw};
-
-%% read and parse table 1c
-
-% read table 1a as a string of text
-atbl = fileread('1c.tex');
-
-% extract equilibrium values for each variable
-tkap = regexp(atbl,'[^\n]*\\hline Capital[^\n]*','match');
-tr = regexp(atbl,'[^\n]*Interest rate[^\n]*','match');
-tw = regexp(atbl,'[^\n]*Wage[^\n]*','match');
-
-tkap1 = regexp(tkap{1},'&','end')+1;
-tkap2 = regexp(tkap{1},'\\\\','start')-1;
-tkap = tkap{1}(tkap1:tkap2);
-
-tr1 = regexp(tr{1},'&','end')+1;
-tr2 = regexp(tr{1},'\\\\','start')-1;
-tr = tr{1}(tr1:tr2);
-
-tw1 = regexp(tw{1},'&','end')+1;
-tw2 = regexp(tw{1},'\\\\','start')-1;
-tw = tw{1}(tw1:tw2);
-
-values_1c = {tkap,tr,tw};
 
 %% write new file comparing the two tables
 filew = fopen('1_compare.tex','w');
 
 tbl = ['\\begin{center}\n \\begin{tabular}{r c c}\n',...
     ' & $a_t\\geq0$ & $a_t\\geq-2$ \\\\ \\hline ',...
-    'Capital & ',values_1a{1},' & ',values_1c{1},' \\\\',...
-    'Interest rate & ',values_1a{2},' & ',values_1c{2},' \\\\',...
-    'Wage & ',values_1a{3},' & ',values_1c{3},'\\\\ \\hline',...
+    'Capital & ',values{1,1},' & ',values{2,1},' \\\\',...
+    'Interest rate & ',values{1,2},' & ',values{1,2},' \\\\',...
+    'Wage & ',values{1,3},' & ',values{2,3},'\\\\ \\hline',...
     '\\end{tabular}\n \\end{center}'];
 
 fprintf(filew,tbl);
