@@ -11,177 +11,186 @@ Q = [0.85, 0.15; 0.05, 0.95];
 %% define household parameters
 beta    = 0.95;
 gamma   = 3;
-r       = 0.03;
-w       = 1.1;
 N = 2;          % # of wage states
 s=[.7,1.1];       % employment states
 
-phi  = 0;  % borrowing limit,    
+if q1c == 1
+    phi  = 2;  % borrowing limit  
+else
+    phi  = 0;  % borrowing limit 
+end
 
 %% define firm parameters
 alpha = 0.36;
 delta = 0.08;
+
+%% save parameters in struct for passing on to vf_iter()
+params          = struct();
+params.Q        = Q;
+params.beta     = beta;
+params.gamma    = gamma;
+params.s        = s;
+params.phi      = phi;
+params.alpha    = alpha;
+params.delta    = delta;
                                                               
 %% form capital grid
-   
-maxkap = 7;                      % maximum value of capital grid  
+maxkap = 15;                     % maximum value of capital grid  
 minkap = -phi;                   % borrowing constraint
 kap    = minkap:inckap:maxkap;   % state of assets 
 nkap   = length(kap);            % number of grid points
 
-%  initialize some variables
-v       = zeros(nkap,N);
-decis   = zeros(nkap,N);
 
-test    = 10;
-
-%  iterate on Bellman equation and get the decision 
-%  rules and the value function at the optimum         
-%
-cons = zeros(nkap,nkap,N);
-util = zeros(nkap,nkap,N);
-vint = zeros(nkap,nkap,N);
-tv   = zeros(N,nkap);
-tdecis = zeros(N,nkap);
-
-iter=0;
-err = 1;
-
-tic
-while err > tol || test ~= 0 
-
-
-    %  tabulate the utility function such that for zero or negative
-    %  consumption utility remains a large negative number so that
-    %  such values will never be chosen as utility maximizing      
-    for j=1:N
-        
-        % calculate wages and interest rates for each capital decision
-        w = (1-alpha)*(kap/s(j)).^alpha;
-        r = kap.^(alpha-1)*(s(j)^(1-alpha));
-        
-        cons(:,:,j) = s(j).*w + (1+r).*(ones(nkap,1)*kap) -...
-            kap'*ones(1,nkap);
-        util(:,:,j) = (cons(:,:,j).^(1-gamma))/(1-gamma);
-        utilj = util(:,:,j);
-        
-        Aj = cons(:,:,j);
-        utilj(Aj <= 0) = -10000;
-        util(:,:,j) = utilj;
-        
-        futval = sum((ones(nkap,1)*Q(j,:)).*v,2); % nkap by 1 vector of
-                                                  % future value function
-        vint(:,:,j) = util(:,:,j) + beta*futval*ones(1,nkap);
-        [t1,t2] = max(vint(:,:,j));
-        tv(j,:) =t1;
-        tdecis(j,:)=t2;
-    end % end labor states loop
-    
-    tv1     = tv';
-    tdecis1 = tdecis';
-    test=max(any(tdecis1-decis));
-    diff = tv1-v;
-    err = norm(diff(~isnan(diff)));
-    nprin=10;
-    if iter==nprin*round(iter/nprin)
-        disp(['Iteration=', num2str(iter),... 
-            ', k Error=', num2str(max(max(abs(tdecis1-decis)))),...
-            ', V Error=', num2str(err)])
-    end
-    iter=iter+1;
-    decis=tdecis1;
-    v=tv1;
-end % end outermost while loop
-toc
-
-% focus on decisions off lowest boundary...
-kgrid = kap; % save full grid
-decis = -phi + (decis(3:end,:)-1)*inckap;
-[xs,ykap] = meshgrid(s,kap(3:end));
-
-% calculate wages and interest rates for each capital and labor level
-w = (1-alpha)*(ykap./xs).^alpha;
-r = ykap.^(alpha-1).*(xs.^(1-alpha));
-
-condecis = w.*xs+(1+r).*ykap-decis;
-kap=kap(3:end);
-v = v(3:end,:);
-indvec = t2;
 
 %% Calculate equilibrium--simulate market
 
 
-%% output results to .tex file
-if exist('1a.tex', 'file')==2
-  delete('1a.tex');
+% guess capital demand in the steady-state
+k_demand = 5;
+    
+k_diff     = 1; % difference between current and next period capital 
+k_iter     = 0; % current iteration
+max_iter = 10000; % stop after 10,000 iterations if no convergence
+kgrid = kap;
+kap = kap(3:end);
+count = 0;
+% attempt market equilibrium
+while abs(k_diff) > tol && k_iter < max_iter && count < 3
+    k_iter = k_iter + 1;
+    disp(['Attempt ',num2str(k_iter),' at equilibrium'])
+    
+    % iterate value function to retrieve capital accumulation policy function
+    [decis,dind] = vf_iter(params,kgrid,k_demand,tol);
+    decis_ind = dind(3:end);
+    
+    % attempt convergence between capital supply and demand
+    disp('  Calculating Ks...')
+    
+    % initialize arbitrary asset distribution
+    adist0    = ones(nkap,N);
+    adist0    = adist0 ./(sum(adist0(:)));
+    err = 1; % initialize tolerance
+    i   = 0;
+    while (err > tol && i < 1000)
+        adist = 0*adist0;
+
+        % loop through labor states and starting asset amounts
+        for n = 1:N
+           for a = 1:nkap
+               targ = dind(a,n);
+               adist(dind(a,n),1) = adist(targ,1)+adist0(a,n)*Q(n,1);
+               adist(dind(a,n),2) = adist(targ,2)+adist0(a,n)*Q(n,2);
+           end
+        end
+        i = i+1;
+        err = sum(abs((adist0(:)-adist(:))));
+        adist0 = adist;
+        fprintf('     Iteration %d, err = %d\n',i,err)
+    end
+    amarg = sum(adist,2); % marginal distribution of assets in each l state
+    
+    % calculate capital supply using the marginal distributions
+    k_supply = sum(amarg.*kgrid');
+    
+    % count number of repeated differences
+    if k_demand - k_supply == k_diff
+        count = count + 1;
+    else
+        count = 0;
+    end
+    
+    k_diff = k_demand - k_supply;
+    %k_demand = (k_supply+k_demand)/2;
+    %k_demand = k_supply;
+    [kmin,kind] = min(abs(0.95*k_demand + 0.05*k_supply - kgrid));
+    k_demand = kgrid(kind);
+    
+    % report on k_ss convergence every iteration
+    disp(['k_ss attempt = ', num2str(k_iter),... 
+            ', k_ss Error = ', num2str(max(max(k_diff))),...
+            ', k_demand = ', num2str(k_demand)])
+
 end
-file1b = fopen('1a.tex','w');
+
+    
+%% save and/or calculate steady-state values
+k_ss = k_demand;
+r = alpha*k_ss^(alpha-1);
+w = ((k_ss^alpha)-r*k_ss);
+
+% calculate implicit consumption policy function
+[xs,ykap] = meshgrid(s,kap);
+condecis = w.*xs+(1+r-delta).*ykap-decis;
+
+%% output results to .tex file
+if q1c == 0
+    filename = '1a.tex';
+else
+    filename = '1c.tex';
+end
+
+if exist(filename, 'file')==2
+  delete(filename);
+end
+file1 = fopen(filename,'w');
 
 tbl = ...
-    ['\\begin{center}\n\\begin{tabular}{r c c}\n',...
-    '&  \\\\ \\hline\n',...
-    'Capital  & %4.3f \\\\ \n',...
+    ['\\begin{center}\n\\begin{tabular}{r c}\n',...
+    '\\hline Capital  & %4.3f \\\\ \n',...
     'Interest rate & %4.3f \\\\ \n', ...
     'Wage & %4.3f \\\\ \\hline\n',...
     '\\end{tabular}\n\\end{center}'];
-fprintf(file1b,tbl,...
-    round(k_ss,3),round(mean(obs_kap),3),...
-    round(k_ss^alpha-c_ss,3),round(mean(obs_inv),3),...
-    round(c_ss,3),round(mean(obs_con),3),...
-    round(alpha*k_ss^(alpha-1),3),round(mean(obs_r),3),...
-    round((1-alpha)*k_ss^alpha,3),round(mean(obs_w),3));
-fclose(file1b);
+fprintf(file1,tbl,...
+    round(k_ss,3), round(r,3),round(w,3));
+fclose(file1);
 
-% (i) plot value funcitons for high and low labor states
-figure(1)
-    plot(kap,v(:,1),kap,v(:,2))
-    title('Value functions')
-    xlabel('a_t'); ylabel('V(a,l)')
-    legend('l_i=0.7','l_i=1.1','location','Southeast')
-    saveas(gcf,'figure1.png')
-    
-% (ii) Plot asset decision rules for each labor state
-figure(2)
-    plot(kap,decis(:,1),kap,decis(:,2),kap,kap,'k--')
-    title("Policy functions: a'(a,l_i)")
-    xlabel('a_t');ylabel('a_{t+1}');
-    legend('l_i=0.7','l_i=1.1','a_t=a_{t+1}','location','Southeast')
-    saveas(gcf,'figure2.png')
-   
-%% (d) Find stationary distribution of asset holdings and plot
+if q1c == 0
+    %%% (b) plot equilibrium distributions of income and consumption
 
-% initialize arbitrary asset distribution
-adist0       = zeros(nkap,N);
-adist0(1)    = 1;
-err = 1; % initialize tolerance
-i   = 0;
-while (err > tol && i < 1000)
-    adist = 0*adist0;
-    
-    % loop through labor states and starting asset amounts
-    for n = 1:N
-       for a = 1:nkap
-           if adist0(a,n)>1e-14 % ignore empty asset holdings
-               targ = tdecis1(a,n);
-               adist(tdecis1(a,n),1) = adist(targ,1)+adist0(a,n)*Q(n,1);
-               adist(tdecis1(a,n),2) = adist(targ,2)+adist0(a,n)*Q(n,2);
-           end
+    %% calculate distributions using the distribution of capital
+
+    % consumption
+    c       = [condecis(:,1);condecis(:,2)];
+    prob_c  = [adist(3:end,1);adist(3:end,2)];
+    sortmat = sort([c,prob_c],1);
+    c = sortmat(:,1); prob_c = sortmat(:,2);
+    if length(unique(c))<length(c)
+       uni_c = unique(c);
+       uniprob_c = zeros(length(uni_c));
+       for i = 1:length(uni_c)
+           uniprob_c(i) = sum(prob_c(c == uni_c(i)));
        end
+       c = uni_c; prob_c = uniprob_c;
     end
-    i = i+1;
-    err = norm(adist0(:)-adist(:));
-    adist0 = adist;
-    fprintf('Iteration %d, err = %d\n',i,err)
-end
-amarg = sum(adist,2);
-ave = sum(amarg.*kgrid');
 
-% plot marginal asset distribution
-figure(3)
-    bar(kgrid,amarg)
-    title('Marginal distribution of a_t')
-    xlim([-0.1 max(kgrid)]); xline(ave,'r-')
-    text(ave+0.1,0.06,['Mean=',num2str(ave)], 'color','r')
-    xlabel('a_t'); ylabel('pmf')
-    saveas(gcf,'figure3.png')
+    % income
+    inc      = w.*xs+(1+r-delta).*ykap;
+    inc      = [inc(:,1);inc(:,2)];
+    prob_inc = [adist(3:end,1);adist(3:end,2)];
+    sortmat = sort([inc,prob_inc],1);
+    inc = sortmat(:,1); prob_inc = sortmat(:,2);
+    if length(unique(inc))<length(inc)
+       uni_inc = unique(inc);
+       uniprob_inc = zeros(length(uni_inc));
+       for i = 1:length(uni_inc)
+           uniprob_inc(i) = sum(prob_inc(inc == uni_inc(i)));
+       end
+       inc = uni_inc; prob_inc = uniprob_inc;
+    end
+
+    %% plot PMFs
+    figure(1)
+        bar(c,prob_c, 'BarWidth', 1)
+        title('PMF of equilibrium consumption')
+        xlabel('c_t'); ylabel('Mass')
+        saveas(gcf,'figure1bi.png')
+
+    figure(2)
+        bar(inc,prob_inc, 'BarWidth', 1)
+        title('PMF of equilibrium income')
+        xlabel('Income at t'); ylabel('Mass')
+        saveas(gcf,'figure1bii.png')
+end
+    
+
 

@@ -138,7 +138,7 @@ figure(2)
 
 %% determine number of burns and simulations
 nBurn   = 100000;
-nsim    = 100;
+nsim    = 200;
 
 %% initialize 'observed data' vectors
 obs_kap = zeros(nsim,1); obs_con = zeros(nsim,1); obs_w = zeros(nsim,1);
