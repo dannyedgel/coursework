@@ -1,0 +1,457 @@
+%%% Econ711: Microeconomics I
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Optional, but due on Canvas Monday, December 14, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\union}{\bigcup}
+\newcommand{\olw}{\overline{w}}
+\newcommand{\olx}{\overline{x}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\P}{\mathcal{P}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\olp}{\overline{p}}
+\renewcommand{\exp}[1]{\text{exp}\left\{#1\right\}}
+\newcommand{\binv}[1]{b_j^{-1}\left(#1\right)}
+\newcommand{\contains}{\supseteq}
+\newcommand{\red}[1]{{\color{red}#1}}
+
+%\DeclareMathOperator{\E}{\mathbb{E}}% expected value
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]} % expected value
+\newcommand{\Et}[2]{\mathbb{E}_{#1}\left[#2\right]}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Game Theory Review }
+\author{ 	Danny Edgel 					\\ 
+			Econ 711: Microeconomics I		\\
+			Fall 2020, Quarter 2			\\
+		}
+\maketitle\thispagestyle{empty}
+
+
+
+%%%________________________________________________________________%%%
+
+\section{Normal Form Games}
+
+\subsection{Characterization}
+A normal form game has:
+\begin{enumerate}
+	\item Players: $N = \{1,2,...,n\}$
+	\item Action profiles, $A_i$, for each player $i\in\{1,...,n\}$, with associated pure strategy sets, $S_i$
+	\item Payoff functions, $u_i$, for each player 
+\end{enumerate}
+A mixed strategy in a normal form game is denoted with ${\sigma_i\in\Delta S_i}$, where $\Delta$ is a probability distribution for each pure strategy in the mixed strategy. For example, if player $i$ can play $A$ or $B$, and $\sigma_i$ is a mixed strategy in which she plays $A$ 30\% of the time, then ${\sigma_i(A)=.3}$ and ${\sigma_i(B)=.7}$. \\
+\\
+Payoff functions, $u_i(\sigma_i,s_{-i})$, are functions of each player's behavior, where ($\sigma_i$) is the behavior of the player in question, and $s_{-i}$ is the action of every player other than $i$.
+
+
+\subsection{Rationalizability and Strict Dominance}
+\subsubsection{Dominance}
+A pure strategy, ${s_i\in S_i}$ is strictly dominated if any other strategy (pure or mixed) yields higher payoffs than $s_i$ regardless of other players' actions:
+\[
+	\exists \sigma_i\text{ s.t. } u_i(\sigma_i,s_{-i}) > u_i(s_i,s_{-i})\text{ }\forall s_{-i}\in S_{-i}
+\]
+Identifying \textbf{strictly dominated strategies} is straightforward when they're dominated by pure strategies, but it's tougher with strategies dominated by mixed strategies. Take the following game as an example:
+\begin{center}
+	\begin{tabular}{r c c c c }
+		& $a$ 							& $b$ 							& $c$ 							& $d$							\\ \cline{2-5}
+	$A$ & \multicolumn{1}{|c|}{(2,2)} 	& \multicolumn{1}{|c|}{(3,1)} 	& \multicolumn{1}{|c|}{(4,3)} 	& \multicolumn{1}{|c|}{(3,3)} 	\\ \cline{2-5}
+	$B$ & \multicolumn{1}{|c|}{(7,3)} 	& \multicolumn{1}{|c|}{(3,5)} 	& \multicolumn{1}{|c|}{(3,2)} 	& \multicolumn{1}{|c|}{(0,0)} 	\\ \cline{2-5}
+	\end{tabular}
+\end{center}
+$a$ is not dominated by any other pure strategy, but ${u(A,c)>u(A,a)}$ and ${u(B,b)>u(B,a)}$ for the column player, so there exists a mixed strategy of $b$ and $c$ that yields higher payoffs than $a$ \textbf{regardless of the row player's strategy}.\\
+\\
+Strictly dominated strategies will never be played by rational players in a normal form game, so they can be deleted from the action set for the purposes of rationalizability and equilibrium determination. It may be the case that some strategies that were not previously dominated are dominated once other dominated strategies are deleted. These are also considered dominated by the process of \textbf{iterated strict dominance} (ISD). \\
+\\
+$ISD_k$ is the set of strategies that survive $k$ rounds of deletion of all possible strictly dominated strategies, Where ${ISD_1\contains ISD_2\contains...\contains ISD_k}$, where any equilibrium must necessarily be in $ISD_\infty$. Note that \textbf{strict} dominance is required for IDS. Deleting weakly-dominated strategies does not yield consistent results.\footnote{You should make yourself believe that this is the case.}
+
+\subsubsection{Best Reply}
+A \textbf{best reply} is a strategy (pure or mixed) that maximizes a player's payoff, conditional on other players' strategies. Formally, $\sigma_i$ is a best response to $\sigma_{-i}$ if 
+\[
+	u_i(\sigma_i,\sigma_{-i})\geq u_i(\sigma'_i,\sigma_{-i})\text{ }\forall \sigma'_i\in\Delta S_i
+\]
+A best response is denoted as ${\sigma_i\in B_i(\sigma_{-i})}$. \\
+\\
+\textbf{Proposition:} In a two-player game, $\sigma_i$ is strictly dominated if and only if it is never a best response.
+
+\subsubsection{Rationalizability}
+A 1-rationalizable ($\Q_1$) strategy for player $i$ is an element of $S_i$ that is a best reply to an (independent) probability distribution over other players' strategies. A $k$-rationalizable ($\Q_k$) strategy for player $i$ is an element of $S_i$ that is a best reply to an (independent) probability distribution over other players' ${(k - 1)}$-rationalizable strategies, for ${k =2, 3,...}$  A \textit{rationalizable} ($\Q_\infty$) strategy is an element of $S$ that is $k$-rationalizable for all players $i$ and all ${k = 1, 2,...}$. \\
+\\
+\textbf{Theorem:} In a two-player game, a strategy survives iterated strict dominance if an only if it is rationalizable.
+
+\subsection{Nash Equilibrium}
+\textbf{Definition:} ${\sigma = \{\sigma_1,\sigma_2,...,\sigma_n\}}$ is a Nash equilibrium if:
+\[
+	\sigma_i\in B_i(\sigma_{-i})\text{ }\forall i\in\{1,2,...,n\}
+\]
+In other words, a Nash equilibrium is an outcome in which all players are optimizing. There are two strategies for computing a Nash equilibrium:
+\subsubsection*{Option 1}
+\begin{enumerate}
+	\item Eliminate pure strategies that are not rationalizable 
+	\item For each strategy profile $\sigma$ whose supports involve rationalizable strategies, check for each player $i$ that ${\sigma_i\in B_i(\sigma_{-i})}$
+\end{enumerate}
+\subsubsection*{Option 2}
+\begin{enumerate}
+	\item Use ISD to eliminate all non-rationalizable strategies 
+	\item Final all ``closed rationalizable cycles" 
+	\item Look for Nash equilibria on the suppose of each cycle:
+		\begin{enumerate}[(i)]
+			\item Fore pure strategies, just check for pure best responses
+			\item For mixed strategies, solve using indifference between all pure strategies in the support
+		\end{enumerate}
+\end{enumerate}
+For two-player games, step 2 of option 2 is done by first looking at each rationalizable pure strategy, $s_i$, for each $i$, and finding the best response for the other player and determining whether one of them can make $s_i$ a best response. \\
+\\
+Next, look at each possible mixed strategy support\footnote{A support is the set of all pure strategies that are played in a mixed strategy--i.e. those with a nonzero probability assigned to them.} of each player $i$, then use optimality conditions to restrict what other players' strategies may be (by changing the payoffs of each pure strategy), then determining whether it is optimal for the other player to do the same based on player $i$'s mixed strategy.
+
+\subsubsection{Nash Equilibrium with a Continuum of Players}
+A continuum of players often simplifies a problem by foregoing the issue of thinking about which player plays which strategy. Also, a mixed-strategy equilibrium in a two-player game can be a pure strategy one when a continuum of players is used. For example, in rock paper scissors with two players, the unique NE is for each player to fully randomize with equal weight on each move. With a continuum of players, each player can either fully randomize, or each move (rock, paper, or scissors) can be played as a pure strategy by one third of the continuum.
+
+\subsection{Nash Equilibrium with a Continuum of Actions}
+Most games involve continuous action sets (e.g., pricing in oligopolistic competition). Key concepts:
+\begin{itemize}
+	\item Glicksbeg Fixed Point Theorem: If all player action spaces are compact, convex subsets of $\R^k$ and each payoff function is continuous, then the game has at least one (possibly mixed) Nash equilibrium
+	\item We usually assume that payoff functions are strictly quasi-concave in one's own action in order to ensure that mixed NEs cannot be optimal. 
+	\item If there is an interior solution, the best response function is obtained using the first-order condition of the payoff function w/r/t one's own action. The NE is then obtained by inputting one player's best response function into the other player's and solving
+\end{itemize}
+
+\subsubsection{Timing Games: war of attrition vs. pre-emption}
+Suppose there is a continuum of players \textit{and} a continuum of actions, such as customers choosing when to go to the grocery store. Then there is a payoff from going at a certain time, $u(t)$ and a payoff from going at a certain place in the distribution of shoppers, $v(q)$, where $q$ is the quantile of the distribution. The solution to this problem is a CDF, $Q(t)$, which gives the share of the shoppers who have already gone to the grocery store at each $t$. In equilibrium, all shoppers must be indifferent to going at any time $t$. Thus, if $t^*$ optimizes $u$, then, at the equilibrium:
+	\begin{align*}
+		v(q)\text{ increasing in q} &\Rightarrow u(t)v\left(Q(t)\right) = u(t^*)v(0)	\\
+		v(q)\text{ decreasing in q} &\Rightarrow u(t)v\left(Q(t)\right) = u(t^*)v(1)
+	\end{align*}
+	Once $Q(t)$ is obtained, we can determine when people go to the store by solving for the domain of $Q(t)$, i.e. by setting ${Q(t)=0}$ and ${Q(t)=1}$ and solving for $t$. \\
+	\\
+	To determine whether it's possible to have an initial (or terminal) rush, we find the quantile, $\tilde{q}$ such that the payoff of going just before the rush is equal to the average payoff of going during the rush to determine what the size of the rush would be.  This is done with the equation:
+	\begin{align*}
+		\text{Initial rush: }  & \frac{1}{\tilde{q}}\int^{\tilde{q}}_0v(x)dx = v(\tilde{q})	\\
+		\text{Terminal rush: } & \frac{1}{1-\tilde{q}}\int^{1}_{\tilde{q}}v(x)dx = v(\tilde{q})
+	\end{align*}
+	If the ${\tilde{q}=0}$ (or 1, in the terminal case), then the rush has a size of 0, meaning that there cannot be a rush.
+
+\red{See discussion handout 9, question 7 and/or HW2, question 5}
+
+\subsection{Supermodular and Submodular Games}
+\begin{itemize}
+	\item A \textbf{supermodular game} is one that has \textit{strategic complementarities}, i.e. players' best reponse functions are increasing in other players' actions.
+	\item \textbf{Definition:} A game with ${S=\left\{S_1,...,S_n\right\}}$ and payoff functions $u_i$ is supermodular is, for all $i$,
+		\begin{itemize}
+			\item $S_i\subseteq\R$ is compact 
+			\item $u_i$ is upper semi-continuous in $s_i$, $s_{-i}$
+			\item $u_i$ has increasing differences in $s_i$, $s_{-i}$
+		\end{itemize}
+	\item \textbf{Theorem}: Suppose $(S,u)$ is a supermodular game, and let ${BR_i(s_{-i})=\text{arg}\underset{s_i\in S_i}{\text{max }}u_i(s_i,s_{-i})}$. Then,
+		\begin{enumerate}[(i)]
+			\item $BR_i(s_{-i})$ has a greatest and least element $\overline{BR}_i(s_{-i})$ and $\underline{BR}_i(s_{-i})$
+			\item If ${s'_{-i}\geq s_{-i}}$, then ${\overline{BR}_i(s'_{-i})\geq\overline{BR}_i(s_{-i})}$ and ${\underline{BR}_i(s'_{-i})\geq\underline{BR}_i(s_{-i})}$
+		\end{enumerate}
+	\item \textbf{Theorem (maximum and minimum equilibrium)}: Consider a supermodular game with continuous payoff functions $u_i(s)$ on a compact domain for all $i$. Then $\exists$ a maximum and minimum equilibrium.
+	\item \textbf{Submodular games}: $f(x,\theta)$ has decreasing differences if $f(x,-\theta)$ has increasing differences. A submodular game (aka a \textbf{game of strategic substitutes}) is one whose payoffs $u_i(s_i,s_{-i})$ have decreasing differences for all $i$
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+
+\section{Bayesian Games}
+
+\subsection{Characterization}
+A Bayesian game has:
+\begin{enumerate}
+	\item Players: $N = \{1,2,...,n\}$
+	\item Action profiles, $A_i$, for each player $i\in\{1,...,n\}$, with associated pure strategy sets, $S_i$
+	\item A joint type space $\Theta$ with player type spaces $\Theta_i$ and player types ${\theta_i\in\Theta_i}$
+	\item A probability, ${p\in\Delta\Theta}$ of any particular type
+	\item Payoff functions, $u_i$, for each player 
+\end{enumerate}
+Each player has an expected utility from each strategy profile:
+\[
+	u_i(\sigma|\theta_i) = \sum_{\theta_{-i}\in\Theta_{-i}}p(\theta_{-i}|\theta_i)\sum_{a\in A}\left(\prod_{j\neq i}\sigma_j(a_j|\theta_j)\right)\sigma_i(a_i)u_i(a,\theta)
+\]
+Conditional on knowing the type space, the probability of any outcome, $(a,\theta)$, is
+\[
+	\sigma_i(a_i)\left(\prod_{j\neq i}\sigma_j(a_j|\theta)\right)
+\]
+In a Bayesian game, \textbf{each player optimizes conditional on their own type}. A pure strategy is a function, $s_i(\theta_i)$ that acts as a decision rule, e.g., ``If I'm type $A$, I play $a$. If I'm type $B$, I play $b$" and so on. 
+
+\subsection{Bayesian Nash equilibrium}
+A \textbf{Bayesian Nash Equilibrium} is a mixed strategy profile fuch that, for each player $i$ and type ${\theta_i\in\Theta_i}$,
+\[
+	\sigma_i(\cdot|\theta_i)\in\text{arg}\underset{\tilde{\sigma}_i\in\Delta a_i}{\text{max}}\sum_{\theta_{-i}\in\Theta_{-i}}p(\theta_{-i}|\theta_i)\sum_{a\in A}\left(\prod_{j\neq i}\sigma_j(a_j|\theta_j)\right)\tilde{\sigma}_i(a_i)u_i(a,\theta)
+\]
+A more intuitive description, from MWG, 8.E.1: A profile of decision rules, ${\{s_1(\cdot),...,s_n(\cdot)\}}$ is a BNE if and only if, for all $i$ and $\overline{\theta}_i$,
+\[
+	\Et{\theta_{-i}}{u_i(s_i(\overline{\theta}_i),s_{-i}(\theta_{-i}),\overline{\theta}_i)|\overline{\theta}_i}\geq\Et{\theta_{-i}}{u_i(s'_i,s_{-i}(\theta_{-i}),\overline{\theta}_i)|\overline{\theta}_i}
+\]
+for all $s_i'\in S_i$, where the expectation is taken over realizations of the other players' random variables conditional on player $i$'s realization of $\overline{\theta}_i$. This equation makes clear the solution to the BNE: the best response rule can be determined by finding a cutoff point equal to the probability weight that makes the two sides of this equation equal. This cutoff is used to assign pure strategies for each Bayesian type. This becomes clearer and easier to understand when looking at a two-player, two-action game. For an example of such, see \red{2(b) on problem set 4} or \red{Section 8.E in Mas-Colell, Whinston, and Green}; particularly example 8.E.1, which is set up on p.254 and solved on p.256.
+
+\subsection{Correlated Equilibrium}
+Suppose a randomizing device \textbf{privately} suggests an action to each player, who knows the probability of each outcome being suggested but does not know what has been suggested to each other player. If the payoffs and probability distribution of suggestions do not produce any incentive to ignore the suggested action, then this results in a \textbf{correlated equilibrium}.
+
+More formally, a probability distribution ${\rho\in\Delta S}$ results in a correlated equilibrium if:
+\[
+	\sum_{s_{-i}\in S_{-i}}\frac{\rho(s_i,s_{-i})}{\rho(s_i)}u_i(s_i,s_{-i})\geq \sum_{s_{-i}\in S_{-i}}\frac{\rho(s_i,s_{-i})}{\rho(s_i)}u_i(s'_i,s_{-i})
+\]
+
+This rule is actually quite simple when applied to a standard two-player, two-action game. For examples, review \red{question 5 on discussion handout 11} or \red{2(d) on problem set 4}.
+
+\subsection{Knowledge}
+Full disclosure: much of what I've written below is formal and technical, but I have no idea if we're required to get this formal/technical with these questions. I barely understand it. 
+\begin{itemize}
+	\item $\Omega \equiv$ set of finitely many states of nature, with $\omega\in\Omega$ 
+	\item ${H_i=\{h_1,h_2,...\}}$ is player $i$'s information set 
+	\item $H_i$ is a partition of $\Omega$
+	\item Each player $i$ cannot distinguish between any two ${\omega,\omega'\in h_i(\omega)}$
+	\item ${E\subseteq\Omega}$ is an event
+	\item If $\omega$ is the true state of the world and ${\omega\in E}$, then $E$ occurs
+	\item For any $E$, $K(E)$ is the set of all states in which $i$ knows $E$ 
+	\item $K_i(E) = \{\omega\in\Omega|h_i(\omega)\subseteq E\}$
+	\item If player $i$ observes $E$, then they know that some $\omega\in E$ is the true state
+\end{itemize}
+Consider the question from \red{Problem set 4, question 4}, where 10 of 40 game theorists have bad breath and can observe the bad breath of others but not themselves. The true state of the world, $\omega$ is the assignment of game theorists with bad breath. The event, $E$, for each game theorist is the game theorists with bad breath that they observe with bad breath. Each game theorist's information set, $H_i$ contains two elemnts of $\Omega$: in one only the game theorists they smell have bad breath. In the other, they \textit{also} have bad breath. One of these is the true state, but they cannot distinguish between them.
+
+\subsubsection{Mutual and Common Knowledge}
+\begin{itemize}
+	\item $E$ is \textbf{mutual knowledge} in state $\omega$ if ${\omega\in\bigcup_{i\in\{1,...,n\}}K_i(E)}$. In other words, ``everyone knows event $E$"
+	\item $E$ is \textbf{common knowledge} in state $\omega$ if ${\omega\in\bigcup_{i\in\{1,...,n\}}K_i^m(E)}$ for all ${m=1,2,...}$. ${m=1}$ is mutual knowledge, but all $m$ means ``everyone knows that everyone knows that..."
+	\item \textbf{Theorem:} If two people have the same priors and their posteriors for an event $E$ are common knowledge, then these posteriors are equal.\footnote{I don't know what this means but I don't think it's important.}
+\end{itemize}
+Turn, again, to the smelly game theorist example. Since each economist with bad breath observes 9 with bad breath and each economist without bad breath observes 10, it is mutual knowledge that nine game theorists have bad breath, but this is not \textit{common knowledge}. If everyone knew that everyone knew that there were at least nine game theorists with bad breath, then each game theorist with bad breath would understand that they have bad breath. Because if only nine game theorists had bad breath, then it would be mutual knowledge that only 8 had bad breath, because then the 9 game theorists with bad breath would smell 8 but not know if they had it. \\
+\\
+Note that, in this example, the elevators coming and going do not represent events. The elevators are signals, which are not formalized in this model.\footnote{I know this is weird, but I asked Cody in office hours, and that is what he told me.} \\
+\\
+\red{An information question that's formalized with information sets, etc. is exercise 1 from discussion handout 12.}
+
+%%%________________________________________________________________%%%
+
+\section{Extensive Form Games}
+
+\subsection{Perfect Information}
+In an extensive form game with perfect information, before choosing an action, each player:
+\begin{enumerate}
+	\item Knows all actions that were chosen up to that point
+	\item Does not move simultaneously with any other player
+\end{enumerate}
+Examples: Chess, checkers, etc. \\
+\\
+Extensive games are solved with a \textbf{subgame perfect equilibrium} (SPE), using the \textbf{Zermelo algorithm}:
+\begin{enumerate}
+	\item At each of the lowest decision nodes (i.e. the one that ends the game), identify which decision the agent will make 
+	\item At each of the next-level nodes, identify which decision the agent will make, \textit{knowing the next player's optimal choice}
+	\item Repeat step 2 up to the very first node
+\end{enumerate}
+In an SPE, each player is optimizing at each possible level of the game. An SPE is also necessarily a Nash equilibrium.
+
+
+\subsection{Repeated Games}
+Repeated games are simultaneous-play games that are repeated for either a finite or infinite number of periods. Finite-period games can be solved with backward induction, but infinitely-repeated games can sustain equilibria that otherwise would not be feasible. Payoffs in infinitely-repeated games are discount by a constant factor ${\delta\in(0,1)}$:
+\[
+	\sum_{t=0}^\infty\delta^tu_i(a^t)
+\]
+In repeated games, $a$ denotes a pure strategy, and $\alpha$ denotes a mixed strategy.
+
+\subsubsection{Folk Theorem}
+Infinitely-repeated games may have infinitely many subgame perfect equilibria, so equilibria are instead described as being sustainable or not. This is determined first by finding player $i$'s minmax value:
+\[
+	\underline{v_i} = \underset{\alpha_{-i}}{\text{min}}\underset{\alpha_i}{\text{max }}u_i(\alpha_i,\alpha_{-i})
+\]
+The set of individually rational payoffs is given by
+\[
+	F^* = \{v\in F: V_i\geq \underline{v_i}\forall i \in \{1,...,n\}\}
+\]
+\textbf{Theorem}. Let $v\in F^*$ and suppose that at least one of the following holds:
+	\begin{enumerate}[(i)]
+		\item There are exactly two players 
+		\item No two players have identical preferences (up to affine transformations)
+	\end{enumerate}
+Then, ${\forall\delta\rightarrow 1}$, $\exists$ an SPE of $G^{\infty}(\delta)$ with payoffs $v$.
+
+\subsubsection{Stick and Carrot Strategies}
+In this class, we only consider two players and pure strategies, assuming:
+\begin{itemize}
+	\item The payoff vector, ${v=u(\hat{a})}$ can be obtained from pure strategy profile, ${\hat{a}\in A}$
+	\item There are exactly two players 
+	\item For each player, $v_i$ is greater than player $i$'s pure strategy minmax value:	
+		\[
+			\underline{v_i}^p = \underset{\alpha_{j}}{\text{min}}\underset{\alpha_i}{\text{max }}u_i(\alpha_i,\alpha_j)
+		\]
+\end{itemize}
+Stick-and-carrot strategies generally take the following form:
+\begin{enumerate}
+	\item \textbf{Carrot:} Play $\hat{a}_i$ initially of if $\hat{a}$ was played last period
+	\item \textbf{Stick:} If there is a deviation from $\hat{a}$, play $a_i^m$ $L$ times, then restart step 1
+	\item If there is a deviation from step 2, restart step 2
+\end{enumerate}
+The stick is usually an equilibrium that minimizes the deviating player's maximum payoff in the stage game. Solving these problems involves keeping track of four values:
+\begin{itemize}
+	\item $v_i$: The payoff from adhering to $\hat{a}$
+	\item $\overline{v_i}$: The maximum payoff to deviating from $\hat{a}$
+	\item $\underline{v_i}^p$: Player $i$'s maximum payoff given that $j$ is minimizing their max
+	\item $\underline{v_i}^m$: Player $i$'s payoff of both players are playing their minmax strategies
+\end{itemize}
+By construction, 
+\[
+	\underline{v_i}^m\leq \underline{v_i}^p < v_i \leq \overline{v_i}
+\]
+In a stick-and-carrot strategy with a finish punishment period $L$,
+ \[
+	\sum_{t=1}^L a\delta^t = a\delta\sum_{t=0}^{L-1}\delta^t = a\delta\left(\sum_{t=0}^\infty\delta^t-\sum_{t=L}^\infty\delta^t\right) = a\delta(1-\delta^L)\sum_{t=0}^\infty= \frac{a\delta(1-\delta^L)}{1-\delta}
+ \]
+\red{Reference: First two questions of problem set 6.}
+ 
+\subsection{Games with Imperfect Information}
+In a game with imperfect equilibrium, we can still define an SPE, but it may not include full sequential rationality due to the fact that players do not know with certainty which node their on. To form an SPE, we must know what players \textit{believe} about where they are for each information set, then determine optimal behavior according to their beliefs. Formally, we say that strategy $\beta_i$ is rational for information set $I$ given $\beta_{-i}$ and probability belief $\mu_i$ if:
+\[
+	\sum_{x\in I}\mu_i(x)u_i(\beta,\beta_{-i}|x)\geq\sum_{x\in I}\mu_i(x)u_i(\hat{\beta}_i,\beta_{-i}|x)
+\]
+$(\beta,\mu)$ is called an \textbf{assessment}, and we say $\beta$ is sequentially rational given $\mu$. \\
+\\
+\textbf{Definition (Weak Sequential Equilibrium)}: A set of strategies and beliefs, $(\beta,\mu)$ is a weak sequential equilibrium if
+	\begin{enumerate}
+		\item $\mu$ is Bayesian given $\beta$ 
+		\item $\beta$ is sequentially rational given $\mu$ 
+	\end{enumerate}
+	Since no restrictions are placed on beliefs in unreached information sets (i.e. nodes further along in the game), this may yield unreasonable predictions. \\
+	\\
+\textbf{Definition (Consistent Beliefs)}: $\mu$ is consistent given $\beta$ if there exists a sequence of completely mixed strategy profiles $\{\beta^k\}_{k=1}^\infty$ such that ${\underset{k\rightarrow\infty}{\text{lim }}\beta^k=\beta}$ and where $\mu^k$ are the unique Bayesian beliefs for $\beta^k$.
+
+Consistency forces players to entertain ``correct" beliefs even in unreached information sets. This leads us to \textbf{sequential equilibrium}.
+
+\textbf{Definition (Sequential Equilibrium)}: $(\beta,\mu)$ is a sequential equilibrium if:
+	\begin{enumerate}
+		\item $\mu$ is consistent given $\beta$
+		\item $\beta$ is sequentially rational given $\mu$
+	\end{enumerate}
+
+
+\subsection{Trembling Hand Perfection}
+\subsubsection{THP in Normal Form Games}
+In a normal-form game, a \textbf{trembling-hand perfect equilibrium} (THPE) is one that is robust to the possibility that, with some vanishingly small probability, players make mistakes. The THPE is found by defining a ``perturbed game", in which every player must assign a non-zero probability (however small) to each of their pure strategies. This essentially removes weakly-dominated strategies from the universe of rationalizable strategies. 
+
+
+\textbf{Definition}: A Nash equilibrium, $\sigma$ of game ${\Gamma_N=\{I,\{\Delta S_i\},\{u_i(\cdot)\}\}}$ (where $I$ is the set of players) is \textit{normal form trembling-hand perfect} if there is some sequence of perturbed games, $\{\Gamma_{\varepsilon^k}\}_{k=1}^\infty\}$, that converges to $\Gamma_N$,\footnote{In the sense that ${\underset{k\rightarrow\infty}{\text{lim }}\varepsilon_i^k(s_i)=0}$ for all $i$ and ${s_i\in S_i}$} for which there is some associated sequence of Nash equilibria ${\{\sigma^k\}_{k=1}^\infty}$ that converges to $\sigma$ (i.e., such that ${\underset{k\rightarrow\infty}{\text{lim }}\sigma^k=\sigma}$).
+
+This definition can be difficult to satisfy, so MWG propose an alternative that's much easier:
+
+
+\textbf{Proposition 8.F.1 (p.259)}: A Nash equilibrium $\sigma$ of game ${\Gamma_N=\{I,\{\Delta S_i\},\{u_i(\cdot)\}\}}$ is normal-form THP if and only if there is some sequence of totally mixed strategies (i.e. those that place positive weight on every pure strategy), $\{\sigma^k\}_{k=1}^\infty$ such that ${\underset{k\rightarrow\infty}{\text{lim }}\sigma^k=\sigma}$ and $\sigma_i$ is a best response to every element of sequence $\{\sigma^k_{-i}\}_{k=1}^\infty$ for all $i$ \\
+\\
+This definition essentially just states that a NE is not THP if any player places positive weight on any weakly-dominated strategy.
+
+\red{Resource: Mas-Colell, Whinston, and Green: Section 8.F}
+
+\subsubsection{THP in Extensive Form Games}
+The \textbf{trembling-hand perfect equilibrium} (THP) is the strongest of all extensive form equilibria. This equilibrium extends the normal form THP concept of robustness to trembles to each move made by a player in an extensive form equilibrium (i.e. at each information set). Critical to this equilibrium is the concept of the \textbf{agent normal form} of an extensive form game. The agent normal form is what you would get if you pretended that each player had a set of agents in charge of moving for them at each node as if that player were acting independently to maximize the player's payoff.
+
+
+	\textbf{Definition}: Strategy profile $\sigma$ is extensive form game $\Gamma_E$ is an \textit{extensive form trembling-hand perfect Nash equilibrium} if and only if it is a normal form tremblind-hand perfect Nash equilibrium of the agent normal form derived from $\Gamma_E$. \\
+\\
+This equilibrium differs from the sequential equilibrium because it eliminates some sequential equilibria in which weakly-dominated strategies are played (though in general the concepts are very similar).
+
+\red{Resource: Mas-Colell, Whinston, and Green:Appendix B of ch.9}
+
+\subsection{Signaling Games}
+\begin{itemize}
+	\item Two players: sender and receiver
+	\item Sender receives their type from nature, then chooses a message to send to receiver
+	\item Receiver doesn't know which type she receives message from but knows each type's payoffs
+	\item In a signaling game, weak sequential equilibrium and sequential equilibrium are identical 
+	\item Two types pure-strategy equilibria in signaling games:
+		\begin{itemize}
+			\item \textbf{Separating equilibria}: Different types of senders choose different actions 
+			\item \textbf{Pooling equilibria}: Different types of senders choose the same action
+		\end{itemize}
+\end{itemize}
+
+\subsubsection{Intuitive Criterion}
+In some signaling games, some sequential equilibria might seem unreasonable but are technically equilibria. These can be eliminated with the \textbf{intuitive criterion}. Let $\Theta^*(a)$ be the set of all $\theta$ that satisfy:
+\[
+	u_1^*(\theta) > \underset{s\in S^*(\Theta,a)}{\text{max}}u_1(a,s,\theta)
+\]
+Where $S^*(\Theta,a)$ is the set of possible equilibrium responses after action $a$ is observed. A sequential equilibrium violates the intuitive criterion if there exists a type, $\theta$, and an action, $a$, such that 
+\[
+	\underset{s\in S^*(\Theta^*(a),a)}{\text{min}}u_q(a,s,\theta)>u_1(\theta)
+\]
+In plain English, the intuitive criteron eliminates a sequential equilibrium (SE) if there is some sender type $\theta$ who has a deviation that is \textit{assured} of yielding the sender a payoff above the payoff in the SE in question so long as the other players do not assign a positive probability to the deviation having come from a type for whom the action is equilibrium dominated (which holds in basically all cases). In practice, this serves to eliminate pooling equilibria in favor of separating equilibria, as in the case of \red{discussion handout 13, question 3}. A further reference for the pooling equilibrium is \red{Mas-Colell, Whinston, and Green, Ch. 13, Appendix A}.
+
+%%%________________________________________________________________%%%
+
+
+\end{document}
