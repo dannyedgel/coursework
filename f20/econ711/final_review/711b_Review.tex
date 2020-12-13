@@ -2,7 +2,7 @@
 %%% Fall 2020
 %%% Danny Edgel
 %%%
-% Optional, but due on Canvas Monday, December 14, 11:59pm Central Time
+% Review of all concepts taught in the second quarter of the first semester of Econ 711
 %%%
 
 %%%
@@ -399,6 +399,7 @@ Consistency forces players to entertain ``correct" beliefs even in unreached inf
 		\item $\mu$ is consistent given $\beta$
 		\item $\beta$ is sequentially rational given $\mu$
 	\end{enumerate}
+Computing a sequential equilibrium, in practice, typically involves considering each possible behavioral strategy by the last-moving player, then deducing which strategies by other players would be sequentially rational and whether those strategies are consistent with the last-moving player's beliefs. An example of this process is in \red{slide 10 of the sequential equilibrium lecture} and it is applied in \red{question 5 of problem set 6}.
 
 
 \subsection{Trembling Hand Perfection}
@@ -406,7 +407,7 @@ Consistency forces players to entertain ``correct" beliefs even in unreached inf
 In a normal-form game, a \textbf{trembling-hand perfect equilibrium} (THPE) is one that is robust to the possibility that, with some vanishingly small probability, players make mistakes. The THPE is found by defining a ``perturbed game", in which every player must assign a non-zero probability (however small) to each of their pure strategies. This essentially removes weakly-dominated strategies from the universe of rationalizable strategies. 
 
 
-\textbf{Definition}: A Nash equilibrium, $\sigma$ of game ${\Gamma_N=\{I,\{\Delta S_i\},\{u_i(\cdot)\}\}}$ (where $I$ is the set of players) is \textit{normal form trembling-hand perfect} if there is some sequence of perturbed games, $\{\Gamma_{\varepsilon^k}\}_{k=1}^\infty\}$, that converges to $\Gamma_N$,\footnote{In the sense that ${\underset{k\rightarrow\infty}{\text{lim }}\varepsilon_i^k(s_i)=0}$ for all $i$ and ${s_i\in S_i}$} for which there is some associated sequence of Nash equilibria ${\{\sigma^k\}_{k=1}^\infty}$ that converges to $\sigma$ (i.e., such that ${\underset{k\rightarrow\infty}{\text{lim }}\sigma^k=\sigma}$).
+\textbf{Definition}: A Nash equilibrium, $\sigma$ of game ${\Gamma_N=\{I,\{\Delta S_i\},\{u_i(\cdot)\}\}}$ (where $I$ is the set of players) is \textit{normal form trembling-hand perfect} if there is some sequence of perturbed games, $\{\Gamma_{\varepsilon^k}\}_{k=1}^\infty$, that converges to $\Gamma_N$,\footnote{In the sense that ${\underset{k\rightarrow\infty}{\text{lim }}\varepsilon_i^k(s_i)=0}$ for all $i$ and ${s_i\in S_i}$} for which there is some associated sequence of Nash equilibria ${\{\sigma^k\}_{k=1}^\infty}$ that converges to $\sigma$ (i.e., such that ${\underset{k\rightarrow\infty}{\text{lim }}\sigma^k=\sigma}$).
 
 This definition can be difficult to satisfy, so MWG propose an alternative that's much easier:
 
