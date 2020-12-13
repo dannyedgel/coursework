@@ -381,7 +381,7 @@ In a game with imperfect equilibrium, we can still define an SPE, but it may not
 \[
 	\sum_{x\in I}\mu_i(x)u_i(\beta,\beta_{-i}|x)\geq\sum_{x\in I}\mu_i(x)u_i(\hat{\beta}_i,\beta_{-i}|x)
 \]
-$(\beta,\mu)$ is called an \textbf{assessment}, and we say $\beta$ is sequentially rational given $\mu$. \\
+$(\beta,\mu)$ is called an \textbf{assessment}, and we say $\beta$ is sequentially rational given $\mu$. $\beta_i(a_i|\theta_j)$ assigns probabilities to action $a_i$ for player $i$, conditional on player $j$ having type $\theta_j$. $\mu_i(\theta_j|a_j)$ assigns a likelihood (i.e. player $i$'s belief about the true probability) that player $j$ is of type $\theta_j$, given that player $j$ plays $a_j$. \\
 \\
 \textbf{Definition (Weak Sequential Equilibrium)}: A set of strategies and beliefs, $(\beta,\mu)$ is a weak sequential equilibrium if
 	\begin{enumerate}
@@ -449,7 +449,9 @@ Where $S^*(\Theta,a)$ is the set of possible equilibrium responses after action 
 \[
 	\underset{s\in S^*(\Theta^*(a),a)}{\text{min}}u_q(a,s,\theta)>u_1(\theta)
 \]
-In plain English, the intuitive criteron eliminates a sequential equilibrium (SE) if there is some sender type $\theta$ who has a deviation that is \textit{assured} of yielding the sender a payoff above the payoff in the SE in question so long as the other players do not assign a positive probability to the deviation having come from a type for whom the action is equilibrium dominated (which holds in basically all cases). In practice, this serves to eliminate pooling equilibria in favor of separating equilibria, as in the case of \red{discussion handout 13, question 3}. A further reference for the pooling equilibrium is \red{Mas-Colell, Whinston, and Green, Ch. 13, Appendix A}.
+In plain English, the intuitive criteron eliminates a sequential equilibrium (SE) if there is some sender type $\theta$ who has a deviation that is \textit{assured} of yielding the sender a payoff above the payoff in the SE in question so long as the other players do not assign a positive probability to the deviation having come from a type for whom the action is equilibrium dominated (which holds in basically all cases). In practice, this serves to eliminate pooling equilibria in favor of separating equilibria, as in the case of \red{discussion handout 13, question 3}. A further reference for the pooling equilibrium is \red{Mas-Colell, Whinston, and Green, Ch. 13, Appendix A}. \\
+\\
+An alternative ``plain English" explanation is that an equilibrium fails if one of the possible types for the sender of the signal could profitably deviate from the equilibrium, given that the responder knows that such a deviation is a strictly dominant strategy for the sender. This explanation is instantiated well in \red{the toxically masculine beer vs. quiche example from the end of Lecture 11: Sequential Equilibrium}.
 
 %%%________________________________________________________________%%%
 
