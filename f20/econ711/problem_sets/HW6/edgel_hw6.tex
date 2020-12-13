@@ -1,0 +1,345 @@
+%%% Econ711: Microeconomics I
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Optional, but due on Canvas Monday, December 14, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\union}{\bigcup}
+\newcommand{\olw}{\overline{w}}
+\newcommand{\olx}{\overline{x}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\P}{\mathcal{P}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\olp}{\overline{p}}
+\renewcommand{\exp}[1]{\text{exp}\left\{#1\right\}}
+\newcommand{\binv}[1]{b_j^{-1}\left(#1\right)}
+
+\DeclareMathOperator{\E}{\mathbb{E}}% expected value
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Homework \#6 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 711: Microeconomics I		\\
+			Fall 2020						\\
+		}
+\maketitle\thispagestyle{empty}
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 1}
+In order for ${\left\{(C,C),(C,C),...\right\}}$ to be supported in a subgame perfect equilibrium, it must be the case that neither player has incentive to deviate and earn a one-time payoff of 8 despite getting a lower payoff of 1 in each period thereafter. Thus, in each period, the following condition must be satisfied:
+\[
+	\sum_{t=0}^\infty 2\delta^t \geq 8 + \sum_{t=1}^\infty \delta^t
+\]
+Solving this for $\delta$ yields:
+\begin{align*}
+	2\left(\frac{\delta}{1-\delta}\right) &\geq 8 + \frac{\delta}{1-\delta}	\\
+	\delta &\geq 6(1-\delta)	\\
+	\delta &\geq \frac{6}{7}
+\end{align*}	
+Thus, ${\delta\in\left[\frac{6}{7}\right]}$ in order for ${\left\{(C,C),(C,C),...\right\}}$ to be supported in a subgame perfect equilibrium.
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 2}
+
+\begin{enumerate}[(a)]
+	\item In order for ${(\sigma_1,\sigma_2)}$ to be an SPE, it must the case that a one-time deviation to $D$, which earns a payoff of 3, is outweighed by a one-time penalty of 0. this is true when the following inequality is satisfied:
+		\[
+			2 + 2\delta + \sum_{t=2}^\infty 2\delta^t \geq 3 + 0\delta + \sum_{t=2}^\infty 2\delta^t
+		\]
+		Solving for $\delta$,
+		\begin{align*}
+			2 + 2\delta &\geq 3	\\
+			\delta &\geq \frac{1}{2}
+		\end{align*}	
+	
+	\item If $(P,P)$ resulted in a payoff of $1/2$ for both players, then the condition would become:
+		\begin{align*}
+			2 + 2\delta &\geq 3	 + \frac{1}{2}\delta\\
+			\delta &\geq \frac{2}{3}
+		\end{align*}	
+	
+	\item As I explained in (a), the condition for sustaining ${(\sigma_1,\sigma_2)}$ as an SPE is ensuring that the penalty of deviation to $(P,P)$ is large enough keep it in your opponent's best interest from deviating to their higher-payoff outcome (of $(C,D)$ or $(D,C)$). Increasing the payoff from the penalty outcome requires a higher weight on the difference between the equilibrium-path outcome (2) relative to the penalty outcome (1/2). Since the penalty outcome occurs in the period after the hypothetical deviation, a lower $\delta$ decreases the penalty from deviation.
+	
+	\item Presuming that the question is ``for what set of $(P,P)$ payoffs does their exist a ${\delta<1}$ such that ${(\sigma_1,\sigma_2)}$ can be supported as an SPE?", we must determine the symmetric payoff, $x$, that satisfies:
+		\[
+			\underset{\delta\rightarrow 1^-}{\text{lim }}\left\{2 + 2\delta\right\} \geq \underset{\delta\rightarrow 1^-}{\text{lim }}\left\{3	 + x\delta\right\} 
+		\]
+		To understand what this means for all feasible values of $x$ given some ${\delta<1}$, we can solve for x and relate that solution to ${\delta=1}$:
+		\[
+			x \leq 2 - \frac{1}{\delta} < 1
+		\]
+		Thus, in order for ${(\sigma_1,\sigma_2)}$ to be supported as an SPE, the symmetric payoff from $(P,P)$ must be less than 1.
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 3}
+
+\begin{enumerate}[(a)]
+	\item On this equilibrium path, the player with an incentive to deviate is the $C$ player, who prefers a payoff of 0 to a payoff of -1. Since any player can trigger the 0 payoff, this requires no coordination and can thus be used as a punishment, since the deviating player would have otherwise received a payoff of 2 during the punishment round. The pure strategy profile for this equilibrium, then, is:
+		\begin{enumerate}[(I)]
+			\item Play $(A,B,C)$ initially, or if $(C,A,B)$ was played last. Play $(B,C,A)$ if $(A,B,C)$ was played last and $(C,A,B)$ if $(B,C,A)$ was played last
+			\item If there is a deviation from (I), play $(D,D,D)$ (or any other play that involves a non-deviating player playing $D$) once, then restart (I)
+			\item If there is a deviation from (II), then restart (II)
+		\end{enumerate}
+		An equilibrium path with this pure strategy profile can be supported if the payoff from the equilibrium path at least matches that of a deviation from it:
+		\begin{align*}
+			-1 + 2\delta + 0\delta^2  &\geq 0 + 0\delta + 0\delta^2	\\
+			\delta &\geq \frac{1}{2}
+		\end{align*}
+		Thus, this strategy profile is an SPE if ${\delta\geq\frac{1}{2}}$.
+	
+	\item In this new equilibrium, the deviating player is slated (under the equilibrium path) to play $B$ following their deviation, rather than $A$. Under the old punishment scheme, each player would prefer deviating to the equilibrium path under any $\delta$. An alternative is to adopt a new punishment scheme that deviates to $(D,D,D)$ for some $L$ periods where the deviating player was slated to play $A$. Under any of these equilibrium plays that could sustain the new path, the old path could also be sustained in the old equilibrium with an even lower $\delta$. This is because, under any $\delta$, it takes a lower $\delta$ to punish a deviation when the player with an incentive to deviate would get their maximum payoff (of 2, in this case) immediately following their deviation were they not to deviate.
+	
+\end{enumerate}
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 4}
+
+\begin{enumerate}[(a)]
+	\item An equivalent behavioral strategy is presented below.
+		\[
+			\beta_1 = \left(\left(\beta_1(A),\beta_1(B)\right),\left(\beta_1(E),\beta_1(F),\beta_1(G)\right)\right) = \left(\left(\frac{5}{6},\frac{1}{6}\right),\left(0,\frac{1}{2},\frac{1}{2}\right)\right)
+		\]
+	
+	\item Each of the mixed strategies involving A must be played with frequencies that sums to $\frac{1}{3}$. In other words,
+		\[
+			\sigma_1(AE) + \sigma_1(AF) + \sigma_1(AG) = \beta_1(A) = \frac{1}{3}
+		\]
+		Half of the time that $B$ is played, $E$ is also played. The other half of the time is split between $F$ and $G$. Since $B$ is played $\frac{2}{3}$ of the time,
+		\[
+			\sigma_1(BE) = \frac{1}{3}\text{, }\sigma_1(BF)=\sigma_1(BG)=\frac{1}{6}
+		\]
+	
+\end{enumerate}
+
+
+	
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 5}
+To compute the sequential equilibria of this game, let us walk through each possible weight player 3 places on $R$, then consider which moves by other players would be sequentially rational to determine whether the move is an equilibrium.
+\begin{enumerate}
+	\item $\beta_3(R)\in[0,\frac{2}{3})$
+		\begin{align*}
+			\text{sequential rationality} 	&\Rightarrow \beta_2(d) = 0	\\
+			\text{sequential rationality} 	&\Rightarrow \beta_1(D) = 0	\\
+			\text{consistency}				&\Rightarrow \mu(D) = \mu(d) = 0	\\
+			\text{sequential rationality} 	&\Rightarrow \beta_3(R)\in(0,\frac{2}{3}) \text{ (player 3's information set is never reached)}
+		\end{align*}
+		$\therefore$ $(\beta,\mu)$ \textbf{is} a sequential equilibrium 
+		
+	\item $\beta_3(R)\in[\frac{2}{3},1]$
+		\begin{align*}
+			\text{sequential rationality} 	&\Rightarrow \beta_2(d) = 1	\\
+			\text{sequential rationality} 	&\Rightarrow \beta_1(D) = 1	\\
+			\text{consistency}				&\Rightarrow \mu(D) = 1		\\
+			\text{sequential rationality} 	&\Rightarrow \beta_3(R) = 0
+		\end{align*}
+		$\therefore$ $(\beta,\mu)$ is not a sequential equilibrium
+\end{enumerate}
+
+Now let us consider possible beliefs held by player 3, then deduce consistent and sequentially rational strategies by each player:
+\begin{enumerate}
+	\item $\mu(D) = \mu(d) = 0$
+		\begin{align*}
+			\text{sequential rationality} 	&\Rightarrow \text{ player 3's information set is never reached, so }\beta_3(R)\in[0,1] \\
+			\text{sequential rationality} 	&\Rightarrow \beta_2(d) = 0	\text{ if }\beta_3(R)\in[0,\frac{2}{3})\\
+			\text{sequential rationality} 	&\Rightarrow \beta_1(D) = 0 \text{ if }\beta_2(a)\geq\frac{1}{2}\beta_1(R)	\\
+			\text{consistency}				&\Rightarrow \mu(D) = \mu(d) = 0	
+		\end{align*}
+		$\therefore$ ${\mu(D) = \mu(d) = 0}$, ${\beta_1(D)=0}$, ${\beta_2(d)=0}$, and ${\beta_3(R)\in[0,\frac{2}{3})}$ is a sequential equilibrium 
+		
+	\item $\mu(D) = \mu(d) = 1$
+		\begin{align*}
+			\text{sequential rationality} 	&\Rightarrow \beta_3(L) = 1	\\
+			\text{sequential rationality} 	&\Rightarrow \beta_2(d) = 0	\\
+			\text{sequential rationality} 	&\Rightarrow \beta_1(D) = 0	
+		\end{align*}
+		$\mu$ is not consistent, so $(\beta,\mu)$ is not a sequential equilibrium
+		
+	\item $\mu(D)\in(0,1)\land \mu(d) = 1$
+		\begin{align*}
+			\text{sequential rationality} 	&\Rightarrow \beta_3(L) = 1	\\
+			\text{sequential rationality} 	&\Rightarrow \beta_2(d) = 0	\\
+			\text{sequential rationality} 	&\Rightarrow \beta_1(D) = 0	
+		\end{align*}
+		$\mu$ is not consistent, so $(\beta,\mu)$ is not a sequential equilibrium
+		
+	\item $\mu(D) = 1\land \mu(d)\in(0,1)$
+		\begin{align*}
+			\text{sequential rationality} 	&\Rightarrow \beta_3(L) = 1	\\
+			\text{sequential rationality} 	&\Rightarrow \beta_2(d) = 0	\\
+			\text{sequential rationality} 	&\Rightarrow \beta_1(D) = 0	
+		\end{align*}
+		$\mu$ is not consistent, so $(\beta,\mu)$ is not a sequential equilibrium
+		
+	\item $\mu(D)\in(0,1)\land \mu(d)\in(0,1)$
+		\begin{align*}
+			\text{sequential rationality} 	&\Rightarrow \beta_3(R)\in(0,1) \text{ if } \frac{\beta_1(D)}{(1-\beta_1(D))\beta_2(d)}= 2\\
+			\text{sequential rationality} 	&\Rightarrow \beta_2(d)\in(0,1)	\text{ if } \beta_3(R)=\frac{2}{3} \\
+			\text{sequential rationality} 	&\Rightarrow \beta_1(D)\in(0,1)	\text{ if } \frac{\beta_2(a)}{\beta_1(R)}=\frac{1}{2}	
+		\end{align*}
+		$\therefore$ there is a mixed-strategy equilibrium at:
+		\[
+			\left\{\left(\mu(D),\mu(d)\right),\left(\beta_1(D),\beta_2(d),\beta_3(R)\right)\right\} 
+				= \left\{\left(\frac{1}{3},\frac{1}{4}\right),\left(\frac{1}{3},\frac{1}{4},\frac{2}{3}\right)\right\}
+		\]
+\end{enumerate}
+
+
+
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 6}
+
+
+	
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 7}
+
+
+	
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 8}
+
+\begin{enumerate}[(a)]
+	\item 
+	
+	\item 
+	
+	\item 
+	
+\end{enumerate}
+
+
+	
+
+
+%%%________________________________________________________________%%%
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
