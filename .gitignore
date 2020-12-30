@@ -1,0 +1,5 @@
+# ignore logs and other machine-generated files
+*.aux
+*.log 
+*.txt
+*.Rhistory
