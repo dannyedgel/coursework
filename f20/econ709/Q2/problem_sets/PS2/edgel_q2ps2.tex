@@ -1,0 +1,350 @@
+%%% Econ709: Econometrics
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Wednesday, November 22nd, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}_{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\vhat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}{\mathbbm{1}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\DeclareMathOperator{\E}{\mathbb{E}}% expected value
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#2 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 709: Economic Statistics and Econometrics I	\\
+			Fall 2020											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+Recall that ${\bols=(X'X)^{-1}X'y}$. Then, if ${Z=XC}$,
+\begin{align*}
+	\bhat_Z &= (Z'Z)^{-1}Zy = \left[(XC)'XC\right]^{-1}(XC)'y	\\
+			&= \left(C'X'XC\right)^{-1}C'X'y = C^{-1}(X'X)^{-1}C'^{-1}C'X'y \\
+			&= C^{-1}(X'X)^{-1}X'y = C^{-1}\bols
+\end{align*}
+Also recall that ${\vols = Y-X\bols}$. Then,
+\begin{align*}
+	\hat{\varepsilon}_Z &= Y-Z\bhat_Z = y - Z(Z'Z)^{-1}Zy 		\\
+						&= \left(I - XC((XC)'XC)^{-1}XC\right)y = \left(I - XCC^{-1}(X'X)^{-1}C'^{-1}C'X\right)y	\\
+						&= \left(I - X(X'X)^{-1}X\right)y = y - X(X'X)^{-1}Xy	\\
+						&= y - X\bols = \vols
+\end{align*}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+\begin{itemize}
+	\item[3.5)] Recall from question 1 that ${\vols = (I - X(X'X)^{-1}X')Y}$. Then,
+		\begin{align*}
+			\bhat_e &= (X'X)^{-1}X'\vols = (X'X)^{-1}X'(I - X(X'X)^{-1}X')Y	\\
+					&= ((X'X)^{-1}X' - (X'X)^{-1}X'X(X'X)^{-1}X')Y = ((X'X)^{-1}X' - (X'X)^{-1}X')Y	\\
+					&= 0
+		\end{align*}
+	
+	\item[3.6)] Let ${\hat{Y} =  X(X'X)^{-1}X'Y}$ and $\bhat_Y$ represent the OLS coefficient from a regression of $\hat{Y}$ on $X$. Then,
+		\begin{align*}
+			\bhat_Y &= (X'X)^{-1}X'\hat{Y} = (X'X)^{-1}X'X(X'X)^{-1}X'Y	\\
+					&= (X'X)^{-1}X'Y = \bols
+		\end{align*}
+	
+	\item[3.7)] Let ${X= [X_1\text{ }X_2]}$ be an $m$ by $n$ matrix and recall that ${P=X(X'X)^{-1}X'}$ and ${M = I-P}$. Let ${n = n_1 + n_2}$, where $X_1$ is an $m$ by $n_1$ matrix and $X_2$ is $m$ by $n_2$. Then, we can define ${\Gamma = \colvec{2}{I_{n_1}}{0}}$ such that ${X_1 = X\Gamma}$. Thus,
+		\begin{align*}
+			PX_1 &= PX\Gamma = X(X'X)^{-1}X'X\Gamma = X\Gamma = X_1	\\
+			MX_1 &= (I-P)X_1 = X_1 - PX_1 = X_1-X_1 = 0
+		\end{align*}
+	
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+\begin{itemize}
+	\item[3.11)] Let $X$ contain only a non-zero constant, ${c\in\R}$, such that ${X=c\one_n}$, where $n$ is the number of elements in $Y$ and $\one_n$ is an ${n\times 1}$ vector of ones. Then,
+		\begin{align*}
+			\hat{Y} &= X(X'X)^{-1}X'Y = (c\one_n)\left[(c\one_n)'(c\one_n)\right]^{-1}(c\one_n)'Y 							\\
+					&= c\one_n\left(c^2(\one_n'\one_n)\right)^{-1}c(\one_n'Y) = c^2\one_n\left(c^2n\right)^{-1} n\bar{Y}	\\
+					&= \frac{c^2n}{c^2n}\bar{Y} \one_n = \bar{Y} \one_n
+		\end{align*}
+		Thus, $\hat{Y}$ is a column vector where every entry is $\overline{Y}$
+	
+	\item[3.12)] Equation (3.53) cannot be estimated by OLS. Equation (3.53) can be rewritten as ${Y = X\beta + \varepsilon}$, where ${X=[\one_n\text{ }D_1\text{ }D_2]}$ and ${\beta=\colvec{3}{\mu}{\alpha_1}{\alpha_2}}$. $D_1+D_2=\one_n$, so ${\text{rank}(X)\neq k}$, violating the first Gauss-Markov asusumption. 
+		\begin{enumerate}[(a)]
+			\item Neither (3.54) nor (3.55) is more general. The two specifications have the same explanatory power. In (3.54), the average of $Y$ for men is given by $\alpha_1$, and the average for women is given by $\alpha_2$. In (3.55), the averages are ${\mu+\phi}$ and $\mu$, respectively. Thus, given the parameters for one specification, you could calculate the parameters of the other with:
+				\begin{align*}
+				& \mu + \phi 	= \alpha_1	& \phi 		= \alpha_2 - \alpha_1	\\
+				& \mu 			= \alpha_2	& \alpha_2 	= \mu
+				\end{align*}
+			
+			\item $\one_n'D_1 = n_1$, $\one_n'D_2=n_2$
+			
+		\end{enumerate}
+	
+	\item[3.13)]
+		\begin{enumerate}[(a)]
+			\item Letting ${X=[D_1\text{ }D_2]}$ and ${\bhat = \colvec{2}{\hat{\gamma}_1}{\hat{\gamma}_2}}$, we can solve:
+				\begin{align*}
+					\bhat 	&= (X'X)^{-1}X'Y	\\
+							&= \begin{pmatrix} \one_n'D_1 & 0 \\ 0 & \one_n D_2 \end{pmatrix}^{-1}\colvec{2}{D_1'Y}{D_2'Y} 
+							=  \frac{1}{n_1n_2}\begin{pmatrix} n_2 & 0 \\ 0 & n_1 \end{pmatrix}\colvec{2}{\sum_{i=1}^n D_{1i}Y_i}{\sum_{i=1}^n D_{2i}Y_i} \\
+							&= \frac{1}{n_1n_2}\colvec{2}{n_2\sum_{i=1}^n D_{1i}Y_i}{n_1\sum_{i=1}^n D_{2i}Y_i}	
+							= \colvec{2}{\frac{1}{n_1}\sum_{i=1}^n D_{1i}Y_i}{\frac{1}{n_2}\sum_{i=1}^n D_{2i}Y_i}
+							= \colvec{2}{\overline{Y}_1}{\overline{Y}_2}
+				\end{align*}
+			
+			\item In plain English, $Y^*$ is the demeaned value of $Y$, using the means for men and women separately. Econometrically, as shown below, $Y^*$ is the residualized value of $Y$, or, rather, the value of $Y$ that cannot be explained by gender alone:
+				\begin{align*}
+					Y^* &= Y-D_1\overline{Y}_1-D_2\overline{Y}_2 = Y-\left(D_1\overline{Y}_1 + D_2\overline{Y}_2\right)	\\
+						&= Y - [D_1\text{ }D_2]\colvec{2}{\hat{\gamma}_1}{\hat{\gamma}_2} = \hat{\mu}
+				\end{align*}
+				It logically follows, then, that $X^*$ is the residualized value of $X$, from a regression of $X$ on $D_1$ and $D_2$.
+				
+			\item Let ${D = [D_1\text{ }D_2]}$, ${\hat{\alpha} = \colvec{2}{\hat{\alpha}_1}{\hat{\alpha}_2}}$, and ${\hat{\gamma} = \colvec{2}{\hat{\gamma}_1}{\hat{\gamma}_2}}$. From part (b), we can rewrite:
+				\[
+					Y^* = Y - D_1\hat{\gamma}_1 - D_2\hat{\gamma}_2 = Y - D\hat{\gamma} = (I_n - D(D'D)^{-1}D')Y = M_DY
+				\]
+				Where $M_D$ is the orthogonal projection matrix for $D$. Similarly, ${X^* = M_DX}$. Thus, we can derive:
+				\begin{align*}
+					Y^* &= X^*\tilde{\beta}	\\
+					M_DY &= M_DX\tb	\\
+					\tb &= (X'M_DX)^{-1}M_DX'Y
+				\end{align*}
+				Since The second recgression is a partition of $D$ and $X$, then by Theorem 3.4, 
+				\[
+					\bhat = (X'M_DX)^{-1}X'M_DY
+				\]
+				Thus, ${\bhat = \tb}$.
+			
+		\end{enumerate}
+	
+\end{itemize}
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Question 4}
+Let ${\bhat = \colvec{2}{\bhat_1}{\bhat_2}}$ and ${X = [X_1\text{ }X_2]}$. By the definition of $R^2$,
+\begin{align*}
+	R^2_1	&= 1 - \frac{\vhat'\vhat}{(Y-\overline{Y})'(Y-\overline{Y})} = 1 - \frac{(Y-X\bhat)'(Y-X\bhat)}{(Y-\overline{Y})'(Y-\overline{Y})} \\
+			&= 1 - \frac{(Y-X_1\bhat_1-X_2\bhat_2)'(Y-X_1\bhat_1-X_2\bhat_2)}{(Y-\overline{Y})'(Y-\overline{Y})} \\
+\end{align*}
+Now let ${\tb_2 = 0^*\bhat_2}$. Then, for ${\tb=\colvec{2}{\tb_1}{\tb_2}}$, ${X\tb=X_1\tb_1}$ and ${\tb_1=\bhat_1 = (X_1'M_2X_1)^{-1}X_1'M_2Y}$:
+\begin{align*}
+	R^2_2	&=  1 - \frac{(Y-X\tb)'(Y-X\tb)}{(Y-\overline{Y})'(Y-\overline{Y})} = 1 - \frac{(Y-X_1\tb_1-X_2\tb_2)'(Y-X_1\tb_1-X_2\tb_2)}{(Y-\overline{Y})'(Y-\overline{Y})} \\
+			&= 1 - \frac{(Y-X_1\bhat_1)'(Y-X_1\bhat_1)}{(Y-\overline{Y})'(Y-\overline{Y})} \\
+			&\leq 1 - \frac{(Y-X_1\bhat_1-X_2\bhat_2)'(Y-X_1\bhat_1-X_2\bhat_2)}{(Y-\overline{Y})'(Y-\overline{Y})} = R^2_1
+\end{align*}
+It is possible for $R^2_1=R^2_2$, if $\bhat_2=0$, which occurs if $X_2$ is orthogonal to $Y$.
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+\begin{itemize}
+	\item[3.21)] As a standard OLS coefficient in a non-partitioned regression, ${\tb_1=(X_1'X_1)^{-1}X_1'Y}$. By Theorem 3.4, ${\bhat_1 = (X_1'M_2X_1)^{-1}X_1'M_2Y}$. Thus, ${\tb_1=\bhat_1}$ if ${X_1'M_2=X_1'}$. This will be true if:
+		\begin{align*}
+			X_1'M_2								&= X_1'	\\
+			X_1'(I - X_2(X_2'X_2)^{-1}X_2')		&= X_1'	\\
+			X_1' - X_1'X_2(X_2'X_2)^{-1}X_2')	&= X_1'
+		\end{align*}
+		Which holds if ${X_1'X_2=0}$, in which case $X_1$ and $X_2$ are orthogonal. The same is true for $\tb_2$ and $\bhat_2$, by the same mathematical logic. The coefficients will also be equal if either $X_1$ or $X_2$ (or both) are orthogonal to $Y$, since this will lead to OLS coefficients of zero.
+	
+	\pagebreak
+	\item[3.22)] In a partitioned regression, ${\bhat_2 = (X_2'X_2)^{-1}X_2'(y-X_1)\bhat_1}$. Then,
+		\begin{align*}
+			\tilde{u} 	&= Y-X_1\tb_1 = Y - X_1(X_1'X_1)^{-1}X_1'Y = (I - X_1(X_1'X_1)^{-1}X_1')Y = M_1Y	\\
+			\tilde{u} 	&= X_2\tb_2																			\\
+			\tb_2		&= (X_2'X_2)^{-1}X_2'\tilde{u} = (X_2'X_2)^{-1}X_2'(Y-X_1\tb_1)
+		\end{align*}
+		Thus, $\tb_2=\bhat_2$ only if ${\tb_1=\bhat_1}$, which, as we solved in 3.21, is only true if $X_1$ and $X_2$ are orthogonal. This is rarely the case, but weirder things have happened in 2020 alone.
+	
+	\item[3.23)] The equation for the regression of $Y$ on $X$ is ${Y = X_1\bhat_1 + X_2\bhat_2 + \vhat}$, and the equation for the regression of $Y$ on $Z$ can be simplified as follows:
+		\begin{align*}
+			Y	&= Z_1\tb_1 + Z_2\tb_2 + \tilde{\varepsilon} = X_1\tb_1 + (X_2 - X_1)\tb_2 + \tilde{\varepsilon} 
+				&= X_1(\tb_1 - \tb_2) + X_1\tb_2 + \tilde{\varepsilon} 
+		\end{align*}
+		The two regressions capture the same variation in $Y$, where ${\bhat = \tb_1-\tb2}$ and $\bhat_2=\tb_2$. Most importantly, ${\vhat=\tilde{\varepsilon}}$, so ${\hat{\sigma}^2=\tilde{\sigma}^2}$.
+	
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 6}
+(due w/ PS3)
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 7}
+\begin{enumerate}[(a)]
+	\item 
+		Recall the estimator $\bhat_1$ for a partition regression: ${\bhat_1 = (X_1'X_1)^{-1}X_1'(Y-X_2\bhat_2)}$. Then,
+			\begin{align*}
+				\E(\bhat_1|X) 	&= \E\left[(X_1'X_1)^{-1}X_1'(Y-X_2\bhat_2)|X\right]	\\
+								&= (X_1'X_1)^{-1}X_1'\E\left[Y-X_2\bhat_2|X\right]		\\
+								&= (X_1'X_1)^{-1}X_1'\E\left[Y|X\right] - (X_1'X_1)^{-1}X_1'X_2\E\left[\bhat_2|X\right]
+			\end{align*}
+			Where ${\bhat_2=(X_2'M_1X_2)^{-1}X_2'M_1Y}$ and ${M_1=I-X_1(X_1'X_1)^{-1}X_1'}$, so:
+			\begin{align*}
+				\E(\bhat_1|X) 	&= (X_1'X_1)^{-1}X_1'\E\left[Y|X\right] - (X_1'X_1)^{-1}X_1'X_2(X_2'M_1X_2)^{-1}X_2'M_1\E\left[Y|X\right]	\\
+								&= (X_1'X_1)^{-1}X_1'\left[I - X_2(X_2'M_1X_2)^{-1}X_2'M_1\right]\E\left[Y|X\right]	\\
+			\end{align*}
+	
+	\pagebreak
+	\item 
+		\begin{align*}
+			\hat{\bhat}_1 			&= (X_1'X_1)^{-1}X_1'\hat{y} = (X_1'X_1)^{-1}X_1'X\bhat	\\
+			\E(\hat{\bhat}_1|X)		&= \E\left[(X_1'X_1)^{-1}X_1'X\bhat|X\right] = (X_1'X_1)^{-1}X_1'X\E\left[\bhat|X\right] 
+		\end{align*}
+		Since the Gauss-Markov assumptions are satisfied, ${\E(\bhat|X)=\beta}$, so:
+		\begin{align*}
+			\E(\hat{\bhat}_1|X)		&= \E\left[(X_1'X_1)^{-1}X_1'X\bhat|X\right] = (X_1'X_1)^{-1}X_1'X\beta	\\
+									&= (X_1'X_1)^{-1}X_1'(X_1\beta_1 + X_2\beta_2) 							\\
+									&= (X_1'X_1)^{-1}X_1'X_1\beta_1 + (X_1'X_1)^{-1}X_1'X_2\beta_2 			\\
+									&= \beta_1 + (X_1'X_1)^{-1}X_1'X_2\beta_2
+		\end{align*}
+		Thus, $\hat{\bhat}_1$ is only an unbiased estimator of $\beta_1$ if ${X_1'X_2=0}$, i.e. if $X_1$ and $X_2$ are orthogonal.
+		
+	
+	
+	\item 
+		Note that ${X_1 = X\Gamma}$, where ${\Gamma = [I_{k_1}\text{ }0*X_2]}$
+		\begin{align*}
+			\tb_1 		&= (X_1'X_1)^{-1}X_1'y		\\
+			\tilde{y}	&= X_1\tb_1					\\
+			\tilde{\tb}	&= (X'X)^{-1}X'\tilde{y} = (X'X)^{-1}X'X_1\tb_1 = \Gamma\tb_1	\\
+			\tilde{\tb}	&= \colvec{2}{\tb_1}{0}
+		\end{align*}
+	
+	\item $R^2=1$, as shown below.
+		\begin{align*}
+			R^2 				&= 1 - \frac{\tilde{\varepsilon}'\tilde{\varepsilon}}{(Y-\overline{Y})'(Y-\overline{Y})}	\\
+			\tilde{\varepsilon}	&= \tilde{y} - X\tilde{\tb} = X_1\tb_1 - X\colvec{2}{\tb_1}{0} =  X_1\tb_1 -  X_1\tb_1 = 0	
+		\end{align*}
+	
+	
+	\item Note that 
+		\begin{align*}
+			Var(\tb_1|X) 	&= Var((X_1'X_1)^{-1}X_1'y|X)  		\\
+							&= (X_1'X_1)^{-1}X_1'Var(y|X) X_1(X_1'X_1)^{-1}		\\
+							&= (X_1'X_1)^{-1}X_1' \sigma^2I X_1(X_1'X_1)^{-1}	\\
+							&= \sigma^2(X_1'X_1)^{-1}X_1'X_1(X_1'X_1)^{-1}		\\
+							&= \sigma^2(X_1'X_1)^{-1}		
+		\end{align*}
+		Where $\tilde{\tb}=\colvec{2}{\tb_1}{0}$, such that:
+		\[
+			Var(\tilde{\tb}|X)	= \begin{pmatrix} \sigma^2(X_1'X_1)^{-1} & 0 \\  0 & 0 \end{pmatrix}
+		\]
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+

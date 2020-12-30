@@ -1,0 +1,312 @@
+%%% Econ709: Econometrics
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Sunday, October 4th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#4 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 709: Economic Statistics and Econometrics I	\\
+			Fall 2020											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+\textbf{Suppose that another observation $X_{n+1}$ becomes available. Show that:}
+
+\begin{itemize}
+	\item[(a)] $\mathbf{\overline{X}_{n+1}=(n\overline{X}_n + X_{n+1})/(n+1)}$ \\
+		\begin{align*}
+			\overline{X}_{n+1} 	&= \frac{1}{n+1}\sum_{i=1}^{n+1}X_i 	\\
+								&= \frac{1}{n+1}\left(\sum_{i=1}^nX_i + X_{n+1}\right)	\\
+								&= \frac{1}{n+1}\left(n\overline{X}_n + X_{n+1}\right)
+		\end{align*}
+	
+	\item[(b)] $\mathbf{s^2_{n+1}=\frac{1}{n}((n-1)s_n^2+(n/(n+1))(X_{n+1}-\overline{X}_n)^2)}$ \\
+	
+		Using the relation from (a), we can derive:
+		\begin{align*}
+			s^2_{n+1} 	&= \frac{1}{n}\sum_{i=1}^{n+1}(X_i-\overline{X}_{n+1})^2 	\\
+						&= \frac{1}{n}\sum_{i=1}^{n+1}\left((X_i-\olx{n})+(\olx{n}-\olx{n+1})\right)^2	\\
+						&= \frac{1}{n}\sum_{i=1}^{n+1}\left[(X_i-\olx{n})^2+2(X_i-\olx{n})(\olx{n}-\olx{n+1})+(\olx{n}-\olx{n+1})^2\right]	\\
+						&= \frac{1}{n}\left[\sum_{i=1}^{n}(X_i-\olx{n})^2 + (X_{n+1}-\olx{n})^2 +2(\olx{n}-\olx{n+1})\sum_{i=1}^{n+1}(X_i-\olx{n})
+						+\sum_{i=1}^{n+1}(\olx{n}-\olx{n+1})^2\right]	\\
+						&= \frac{1}{n}\left[(n-1)s^2_n + (X_{n+1}-\olx{n})^2 +2(n+1)(\olx{n}-\olx{n+1})(\olx{n+1}-\olx{n}) +(n+1)(\olx{n}-\olx{n+1})^2\right]	\\
+						&= \frac{1}{n}\left[(n-1)s^2_n + (X_{n+1}-\olx{n})^2 -2(n+1)(\olx{n}-\olx{n+1})^2 +(n+1)(\olx{n}-\olx{n+1})^2\right]	\\
+						&= \frac{1}{n}\left[(n-1)s^2_n + (X_{n+1}-\olx{n})^2 -(n+1)(\olx{n}-\olx{n+1})^2 \right]	\\
+						&= \frac{1}{n}\left[(n-1)s^2_n + (X_{n+1}-\olx{n})^2 -(n+1)\left(\olx{n}-\frac{1}{n+1}(n\olx{n}+X_{n+1})\right)^2 \right]	\\
+						&= \frac{1}{n}\left[(n-1)s^2_n + (X_{n+1}-\olx{n})^2 -(n+1)\left(\frac{1}{n+1}\olx{n}-\frac{1}{n+1}X_{n+1})\right)^2 \right]	\\
+						&= \frac{1}{n}\left[(n-1)s^2_n + (X_{n+1}-\olx{n})^2 -(n+1)\left(-\frac{1}{n+1}\right)^2\left(X_{n+1}-\olx{n})\right)^2 \right]	\\
+						&= \frac{1}{n}\left[(n-1)s^2_n + \left(1-\frac{1}{n+1}\right)(X_{n+1}-\olx{n})^2 \right]	\\
+			s^2_{n+1} 	&= \frac{(n-1)s^2_n + \frac{n}{n+1}(X_{n+1}-\olx{n})^2}{n}
+		\end{align*}
+	
+\end{itemize}	
+
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Question 2}
+\textbf{For some integer $k$, set $\mu_k=E(X^k)$. Construct an unbiased estimator $\hat{\mu}_k$ for $\mu_k$, and show its unbiasedness.}
+\bigskip \\
+Define $\hat{\mu}_k = \frac{1}{n}\sum_{i=1}^nX_i^k$. If the bias of this estimator is equal to zero, then it is unbiased:
+\begin{align*}
+	E(\hat{\mu}_k)-\mu_k &= 0						\\
+	E(\frac{1}{n}\sum_{i=1}^nX_i^k) - E(X^k) &= 0	\\
+	\frac{1}{n}\sum_{i=1}^nE(X_i^k) &= X^k			
+\end{align*}
+Since $\{X_i\}_{i=1}^n$ is assumed to be a random sample and $X$ is assumed to be i.i.d., $E(X_i^k)=E(X^k)$,\footnote{This is because $X_i$ and $X_j$ are independent $\forall i\neq j$, so $E(X_iX_j)=E(X_i)E(X_j)$.} so this equality holds. Thus, $\hat{\mu}_k$ is an unbiased estimator.
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+\textbf{Consider the central moment $m_k=E((X-\mu)^k)$. Construct an estimator $\hat{m}_k$ for $m_k$ without assuming a known $\mu$. In general, do you expect $\hat{m}_k$ to be biased or unbiased?}
+\bigskip \\
+Let $\hat{m}_k = \frac{1}{n}\sum_{i=1}^n (X_i - \olx{n})^m$, where $\olx{n} = \est{n} X_i$. In general, I expect this esimator to be be biased. To see why, take $\hat{m}_2$. From the lecture, we know that $\hat{m}_2=\sigma_n^2=\est{N}(x_i-\mu)^2-(\olx{n}-\mu)^2$ with the known exact bias $\frac{1}{n}\sigma_X^2$. We could correct for this downward bias, but the higher-order central moment will differ non-proportionally. We cannot derive a general, unbiased estimator for $m_k=E((X-\mu)^k)$.
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+\textbf{Calculate the variance of $\hat{\mu}_k$ that you proposed above, and call it $Var(\hat{\mu}_k)$.}
+\bigskip \\
+The variance of any analog estimator, $\hat{a_i}$ is calculated as $\frac{1}{n^2}\sum_{i=1}^n Var(\hat{a_i})$. Thus, we can derive:
+\[
+	Var(\hat{\mu}_k) = \frac{1}{n^2}\sum_{i=1}^n Var(\hat{\mu}_k) = \frac{1}{n}Var(x^k_i) = \frac{1}{n}\left(E(X_i^2k) - E(X_i^k)\right) = \frac{1}{n}(\mu_{2k}-\mu_k)
+\]
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+\textbf{Show that $E(s_n)\leq\sigma$ using Jensen's inequality (CB Theorem 4.7.7).}
+\bigskip \\
+According to Jensen's inequality, if $g$ is a convex function, then $E[g(x)]\geq g(E[x])$. Since $S_n^2$ is an unbiased estimator of $\sigma^2$, $E(S_n^2)=\sigma^2$. Further, $\sqrt{\sigma^2}=\sigma$. Note that the $f(x)=\sqrt{x}$ is a concave function, so $g(x)=-f(x)$ is a convex function. Then,
+\begin{align*}
+	E\left[-\sqrt{s_n^2}\right]	&\geq-\sqrt{E(s^2_n)}	\\
+	-E\left[s_n\right]			&\geq-\sqrt{\sigma^2}	\\
+	E\left[s_n\right]			&\leq\sigma
+\end{align*}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 6}
+\textbf{Show algebraically that $\hat{\sigma}^2=n^{-1}\sum_{i-1}^n(X_i-\mu)^2-(\overline{X}_n-\mu)^2$.}
+\bigskip \\
+\begin{align*}
+	\hat{\sigma}^2 	&= \est{n}(X_i-\olx{n})^2 = \est{n}\left[X_i^2 - 2X_i\olx{n} + \olx{n}^2\right]	\\
+					&= \est{n}X_i^2 - 2\olx{n}\est{n}X_i + \est{n}\olx{n}^2 \\
+					&= \est{n}X_i^2 - 2\olx{n}^2 + \olx{n}^2 = \est{n}X_i^2 - \olx{n}^2	\\
+					&= \est{n}X_i^2 -2\mu\olx{n} + \mu^2 - (\olx{n}^2 -2\mu\olx{n} + \mu^2) \\
+					&= \est{n}(X_i^2 -2\mu X_i + \mu^2 ) - (\overline{X}_n-\mu)^2 \\
+	\hat{\sigma}^2 	&= n^{-1}\sum_{i-1}^n(X_i-\mu)^2-(\overline{X}_n-\mu)^2
+\end{align*}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 7}
+\textbf{Find the covariance of $\hat{\sigma}^2$ and $\overline{X}_n$. Under what condition is this zero? (See lecture question for hint)}
+\bigskip \\
+From the covariance definition, we can solve:
+\begin{align*}
+	Cov(\hat{\sigma^2},\olx{n}) 
+	&= E\left[(\hat{\sigma^2}-E(\hat{\sigma^2}))(\olx{n}-E(\olx{n}))\right]  \\
+	&= E\left[\hat{\sigma^2}(\olx{n}-\mu)\right]  - E(\hat{\sigma^2})E\left[\olx{n}-\mu\right]   \\
+	&= E\left[\left(\est{n}(X_i-\mu)^2-(\olx{n}-\mu)^2\right)(\olx{n}-\mu\right]  - \hat{\sigma^2}(\mu - \mu)   \\
+	&= E\left[\left(\est{n}(X_i-\mu)^2(\olx{n}-\mu-(\olx{n}-\mu)^3\right)\right] \\
+	&= E\left[\est{n}(X_i-\mu)^2(\olx{n}-\mu\right] - E\left[(\olx{n}-\mu)^3\right]
+\end{align*}
+Where, since $\{X_i\}_{i=1}^n$ are independent.:
+\begin{align*}
+	E\left[\est{n}(X_i-\mu)^2(\olx{n}-\mu)\right]
+	&= E\left[\left(\est{n}(x_i-\mu)^2\right)\left(\est{n}(x_i-\mu)\right)\right] \\
+	&= \frac{1}{n^2}E\left[\sum_{i=1}^n (X_i-\mu)^3\right] + 2\frac{1}{n^2}E\left[\sum_{i\neq j}^n(X_i - \mu)(X_j-\mu)\right] \\
+	&= \frac{1}{n}E\left[(X_i-\mu)^3\right] 
+\end{align*}
+And:
+\begin{align*}
+	E\left[(\olx{n}-\mu)^3\right] &= E\left[\left(\est{n}(X_i-\mu)\right)^3\right] \\
+	&= \frac{1}{n^3}E\left[\left(\left(\sum_{i=1}^n(X_i-\mu)\right)^2 + 2\sum_{i\neq j}^n(X_i-\mu)(X_j-\mu)\right)\left(\sum_{i=1}^n(X_i-\mu)\right)\right] \\
+	&= \frac{1}{n^3}E\left[\left(\sum_{i=1}^n(X_i-\mu)\right)^3 \right] + E\left[\sum_{i\neq j}^n(X_i-\mu)(X_j-\mu)\right] \\
+	&+ E\left[2\sum_{i\neq j}^n(X_i-\mu)(X_j-\mu)+ 3\sum_{i\neq j\neq k}^n(X_i-\mu)(X_j-\mu)(X_k-\mu)\right] \\
+	&= \frac{1}{n^3}E\left[\left(\sum_{i=1}^n(X_i-\mu)\right)^3 \right] \\
+	&= \frac{1}{n^2}E\left[(X_i-\mu)^3 \right] \\
+\end{align*}
+Taken together,
+\[
+	Cov(\hat{\sigma^2},\olx{n}) = \left(\frac{1}{n}-\frac{1}{n^2}\right)E[(X_i-\mu)^3]
+\]
+Thus, this covariance is zero if $E[(X_i-\mu)^3]=0$, which is if the distribution of $X$ has no skewness.
+
+%%%________________________________________________________________%%%
+
+\section*{Question 8}
+\textbf{Suppose that $X_i$ are independent but not necessarily identically distributed (i.n.i.d.) with $E(X_i)=\mu_i$ and $Var(X_i)=\sigma_i^2$.}
+
+\begin{itemize}
+	\item[(a)] \textbf{Find $E(\overline{X}_n)$.} \\
+	\[
+		E[\olx{n}]=E\left[\est{n}X_i\right]=\frac{1}{n}\sum_{i=1}^nE[X_i]=\est{n}\mu_i
+	\]
+	
+	\item[(b)] \textbf{Find $Var(\overline{X}_n)$.} \\
+	\begin{align*}
+		Var(\olx{n}) 	&= E\left[\olx{n}^2\right] - \left(E[\olx{n}]\right)^2	\\
+						&= E\left[\left(\est{n}X_i\right)^2\right] - \left(\est{n}\mu_i\right)^2 \\
+						&= \frac{1}{n^2}E\left[\sum_{i=1}^n X_i^2+2\sum_{i\neq j}^n X_iX_j\right]-\frac{1}{n^2}\left(\sum_{i=1}^n\mu_i^2-2\sum_{i\neq j}^n\mu_i\mu_j\right) \\
+						&= \frac{1}{n^2}\left(\sum_{i=1}^n(E[X_i^2]-\mu_i^2)\right) + \frac{2}{n^2}\sum_{i\neq j}^n(E[X_i]E[X_j]- \mu_i\mu_j) \\
+						&= \frac{1}{n^2}\left(\sum_{i=1}^nVar(X_i)\right) + \frac{2}{n^2}\sum_{i\neq j}^n(\mu_i\mu_j- \mu_i\mu_j) \\
+		Var(\olx{n}) 	&= \frac{1}{n^2}\sum_{i=1}^n\sigma_i^2
+	\end{align*}
+	
+\end{itemize}	
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Question 9}
+\textbf{Show that if $Q\sim \chi^2_r$, then $E(Q)=r$ and $Var(Q)=2r$ (hint: use the representation $Q=\sum_{i=1}^r X_i^2$ with $X_i$ being i.i.d $\N(0,1)$).}
+\begin{align*}
+	E[Q]	&= E\left[\sum_{i=1}^r X_i^2\right] = \sum_{i=1}^r E[X_i^2] = \sum_{i=1}^r(\sigma_x^2 + \mu_x^2) = \sum_{i=1}^r(1) = r	\\
+	Var(Q)	&= E[Q^2] - \left(E[Q]\right)^2 = E\left[\left(\sum_{i=1}^rX_i^2\right)^2\right] - r^2	\\
+			&= E\left[\sum_{i=1}^rX_i^4 + 2\sum_{i\neq j}^r X_i^2X_j^2\right] - r^2	\\
+			&= \sum_{i=1}^rE\left[X_i^4\right] + 2\sum_{i\neq j}^rE[X_i^2]E[X_j^2] - r^2 \\
+\end{align*}
+Notice that $E\left[X_i^4\right]$ is the fourth moment of $X_i$, which is normally distributed with mean zero and variance one, and that $\sum_{i\neq j}^rE[X_i^2]E[X_j^2]$ is the number of combinations between two groups of $r$ items, without replacement. Thus,
+\[
+	Var(Q) = \sum_{i=1}^r(3) + 2\left(\frac{r!}{2!(r-2)!}\right) - r^2 = 3r-r(r-1)-r^2 = 3r+r^2-r-r^2 = 2r
+\]
+
+%%%________________________________________________________________%%%
+
+\section*{Question 10}
+\textbf{Suppose that $X_i\sim\N(\mu_X,\sigma^2_X):i=1,...,n_1$ and $Y_i\sim\N(\mu_Y,\sigma_Y^2),i=1,...,n_2$ are mutually independent. Set $\overline{X}_n=n_1^{-1}\sum_{i=1}^{n_1}X_i$ and $\overline{X}_n=n_2^{-1}\sum_{i=1}^{n_2}Y_i$.}
+\bigskip \\
+First, I will show that the sum of any set of independent, normally-distributed random variables is itself a normally-distributed random variable. Suppose that $X_1,X_2,...,X_n$ are independent, normal random variables, where $X_i\sim\N(\mu_i,\sigma^2_i)$ for all $i\in\{1,...,n\}$. Then the moment-generating function of their sum is:
+\[
+	M_{\sum X_i}(t) = E\left[e^{t(\sum X_i)}\right] = E\left[\prod_{i=1}^n e^{tX_i}\right] = \prod_{i=1}^n M_{X_i}(t) 
+	= e^{t\sum\mu_i}e^{\frac{1}{2}t^2(\sum\sigma_i^2)}
+\]
+Thus, the sum of any set of normal random variables is normally distrubuted, with a mean and variance equal to the sum of the means and variances of each random variable in the set.
+\smallskip \\
+Since the linear transformation of any normal random variable is also a normal random variable, $\olx{n}$ and $\olx{y}$ are normal random variables with mean and variance $\mu_X$ and $\mu_Y$ and $\frac{1}{n_1}\sigma_X^2$ and $\frac{1}{n_2}\sigma_Y^2$, respectively. Thus, $\overline{X}_n-\overline{Y}_n$ is also a normal random variable with the MGF:
+\[
+	M_{\overline{X}_n-\overline{Y}_n}(t) = e^{t(\mu_X-\mu_Y)}e^{\frac{1}{2}t^2(\frac{1}{n_1}\sigma_X^2+\frac{1}{n_2}\sigma_Y^2)}
+\]
+This MGF will be used to quickly answer each of the questions below.
+
+\begin{itemize}
+	\item[(a)] \textbf{Find $E(\overline{X}_n-\overline{Y}_n)$.}
+	\[
+		E(\overline{X}_n-\overline{Y}_n) = \mu_X-\mu_Y
+	\]
+	
+	\item[(b)] \textbf{Find $Var(\overline{X}_n-\overline{Y}_n)$.}
+	\[
+		Var(\overline{X}_n-\overline{Y}_n) = \frac{1}{n_1}\sigma_X^2+\frac{1}{n_2}\sigma_Y^2
+	\]
+	
+	\item[(c)] \textbf{Find the distribution of $\overline{X}_n-\overline{Y}_n$.} 
+	\[
+		\olx{n}-\oly{n}\sim\N\left(\mu_X-\mu_Y,\frac{1}{n_1}\sigma_X^2+\frac{1}{n_2}\sigma_Y^2\right)
+	\]
+	
+\end{itemize}	
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+

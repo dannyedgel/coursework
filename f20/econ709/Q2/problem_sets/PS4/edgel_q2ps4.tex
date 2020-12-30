@@ -1,0 +1,363 @@
+%%% Econ709: Econometrics
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Thursday, December 10th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage[shortlabels]{enumitem}
+\usepackage{boondox-cal}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}_{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\vhat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\bcls}{\tilde{\beta}_{CLS}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\vt}{\tilde{\varepsilon}}
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\DeclareMathOperator{\E}{\mathbb{E}}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#4 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 709: Economic Statistics and Econometrics I	\\
+			Fall 2020											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+\begin{itemize}
+	\item[(a)] The table below displays the coefficient estimates, alongside robust standard errors.
+		\begin{center}
+			\input{table1a.tex}
+		\end{center}
+	
+	
+	\item[(b)] In terms of the model parameters, with ${experience=10}$,
+		\[
+			\theta = \frac{\beta_1}{\beta_2+\frac{1}{5}\beta_3}
+		\]
+		Using the parameter estimates from the model,
+		\input{1b.tex}
+	
+	
+	\item[(c)] The asymptotic standard error of $\hat{\theta}$ is the square root of its asymptotic variance. Since $\theta$ is a function of $\beta$, we can use the delta method to solve for the variance of $\hat{\theta}$ as a function of the variance-covariance matrix of $\bhat$:
+	\[
+		\sqrt{n}\left(\hat{\theta}-\theta\right)\rightarrow_df'(\bhat)\N\left(0,V\right)\equiv\N\left(0,f'(\bhat)'Vf'(\bhat)\right)
+	\]
+	Where $V$ is the variance-covariance matric of $\bhat$ and
+	\[
+		f'(\bhat) 	= \colvec{4}{\frac{\partial f(\bhat)}{\partial\bhat_1}}{\frac{\partial f(\bhat)}{\partial\bhat_2}}{\frac{\partial f(\bhat)}{\partial\bhat_3}}{\frac{\partial f(\bhat)}{\partial\bhat_4}}
+					= \colvec{4}{\frac{1}{\bhat_2+\frac{1}{5}\bhat_3}}{-\frac{\bhat_1}{\left(\bhat_2+\frac{1}{5}\bhat_3\right)^2}}{-\frac{\bhat_1}{5\left(\bhat_2+\frac{1}{5}\bhat_3\right)^2}}{0}
+	\]
+	
+	\item[(d)] Using the results from the regression summarized in part (a),
+	\input{1d.tex}
+	
+	
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+According to equation (8.3),
+\[
+	\bcls = \text{arg}\usmin{R'\beta=c}\text{SSE}(\beta)
+\]
+Where ${R=\colvec{2}{0}{I_{k_2}}}$ and ${c=0}$. Then, (8.3) can be simplified as the following unconstrained optimization problem:
+\[
+	\bcls = \text{argmin }\text{SSE}\colvec{2}{\beta_1}{0}
+\]
+WAnd where $\bhat_{OLS}$ from the regression of $Y$ on $X_1$ is defined as:
+\[
+	\bhat_{OLS} = \text{argmin }\text{SSE}(\beta_1)
+\]
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+By equation (8.3),
+\[
+	\bcls = \text{arg}\usmin{R'\beta=c}\text{SSE}(\beta)
+\]
+Where, ${\text{SSE}(\beta) = (Y-X\beta)'(Y-X\beta)=(Y-X_1\beta_1-X_2\beta_2)'(Y-X_1\beta_1-X_2\beta_2)}$ and, in this case, ${R=\colvec{2}{I_k}{I_k}}$ and ${c=0}$. Then,
+\begin{align*}
+	\bcls 	&= 	\text{arg}\usmin{R'\beta=c}(Y-X\beta)'(Y-X\beta)									\\
+		\L	&= (Y-X_1\beta_1-X_2\beta_2)'(Y-X_1\beta_1-X_2\beta_2) - \lambda(\beta_1 + \beta_2)		\\
+	\frac{\partial\L}{\partial\beta_1} 	&= -2X_1'(Y-X_1\beta_1 - X_2\beta_2) - \lambda = 0			\\
+	\frac{\partial\L}{\partial\beta_2} 	&= -2X_2'(Y-X_1\beta_1 - X_2\beta_2) - \lambda = 0			\\
+	\frac{\partial\L}{\partial\lambda}	&= \beta_1 + \beta_2 = 0									\\
+								\beta_1 &= -\beta_2 												\\
+	-2X_1'(Y-X_1\beta_1 - X_2\beta_2)	&= -2X_2'(Y-X_1\beta_1 - X_2\beta_2)						\\
+	-2X_1'(Y+X_1\beta_2 - X_2\beta_2)	&= -2X_2'(Y+X_1\beta_2 - X_2\beta_2)						\\
+		-2X_1'Y - 2X_1'(X_1-X_2)\beta_2 &= -2X_2'Y - 2X_2'(X_1-X_2)\beta_2							\\
+			2(X_2-X_1)'(X_1-X_2)\beta_2	&= 2(X_1-X_2)'Y												\\
+								\beta_2	&= \left[(X_2-X_1)'(X_1-X_2)\right](X_1-X_2)'Y				\\
+								\beta_1 &= \left[(X_2-X_1)'(X_2-X_1)\right](X_2-X_1)'Y
+\end{align*}
+Thus,
+\[
+	\bcls = \colvec{2}{\left[(X_2-X_1)'(X_2-X_1)\right](X_2-X_1)'Y}{\left[(X_2-X_1)'(X_1-X_2)\right](X_1-X_2)'Y}
+\]
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+The linear projection model ${Y=\alpha + X\beta + \varepsilon}$ can be written as ${Y = X_1\beta_1 + X_2\beta_2 + \varepsilon}$, where $X_1$ is a vector of ones. We showed in question 1 that the CLS estimate of this specification with ${\beta_2=0}$ is simply the OLS estimate of $Y$ on $X_1$. We've shown in prior problem sets that the OLS estimate of $Y$ on a constant is $\E{Y}$, So the ${\tilde{\alpha}_{CLS}=\E{Y}}$. 
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+8.22
+The proposed restriction on $\beta$ can be written as ${r(\beta)=0}$, where ${r(\beta)=\frac{\beta_1}{\beta_2} - 2}$.
+\begin{enumerate}[(a)]
+	\item The CLS estimator for this restriction is defined as:
+		\[
+			\bcls = \text{arg}\usmin{r(\beta)=0}\text{SSE}(\beta)
+		\]
+		There is no closed-form solution for this estimator, but we can rewrite this specific restriction as ${\beta_1 = 2\beta_2}$, which gives us the specification ${Y=(2X_1 + X_2)\beta_2 + \varepsilon}$. The estimator for this specification is:
+			\[
+				\tb_2 = \frac{\sum_{i=1}^n(2x_{1i} + x_{2i})y_i}{\sum_{i=1}^n(2x_{1i} + x_{2i})^2}
+			\]
+		Which can be plugged back into the constraint to retrieve $\tb_1$, ultimately yielding the estimator:
+			\[
+				\bcls = \colvec{2}{2\frac{\sum_{i=1}^n(2x_{1i} + x_{2i})y_i}{\sum_{i=1}^n(2x_{1i} + x_{2i})^2}}{\frac{\sum_{i=1}^n(2x_{1i} + x_{2i})y_i}{\sum_{i=1}^n(2x_{1i} + x_{2i})^2}}
+			\]
+	
+	\item If this restriction is true, then ${\tb_1\rightarrow_p\beta_1}$, and, by the CLT,
+		\[
+			\sqrt{n}(\tb_1-\beta_1) = 2\frac{\frac{1}{\sqrt{n}}\sum_{i=1}^n(2x_{1i} + x_{2i})\varepsilon_i}{\frac{1}{n}\sum_{i=1}^n(2x_{1i} + x_{2i})^2} 
+						\rightarrow_d \N\left(0,V\right)
+		\]
+		Where 
+		\[
+			V = \frac{\E{(2x_{1i} + x_{2i})^2\varepsilon_i^2}}{\left(\E{(2x_{1i} + x_{2i})^2}\right)^2} = \frac{\E{(2x_{1i} + x_{2i})^2}}{\left(\E{(2x_{1i} + x_{2i})^2}\right)^2}\sigma^2
+		\]
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 6}
+\begin{itemize}
+	\item[\textbf{9.1}] Let ${\beta=[\phi\text{ }\beta_{k+1}]}$ represent the OLS coefficients from a partitioned regression of $Y$ on ${Z=[X\text{ }X_{k+1}]}$. Then,
+		\[
+			\bhat = (Z'Z)^{-1}Z'Y 
+		\]
+		Now, let ${RZ=c}$ represent a restriction on $\beta$ where ${R=\colvec{2}{0_k}{1}}$ and ${c=0}$. Then, by equation (8.8),
+		\begin{align*}
+			\tb &= \bhat - (Z'Z)^{-1}R\left[R'(Z'Z)^{-1}R\right]^{-1}R'\bhat	\\
+				&= \bhat - (Z'Z)^{-1}\colvec{2}{0_k}{1}\left([(Z'Z)^{-1}]_{k+1,k+1}\right)^{-1}\bhat_{k+1}
+		\end{align*}
+		Where $\tb$ has the residual
+		\begin{align*}
+			\vt &= Y - Z\tb = Y - Z\bhat + Z(Z'Z)^{-1}\colvec{2}{0_k}{1}\left([(Z'Z)^{-1}]_{k+1,k+1}\right)^{-1}\bhat_{k+1} = Y - Z\bhat - Z(\tb-\bhat)	\\
+				&= \vhat - Z(\tb - \bhat)
+		\end{align*}
+		Then, we can calculate:
+		{\small
+		\begin{align*}
+			\vt'\vt	&= (\vhat - Z(\tb - \bhat))'(\vhat - Z(\tb-\bhat)) \\
+					&= \vhat'\vhat + (\tb-\bhat)'(Z'Z)(\tb-\bhat)		\\
+					&= \vhat'\vhat + \bhat_{k+1}\left([(Z'Z)^{-1}]_{k+1,k+1}\right)^{-1}\colvec{2}{0_k}{1}(Z'Z)^{-1}(Z'Z)(Z'Z)^{-1}\colvec{2}{0_k}{1}\left([(Z'Z)^{-1}]_{k+1,k+1}\right)^{-1}\bhat_{k+1}	\\
+					&= \vhat'\vhat + \bhat_{k+1}\left([(Z'Z)^{-1}]_{k+1,k+1}\right)^{-1}\colvec{2}{0_k}{1}(Z'Z)^{-1}\colvec{2}{0_k}{1}\left([(Z'Z)^{-1}]_{k+1,k+1}\right)^{-1}\bhat_{k+1}	\\
+					&= \vhat'\vhat + \bhat_{k+1}\left([(Z'Z)^{-1}]_{k+1,k+1}\right)^{-1}[(Z'Z)^{-1}]_{k+1,k+1}\left([(Z'Z)^{-1}]_{k+1,k+1}\right)^{-1}\bhat_{k+1}	\\
+					&= \vhat'\vhat + \bhat_{k+1}\left([(Z'Z)^{-1}]_{k+1,k+1}\right)^{-1}\bhat_{k+1}	
+		\end{align*}
+		}%
+		Since $\bhat_{k+1}$ and $[(Z'Z)^{-1}]_{k+1,k+1}$ are scalars,
+		\[
+			\vt'\vt	 = \vhat'\vhat + \frac{\bhat_{k+1}^2}{[(Z'Z)^{-1}]_{k+1,k+1}}
+		\]
+		Then, letting ${s^2=\frac{1}{n-k-1}\vhat'\vhat}$,we can identify the condition for the adjusted $R^2$ of the unrestricted model being higher than that of the restricted model and solve:
+		\begin{align*}
+			1 - \frac{\frac{1}{n-k-1}\vhat'\vhat}{\frac{1}{n-1}\sum_{i=1}^n(y_i-\overline{y})^2} &> 
+				1 - \frac{\frac{1}{n-k}\vt'\vt}{\frac{1}{n-1}\sum_{i=1}^n(y_i-\overline{y})^2}		\\
+			- (n-k)\vhat'\vhat &> - (n-k-1)\vt'\vt	\\
+			(n-k)\vhat'\vhat &< (n-k-1)\left(\vhat'\vhat + \frac{\bhat_{k+1}^2}{[(Z'Z)^{-1}]_{k+1,k+1}}\right)	\\
+			\vhat'\vhat	&< (n-k-1)\frac{\bhat_{k+1}^2}{[(Z'Z)^{-1}]_{k+1,k+1}}	\\
+			\frac{\bhat_{k+1}^2}{s^2[(Z'Z)^{-1}]_{k+1,k+1}} &= \bigm| \frac{\bhat_{k+1}}{s\left(\bhat_{k+1}\right)} \bigm| &> 1	\\
+			\bigm| T_{k+1}\bigm| &> 1	\text{ }\blacksquare
+		\end{align*}
+		
+	
+	\item[\textbf{9.2}] 
+		\begin{enumerate}[(a)]
+			\item Since ${\E{X_1e_1}=\E{X_2e_2}=0}$, we know
+				\[
+					\sqrt{n}(\bhat_j-\beta_j)\rightarrow_d\N\left(0,\E{x_{ji}'x_{ji}}^{-1}\E{x_{ji}'x_{ji}e_{ji}^2}\E{x_{ji}'x_{ji}}^{-1}\right)
+				\]
+				For ${j=1,2}$. Since the two samples are independent, ${Cov(x_{1i},x_{2i})=Cov(e_{1i},e_{2i})=0}$, so
+				\begin{align*}
+					\sqrt{n}\colvec{2}{\bhat_1-\beta_1}{\bhat_2-\beta_2} &= 
+						\begin{pmatrix}
+							\E{x_{1i}'x_{1i}}^{-1} & 0 \\  0 & \E{x_{2i}'x_{2i}}^{-1} 
+						\end{pmatrix}\frac{1}{\sqrt{n}}\sum_{i=1}^n\colvec{2}{x_{1i}}{x_{2i}}	\\
+						&\rightarrow_d \N\left(0,\begin{pmatrix}
+							\E{x_{1i}'x_{1i}}^{-1}\E{x_{1i}'x_{1i}e_{1i}^2}\E{x_{1i}'x_{1i}}^{-1} & 0 \\  0 & \E{x_{2i}'x_{2i}}^{-1}\E{x_{2i}'x_{2i}e_{2i}^2}\E{x_{2i}'x_{2i}}^{-1} 
+						\end{pmatrix}\right)
+				\end{align*}
+				Then, we can solve,
+				\begin{align*}
+					\sqrt{n}\left((\bhat_2-\bhat_1) - (\beta_2-\beta_1)\right) &= \sqrt{n}\left((\bhat_2-\beta_2) - (\bhat_1-\beta_1)\right)	\\
+						&\rightarrow_d \N\left(0,\E{x_{1i}'x_{1i}}^{-1}\E{x_{1i}'x_{1i}e_{1i}^2}\E{x_{1i}'x_{1i}}^{-1} + \E{x_{2i}'x_{2i}}^{-1}\E{x_{2i}'x_{2i}e_{2i}^2}\E{x_{2i}'x_{2i}}^{-1}\right)
+				\end{align*}
+			
+			\item Let ${\theta = \beta_2-\beta_1}$. By equation (9.6), an appropriate Wald statistic is 
+				\[
+					W = \hat{\theta}'\hat{V_{\hat{\theta}}}^{-1}\hat{\theta}
+				\]
+				Then, given our result from (a),
+				\[
+					W = (\bhat_2-\bhat_1)'\left(\hat{V}_1 + \hat{V}_2\right)(\bhat_2-\bhat_1)
+				\]
+				Where $\hat{V}_i$ is a consistent estimator for ${\E{x_{ji}'x_{ji}}^{-1}\E{x_{ji}'x_{ji}e_{ji}^2}\E{x_{ji}'x_{ji}}^{-1}}$.
+			
+			\item Since ${\bhat_2-\bhat_1\rightarrow_p\beta_2-\beta_1}$ and ${\hat{V}_1 + \hat{V}_2\rightarrow_pV_1 + V_2}$, under our null hypothesis,
+				\[
+					W\rightarrow_d\chi^2_k
+				\]
+		
+		\end{enumerate}
+	
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 7}
+9.4
+\begin{enumerate}[(a)]
+	\item The size of a test is equal to the probability of rejection. Then,
+		\[
+			Pr(Reject|H_0) = Pr(W<c_1|H_0) + Pr(W>C_2|H_0) \rightarrow_p \frac{\alpha}{2}+(1-(1-\frac{\alpha}{2})) = \frac{\alpha}{2}+\frac{\alpha}{2} = \alpha
+		\]
+	
+	\item This is not at all a good test of the null hypothesis, beacuse the lower-tail rejection standard, ${W<c_1}$, includes both the true value of the estimator under the null hypothesis and a fat section of the $\chi^2$ distribution. As a result, this test is extremely weak and will result in many rejections of true null hypotheses.
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 8}
+Our null hypothesis is ${H_0:40\beta_1 + 40^2\beta_2=20}$, so to test this hypothesis, we would acquire estimator ${\bhat = \colvec{2}{\bhat_1}{\bhat_2}}$, then construct a consistent estimator for its asymptotic variance, $\hat{V}_{\bhat}$ to acquire a test statistic: ${t=\frac{\hat{\theta}}{se(\hat{\theta})}}$, where:
+\begin{align*}
+	\hat{\theta} &= 40\bhat_1 + 40^2\bhat_2 - 20	\\
+\text{Under }H_0:\text{ } \sqrt{n}(\hat{\theta}-0)	&\rightarrow_d\N\left(0,\colvec{2}{40}{40^2}'V_{\bhat}\colvec{2}{40}{40^2}\right)	\\
+	se(\hat{\theta}) &= \frac{1}{\sqrt{n}}\sqrt{\hat{V_{\hat{\theta}}}}	\\
+	V_{\hat{\theta}} &= \colvec{2}{40}{40^2}'V_{\bhat}\colvec{2}{40}{40^2}
+\end{align*}
+Finally, once ${t\rightarrow_d\N(0,1)}$ is acquired, we would choose some threshold, $\alpha$, such that if $|t|$ is greater than the $\frac{\alpha}{2}$th quantile of its distribution, then we reject the null hypothesis, that a 40-year-old worker has an expected wage of \$40 per hour.
+
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+

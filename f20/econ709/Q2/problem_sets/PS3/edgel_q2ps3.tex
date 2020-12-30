@@ -1,0 +1,495 @@
+%%% Econ709: Econometrics
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Tuesday, December 1st, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}_{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\vhat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\DeclareMathOperator{\E}{\mathbb{E}}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#3 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 709: Economic Statistics and Econometrics I	\\
+			Fall 2020											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+\begin{itemize}
+	\item[3.24)] The table below displays the results of each of the regressions that must be estimated for this question. The first column displays the estimates for equation (3.50), and the fourth column displays the estimates for the residual approach, using the residuals from the regressions displayed in columns (2) and (3).
+		\begin{center}
+			\input{table1b.tex}
+		\end{center}
+		\begin{enumerate}[(a)]
+			\item As shown in the table above, ${R^2=0.389}$ and the sum of squared errors is 82.50.
+			
+			\item Comparing the coefficients from the "Education" row in column (1) and the $\hat{\varepsilon_{educ}}$ row of column (4) shows that the coefficient on education is the same using either a partition regression or a residual regression. They each equal 0.144.
+			
+			\item The bottom three rows of the table above provide summary statistics for each regression. These show that the sum-of-squared errors for the regressions in (a) and (b) are the same, but the $R^2$ is slightly smaller when the residual regression approach is used than when a partition regression is used. This is to be expected, as using a regression with more independent variables always weakly increases $R^2$, and the residual regression uses two fewer independent variables than the partition regression.
+			
+		\end{enumerate}
+	
+	\item[3.25)] Each of the values below is rounded to the nearest thousandth.
+		\input{3.25_results.tex}
+	
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+\begin{itemize}
+	\item[7.2)] To find the limit of $\bhat$ as ${n\rightarrow\infty}$, we can first rewrite $\bhat$ in terms of expectation:
+		\begin{align*}
+			\bhat 	&= \left(\sum_{i=1}^n X_iX_i' + \lambda I_k\right)^{-1}\left(\sum_{i=1}^n X_iY_i\right)	\\
+					&= \left(\sum_{i=1}^n X_iX_i' + \lambda I_k\right)^{-1}n\left(\frac{1}{n}\sum_{i=1}^n X_iY_i\right)	\\
+					&= \left(\frac{1}{n}\sum_{i=1}^n X_iX_i' + \frac{1}{n}\lambda I_k\right)^{-1}\left(\frac{1}{n}\sum_{i=1}^n X_iY_i\right)	\\
+		\end{align*}
+		And, recognizing ${Y_i = X_i\beta + \varepsilon_i}$, 
+		\begin{align*}
+			\bhat 	\rightarrow_p 	&\E\left(X_iX_i' + 0 I_k\right)^{-1}\E\left(X_i(X_i\beta + \varepsilon_i)\right)	\\
+					= 				&\E\left(X_iX_i'\right)^{-1}\left[\E\left(X_iX_i'\beta\right) + \E\left(X_i\varepsilon_i)\right)\right]	\\
+					= 				&\beta\E\left(X_iX_i'\right)^{-1}\E\left(X_iX_i'\right) \\
+					= 				&\beta
+		\end{align*}
+	
+	\item[7.3)] Let $\lambda=cn$ where $c>0$. Then,
+		\begin{align*}
+			\bhat 	= 				&\left(\frac{1}{n}\sum_{i=1}^n X_iX_i' + \frac{1}{n}(cn) I_k\right)^{-1}\left(\frac{1}{n}\sum_{i=1}^n X_iY_i\right)	\\
+			\bhat 	\rightarrow_p 	&\E\left(X_iX_i' + cI_k\right)^{-1}\E\left(X_i(X_i\beta + \varepsilon_i)\right)	\\
+					= 				&\E\left(X_iX_i' + cI_k\right)^{-1}\left[\E\left(X_iX_i'\beta\right) + \E\left(X_i\varepsilon_i)\right)\right]	\\
+					= 				&\E\left(X_iX_i' + cI_k\right)^{-1}\beta\E\left(X_iX_i'\right) \\
+					= 				&\E\left(X_iX_i' + cI_k\right)^{-1}\beta\left[\E\left(X_iX_i'\right) + cI_k - cI_k\right] \\
+					= 				&\E\left(X_iX_i' + cI_k\right)^{-1}\left[\E\left(X_iX_i'\right) + cI_k\right]\beta - \lambda\beta \\
+					= 				&\beta - c\E\left(X_iX_i' + cI_k\right)^{-1}\beta
+		\end{align*}
+	
+	\item[7.4)] 
+		\begin{enumerate}[(a)]
+			\item $ \E(X_1) = \frac{4}{8}(-1) + \frac{4}{8}(1) = 0 $
+			\item $ \E(X_1^2) =  \frac{4}{8}(-1)^2 + \frac{4}{8}(1)^2 = 1  $
+			\item $ \E(X_1X_1) = \frac{3}{8}(1)(1) + \frac{3}{8}(-1)(-1) + \frac{1}{8}(1)(-1) + \frac{1}{8}(-1)(1) = \frac{6}{8} - \frac{2}{8} = \frac{1}{2} $
+			\item $ \E(e^2) = \pfrac{3}{4}\left(\frac{5}{4}\right) + \pfrac{1}{4}\left(\frac{1}{4}\right) = \frac{15}{16} + \frac{1}{16} = 1 $
+			\item $ \E(X_1^2e^2) = \pfrac{3}{4}\left(\frac{5}{4}\right) + \pfrac{1}{4}\left(\frac{1}{4}\right) = 1  $
+			\item $ \E(X_1X_1e^2) = \pfrac{3}{4}\pfrac{5}{4}(1) + \pfrac{1}{4}\pfrac{1}{4}(-1) = \frac{15}{16} - \frac{1}{16} = \frac{7}{8} $
+		\end{enumerate}
+	
+\end{itemize}
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Question 3}
+Note that ${\varepsilon^2\rightarrow_p\sigma^2}$ and ${\hat{sigma}^2=\vhat^2}$. Then, using the notation from 6.8, where ${Z_n\rightarrow_p0\equiv Z_n=o_p(1)}$ and ${X_n=O_p(1)}$ means that $Z_n$ is bounded in probability about $0$,
+{\small
+\begin{align*}
+	\sqrt{N}\left(\hat{\sigma}^2-\sigma^2\right)	&= \sqrt{n}\left(\est{n}\hat{\varepsilon}_i^2-\sigma^2\right)	\\
+													&= \sqrt{n}\left(\est{n}\left(x_i'\beta + \varepsilon_i - x_i'\bhat\right)^2-\sigma^2\right)	\\
+													&= \sqrt{n}\left(\est{n}\left(\varepsilon_i - x_i'(\bhat - \beta)\right)^2-\sigma^2\right)	\\
+													&= \sqrt{n}\left(\est{n}\varepsilon_i^2-\sigma^2\right)	- 2\left(\est{n}x_i'\varepsilon_i\right)\sqrt{n}(\bhat-\beta) + \sqrt{n}(\bhat-\beta)'\left(\est{n}x_ix_i'\right)(\bhat-\beta)	\\
+			\left(\est{n}x_i'\varepsilon_i\right) 	&\rightarrow_p 0		\Rightarrow \left(\est{n}x_i'\varepsilon_i\right) = o_p(1)	\\
+							\sqrt{n}(\bhat-\beta)	&\rightarrow_d \N(0,V)	\Rightarrow \sqrt{n}(\bhat-\beta) = O_p(1)	\\
+									\bhat-\beta		&\rightarrow_p 0		\Rightarrow \bhat-\beta = o_p(1)	\\
+						\left(\est{n}x_ix_i'\right)	&\rightarrow_p \E(x_ix_i') = X'X							\\
+								X'X(\bhat - \beta)	&= X'X\bhat - X'X\beta = X'X(X'X)^{-1}X'Y - X'X\beta = X'(X\beta + \varepsilon) - X'X\beta = X'\varepsilon = 0	\\
+	\sqrt{N}\left(\hat{\sigma}^2-\sigma^2\right)	&= \sqrt{n}\left(\est{n}\varepsilon_i^2-\sigma^2\right)	-2o_p(1)O_p(1) + O_p(1)o_p(1)		\\
+													&= \sqrt{n}\left(\est{n}\varepsilon_i^2-\sigma^2\right)	-2o_p(1) + o_p(1)		\\
+													&= \sqrt{n}\left(\est{n}\varepsilon_i^2-\sigma^2\right)	-(o_p(1) + o_p(1)) + o_p(1)		\\
+													&= \sqrt{n}\left(\est{n}\varepsilon_i^2-\sigma^2\right)	+ o_p(1)		\\
+													&\rightarrow_d \N(0,\E(\varepsilon_i^4)-\sigma^4)
+\end{align*}
+}%
+
+%%%________________________________________________________________%%%
+
+\section*{Question 4}
+I show below that both estimators, $\bhat$ and $\tb$ are consistent for $\beta$.
+\begin{align*}
+			\bhat	= 	&\frac{\sum_{i=1}^nX_iY_i}{\sum_{i=1}^nX_i^2} = \frac{n^{-1}\sum_{i=1}^nX_i(X_i'\beta + e_i)}{n^{-1}\sum_{i=1}^nX_i^2}	\\
+		\rightarrow_p	&\frac{\E(X_i(X_i'\beta + e_i))}{\E(X_iX_i')} = \frac{\E(X_iX_i'\beta) + \E(X_i'e_i)}{\E(X_iX_i')} \\
+					= 	&\beta\frac{\E(X_iX_i')}{\E(X_iX_i')}+\frac{\E(X_i'e_i))}{\E(X_iX_i')} = \beta(1) + 0	\\
+\therefore	\bhat\rightarrow_p&\beta																					\\
+			\tb		=	&\frac{1}{n}\sum_{i=1}^n\frac{Y_i}{X_i} = \frac{1}{n}\sum_{i=1}^n\frac{X_i'\beta + e_i}{X_i} = \frac{1}{n}\sum_{i=1}^n\beta\left(1+\frac{e_i}{X_i}\right)	\\
+		\rightarrow_p	&\beta\E\left(1+\frac{e_i}{X_i}\right) = \beta\left(1+\E\left(\frac{1}{X_i}\E(e_i|X)\right)\right) = \beta(1+0)	\\
+\therefore	\tb\rightarrow_p&\beta																			
+\end{align*}
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 5}
+\begin{enumerate}[(a)]
+			\item ${\hat{Y_{n+1}}=x'\bhat}$, where, as stated in the question, ${X_{n+1}=x}$.
+			
+			\item Our goal is to calculate ${\hat{\sigma}^2_{n+1}=\vhat_{n+1}^2}$. First, we must find $\vhat$:
+				\[
+					\vhat_{n+1}=Y_{n+1} - \hat{Y}_{n+1} = x'\beta + \varepsilon_{n+1} - x'\bhat = \varepsilon_{n+1} - x'(\bhat-\beta)
+				\]
+				Then, we can calculate:
+				\begin{align*}
+					\hat{\sigma}^2_{n+1} 	&= \left(\varepsilon_{n+1} - x'(\bhat-\beta)\right)^2	\\
+											&= \varepsilon_{n+1}^2 - 2\varepsilon_{n+1}x'(\bhat-\beta) + x'(\bhat-\beta)(\bhat-\beta)'x	\\
+											&= \varepsilon_{n+1}^2 - 2\varepsilon_{n+1}x'\bhat + 2\varepsilon_{n+1}x'\beta + x'(\bhat-\beta)(\bhat-\beta)'x
+				\end{align*}
+				Since $\bhat$ was chosen in a sample that excludes $x$, it is independent of $x$ and $\varepsilon_{n+1}$. Thus,
+				\[
+					\E(\varepsilon_{n+1}x'\bhat) = \E(\varepsilon_{n+1}x')\E((\bhat) = 0
+				\]
+				Then, 
+				\begin{align*}
+					\E(\hat{\sigma}^2_{n+1}|x)	&= \E(\varepsilon_{n+1}^2|x) + \E(2\varepsilon_{n+1}x'\beta|x) + \E(x'(\bhat-\beta)(\bhat-\beta)'x|x)	\\
+												&= \E(\varepsilon_{n+1}^2|x) + 2x'\beta\E(\varepsilon_{n+1}|x) + x'\E((\bhat-\beta)(\bhat-\beta)'|x)x	\\
+												&= \hat{\sigma}^2 + x'\hat{V}_{\hat{\beta}}x		
+				\end{align*}
+				Thus, ${\hat{\sigma}^2_{n+1}=\hat{\sigma}^2 + x'\hat{V}_{\hat{\beta}}x}$ is the estimator.
+			
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 6}
+\begin{itemize}
+	\item[7.13)] 
+		\begin{enumerate}[(a)]
+			\item Since $X$ and $Y$ are scalars, we can propose the estimator ${\hat{gamma}=\est{n}\frac{X_i}{Y_i}}$.
+			
+			\item Since ${\theta=1/\gamma}$, we should propose ${\hat{\theta}=1/\hat{\gamma}}$.
+			
+			\item First, we should find the asymptotic distribution of $\hat{\gamma}$:
+				\[
+					\sqrt{n}(\hat{\gamma}-\gamma) = \N(0,V)
+				\]
+				Where:
+				\begin{align*}
+					V 	&= \sumn Var(X_i/Y_i) = Var\left(\frac{Y_i\gamma + \mu_i}{Y_i}\right)  	\\
+						&= Var\left(\frac{Y_i\gamma + \mu_i}{Y_i}\right) = Var\left(\gamma + \frac{\mu_i}{Y_i}\right) 	\\
+						&= \frac{Var(\mu_i)}{Var(Y_i)}
+				\end{align*}
+				Then, using the delta method, we can find the asymptotic distribution of $\hat{\theta}$, where ${\theta=f(gamma) = 1/\gamma}$:
+				\begin{align*}
+					\sqrt{n}(\hat{\theta}-\theta) 	&\rightarrow_d f'(\gamma)\N\left(0,\frac{Var(\mu_i)}{Var(Y_i)}\right)	\\
+													&= \N\left(0, \frac{1}{\gamma^4}\frac{Var(\mu_i)}{Var(Y_i)}\right)		\\
+													&= \N\left(0,\theta^4\frac{Var(\mu_i)}{Var(Y_i)}\right)
+				\end{align*}
+			
+			\item Given the asymptotic variance found in (c), we can caluate the standard error by simply taking the square root of the asymptotic variance: ${\frac{1}{\sqrt{n}}\theta^2\sqrt{\frac{Var(\mu_i)}{Var(Y_i)}}}$
+			
+		\end{enumerate}
+	
+	\item[7.14)] 
+		\begin{enumerate}[(a)]
+			\item The approriate estimator is simply ${\hat{\theta}=\bhat_1\bhat_2}$, where $\bhat_i$ is the OLS estimator for $\beta_i$.
+			
+			\item Define $\theta$ as a function of $\beta$, where ${\theta=f(\beta)=\beta_1\beta_2\beta}$. Then, using the delta method,
+				\begin{align*}
+					\sqrt{n}(\bhat-\beta)			&\rightarrow_d 	\N(0,V)					\\
+					V &= \E(X_iX_i')^{-1}\E(\varepsilon_i^2X_iX_i')\E(X_iX_i')^{-1}			\\
+					\sqrt{n}(\hat{\theta}-\theta)	&\rightarrow_d 	f'(\beta)\N(0,V)		\\
+													&= (\beta_1\beta_2)\N(0,V)				\\
+													&=\N\left(0,(\beta_1\beta_2)V(\beta_1\beta_2)'\right)
+				\end{align*}
+			
+			\item An asymptotic 95\% confidence interval for $\theta$ can be calulated by adding and substracting 1.96 times the standard error of $\hat{\theta}$ from $\hat{\theta}$:
+				\[
+					\left[\hat{\theta}-1.96\frac{1}{\sqrt{n}}\sqrt{(\beta_1\beta_2)V(\beta_1\beta_2)'},\hat{\theta}+1.96\frac{1}{\sqrt{n}}\sqrt{(\beta_1\beta_2)V(\beta_1\beta_2)'}\right]
+				\]
+			
+		\end{enumerate}
+	
+	\item[7.15)] 
+	\begin{align*}
+		\tb	=	& \frac{\sum_{i=1}^n X_i^3Y_i}{\sum_{i=1}^nX_i^4} = \frac{n^{-1}\sum_{i=1}^n X_i^3(X_i\beta+e_i)}{n^{-1}\sum_{i=1}^nX_i^4} \\
+			= 	& \beta\left(\frac{n^{-1}\sum_{i=1}^n X_i^4}{n^{-1}\sum_{i=1}^nX_i^4}\right) + \left(\frac{n^{-1}\sum_{i=1}^n X_i^3e_i}{n^{-1}\sum_{i=1}^nX_i^4}\right)	\\
+\tb - \beta	=	& \left(\frac{\frac{1}{n}\sum_{i=1}^n X_i^3e_i}{\frac{1}{n}\sum_{i=1}^nX_i^4}\right)	\\
+\sqrt{n}(\tb - \beta) =	& \left(\frac{\frac{1}{\sqrt{n}}\sum_{i=1}^n X_i^3e_i}{\frac{1}{n}\sum_{i=1}^nX_i^4}\right)	\rightarrow_d N\left(0,\frac{\E(X^6\varepsilon^2)}{\E(X^4)^2}\right)
+	\end{align*}
+	
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 7}
+\begin{enumerate}[(a)]
+	\item The variance of ${\hat{\theta}=\bhat_1-\bhat_2}$ is ${Var(\bhat_1) + Var(\bhat_2) - 2Cov(\bhat_1,\bhat_2)}$, which we can use to solve for the standard error of $\hat{\theta}$, which we will denote as $s(\hat{\theta})$:
+		\begin{align*}
+			Var(\hat{\theta})	&= Var(\bhat_1) + Var(\bhat_2) - 2Cov(\bhat_1,\bhat_2) = s(\bhat_1)^2 + s(\bhat_2)^2 - 2\hat{\rho}s(\bhat_1)s(\bhat_2)	\\
+								&= (0.07)^2 + (0.07)^2 - \hat{\rho}(0.07)(0.07) = 2(0.07)^2  - \hat{\rho}(0.07)^2 	\\
+								&= (0.07)^2(1-\hat{\rho})																	\\
+			s(\hat{\theta}) 	&= \sqrt{Var(\hat{\theta})}	 = 0.07\sqrt{1-\hat{\rho}}
+		\end{align*}
+		The mean of $\hat{\theta}$ is simply ${\bhat_1-\bhat_2=0.2}$ Then, the 95\% confidence interval for $\theta$ is
+		\[
+			\left[0.2-1.96\left(0.07\sqrt{1-\hat{\rho}}\right),0.2+1.96\left(0.07\sqrt{1-\hat{\rho}}\right)\right]
+		\]
+	
+	\item No. $\hat{\rho}$ relies on the covariance between $\bhat_1$ and $\bhat_2$, which cannot be deduced from the variance and mean of each coeffient, which is the only information we have.
+	
+	\item While we don't know the value of $\hat{\rho}$, we know that it is between 0 and 1. Thus, we can calculate an interval of all possible values of the lower end of the confidence interval for $\theta$. This interval is
+		\[
+			[0.2-1.96\left(0.07\sqrt{1-0}\right),0.2-1.96\left(0.07\sqrt{1-1}\right)] = [0.062,0.2]
+		\]
+		Thus, if we test the difference between $\bhat_1$ and $\bhat_2$ using a 5\% significance level, we would reject the null hypothesis that ${\bhat_1=\bhat_2}$.
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 8}
+Both $\bhat_1$ and $\bhat_2$ are estimators of $\beta$, using different samples. Then, for each beta ${j\in\{1,2\}}$,
+	\[
+		\sqrt{n}(\bhat_j-\beta)\rightarrow_d\N\left(0,\sigma_j^2(X_{ji}X_{ji}')^{-1}\right)
+	\]
+Note that $\sigma^2$ depends on the subsample because we do not know whether the relationship between $X$ and $Y$ is homoskedastic.
+
+Then, we can solve for the asymptotic distribution of ${\sqrt{n}(\bhat_1-\bhat_2)}$:
+	\begin{align*}
+		\sqrt{n}(\bhat_1-\bhat_2)	&= \sqrt{n}(\bhat_1-\beta - \bhat_2 + \beta) = \sqrt{n}(\bhat_1 - \beta - (\bhat_2 - \beta))	\\
+									&= \sqrt{n}(\bhat_1 - \beta) - \sqrt{n}(\bhat_2 - \beta)
+	\end{align*}
+
+If the asymptotic variances of $\bhat_1$ and $\bhat_2$ were independent, we could simply add them. However, they are cleary not asymptotic, as they come from the same data-generating process. Thus, we need to estimate the joint variance. We can do so by re-writing the estimation as:
+	\[
+		Y_i = d_ix_i'\beta + (1-d_i)x_i'\beta + \varepsilon_i
+	\]
+Where ${d_i = \begin{cases} 1, &\text{obs in sample 1} \\ 0, &\text{otherwise} \end{cases}}$. Assume that observations are randomly assigned between subsamples such that $d_i$ is independent of $(y_i,x_i)$. Recall that ${\bhat-\beta = (X'X)^{-1}X'\varepsilon}$. Then, recognizing that ${X_i = \colvec{2}{d_ix_i}{(1-d_i)x_i}}$,
+	\begin{align*}
+		\bhat - \beta	&= \left(\est{2n}X_iX_i'\right)^{-1}\est{2n}X_i\varepsilon_i		\\
+						&= \left(\est{2n}\colvec{2}{d_ix_i}{(1-d_i)x_i}\colvec{2}{d_ix_i}{(1-d_i)x_i}'\right)^{-1}\est{2n}\colvec{2}{d_ix_i}{(1-d_i)x_i}\varepsilon_i	\\
+						&= 	\begin{pmatrix}
+								\est{2n} d_ix_ix_i' 		& \est{2n}d_i(1-d_i)x_ix_i' 			\\
+								\est{2n}(1-d_i)d_ix_ix_i'	& \est{2n}(1-d_i)(1-d_i)x_ix_i'
+							\end{pmatrix}^{-1} \est{2n}\colvec{2}{d_ix_i}{(1-d_i)x_i}\varepsilon_i	\\
+						&= \begin{pmatrix}
+								\est{2n} d_ix_ix_i'	& 0											 	\\
+								0					& \est{2n}(1-d_i)^2x_ix_i'
+							\end{pmatrix}^{-1} \est{2n}\colvec{2}{d_ix_i}{(1-d_i)x_i}\varepsilon_i	\\
+\sqrt{n}(\bhat-\beta)	&= 	\begin{pmatrix}
+								\est{2n} d_ix_ix_i'	& 0											 	\\
+								0					& \est{2n}(1-d_i)^2x_ix_i'
+							\end{pmatrix}^{-1} \frac{1}{\sqrt{2}}\frac{1}{\sqrt{2n}}\sum^{2n}_{i=1}\colvec{2}{d_ix_i}{(1-d_i)x_i}\varepsilon_i	\\
+	\end{align*}
+Recognizing that $\E(d_i)=\frac{1}{2}$,
+	\begin{align*}
+		\begin{pmatrix}
+			\est{2n} d_ix_ix_i'	& 0											 							\\
+			0					& \est{2n}(1-d_i)^2x_ix_i'
+		\end{pmatrix}^{-1} 	&\rightarrow_p 	\begin{pmatrix}
+												\frac{1}{2}\E(x_ix_i')	& 0								\\
+												0						& \frac{1}{2}\E(x_ix_i')
+											\end{pmatrix}^{-1}											\\
+		\frac{1}{\sqrt{2n}}\sum^{2n}_{i=1}\colvec{2}{d_ix_i}{(1-d_i)x_i}\varepsilon_i	&\rightarrow_d 	
+				\N\left(0,\begin{pmatrix}
+												\frac{1}{2}\E(\varepsilon^2x_ix_i')	& 0								\\
+												0						& \frac{1}{2}\E(\varepsilon^2x_ix_i')
+											\end{pmatrix}\right)
+	\end{align*}
+Thus,
+	\[
+		\sqrt{n}(\bhat-\beta) \rightarrow_d \N\left(0,\begin{pmatrix}
+												2\E(x_ix_i')^{-1}\E(\varepsilon^2x_ix_i')\E(x_ix_i')^{-1}	& 0								\\
+												0															& 2\E(x_ix_i')^{-1}\E(\varepsilon^2x_ix_i')\E(x_ix_i')^{-1}
+											\end{pmatrix}\right)
+	\]
+Where the $1/\sqrt{2}$ gets squared when it enters the asymptotic variance, then cancelled out by the 2 that comes from ${\left(\frac{1}{2}\E(\varepsilon^2x_ix_i')\right)^{-1}}$, which gets squared as it enters the asymptotic variance. This can be simplified to:
+	\[
+		\sqrt{n}(\bhat-\beta) \rightarrow_d \N\left(0,2\E(x_ix_i')^{-1}\E(\varepsilon^2x_ix_i')\E(x_ix_i')^{-1}I_{2n}\right)
+	\]
+	
+
+%%%________________________________________________________________%%%
+
+\section*{Question 9}
+\begin{enumerate}[(a)]
+	\item Intuitively, $\hat{\beta}$ is unbiased, since ${\E(\one{x_i\in\{1,2\}})=\E(x_i)}$. To show that this is the case,
+		\begin{align*}
+			\bhat	&= \left(\est{n}w_iw_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}w_iy_i\one{x_i\in\{1,2\}}	\\
+					&= \left(\est{n}w_iw_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}w_i(w_i'\beta + \varepsilon_i)\one{x_i\in\{1,2\}}	\\
+					&= \left(\est{n}w_iw_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}(w_iw_i'\beta + w_i\varepsilon_i)\one{x_i\in\{1,2\}}	\\
+					&= \left(\est{n}w_iw_i'\one{x_i\in\{1,2\}}\right)^{-1}\left(\est{n}w_iw_i'\beta\one{x_i\in\{1,2\}} + \est{n}w_i\varepsilon_i\one{x_i\in\{1,2\}}\right)	\\
+					&= \beta + \left(\est{n}w_iw_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}w_i\varepsilon_i\one{x_i\in\{1,2\}}	\\
+					&\rightarrow_p \beta + \E(w_iw_i'\one{x_i\in\{1,2\}})^{-1}\E(w_i\varepsilon_i\one{x_i\in\{1,2\}})	\\
+					&= \beta + \E(w_iw_i'\one{x_i\in\{1,2\}})^{-1}\E\left(w_i\one{x_i\in\{1,2\}}\E(\varepsilon_i|w_i)\right)	\\
+					&= \beta
+		\end{align*}
+		Thus, ${\bhat\rightarrow_p\beta}$.
+	
+	\item Note that the cancellation of the second term in the second to last line of the proof in (a) requires ${\E(\varepsilon_i|w_i)=0}$. This does not hold with (A1'), so that assumption is not strong enough to conclude that ${\bhat\rightarrow_p\beta}$.
+	
+	\item The asymptotic distribution of ${\sqrt{n}(\bhat-\beta)}$ is ${\N\left(0,\sigma^2\begin{pmatrix} 20 & -12 \\ -12 & 8 \end{pmatrix}\right)}$:
+		\begin{align*}
+			\sqrt{n}(\bhat-\beta) &= \left(\est{n}w_iw_i'\one{x_i\in\{1,2\}}\right)^{-1}\frac{1}{\sqrt{n}}\sumn w_i\varepsilon_i\one{x_i\in\{1,2\}}	\\
+			\frac{1}{\sqrt{n}}\sumn w_i\varepsilon_i\one{x_i\in\{1,2\}} &\rightarrow_d \N\left(0,Var\left(w_i\varepsilon_i\one{x_i\in\{1,2\}}\right)\right)	\\
+			Var\left(w_i\varepsilon_i\one{x_i\in\{1,2\}}\right) &= Var\left(Var\left(w_i\varepsilon_i\one{x_i\in\{1,2\}}|w_i\right)\right)	\\
+																&= Var\left(w_i\one{x_i\in\{1,2\}}Var\left(\varepsilon_i|w_i\right)\right)	\\
+																&= \sigma^2 \E\left(w_iw_i'\one{x_i\in\{1,2\}}\right)	\\
+					\E\left(w_iw_i'\one{x_i\in\{1,2\}}\right)	&= \E\left[\colvec{2}{1}{x_i}\colvec{2}{1}{x_i}'\one{x_i\in\{1,2\}}\right]	\\
+																&= \E\left[\begin{pmatrix} 1 & x_i \\ x_i & x_i^2 \end{pmatrix}\one{x_i\in\{1,2\}}\right]	\\
+																&=\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{5}{4} \end{pmatrix}	\\
+			\sqrt{n}(\bhat-\beta) 	&\rightarrow_d	\E\left(w_iw_i'\one{x_i\in\{1,2\}}\right)^{-1}\N(0,Var\left(w_i\varepsilon_i\one{x_i\in\{1,2\}}\right))	\\
+									&= \begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{5}{4} \end{pmatrix}^{-1}
+										\N\left(0,\sigma^2\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{5}{4} \end{pmatrix}\right)	\\
+									&= \N\left(0,\sigma^2\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{5}{4} \end{pmatrix}^{-1}\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{5}{4} \end{pmatrix}\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{5}{4} \end{pmatrix}^{-1}\right)	\\
+									&= \N\left(0,\sigma^2\begin{pmatrix} 20 & -12 \\ -12 & 8 \end{pmatrix}\right)	
+		\end{align*}
+	
+	\item In (a), we showed that $\bhat$'s consistency does not depend on the values of $x_i$ chosen for the indicator ${\one{x_i\in\{1,2\}}}$. Thus, $\bhat$ and $\hat{\bhat}$ are both consistent estimators of $\beta$. The only difference between the two estimators is their variance. With the new indicator, the steps from (c) become:
+		\begin{align*}
+			\sqrt{n}(\bhat-\beta) &= \left(\est{n}w_iw_i'\one{x_i\in\{1,2\}}\right)^{-1}\frac{1}{\sqrt{n}}\sumn w_i\varepsilon_i\one{x_i\in\{1,2\}}	\\
+			\frac{1}{\sqrt{n}}\sumn w_i\varepsilon_i\one{x_i\in\{1,2\}} &\rightarrow_d \N\left(0,Var\left(w_i\varepsilon_i\one{x_i\in\{1,2\}}\right)\right)	\\
+			Var\left(w_i\varepsilon_i\one{x_i\in\{1,2\}}\right) &= Var\left(Var\left(w_i\varepsilon_i\one{x_i\in\{1,2\}}|w_i\right)\right)	\\
+																&= Var\left(w_i\one{x_i\in\{1,2\}}Var\left(\varepsilon_i|w_i\right)\right)	\\
+																&= \sigma^2 \E\left(w_iw_i'\one{x_i\in\{1,2\}}\right)	\\
+					\E\left(w_iw_i'\one{x_i\in\{1,2\}}\right)	&= \E\left[\begin{pmatrix} 1 & x_i \\ x_i & x_i^2 \end{pmatrix}\one{x_i\in\{\frac{4}{3},\frac{5}{3}\}}\right]	\\
+																&=\begin{pmatrix} \frac{1}{2} & \frac{3}{4} \\ \frac{3}{4} & \frac{41}{36} \end{pmatrix}	\\
+			\sqrt{n}(\bhat-\beta) 	&\rightarrow_d	= \N\left(0,\sigma^2\begin{pmatrix} 164 & -108 \\ -108 & 72 \end{pmatrix}\right)	
+		\end{align*}
+		Thus, the variance of $\hat{\bhat}_2$ is $72\sigma^2$, which is much greater than the variance of $\bhat_2$, at $7\sigma^2$. Thus, $\bhat_2$ is the preferred estimator.
+		
+	\item ${\hat{\alpha}\rightarrow_p \gamma + \frac{3}{5}}$:
+		\begin{align*}
+			\ahat	&= \left(\est{n}x_ix_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}x_iy_i\one{x_i\in\{1,2\}}	\\
+					&= \left(\est{n}x_ix_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}x_i(1+x_i'\gamma + \varepsilon_i)\one{x_i\in\{1,2\}}	\\
+					&= \left(\est{n}x_ix_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}(x_i + x_ix_i'\gamma + x_i\varepsilon_i)\one{x_i\in\{1,2\}}	\\
+					&= \gamma + \left(\est{n}x_ix_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}x_i\varepsilon_i\one{x_i\in\{1,2\}} 
+							+ \left(\est{n}x_ix_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}x_i\one{x_i\in\{1,2\}}\\
+					&\rightarrow_p \gamma + \E(x_ix_i'\one{x_i\in\{1,2\}})^{-1}\E(x_i\one{x_i\in\{1,2\}}) + \E(x_ix_i'\one{x_i\in\{1,2\}})^{-1}\E(x_i\varepsilon_i\one{x_i\in\{1,2\}})	\\
+					&= \gamma + \E(x_ix_i'\one{x_i\in\{1,2\}})^{-1}\E(x_i\one{x_i\in\{1,2\}}) 	\\
+					&= \gamma + \left(\frac{1}{4}(1) + \frac{1}{4}(4)\right)^{-1}\left(\frac{1}{4}(1) + \frac{1}{4}(2)\right) 	\\
+					&= \gamma + \frac{3}{5}
+		\end{align*}
+		
+	\item Modifying the specification to include $\alpha$, we have ${y_i = 1 + x_i\left(\alpha-\frac{3}{5}\right) + \varepsilon_i}$, we get:
+	{\small
+		\begin{align*}
+			\sqrt{n}(\ahat-\alpha)	&= \left(\est{n}x_ix_i'\one{x_i\in\{1,2\}}\right)^{-1}\est{n}\left(x_i-x_i^2\frac{3}{5}+\varepsilon_i\right)\one{x_i\in\{1,2\}}	\\
+									&\rightarrow_d \N\left(0,V\right)	\\
+								V 	&= Var\left(\left(x_i-x_i^2\frac{3}{5}+\varepsilon_i\right)\one{x_i\in\{1,2\}}\right)				\\
+									&= \E\left[\left(\left(x_i-x_i^2\frac{3}{5}+\varepsilon_i\right)\right)^2\one{x_i\in\{1,2\}}\right]	\\
+									&= \left(\exp{x_i^2} + 2\exp{\varepsilon_ix_i} + \exp{\varepsilon_i} + \left(\frac{3}{5}\right)^2\exp{x_i^4} - 2\left(\frac{3}{5}\right)\exp{x^3_i} - 2\left(\frac{3}{5}\right)\exp{x_i^2\varepsilon_i}\right)\one{x_i\in\{1,2\}}	\\
+									&= \exp{x_i^2\one{x_i\in\{1,2\}}} + 2\exp{\varepsilon_ix_i\one{x_i\in\{1,2\}}} + \exp{\varepsilon_i\one{x_i\in\{1,2\}}}  	\\
+									&\text{  }+ \left(\frac{3}{5}\right)^2\exp{x_i^4\one{x_i\in\{1,2\}}}- 2\left(\frac{3}{5}\right)\exp{x^3_i\one{x_i\in\{1,2\}}} - 2\left(\frac{3}{5}\right)\exp{x_i^2\varepsilon_i\one{x_i\in\{1,2\}}}	\\
+									&= \exp{x_i^2\one{x_i\in\{1,2\}}} + \frac{9}{25}\exp{x_i^4\one{x_i\in\{1,2\}}}- \frac{6}{10}\exp{x^3_i\one{x_i\in\{1,2\}}}	\\
+									&= \frac{5}{4} - \frac{27}{10} + \frac{153}{100} + \frac{5}{4}\sigma^2 \\
+									&= \frac{16}{25}\left(\frac{2}{25} + \frac{5}{4}\sigma^2\right)
+		\end{align*}
+	}%
+		Thus, ${\hat{\alpha}-\alpha \rightarrow_d \N\left(0,\frac{16}{25}\left(\frac{2}{25} + \frac{5}{4}\sigma^2\right)\right)}$.
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+

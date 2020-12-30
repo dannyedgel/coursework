@@ -1,0 +1,327 @@
+%%% Econ711: Microeconomics I
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Monday October 12, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\union}{\bigcup}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\P}{\mathcal{P}}
+\renewcommand{\L}{\mathcal{L}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#5 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 711: Microeconomics I		\\
+			Fall 2020						\\
+		}
+\maketitle\thispagestyle{empty}
+
+%\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+\begin{itemize}
+	\item[(a)] $\usmax{x_1,x_2}x_1^\alpha+x_2^\alpha\text{ s.t. }p_1x_1+p_2x_2\leq w$, $\alpha\in(0,1)$
+		\begin{align*}
+			\text{F.O.C.: }	\frac{\partial\L}{\partial x_1} &= \alpha x_1^{\alpha-1}-\lambda p_1 = 0 				\\ 
+							\frac{\partial\L}{\partial x_2} &= \alpha x_2^{\alpha-1}-\lambda p_2 = 0 				\\
+							\frac{\alpha x_1^{\alpha-1}}{\alpha x_2^{\alpha-1}} &= \frac{\lambda p_1}{\lambda p_2}	\\
+			\text{Plus BC: } x_1 &= x_2\left(\frac{p_1}{p_2}\right)^{\frac{1}{\alpha-1}} = \frac{1}{p_1}(w-p_2 x_2)	\\
+							\left(\frac{p_1^{\frac{1}{\alpha-1}}}{p_2^\frac{1}{\alpha-1}}+p_2\right)x_2 &= w	\\
+							x_2 &= \left( \frac{p_2^\frac{1}{\alpha-1}}{p_1^\frac{\alpha}{\alpha-1} + p_2^\frac{\alpha}{\alpha-1}} \right)w
+		\end{align*}
+			Solving for $x_1$ gives the same value, but with $p_1$ in the numerator of the fraction instead of $p_2$. Taken together:
+			\[
+				x(p,w) = \frac{w}{p_1^\frac{\alpha}{\alpha-1} + p_2^\frac{\alpha}{\alpha-1}}\left(p_1^\frac{1}{\alpha-1},p_2^\frac{1}{\alpha-1}\right)
+			\]
+			Which yields the indirect utility function:
+			\[
+				v(p,w) = 	\left(\frac{w}{p_1^\frac{\alpha}{\alpha-1} + p_2^\frac{\alpha}{\alpha-1}}\right)^2
+							\left(p_1^\frac{2\alpha}{\alpha-1}+p_2^\frac{2\alpha}{\alpha-1}\right)
+			\]
+			
+	\pagebreak
+	\item[(b)] $\usmax{x_1,x_2}x_1+x_2\text{ s.t. }p_1x_1+p_2x_2\leq w$
+		\medskip \\
+		$x_1$ and $x_2$ are perfect substitutes, so to maximize utility, the agent will spend their whole wealth on the cheaper good:
+		\[
+			x(p,w) = 
+				\begin{cases}
+					\left(\frac{w}{p_1},0\right), 														&p_1<p_2 \\
+					\left(0,\frac{w}{p_2}\right), 														&p_1>p_2 \\
+					\left\{\left(k\frac{w}{p_1},(1-k)\frac{w}{p_2}\right) \bigm | k\in[0,1]\right\}, 	&p_1=p_2
+				\end{cases}
+		\]
+		Where:
+		\[
+			v(p,w) = \frac{w}{\text{min}\left\{p_1,p_2\right\}}
+		\]
+	
+	\item[(c)] $\usmax{x_1,x_2}x_1^\alpha+x_2^\alpha\text{ s.t. }p_1x_1+p_2x_2\leq w$, $\alpha>1$
+		\medskip \\
+		The agent's utility is the sum of utility derived by consuming $x_1$ and $x_2$, where the marginal utility from consuming each good is increasing. Therefore, the agent maximizes their utility by spending their whole wealth on the cheaper good, as in (b). Thus, 
+		\begin{align*}
+			x(p,w) &= 
+				\begin{cases}
+					\left(\frac{w}{p_1},0\right), 														&p_1<p_2 \\
+					\left(0,\frac{w}{p_2}\right), 														&p_1>p_2 \\
+					\left\{\left(k\frac{w}{p_1},(1-k)\frac{w}{p_2}\right) \bigm | k\in[0,1]\right\}, 	&p_1=p_2
+				\end{cases}	\\
+			v(p,w) &= \left(\frac{w}{\text{min}\left\{p_1,p_2\right\}}\right)^\alpha
+		\end{align*}
+	
+	\item[(d)] $\usmax{x_1,x_2}\text{min}\{x_1,x_2\}\text{ s.t. }p_1x_1+p_2x_2\leq w$
+		\medskip \\
+		The agent's utility is maximized at the consumption bundle where wealth is exhausted and ${x_1=x_2}$. Thus, let ${x_1=x_2=x}$ and the budget contraint becomes ${(p_1+p_2)x=w}$, which allos us to solve:
+		\begin{align*}
+			x(p,w) &= \left(\frac{w}{p_1+p_2},\frac{w}{p_1+p_2}\right)\\
+			v(p,w) &= \frac{w}{p_1+p_2}
+		\end{align*}
+	
+	\pagebreak
+	\item[(e)] $\usmax{x_1,x_2,x_3,x_4}\text{min}\{x_1+x_2,x_3+x_4\}\text{ s.t. }p_1x_1+p_2x_2+p_3x_3+p_4x_4\leq w$
+		\medskip \\
+		$x_1$ and $x_2$ are perfect substitutes, and so are $x_3$ and $x_4$, while the $(x_1,x_2)$ bundle is perfectly complementary with the $(x_3,x_4)$ bundle. So, by the same logic of the solutions to (b) and (d), the agent will spent all of their wealth to purchase equal numbers of the cheaper good in each bundle. Thus, ignoring cases of perfect equality in prices, we can solve:
+		\begin{align*}
+			x(p,w) &= 
+					\begin{cases}
+						\left(\frac{w}{p_1+p_3},0,\frac{w}{p_1+p_3},0\right), &p_1<p_2\land p_3<p_4 \\
+						\left(\frac{w}{p_1+p_4},0,0,\frac{w}{p_1+p_4}\right), &p_1<p_2\land p_3>p_4 \\
+						\left(0,\frac{w}{p_2+p_4},0,\frac{w}{p_2+p_4}\right), &p_1>p_2\land p_3>p_4 \\
+						\left(0,\frac{w}{p_2+p_3},\frac{w}{p_2+p_3},0\right), &p_1<p_2\land p_3<p_4 
+					\end{cases}	\\
+			v(p,w) &= 
+					\begin{cases}
+						\frac{w}{p_1+p_3}, &p_1<p_2\land p_3<p_4 \\
+						\frac{w}{p_1+p_4}, &p_1<p_2\land p_3>p_4 \\
+						\frac{w}{p_2+p_4}, &p_1>p_2\land p_3>p_4 \\
+						\frac{w}{p_2+p_3}, &p_1<p_2\land p_3<p_4 
+					\end{cases}	\\
+		\end{align*}
+	
+	\item[(f)] $\usmax{x_1,x_2,x_3,x_4}\text{min}\{x_1+x_2\}+\text{min}\{x_3+x_4\}\text{ s.t. }p_1x_1+p_2x_2+p_3x_3+p_4x_4\leq w$
+		\medskip \\
+		In this problem, the $(x_1,x_2)$ and $(x_3,x_4)$ bundles are perfect substitutes, but the goods within each bundle are perfect complements. Thus, the agent will spend all of their wealth consuming either equal numbers of $x_1$ and $x_2$ or equal numbers of $x_3$ and $x_4$, choosing the former when the sum of the prices of each good is less than the sum of the prices of the $x_3$ and $x_4$,\footnote{This solution again ignores cases of price equality.} and vice versa:
+		\begin{align*}
+			x(p,w) &= 
+					\begin{cases}
+						\left(\frac{w}{p_1+p_2},\frac{w}{p_1+p_2},0,0\right), &p_1+p_2<p_3+p_4  \\
+						\left(0,0,\frac{w}{p_3+p_4},\frac{w}{p_3+p_4}\right), &p_1+p_2>p_3+p_4 
+					\end{cases}	\\
+			v(p,w) &= 
+					\begin{cases}
+						\frac{w}{p_1+p_2}, &p_1+p_2<p_3+p_4  \\
+						\frac{w}{p_3+p_4}, &p_1+p_2>p_3+p_4 
+					\end{cases}	\\
+		\end{align*}
+		
+	
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Question 2}
+Let $X=\R^k_+$ and $(a_1,...,a_k)\in\R^k_{++}$ where $\sum_{i=1}^k a_1=1$. Assume, for the following, that two prices are never identical.
+\begin{itemize}
+	\item[(a)] 
+		\begin{itemize}
+			\item[(i)] $\usmax{x}\sum_{i=1}^k x_i\text{ s.t. }p\cdot x\leq w$
+				\medskip \\
+				Each good is perfectly substitutable with each other good, so, $\forall i\in\{1,...,k\}$:
+				\[
+					x_i(p,w) =
+					\begin{cases}
+						0, 				&p_i>\text{min}\{p_1,...,p_k\}	\\
+						\frac{w}{p_i},	&p_i<p_j\text{ }\forall j\neq i
+					\end{cases}
+				\]
+				
+			\item[(ii)]  $\usmax{x}\prod_{i=1}^k x_i^{a_i}\text{ s.t. }p\cdot x\leq w$
+				\medskip \\
+				The $x\in X$ that maximizes the natural log of the utility function will also maximize the utility function, so define this problem's Lagrangian function as:
+				\[
+					\L = \sum_{i=1}^ka_i\loge{x_i} - \lambda\left(\sum_{i=1}^k p_ix_i - w\right)
+				\]
+				Using the first order condition of this function and the budget constraint, we can derive the optimal consumption of each good:
+				\begin{align*}
+					\frac{\partial\L}{\partial x_i} &= \frac{a_i}{x_i}-\lambda p_i = 0						\\
+												x_i	&= \frac{a_i}{\lambda p_i}								\\
+												w 	&= \sum_{j=1}^kp_j\left(\frac{a_j}{\lambda p_j}\right) 
+													 = \frac{1}{\lambda}\sum_{j=1}^ka_j = \frac{1}{\lambda}	\\
+											\lambda	&= \frac{1}{w}											\\
+										x_i(p,w)	&= w\left(\frac{a_i}{p_i}\right)
+				\end{align*}
+				
+			\item[(iii)] $\usmax{x}\text{min}\left\{\frac{x_1}{a_1},...,\frac{x_k}{a_k}\right\}\text{ s.t. }p\cdot x\leq w$
+				\medskip \\
+				The agent maximizes their utility by spending all of their wealth such that to purchase a bundle, $x\in X$, such that ${\frac{x_1}{a_1}=...=\frac{x_k}{a_k}}$. Then, if we let $\gamma=\frac{x_i}{a_i}$, we can solve for $x_i(p,w)$ using the budget constraint:
+				\begin{align*}
+					\sum_{j=1}^kp_jx_j 			&= w 							\\
+					\sum_{j=1}^kp_ja_j\gamma  	&= w 							\\
+										\gamma 	&= \frac{w}{\sum_{j=1}^kp_ja_j}	\\
+								\frac{x_i}{a_i}	&= \frac{w}{\sum_{j=1}^kp_ja_j}	\\
+									x_i(p,w)	&= w\left(\frac{a_i}{\sum_{j=1}^kp_ja_j}\right)
+				\end{align*}
+			
+		\end{itemize}
+			
+	\item[(b)] When $s>1$, $\frac{s}{s-1}>0$, so the agent maximizes utility with the following Lagrangian:
+		\[
+			\L = \sum_{i=1}^k a_i^\frac{1}{s}x_i^\frac{s-1}{s}-\lambda\left(\sum_{i=1}^kp_ix_i-w\right)
+		\]
+		Using the FOC of $\L$ and the budget constraint, we can solve:
+		\begin{align*}
+			\frac{\partial\L}{\partial x_i} &= \frac{s-1}{s}a_i^\frac{1}{s}x_i^{-\frac{1}{s}} - \lambda p_i = 0				\\
+										x_i	&= \left(\frac{s-1}{s}\right)^s(\lambda p_i)^{-s}a_i							\\
+										w 	&= \sum_{i=1}^k p_i\left(\frac{s-1}{s}\right)^s(\lambda p_i)^{-s}a_i			\\
+							\lambda^{-s}	&= w\left(\frac{s-1}{s}\right)^{-s}\left(\sum_{i=1}^k p_i^{1-s}a_i\right)^{-1}	\\
+										x_i	&= \frac{w\left(\frac{s-1}{s}\right)^{-s}
+												\left(\frac{s-1}{s}\right)^s(p_i)^{-s}a_i}{\sum_{j=1}^k p_j^{1-s}a_j} 		\\
+								x_i(p,w)	&= \frac{w(p_i)^{-s}a_i}{\sum_{j=1}^k p_j^{1-s}a_j}
+		\end{align*}
+		When $s<1$, the agent maximizes utility by minimizing $a_i^\frac{1}{s}x_i^\frac{s-1}{s}$. This minimum can be found by maximizing:
+		\[
+			\L = -\sum_{i=1}^k a_i^\frac{1}{s}x_i^\frac{s-1}{s}-\lambda\left(\sum_{i=1}^kp_ix_i-w\right)
+		\]
+		The negative on the first term can carry through to $\frac{s-1}{s}$ in the FOC such that the rest of the solution uses $\frac{1-s}{s}$ instead. This term cancels out in solving for $x_i(p,w)$, so the solution in this case is the same as in the $s>1$ case.
+		
+	\item[(c)] The following shows that CES utility gives the same demand as linear, Cobb-Douglas, and Leontief utilities in the $s\rightarrow\infty$, $s\rightarrow 1$, and $s\rightarrow 0$ limits, respectively.
+		\begin{align*}
+			\underset{s\rightarrow\infty}{\text{lim}}x_i(p,w) 	&= \underset{s\rightarrow\infty}{\text{lim}}\left(\frac{wa_i}{p_i^s\sum_{j=1}^k p_j^{1-s}a_j}\right)
+				 = \underset{s\rightarrow\infty}{\text{lim}}\left(\frac{wa_i}{\frac{p_i^s}{p_i^{s-1}}a_i + p_i^s\sum_{j\neq i}^k p_j^{1-s}a_j}\right)	\\
+				&= \underset{s\rightarrow\infty}{\text{lim}}\left(\frac{wa_i}{p_ia_i + p_i^s\sum_{j\neq i}^k p_j^{1-s}a_j}\right) = \frac{wa_i}{p_ia_i}	
+				= \frac{w}{p_i}	\\
+			\underset{s\rightarrow 1}{\text{lim}}x_i(p,w) 	&= \underset{s\rightarrow 1}{\text{lim}}\left(\frac{wa_i}{p_i^s\sum_{j=1}^k p_j^{1-s}a_j}\right)
+				= w\left(\frac{a_i}{p_i}\right)\left(\sum_{j=1}^ka_j\right)^{-1} = w\left(\frac{a_i}{p_i}\right) \\
+			\underset{s\rightarrow 0}{\text{lim}}x_i(p,w) 	&= \underset{s\rightarrow 0}{\text{lim}}\left(\frac{wa_i}{p_i^s\sum_{j=1}^k p_j^{1-s}a_j}\right)
+				= w\left(\frac{a_i}{\sum_{j=1}^k p_ja_j}\right)
+		\end{align*}
+		
+	\item[(d)] Using $x_i(p,w)$ as defined in (b), we can define:
+		\begin{align*}
+			\frac{x_1(p,w)}{x_2(p,w)}
+			&= \left(\frac{w(p_1)^{-s}a_1}{\sum_{j=1}^k p_j^{1-s}a_j}\right)\left(\frac{w(p_2)^{-s}a_2}{\sum_{j=1}^k p_j^{1-s}a_j}\right)^{-1}
+										= \left(\frac{p_1}{p_2}\right)^{-s}\frac{a_1}{a_2} \\
+			\frac{\partial\left(\frac{x_1(p,w)}{x_2(p,w)}\right)}{\partial\left(\frac{p_1}{p_2}\right)} &= -s\left(\frac{p_1}{p_2}\right)^{-s-1}\frac{a_1}{a_2}	\\
+			\xi_{1,2} &= s\left(\frac{p_1}{p_2}\right)^{-s-1}\frac{a_1}{a_2}\frac{p_1}{p_2}\left(\left(\frac{p_1}{p_2}\right)^{-s}\frac{a_1}{a_2}\right)^{-1}
+				= s
+		\end{align*}
+		Thus, $s\rightarrow\infty$ implies an infinite elasticity of substitution, which gives the same demand as linear utility. $s\rightarrow 1$, which gives the same demand as Cobb-Douglas utility, is when the two goods are unit elastic. $s\rightarrow 0$ is when elasticity of substitution is zero, which instuitively gives the same demand as Leontief utility.
+		
+\end{itemize}
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Question 3}
+\begin{itemize}
+	\item[(a)] Suppose the agent is the net seller of good $i$ and that the price of good $i$ increases.
+		\begin{enumerate} 
+			\item Since $e_i\geq 0$, $\Delta p_i>0\Rightarrow\Delta w\geq 0$
+			\item Since the agent is rational with a unique $x(p,e)$ and locally non-satiating preferences, the matrix ${[\frac{\partial x_i}{\partial p_j}+\frac{\partial x_i}{\partial w}]}$ is negative semi-definite. Thus, ${\frac{\partial x_i}{\partial p_i}+\frac{\partial x_i}{\partial w}\leq 0}$
+			\item By (1), the only way for the inequality in (2) to be satisfied is for $\delta x_i\leq 0$
+			\item $e_i$ has not changed, so $x_i(p,e)<e_i$ before the price increase means that $x_i(p,e)<e_i$ following the price increase
+		\end{enumerate}
+		$\therefore$ it is not possible for the agent to go from being a net seller of a good to a net buyer following an increase in the price of that good $\blacksquare$
+	
+	\item[(b)] $v(p,e)$ is the solution to the consumer's problem. Therefore, since $u$ is differentiable and concave,
+		\[
+			v(p,e)=\L(x^*,\lambda^*,\mu^*) = u(x^*)-\lambda^*(p\cdot x^*-p\cdot e) - \mu^*\cdot x
+		\]
+		where this solution satisfies the Kuhn-Tucker conditions. Therefore, $\lambda\geq 0$ and $\lambda(p\cdot x-p\cdot e)=0$. Since preferences are locally non-satiated, $p\cdot x^*-p\cdot e=0$ and $\lambda^*>0$. By the envelope theorem,
+		\[
+			\frac{\partial v(p,e)}{\partial p_i} = \frac{\partial\L}{\partial p_i} = -\lambda^*(x_i - e_i)
+		\]
+		 Thus, if the agent is a net buyer, then $-\lambda^*(x_i - e_i)<0$. If the agent is a net seller, then $-\lambda^*(x_i - e_i)<0$.
+		
+	\item[(c)] Recall that $v(p,e)$ represents the agent's maximum utility at any given set of prices, $p$, and endowments, $e$. From the answer to part (b), we know that, for a positive increase in the price of any good, this utility strictly increases is the agent is a net buyer of that good, and it strictly decreases if the agent is a net seller of that good. Therefore, the statement, ``If the consumer is a net buyer of good $i$ and its price goes up, the consumer must be worse off" is true. In fact, that statement is essentially the verbal representation of my answer to (b).
+	
+\end{itemize}
+
+
+
+%%%________________________________________________________________%%%
+
+
+
+\end{document}
+
+
+
+
+
+
+
+

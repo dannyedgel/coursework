@@ -1,0 +1,321 @@
+%%% Econ711: Microeconomics I
+%%% Fall 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Sunday November 15, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\union}{\bigcup}
+\newcommand{\olw}{\overline{w}}
+\newcommand{\olx}{\overline{x}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\P}{\mathcal{P}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\olp}{\overline{p}}
+\renewcommand{\exp}[1]{\text{exp}\left\{#1\right\}}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Homework \#3 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 711: Microeconomics I		\\
+			Fall 2020						\\
+		}
+\maketitle\thispagestyle{empty}
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 1}
+
+\begin{enumerate}[(a)]
+	\item $\gamma$ is an additive constant to the marginal payoff of purchasing weapons, whereas $\rho$ subtracts from the marginal payoff. Intuitively, depending on the rest of the marginal payoff function, ${\gamma<\rho}$ would lead to a boundary solution at $w_i=0$. Plugging in the price of weapon's and recognizing that ${\overline{w}=\frac{1}{2}(w_i + w_j)}$, agent $i$'s payoff function can be simplified as follows:
+		\begin{align*}
+			u_i(w_i,w_j) 	&= \gamma w_i - \beta(w_i-w_j)^2-P(\overline{w})w_i	\\
+							&= \gamma w_i - \beta(w_i-w_j)^2-\left[\rho+\frac{\alpha}{2}(w_i + w_j)\right]w_i	\\
+							&= (\gamma-\rho)w_i-\beta(w_i-w_j)^2 - \frac{\alpha}{2}(w_i+w_j) w_i	\\
+		\end{align*}
+		Where all parameters are strictly positive, so ${\beta(w_i-w_j)^2\geq0}$ and ${\frac{\alpha}{2}(w_i+w_j) w_i\geq0}$. Thus, $\gamma>\rho$ guarantees an interior solution to the agent's problem.
+	
+	\item This game is supermodular if each payoff function, $u_i(w_i,w_{-i})$ had increasing differences for all $i$. Since there are only two agents with symmetric and twice-differentiable payoff functions, this is true if
+		\[
+			\frac{\partial^2 u_i}{\partial w_i \partial w_j}(w_i,w_j) \geq 0
+		\]
+		So, to determine whether this game is supermodular,
+		\begin{align*}
+			\frac{\partial u_i}{\partial w_i}(w_i,w_j) &= \gamma-\rho-2\beta(w_i-w_j)-\alpha w_i - \frac{\alpha}{2}w_j	\\
+			\frac{\partial^2 u_i}{\partial w_i \partial w_j}(w_i,w_j)  &= 2\beta - \frac{\alpha}{2}
+		\end{align*}
+		Where, by assumption, $\alpha,\beta >0$, so this is a supermodular game if ${2\beta \geq \frac{\alpha}{2}}$
+	
+	\item Since we determined in part (a) that this problem has an interior solution, we can find each agent's best response function by simplifying the first order condition of the payoff function:
+		\begin{align*}
+			\frac{\partial u_i}{\partial w_i}(w_i,w_j) &= 0						\\
+			\gamma-\rho-2\beta(w_i-w_j)-\alpha w_i - \frac{\alpha}{2}w_j &= 0	\\
+			(2\beta+\alpha)w_i &= \gamma-\rho- \left(\frac{\alpha}{2} + 2\beta\right) w_j	\\
+			BR_i(w_j) &= \frac{\gamma-\rho- \left(\frac{\alpha}{2} + 2\beta\right)w_j}{2\beta+\alpha}
+		\end{align*}
+		Assuming universal knowledge of rationality, each agent takes as given each other agent's best response. Since payoff functions are symmetric, ${BR_i=BR_j}$, so each agent's equilibrium strategy can be solved with ${w_i = BR_i\left(BR_j(w_i)\right)}$:
+		\begin{align*}
+			w_i &= \frac{ \gamma-\rho- \left(\frac{\alpha}{2} + 2\beta\right)\left[\frac{ \gamma-\rho- \left(\frac{\alpha}{2}+ 2\beta\right)w_i}{2\beta+\alpha}\right]}{2\beta+\alpha} \\
+			(2\beta+\alpha)w_i &= \gamma-\rho-\frac{ \left(\frac{\alpha}{2} + 2\beta\right)(\gamma-\rho)- \left(\frac{\alpha}{2} + 2\beta\right)^2w_i}{2\beta+\alpha}	\\
+			(2\beta+\alpha)^2w_i &= (\gamma-\rho)(2\beta+\alpha)-\left(\frac{\alpha}{2} + 2\beta\right)(\gamma-\rho)- \left(\frac{\alpha}{2} + 2\beta\right)^2w_i	\\
+			\left[(2\beta+\alpha)^2- \left(\frac{\alpha}{2} + 2\beta\right)^2\right]w_i &= (\gamma-\rho)\left(2\beta+\alpha-\frac{\alpha}{2} + 2\beta\right)	\\
+			w_i &= \frac{(\gamma-\rho)\left(4\beta+\frac{\alpha}{2}\right)}{(2\beta+\alpha)^2- \left(\frac{\alpha}{2} + 2\beta\right)^2}
+		\end{align*}
+		Where, since the denominator is a difference of squares, 
+		\begin{align*}
+			w_i &= \frac{(\gamma-\rho)\left(4\beta+\frac{\alpha}{2}\right)}{\left(2\beta+\alpha\right)\left(\frac{3\alpha}{2}\right)}	\\
+			w_i &= \frac{2(\gamma-\rho)}{3\alpha}
+		\end{align*}
+		Thus, the symmetric pure-strategy Nash equilibrium at ${\left(\frac{2(\gamma-\rho)}{3\alpha},\frac{2(\gamma-\rho)}{3\alpha}\right)}$.
+		
+	\item In this equilibrium, the quantity of funs purchased increases with $\gamma$ and decreases with $\rho$ and $\alpha$. The positive effect of $\gamma$ comes from the fact that, as mentioned in (a), $\gamma$ is an additive constant to each gang's marginal payoff of guns. An increase in this parameter shifts the gang's best response function upward. The negative effect of $\rho$ and $\alpha$ come from the fact that an increase in these parameters increases the price of guns at all values of $w_i$ and $w_j$, and the payoff to each gang of purchasing guns decreases in proportion to the price of guns.
+	
+	\item There is not an equilibrium in which both gangs choose to have no weapons. To see why, plug ${w_j=0}$ into the best response function for gang $i$:
+		\[
+			BR_i(0) = \frac{\gamma-\rho- \left(\frac{\alpha}{2} + 2\beta\right)0}{2\beta+\alpha} 
+			= \frac{\gamma-\rho}{2\beta+\alpha} 
+		\]
+		Where, by assumption, $\gamma-\rho>0$ and ${\beta,\alpha>0}$. Thus, if one gang chooses not to purchase any guns, the other gang will optimize by purchasing a nonzero amount of guns.
+	
+	\item Recall each player's best response function, $BR_i(w_j)$, where ${w_j\in S_j\subseteq\R}$:
+		\[
+			BR_i(w_j) 	= \frac{\gamma-\rho- \left(\frac{\alpha}{2} + 2\beta\right)w_j}{2\beta+\alpha} 
+						= \frac{\gamma-\rho}{2\beta+\alpha} - \left(\frac{\frac{\alpha}{2} + 2\beta}{\alpha+2\beta}\right)w_j
+		\]
+		By assumption, $\alpha,\beta>0$, so ${\frac{\frac{\alpha}{2} + 2\beta}{\alpha+2\beta}=\delta\in(0,1)}$. Then, for any ${x,y\in S_j}$,
+		\begin{align*}
+			|BR_i(x)-BR_i(y)|	&= \bigm| \frac{\gamma-\rho}{2\beta+\alpha} - \delta x -\frac{\gamma-\rho}{2\beta+\alpha} + \delta y \bigm|	\\
+			|BR_i(x)-BR_i(y)|	&= \delta|y-x|	\\
+			d\left(BR_i(x),BR_i(y)\right)	&\leq \delta d(x,y)\text{, }\delta\in(0,1)
+		\end{align*}
+		Thus, by the contraction mapping theorem, the fixed point ${BR_i(w_j) = w_j}$ is unique. We found this fixed point to be a pure-strategy Nash equilibrium, so this game cannot sustain any mixed-strategy Nash equilibria.
+	
+	\item Let $\gamma$ and $\gamma'$ represent the values of $\gamma$ before and after the goblin invasion, and let $w_1$ and $w'_1$ be the choice of weapons for gang 1 before and after the invasion. If all of gang 2's money were stolen so that they could not increase their spending after the equilibirum, then they would be stuck at the equilibrium value with $\gamma$, which would be used as in input in gang 1's best response function, which now uses $\gamma'$. Futher let $w''_1$ represent gang 1's choice if gang 2's money were not stolen. Then, using the equilibrium from (c) and gang 1's best response function,
+		\[
+			w_1 = \frac{2(\gamma-\rho)}{3\alpha}\text{,    }w'_1 = \frac{3\alpha(\gamma'-\rho)-(\alpha+4\beta)(\gamma-\rho)}{3\alpha(2\beta + \alpha)}\text{,    }w''_1 = \frac{2(\gamma'-\rho)}{3\alpha}
+		\]
+		where gang 1 will clearly increase its weapons purchases if gang 2's money were not stolen, but given that gang 2's money is stolen, gang 1 will only increase their weapons purchases relative to the old equilibrium if:
+		\[
+			\frac{\gamma'-\rho}{\gamma-\rho} > \frac{2+\alpha+4\beta}{3\alpha}
+		\]
+	
+\end{enumerate}
+
+
+
+%%%________________________________________________________________%%%
+\pagebreak
+\subsection*{Question 2}
+Given that there are a continuum of gangs, the average weapons quantity and the sum of weapons are both equal and, since payoff functions are symmetric, in equilibrium, $\olw=w_i$ for representative gang $i$. Gang $i$'s new payoff function with a continuum of gangs is:
+\[
+	u_i(w_i,\olw) = \gamma w_i - \beta(w_i - \olw)^2 - (\rho + \alpha\olw)w_i
+\]
+Since there are infinitely many gangs contributing to $\olw$, each gang takes this value as given and does not consider its effect on the average price for optimization purposes. Further, this function is clearly concave with ${u'_i(0,\olw)>0}$, so we can rule out a boundary solution. Thus, we can derive gang $i$'s best response function using the first order condition of the payoff function:
+\begin{align*}
+	\frac{\partial u_i}{\partial w_i}(w_i,\olw) & = 0	\\
+	\gamma - 2\beta(w_i - \olw) - \rho - \alpha\olw &= 0	\\
+	w_i = BR_i(\olw) &= \frac{\gamma - \rho + (2\beta - \alpha)\olw}{2\beta}
+\end{align*}
+As mentioned above, $w_i=\olw$ in equilibrium, so the pure-strategy Nash equilibrium can be solved as follows:
+\begin{align*}
+	\olw &= \frac{\gamma - \rho + (2\beta - \alpha)\olw}{2\beta}	\\
+	2\beta\olw -(2\beta-\alpha)\olw &= \gamma - \rho 	\\
+	\olw &= \frac{\gamma - \rho}{\alpha}
+\end{align*}
+Thus, the symmetric, pure-strategy Nash equilibrium is for all gangs to purchase $\frac{\gamma - \rho}{\alpha}$ guns. This is exactly equal to the two-gang equilibrium, multiplied by $\frac{3}{2}$. This is an intuitive result, as each gang requires extra weaponry in response to a larger number of treats.
+
+%%%________________________________________________________________%%%
+\pagebreak
+\subsection*{Question 3}
+
+\begin{enumerate}[(a)]
+	\item The representative agent's utility function can be simplified as follows:
+		\begin{align*}
+			u_i(x_i;\olx,\alpha) 	&= (x_i-\alpha)^2 - (x_i-\olx)^2	\\
+									&= x_i^2 - 2x_i\alpha + \alpha^2 - x_i^2 + 2x_i\olx - \olx^2	\\
+									&= 2x_i(\olx - \alpha) + \alpha^2 - \olx
+		\end{align*}
+		Thus, each agent's best response function is:
+		\[
+			BR_i(\olx,\alpha) =
+				\begin{cases}
+					0, &\olx<\alpha	\\
+					1, &\olx>\alpha
+				\end{cases}
+		\]
+		Where, in the knife's edge case of $\olx=\alpha$, agents are indifferent between all possible choices, so they choose at random. Therefore, there are three pure-strategy Nash equilibria, where either all agents guess 0, all agents guess 1, or all agents guess $\alpha$. It seem be counter-intuitive that all agents would guess $\alpha$ despite preferring to guess a number further from $\alpha$, but since they weight this preference equal to their preference for guessing closer to $\olx$, no choice other than $\alpha$ is strictly more appealing to them if ${\olx=\alpha}$.
+		
+	\item As was mentioned in part (a), players are indifferent to each of their choices if ${\olx=\alpha}$, but any departure from the knife's edge case leads to one of the boundary equilibria. Thus, there are an infinite number of non-degenerate quantile functions that are Nash equilibria. Let $F$ be a quantile function with pdf $f$. Then, $F$ is a Nash equilibirum if:
+		\[
+			\int_0^1f(x)xdx = \alpha
+		\]
+	
+	\item In the case where agents can choose any $x\in\R$, the boundary equilibria from the $x\in[0,1]$ case disappear, as the best response function is not bounded for all $\olx\neq\alpha$. Thus, the only equilibria are quantile functions with the modified condition of:
+		\[
+			\int_{-\infty}^\infty f(x)xdx = \alpha
+		\]
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+\pagebreak
+\subsection*{Question 4}
+Since players can choose any number in $\R$, there are no boundary solutions in this game. Thus, the first-order condition of the payoff function is suffificient for finding each player's best-reponse function:
+\begin{align*}
+	\frac{\partial u_i}{\partial q_i}(q_i,q_j) &= 0	\\
+	1 + (q_j-1)^{1/3} - q_i &= 0	\\
+	q_i = BR_i(q_j) &= 1 + (q_j-1)^{1/3}
+\end{align*}
+Any pure-strategy Nash equilibria can be solved by plugging player $j$'s best response into player $i$'s best response function:
+\begin{align*}
+	q_i &= 1 + \left(1 + (q_i-1)^{1/3}-1\right)^{1/3}	\\
+	q_i - 1 &= (q_i-1)^{1/9}	&\text{(Note: satisfied by }q_i=0\text{)}\\
+	(q_i - 1)^{8/9} &= 	1	\\
+	q_i &= 1 \pm 1
+\end{align*}
+Thus, $(0,0)$, $(1,1)$, and $(2,2)$ are pure-strategy Nash equilibria of this game. Mixed strategies cannot be optimal for a continuous payoff function that is quasi-concave in the player's own actions, and the second derivative of player $i$'s payoff, ${\frac{\partial^2 u_i}{\partial q_i^2} = (q_j-1)^{1/3}}$, is constant (and thus quasi-concave) in $q_i$. Therefore, there are no mixed-strategy Nash equilibria of this game.
+
+%%%________________________________________________________________%%%
+\pagebreak
+\subsection*{Question 5}
+The payoff matrix for this game for pure strategies is:
+	\begin{center}
+		\begin{tabular}{crccc}
+		&					& \multicolumn{3}{c}{2}													\\
+		&					& R						& P						& S				\\ \cline{3-5} 
+		\multirow{3}{*}{1}						
+		& R			& \multicolumn{1}{|c|}{$(0,0)$}	& \multicolumn{1}{|c|}{$(-10,10)$}	& \multicolumn{1}{|c|}{$(10,-10)$}	\\ \cline{3-5}
+		& P			& \multicolumn{1}{|c|}{$(10,-10)$}	& \multicolumn{1}{|c|}{$(0,0)$}	& \multicolumn{1}{|c|}{$(-10,10)$}	\\ \cline{3-5}
+		& S			& \multicolumn{1}{|c|}{$(-10,10)$}	& \multicolumn{1}{|c|}{$(10,-10)$}	& \multicolumn{1}{|c|}{$(0,0)$}	\\ \cline{3-5}
+		\end{tabular}
+	\end{center}
+And the matrix for payoffs using a mixed strategy is:
+	\begin{center}
+		\begin{tabular}{crccc}
+		&					& \multicolumn{3}{c}{2}													\\
+		&					& R						& P						& S				\\ \cline{3-5} 
+		\multirow{3}{*}{1}						
+		& R			& \multicolumn{1}{|c|}{$(-1,-1)$}	& \multicolumn{1}{|c|}{$(-11,9)$}	& \multicolumn{1}{|c|}{$(9,-11)$}	\\ \cline{3-5}
+		& P			& \multicolumn{1}{|c|}{$(9,-11)$}	& \multicolumn{1}{|c|}{$(-1,-1)$}	& \multicolumn{1}{|c|}{$(-11,9)$}	\\ \cline{3-5}
+		& S			& \multicolumn{1}{|c|}{$(-11,9)$}	& \multicolumn{1}{|c|}{$(9,-11)$}	& \multicolumn{1}{|c|}{$(-1,-1)$}	\\ \cline{3-5}
+		\end{tabular}
+	\end{center}
+Suppose that player $i$ plays rock as a pure strategy. Then, player $j$'s best response is to play paper as a pure strategy. Player $i$'s best response to player $j$'s pure strategy is to play scissors, and player $j$'s best response to that pure strategy is to play rock. It is clear that there are no pure strategy equilibria, and that each player's best response to a pure strategy is to play a pure strategy.
+
+Now suppose that there is a mixed-strategy Nash equilibrium in which each player employs a mixed strategy. Then, either each player wins equally often or one player wins more often than the other. In the first case, each player, on average, earns negative payoffs. Thus, each player's best response is to choose a pure strategy with the move that is defeated with the lowest frequency under the other player's strategy. Even if the other player randomizes, any pure strategy would result in an expected payoff of zero, which is greater than the payoff under a mixed-strategy equilibrium where each player wins with equivalent frequency. Thus, there is no mixed-strategy Nash equilibrium in which each player wins with the same frequency. However, by the same logic, if there is an equilibrium where one player wins more often, then the player who loses more often is making negative payoffs and can improve their payoffs by employing a pure strategy with the move that has the lowest probability of being played by the player that wins more often. Thus, the best response to a mixed strategy is a pure strategy.
+
+Therefore, in this game, the best response to any strategy is a pure strategy, and there are no pure-strategy Nash equilibria. Therefore, this game has no Nash equilibria of any kind.
+
+
+%%%________________________________________________________________%%%
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
