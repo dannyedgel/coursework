@@ -1,0 +1,196 @@
+%%% Econ710: Econometrics
+%%% Spring 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Monday, February 1st, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage[shortlabels]{enumitem}
+\usepackage{boondox-cal}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}_{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\vhat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\bcls}{\tilde{\beta}_{CLS}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\vt}{\tilde{\varepsilon}}
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#1 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 710: Economic Statistics and Econometrics II	\\
+			Spring 2020											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+Let $(Y,X')'$ be a random vector, where ${Y= X'\beta_0\cdot U}$, where ${\E{U\bigm|X}=1}$, ${\E{XX'}}$ is invertible, and ${\E{Y^2+||X||^2}<\infty}$.
+
+\begin{enumerate}[(i)]
+	\item Since ${\E{U\bigm|X}=1}$, the expectation of $Y$, conditional on $X$, is $X'\beta_0$. Then, ${\frac{\partial}{\partial X}Y=\beta_0}$. 
+	
+	\item Define ${V = U-1}$. Then, ${\E{V\bigm|X}=\E{U-1\bigm|X}=0}$, and:
+		\begin{align*}
+			Y &= X'\beta_0(V+1) = X'\beta_0V + X'\beta_0 = X'\beta_0 + \tilde{U}
+		\end{align*}
+		Where:
+		\begin{align*}
+			\E{\tilde{U}\bigm|X} &= \E{X'\beta_0V\bigm|X} = X'\beta_0\E{V\bigm|X} = 0
+		\end{align*}
+		Thus, $Y = X'\beta_0 + \tilde{U}$, where ${\E{\tilde{U}\bigm|X}=0}$.
+		
+	\item Let $\beta=\beta_0$. Then,
+	\item Define ${V = U-1}$. Then, ${\E{V\bigm|X}=\E{U-1\bigm|X}=0}$, and:
+		\begin{align*}
+			\E{X(Y-X'\beta)} 	&= \E{X(X'\beta_0\cdot U-X'\beta_0)} = \E{\E{X(X'\beta_0\cdot U-X'\beta_0)|X}} \\
+								&= \E{XX'\beta_0\E{(U-1)|X}} = 0
+		\end{align*}
+		Thus, ${\beta=\beta_0\Rightarrow\E{X(Y-X'\beta)}=0}$. Now, Suppose ${\E{X(Y-X'\beta)}=0}$. Then,
+		\begin{align*}
+			\E{X(Y-X'\beta)} = \E{X(X'\beta\cdot U-X'\beta_0)} &= 0	\\
+			\E{XX'\E{\beta\cdot U-\beta_0|X}} = (\beta-\beta_0)\E{XX'} &= 0
+		\end{align*}
+		We know that $\E{XX'}$ is invertible, so ${\E{XX'}\neq 0}$. Thus, ${\E{X(Y-X'\beta)}=0\Rightarrow\beta=\beta_0}$.
+		\medskip \\
+		$\therefore$ ${\E{X(Y-X'\beta)}=0\iff\beta=\beta_0}$ $\blacksquare$
+		\medskip \\
+		Knowing this, we can derive the method of moments estimator for $\beta$:
+		\begin{align*}
+			\E{X(Y-X'\beta)} 	&=  \E{XY} - \E{XX'}\beta  = 0				\\
+			\E{XX'}\beta  &= \E{XY}											\\
+			\beta &= \E{XX'}^{-1}\E{XY}										\\
+\Rightarrow	\bhat &= \left(\est{n}X_iX_i'\right)^{-1}\est{n}X_iY_i = \bols
+		\end{align*}
+		
+	\item We can simplify the final equation in (iii) to show:
+		\begin{align*}
+			\E{\bhat\bigm|X_1,...,X_n} 	&= \E{\left(\est{n}X_iX_i'\right)^{-1}\est{n}X_iY_i\bigm|X_1,...,X_n} 						\\
+										&= \left(\est{n}X_iX_i'\right)^{-1}\est{n}X_i\E{X_i'\beta_0\cdot U\bigm|X_1,...,X_n}		\\
+										&= \beta_0\left(\est{n}X_iX_i'\right)^{-1}\left(\est{n}X_iX_i'\right)\E{U\bigm|X_1,...,X_n}	\\
+										&= \beta_0
+		\end{align*}
+		Thus, $\bhat$ is unbiased.
+		
+	\item According to the weak law of large numbers (WLLN), random variables converge in probability to their expected value. Thus,
+		\[
+			\bhat\rightarrow_p\E{\bhat} = \E{\E{\bhat\bigm|X_1,...,X_n}} = \E{\beta_0} = \beta_0
+		\]
+		Thus, $\bhat$ is consistent.
+\end{enumerate}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
