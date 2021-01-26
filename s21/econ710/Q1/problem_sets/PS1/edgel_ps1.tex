@@ -60,6 +60,7 @@
 \newcommand{\bcls}{\tilde{\beta}_{CLS}}
 \renewcommand{\L}{\mathcal{L}}
 \newcommand{\vt}{\tilde{\varepsilon}}
+\renewcommand{\Pr}[1]{Pr\left(#1\right)}
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
 
 \newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
@@ -172,12 +173,53 @@ Let $(Y,X')'$ be a random vector, where ${Y= X'\beta_0\cdot U}$, where ${\E{U\bi
 
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \section*{Question 2}
+
+\begin{enumerate}[(i)]
+	\item We can use the continuous mapping theorem and law of large numbers to show:
+		\[
+			\est{n}X_i^3 \rightarrow_p \E{X^3}\text{   ,   }\frac{\sum_{i=1}^n X_i^3}{\sum_{i=1}^n X_i^2}  = \frac{\E{X^3}}{\E{X^2}}
+		\]
+		We cannot show convergence for the other two statistics.
+	
+	\item You can use continuous mapping and the central limit theorem to show convergence in distribution of $W_n$, since:
+		\[
+			\frac{1}{\sqrt{n}}\sum_{i=1}^n\left(X_i^2-\E{X_i^2}\right) = \frac{1}{\sqrt{n}}n\left(\olx{n}^2-\E{X_i^2}\right) = \sqrt{n}\left(\olx{n}^2-\E{X_i^2}\right) 
+		\]
+		The other statistic cannot be shown to converge, as it simplifies to $\sqrt{n}\left(\olx{n}^2-\olx{n}^2\right)$
+	
+	\item The CDF of $X$ is simply $f(x)=x$. The CDF for the maximum value, $x$, of $n$ observations of $X_i$, then, is $x^n$. Thus, we can define for any $\varepsilon\in(0,1)$,
+		\begin{align*}
+			\Pr{|\underset{1\leq i\leq n}{\text{max}}X_i-1|\leq\varepsilon} &= \Pr{\underset{1\leq i\leq n}{\text{max}}X_i-1\geq-\varepsilon}			\\
+																			&= \Pr{\underset{1\leq i\leq n}{\text{max}}X_i\geq 1-\varepsilon}		\\
+																			&= 1 - \Pr{\underset{1\leq i\leq n}{\text{max}}X_i\geq 1-\varepsilon}	\\
+																			&= 1 - (1-\varepsilon)^n	\\
+													1 - (1-\varepsilon)^n	&\rightarrow_p 1
+		\end{align*}
+	
+	\item The CDF of $X$ is $f(x)=1-e^{-x}$. Thus, Thus, we can define for any $\varepsilon>0$ and $M\geq 0$,
+		\begin{align*}
+			\Pr{\underset{1\leq i\leq n}{\text{max}}X_i\leq M} 	&= (1-e^{-M})^n
+												(1-e^{-M})^n 	&\rightarrow_p 1
+		\end{align*}
+\end{enumerate}
 
 %%%________________________________________________________________%%%
 
 \section*{Question 3}
+
+\begin{enumerate}[(i)]
+	\item 
+	
+	\item 
+	
+	\item 
+	
+	\item 
+	
+	\item 
+\end{enumerate}
 
 %%%________________________________________________________________%%%
 
