@@ -210,13 +210,28 @@ Let $(Y,X')'$ be a random vector, where ${Y= X'\beta_0\cdot U}$, where ${\E{U\bi
 \section*{Question 3}
 
 \begin{enumerate}[(i)]
-	\item 
+	\item Since $\{X_i\}^n_{i=1}$ is an i.i.d. sequence of a random variable ${X\sim\N(0,1)}$, by the CLT, ${\sqrt{n}\olx{n}\rightarrow_d\N(0,1)}$, where ${\olx{n}=\est{n}X_i}$. Then, $$ \sqrt{n}\left(\est{n}X_i\right) = \frac{1}{\sqrt{n}}\sum_{i=1}^n X_i \rightarrow_d\N(0,1) $$
 	
-	\item 
+	\item We can show this by determining the convergence of the first and second central moments of $Y_i$ in probability:
+		\begin{align*}
+			\oly{n} 	= \est{n}Y_i				&\rightarrow_p \E{Y_i} = \E{X_iW_i} = \E{X_i}\E{W_i} = 0	\\
+	\hat{\sigma}^2_Y	= \est{n}(Y_i-\oly{n})^2	&\rightarrow_p \E{(Y_i - \E{Y_i})^2} = \E{(X_iW_i)^2}		\\
+													&= \E{X_i^2} = \sigma_X^2 = 1
+		\end{align*}
+		Thus, by the CLT, ${\frac{1}{\sqrt{n}}\sum_{i=1}^nY_i\rightarrow_d\N(0,1)}$
 	
-	\item 
+	\item Given the results in (ii), we can calculate,
+		{\small \[
+			Cov(X_i,Y_i) 	= \E{\left(X_i - \E{X_i}\right)\left(Y_i - \E{Y_i}\right)} = \E{X_iY_i} = \E{X_i^2W_i} = \E{X_i^2}\E{W_i} = 0
+		\] }
 	
-	\item 
+	\item Yes. Given the results from (i)-(iii), we can show:
+		\begin{align*}
+			\frac{1}{\sqrt{n}}\sum_{i=1}^n\colvec{2}{X_i}{Y_i} 	= \colvec{2}{\frac{1}{\sqrt{n}}\sum_{i=1}^nX_i}{\frac{1}{\sqrt{n}}\sum_{i=1}^nY_i}	
+																&\rightarrow_d \N\left(\colvec{2}{0}{0},V\right)		\\
+			\text{Where }									V 	= \begin{pmatrix} \sigma^2_X & Cov(X_i,Y_i) \\ Cov(X_i,Y_i) & \sigma^2_Y \end{pmatrix}
+																&= \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I_2
+		\end{align*}
 	
 	\item 
 \end{enumerate}
