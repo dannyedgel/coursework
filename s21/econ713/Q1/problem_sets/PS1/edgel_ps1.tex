@@ -96,7 +96,7 @@
 		}
 \maketitle\thispagestyle{empty}
 
-\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+%\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
 
 %%%________________________________________________________________%%%
 
@@ -111,7 +111,7 @@ After the first and third women's preferences change, the male-optimal matching 
 In this case, the male-optimal and male-pessimal allocations are the same. According to Gale-Shapley, this means that there is only one stable pairing.
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \subsection*{Question 2}
 
 \begin{enumerate}[(a)]
@@ -140,7 +140,7 @@ In this case, the male-optimal and male-pessimal allocations are the same. Accor
 \end{enumerate}
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \subsection*{Question 3}
 In this matching market, the payoff function for $x$, $f(y|x)$, and the payoff function for $y$, $f(x|y)$ are symmetric, with the following marginal payoff functions:
 \begin{align*}
@@ -156,15 +156,37 @@ Thus, type $x$ wants to match with the highest possible type $y$, and type $y$ w
 	
 	\item In a decentralized market, an industry of matching professionals arises to exploit the gains from paying wages to $x$ and $y$ for matching as directed. Matchers make profit ${f(x,y)-w(x)-w(y)}$, where $f(x,y)$ is the output from the match of $x$ to $y$ and $w(\cdot)$ is the wage function. Recall that the output of a match is ${f(x,y)=x+y+2axy}$. The partner, $y$, of $x$ that maximizes $f(x,y)$ is $1-x$. Then, the profit function becomes:
 		\[
-			\pi(x,y) = x + (1-x) + 2ax(1-x) - w(x) - w(1-x) = 1 + 2ax - 2ax^2 - w(x) - w(1-x) 
+			\pi(x,y)|_{y=x} = x+y+2axy - w(x) - w(y) 
 		\]
-	 Given free entry of matchmakers, we expect $\pi(x,y)=0$ at this maximum.
+	With the first-order condition for $x$:
+		\begin{align*}
+			\frac{\partial\pi}{\partial x}\bigm|_{y=x} = 1 + 2ay - w'(x) &= 0	\\
+														w'(x) = 1 + 2a(1-x)	
+		\end{align*}
+	Integrating this FOC over $x$ yields:
+		\[
+			w(x) = x + 2ax - ax^2 + c\text{, }c\in\R
+		\]
+	Given free entry of matchmakers, we expect $\pi(x,y)=0$ at this maximum. Thus,
+		\begin{align*}
+			\pi(x,y)|_{y=1-x} = x+y+2axy - w(x) - w(y)  	&= 0				\\
+											w(x) + w(1-x)	&= 1 + 2ax(1-x) 	\\
+		x + 2ax - ax^2 + c + 1-x + 2a(1-x) - a(1-x)^2 + c	&= 1 + 2ax(1-x)	 	\\
+														c	&= -\frac{a}{2}
+		\end{align*}
+	Thus, a wage of ${w(x)=x + 2ax - ax^2 -\frac{a}{2}}$ can decentralize the market. Given that ${y=1-x}$ is a maximum for $\pi(x,y)$ and $\pi(x,1-x)$ is cleared only by this wage, no other wage could decentralize this market.
 \end{enumerate}
 
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 4}
+Of the borrowers, student $i=1$ has the lowest willingness to pay, accepting any rate below 3.01\%. Student ${i=29}$ has the highest willingness to pay, accepting any rate below 3.29\%. Of the lenders, student ${i=2}$ is willing to accept the lowest rate, of 3.02\%, and student ${i=30}$ requires the highest rate of 3.30\% in order to lend.
+\medskip \\
+Thus, no student is willing to lend to student 1 at a rate they are willing to pay, and nobody is willing to borrow from 30 at a rate she is willing to charge. Thus, any rate above 3.02\% and below 3.30\% will lead to some number of transactions. Any interest rate below 3.15\% will lead to a credit shortage (i.e. more students willing to borrow than those willing to lend), and any rate above 3.16\% will lead to a surplus. The figure below displays the inverse supply and demand for credit in this market.
+\begin{center}
+	\includegraphics[scale=.5]{figure1.png}
+\end{center}
 
 
 
