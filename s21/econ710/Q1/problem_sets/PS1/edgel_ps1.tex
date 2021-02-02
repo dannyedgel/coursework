@@ -2,7 +2,7 @@
 %%% Spring 2020
 %%% Danny Edgel
 %%%
-% Due on Canvas Monday, February 1st, 11:59pm Central Time
+% Due on Canvas Tuesday, February 2nd, 11:59pm Central Time
 %%%
 
 %%%
@@ -106,7 +106,7 @@
 \title{	Problem Set \#1 }
 \author{ 	Danny Edgel 										\\ 
 			Econ 710: Economic Statistics and Econometrics II	\\
-			Spring 2020											\\
+			Spring 2021											\\
 		}
 \maketitle\thispagestyle{empty}
 
@@ -225,15 +225,16 @@ Let $(Y,X')'$ be a random vector, where ${Y= X'\beta_0\cdot U}$, where ${\E{U\bi
 			Cov(X_i,Y_i) 	= \E{\left(X_i - \E{X_i}\right)\left(Y_i - \E{Y_i}\right)} = \E{X_iY_i} = \E{X_i^2W_i} = \E{X_i^2}\E{W_i} = 0
 		\] }
 	
-	\item Yes. Given the results from (i)-(iii), we can show:
+	\item No. Given the results from (i)-(iii), we can show:
 		\begin{align*}
 			\frac{1}{\sqrt{n}}\sum_{i=1}^n\colvec{2}{X_i}{Y_i} 	= \colvec{2}{\frac{1}{\sqrt{n}}\sum_{i=1}^nX_i}{\frac{1}{\sqrt{n}}\sum_{i=1}^nY_i}	
 																&\rightarrow_d \N\left(\colvec{2}{0}{0},V\right)		\\
 			\text{Where }									V 	= \begin{pmatrix} \sigma^2_X & Cov(X_i,Y_i) \\ Cov(X_i,Y_i) & \sigma^2_Y \end{pmatrix}
 																&= \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I_2
 		\end{align*}
+		However, the answer to (iv) shows that this is not the case.
 	
-	\item 
+	\item Applying the Cramer-Wold device, $V$ converges in distribution to $\N(0,I_2)$ if and only if $t'V$ converges, for some $t\in\R^2$ with ${||t||=1}$. If we let each entry of $t$ be $1/\sqrt{2}$, we can see that $t'V$ cannot have a continuous distribution, let alone a normal one.
 \end{enumerate}
 
 %%%________________________________________________________________%%%
