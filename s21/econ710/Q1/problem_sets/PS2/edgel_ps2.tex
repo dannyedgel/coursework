@@ -1,0 +1,211 @@
+%%% Econ710: Econometrics
+%%% Spring 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Tuesday, February 9nd, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage[shortlabels]{enumitem}
+\usepackage{boondox-cal}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}_{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\vhat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\bcls}{\tilde{\beta}_{CLS}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\vt}{\tilde{\varepsilon}}
+\renewcommand{\Pr}[1]{Pr\left(#1\right)}
+\newcommand{\biv}{\bhat^{IV}}
+\newcommand{\xbar}{\overline{X}}
+\newcommand{\ybar}{\overline{Y}}
+\newcommand{\zbar}{\overline{Z}}
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#2 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 710: Economic Statistics and Econometrics II	\\
+			Spring 2021											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+
+\begin{enumerate}[(i)]
+	\item Yes, ${\biv_1\rightarrow_p\beta_1}$. By the Weak Law of Large Numbers (WLLN) and the recognition that the law of iterated expectation (LIE) implies ${\E{U}=\E{\E{U|Z}}=2}$,
+		\begin{align*}
+			\biv_1 \rightarrow_p	  &\frac{\E{(Z-\E{Z})(Y-\E{Y})}}{\E{(Z-\E{Z})(X-\E{X})}}													\\
+									= &\frac{\E{(Z-\E{Z})(\beta_0 + X\beta_1 + U-\E{\beta_0 + X\beta_1 + U})}}{\E{(Z-\E{Z})(X-\E{X})}}			\\
+									= &\frac{\E{(Z-\E{Z})(\beta_0 + X\beta_1 + U-\beta_0 - \beta_1\E{X} - \E{U})}}{\E{(Z-\E{Z})(X-\E{X})}}		\\
+									= &\frac{\E{\beta_1(Z-\E{Z})(X - \E{X}) + (Z-\E{Z})(U - \E{U})}}{\E{(Z-\E{Z})(X-\E{X})}}					\\
+									= &\frac{\beta_1\E{(Z-\E{Z})(X - \E{X})} + \E{ZU - U\E{Z} - Z\E{U} + \E{Z}\E{U}}}{\E{(Z-\E{Z})(X-\E{X})}}	\\
+									= &\beta_1 + \frac{2\E{Z}-2\E{Z}+2\E{Z}-2\E{Z}}{\E{(Z-\E{Z})(X-\E{X})}}										\\
+									= &\beta_1
+		\end{align*}
+	
+	\item Yes, ${\biv_0\rightarrow_p\beta_0}$. Given (i), we can calculate:
+		\[
+			\biv_0 = \ybar - \xbar\bhat_1 \rightarrow_p \E{Y} - \E{X}\beta_1 = \beta_0
+		\]
+	
+\end{enumerate}
+
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Question 2}
+
+\begin{enumerate}[(i)]
+	\item $Z$ is a valid instrument if ${Cov(Z,X)\neq0}$, i.e., if ${\pi_1\neq 0}$.
+	
+	\item We can derive $\gamma_0$, $\gamma_1$ and $\varepsilon$ as functions of the structural parameters by first deriving the reduced form of the model:
+		\begin{align*}
+			Y &= \beta_0 + \left(\pi_0 + Z\pi_1 + V\right)\beta_1 + U 	\\
+			Y &= \beta_0 + \pi_0\beta_1 + Z\pi_1\beta_1 + V\beta_1 + U 	\\
+			Y &= \gamma_0 + Z\gamma_1 + \varepsilon
+		\end{align*}
+		Where:
+		\[
+			\gamma_0 = \beta_0 + \pi_0\beta_1\text{, }\gamma_1 = \pi_1\beta_1\text{, }\varepsilon = V\beta_1 + U
+		\]
+	
+	\item The IV estimator of $\beta_1$ is $$ \biv_1 = \frac{\widehat{Cov(Z,Y)}}{\widehat{Cov(Z,X)}} $$ And the two OLS estimators, of $\gamma_1$ and $\pi_1$ respectively, are
+		\[
+			\hat{\pi}_1 = \frac{\sumn(Z_i-\zbar)(X_i-\xbar)}{\sumn(Z_i-\zbar)^2}\text{, }\hat{\gamma}_1 = \frac{\sumn(Z_i-\zbar)(Y_i-\ybar)}{\sumn(Z_i-\zbar)^2}
+		\]
+		Then the indirect least squares estimator of $\beta_1$ is 
+		\[
+			\frac{\hat{\gamma}_1}{\hat{\pi}_1} 	= \frac{\sumn(Z_i-\zbar)(Y_i-\ybar)\sumn(Z_i-\zbar)^2}{\sumn(Z_i-\zbar)^2\sumn(Z_i-\zbar)(X_i-\xbar)}
+												= \frac{\sumn(Z_i-\zbar)(Y_i-\ybar)}{\sumn(Z_i-\zbar)(X_i-\xbar)} = \biv_1
+		\]
+	
+	\item 
+	
+	\item 
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+
+\begin{enumerate}[(i)]
+	\item 
+	
+	\item 
+	
+	\item 
+	
+	\item 
+	
+	\item 
+	
+	\item 
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
