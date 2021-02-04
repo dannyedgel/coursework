@@ -117,9 +117,9 @@ file write resultsfile															///
 		_tab "& \small{(`se_ols`r'm')} & \small{(`se_2sls`r'm')}"				///
 			 "& \small{(`se_ols`r'd')} & \small{(`se_2sls`r++'d')} \\" _newline ///
 		_tab "\multicolumn{5}{c}{ } \\"								  _newline 	///
-		_tab " ln(\textit{Family income}) & `b_ols`r'm' & `b_2sls`r'm'"			///
+		_tab " ln(\textit{Family income}) & `b_ols`r'l' & `b_2sls`r'l'"			///
 			 "& \textemdash & \textemdash \\"						   _newline ///
-		_tab "& \small{(`se_ols`r'm')} & \small{(`se_2sls`r'm')}"				///
+		_tab "& \small{(`se_ols`r'l')} & \small{(`se_2sls`r'l')}"				///
 			 "& \textemdash & \textemdash \\"			   			   _newline ///
 		_tab "\multicolumn{5}{c}{ } \\\hline\hline"					   _newline ///	
 	"\end{tabular}"
