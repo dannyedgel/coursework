@@ -43,13 +43,14 @@
 \newcommand{\intinf}{\int_{-\infty}^{\infty}}
 \newcommand{\olx}[1]{\overline{X}_{#1}}
 \newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\olz}[1]{\overline{Z}_{#1}}
 \newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
 \newcommand{\sumn}{\sum_{i=1}^{n}}
 \newcommand{\loge}[1]{\text{log}\left(#1\right)}
 \renewcommand{\tilde}[1]{\widetilde{#1}}
 \newcommand{\tb}{\tilde{\beta}}
 \renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
-\newcommand{\bols}{\hat{\beta}_{OLS}}
+\newcommand{\bols}{\hat{\beta}^{OLS}}
 \newcommand{\bhat}{\hat{\beta}}
 \newcommand{\ahat}{\hat{\alpha}}
 \newcommand{\vhat}{\hat{\varepsilon}}
@@ -170,9 +171,33 @@
 												= \frac{\sumn(Z_i-\zbar)(Y_i-\ybar)}{\sumn(Z_i-\zbar)(X_i-\xbar)} = \biv_1
 		\]
 	
-	\item 
+	\item We can show that ${Y=\delta_0 + X\delta_1 + V\delta_2 + \xi}$ by first regressing $U$ on $V$ with the specification ${U = \delta_2V + \xi}$. Then, $$ \delta_2 = \frac{Cov(U,V)}{Var(V)}$$ And:
+	\begin{align*}
+		Y &= \beta_0 + X\beta_1 + U					\\
+		Y &= \delta_0 + X\delta_1 + \delta_2V + \xi
+	\end{align*}
+	Where ${\delta_1=\beta_1}$ and:
+	{\small
+		\begin{align*}
+			Cov(X,\xi) 	&= \frac{Cov(X,U-\delta_2V)}{Var(\xi)} = \frac{Cov(\pi_0 + Z\pi_1 + V,U)-\delta_2Cov(\pi_0 + Z\pi_1 + V,V)}{Var(\xi)}	\\
+						&= \frac{\pi_1Cov(Z,U) +Cov(V,U)-\delta_2\pi_1Cov(Z,V)-\delta_2Var(V)}{Var(\xi)} = \frac{Cov(V,U)-Cov(U,V)}{Var(\xi)} 	\\
+						&= 0																													\\
+			Cov(V,\xi) 	&= \frac{Cov(V,U-\delta_2V)}{Var(\xi)} = \frac{Cov(V,U)-\delta_2Var(V)}{Var(\xi)} = \frac{Cov(V,U)-Cov(U,V)}{Var(\xi)}	\\
+						&= 0
+		\end{align*}
+	}
 	
-	\item 
+	\item Since $\hat{V_i}$ is an OLS residual, ${\sumn\hat{V}_i=0}$ and ${\sumn\hat{V_i}X_i = \sumn\hat{V}_i^2}$. Then, to calculate $\hat{\delta}_1$ using the paritition formula, we first want to obtain the residuals from a regression of 1 and $X_i$ on $\hat{V}_i$ separately (say, $\hat{e}_1$ and $\hat{e}_X$), which we can then use to calculate the slope of a single linear regression:
+		\begin{align*}
+			\hat{e}_1		&= 1 - \hat{V_i}\left(\frac{\sumn\hat{V}_i}{\sumn\hat{V}_i^2}\right) = 1					\\
+			\hat{e}_X 		&= X_i - \hat{V_i}\left(\frac{\sumn\hat{V}_iX_i}{\sumn\hat{V}_i^2}\right) = X_i - \hat{V}_i	\\
+\Rightarrow \hat{e}_X		&= \hat{\pi}_0 + \hat{\pi}_1Z_i																\\
+\Rightarrow \hat{\delta}_1	&= \frac{\widehat{Cov}(\hat{e}_X,Y)}{\widehat{Var}(\hat{e}_X)}								
+							= \frac{\sumn(\hat{\pi}_0 + \hat{\pi}_1Z_i - \hat{\pi}_0 - \hat{\pi}_1\olz{n})(Y_i-\oly{n})}{\sumn(\hat{\pi}_0 + \hat{\pi}_1Z_i - \hat{\pi}_0 - \hat{\pi}_1\olz{n})^2}																		\\
+							&= \frac{\hat{\pi}_1\sumn(Z_i-\olz{n})Y_i}{\hat{\pi}_1^2\sumn(Z_i-\olz{n})^2} 
+							= \frac{1}{\hat{\pi}_1}\left(\frac{\sumn(Z_i-\olz{n})}{\sumn(Z_i-\olz{n})^2}\right)Y_i		\\
+			\hat{\delta}_1	&= \frac{\hat{\gamma}_1}{\hat{\pi}_1} = \biv_1
+		\end{align*}
 	
 \end{enumerate}
 
@@ -181,17 +206,20 @@
 \section*{Question 3}
 
 \begin{enumerate}[(i)]
-	\item 
+	\item If $X_1$ is exogenous, then, since ${\beta_1 = \frac{\partial Y}{\partial X_1}}$, $\beta_1$ is the marginal effect that having more than 2 children in the household has on a family's labor supply. This would be presumed negative for the secondary working parent, since \textit{ex ante}, we would expect that the presence of more children would lead require the heads of household to spend more time on childcare, chores, etc. It would be presumed positive for the primary working parent, as the marginal child adds new expenses in clothing, food, medical and dental care, etc.
 	
-	\item 
+	\item One could convincingly argue that $X_1$ is endogenous because families who rear many children have likely selected into such a circumstance, with one or more of the parents having a preference for child-rearing, non-wage labor over wage labor.\footnote{As the youngest of eight children, I have some opinions on this matter that are better witheld from an econometrics assignment.} This would bias $\bols_1$ downward for the secondary working parent and upward for the primary working parent, as the OLS estimate would capture both the fixed effect of the type of family who chooses to have more than 2 children in addition to the causal effect of having more than 2 children.
 	
-	\item 
+	\item My answers to (i) and (ii) were worded flexibly for a reason. I think that the exogeneity of $X_1$ is in question in either scenario, though the case for exogeneity is stronger if the labor supply of the male parent (assuming a two-parent household with one male and one female parent) is being estimated. This is especially true for older sample periods, when legal and cultural constraints on the salaries and labor supply of women (especially married women, especially with children) were stronger.
 	
-	\item 
+	\item I do not believe $Z_1$ is a valid instrument for $X_1$ because it is likely to be a weak instrument, though I think it satisfies the exclusion restriction. While I do not doubt that there are cases where parents decide to have a third child because they do not want two children of the same gender, I think that this correlation is too weak, and relevant to too narrow of a set of families, to provide meaningful exogenous variation in $X_1$.
 	
-	\item 
+	\item The table displays the results of the reduced-form regression of $X_1$ on $Z_1$ and $X_2$. the coefficient on $Z_1$ is highly statistically significant and leads to a 6\% increase in the likelihood of having greater than 2 children. This is strong evidence in favor of the relevance of $Z_1$.
+		\begin{center} \input{table3v.tex} \end{center}
 	
-	\item 
+	\item Assuming that the difference between the 2SLS coefficient and that of the OLS coefficient is due not to noise but to the validity of $Z_1$ as an instrument, the results suggest that $X_1$ is indeed endogenous and biased downward for mothers. The point estimate is biased downward for fathers, as well, but the primary difference for fathers is that the OLS estimate is significant, while the 2SLS estimate is not.
+		\begin{center} \input{table3vi.tex} \end{center}
+	
 \end{enumerate}
 
 %%%________________________________________________________________%%%
