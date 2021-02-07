@@ -155,19 +155,19 @@ Then, if we plug this equality into the resource constraint, we get:
 \]
 To simply notation, denote ${\phi = A\overline{K}^{\alpha-1}}$. Finally, using the law of motion equality and the Euler equation, we can determine:
 \[
-	\overline{C} = \beta\overline{C}(1-\delta+\delta\alpha A\overline{K}^\alpha\overline{I}^{-1} \rightarrow 1 = \beta(1-\delta+\delta\alpha\phi)
+	\overline{C} = \beta\overline{C}(1-\delta+\delta\alpha A\overline{K}^\alpha\overline{I}^{-1}) \Rightarrow 1 = \beta(1-\delta+\delta\alpha\phi)
 \]
 Or, ${\beta^{-1} = 1-\delta+\delta\alpha\phi}$.
 \medskip \\
-\textit{The Euler Equation:} We can log-linearize the Euler equation in stages. Let ${I_{t+1} = AK_{t+1}^\alpha - C_{t+1}}$ and ${Z_t = 1-\delta+\delta\alpha AK^\alpha_{t+1}I_{t+1}^{-1}}$. Then:
+\textit{The Euler Equation:} We can log-linearize the Euler equation in stages. Let ${I_{t+1} = AK_{t+1}^\alpha - C_{t+1}}$ and ${Z_{t+1} = 1-\delta+\delta\alpha AK^\alpha_{t+1}I_{t+1}^{-1}}$. Then:
 	\begin{align*}
-		c_{t+1} &= c_t + z_t																															\\
-		z_t 	&= \alpha k_{t+1} - i_{t+1}																														\\
+		c_{t+1} - c_t &= \left(\alpha k_{t+1} - i_{t+1}\right)\left(\frac{\delta\alpha A\overline{K}^\alpha\overline{I}^{-1}}{\overline{Z}}\right)	\\
+		\frac{1}{\overline{Z}} &= \beta																												\\
 		i_{t+1}	&= \left(\frac{A\overline{K}^\alpha}{\overline{I}}\right)\alpha k_{t+1} - \left(\frac{\overline{C}}{\overline{I}}\right)c_{t+1}			\\
 	\Rightarrow 	
-		c_{t+1} &= c_t + \alpha k_{t+1} - \left(\frac{A\overline{K}^\alpha}{\overline{K}}\right)\alpha k_{t+1} + \left(\frac{\overline{K}\left(\phi - 1\right)}{\overline{K}}\right)c_{t+1}	\\
-(2-\phi)c_{t+1} &= c_t + \alpha(1-\phi)k_{t+1}				\\
-		c_{t+1} &= \left(\frac{1}{2-\phi}\right)c_t + \left(\frac{\alpha(1-\phi)}{2-\phi}\right)k_{t+1}
+		c_{t+1} - c_t &= \beta\delta\alpha^2\phi(1-\phi)k_{t+1} - \beta\delta\alpha\phi(1-\phi)c_{t+1}	\\
+		\left(1 + \beta\delta\alpha\phi(1-\phi)\right)c_{t+1} &= \beta\delta\alpha^2\phi(1-\phi)k_{t+1} + c_t	\\
+		c_{t+1} &= \frac{\beta\delta\alpha^2\phi(1-\phi)}{1 + \beta\delta\alpha\phi(1-\phi)}k_{t+1} + \frac{1}{1 + \beta\delta\alpha\phi(1-\phi)}c_t
 	\end{align*}
 \\
 \textit{The Consolidated Resource Constraint:} Once again letting ${I_t = AK_t^\alpha - C_t}$:
@@ -184,22 +184,32 @@ Or, ${\beta^{-1} = 1-\delta+\delta\alpha\phi}$.
 \subsection*{Question 4}
 The log-linearized consolidated resource constraint from (3) is already given as a function of one state variable ($k_t$) and one choice variable ($c_t$). We can plug this function into $k_{t+1}$ in the log-linearized Euler equation from (3) to transform it into a function with one state variable and one choice variable, as well:
 \begin{align*}
-	c_{t+1} &= \left(\frac{1}{2-\phi}\right)c_t + \left(\frac{\alpha(1-\phi)}{2-\phi}\right)\left[\beta^{-1}k_t - \delta(\phi-1)c_t\right]	\\
-	c_{t+1} &= \left(\frac{1+\alpha\delta(1-\phi)^2}{2-\phi}\right)c_t + \left(\alpha\beta^{-1}\frac{1-\phi}{2-\phi}\right)k_t	
+	c_{t+1} &= \frac{\beta\delta\alpha^2\phi(1-\phi)}{1 + \beta\delta\alpha\phi(1-\phi)}\left[\beta^{-1}k_t - \delta(\phi-1)c_t\right] + \frac{1}{1 + \beta\delta\alpha\phi(1-\phi)}c_t	\\
+	c_{t+1} &= \frac{\delta\alpha^2\phi(1-\phi)}{1 + \beta\delta\alpha\phi(1-\phi)}k_t + \frac{\delta^2\alpha^2\phi(1-\phi)^2}{1 + \beta\delta\alpha\phi(1-\phi)}c_t	\\
 \end{align*}
-We begin the Blanchard-Kahn method by writing the system in vector-matrix form:
+To simplify the notation, denote ${\theta = \delta\alpha\phi(1-\phi)}$. We begin the Blanchard-Kahn method by writing the system in vector-matrix form:
 \[
 	x_{t+1}	= \colvec{2}{c_{t+1}}{k_{t+1}} = 
 			\begin{pmatrix}
-				\frac{1+\alpha\delta(1-\phi)^2}{2-\phi}	&	\alpha\beta^{-1}\frac{1-\phi}{2-\phi}	\\
-				- \delta(\phi-1)						&	\beta^{-1}
+				\frac{\delta\alpha(1-\phi)\theta}{1 + \beta\theta}	&	\frac{\alpha\theta}{1 + \beta\theta}	\\
+				- \delta(\phi-1)									&	\beta^{-1}
 			\end{pmatrix}\colvec{2}{c_t}{k_t} = Bx_t
 \]
 Next, we can find the eigenvalues of $B$ by solving ${B - \lambda I	= 0}$:
 \begin{align*}
-	\left(\frac{1+\alpha\delta(1-\phi)^2}{2-\phi} - \lambda\right)(\beta^{-1}-\lambda) + \delta(\phi-1)\alpha\beta^{-1}\frac{1-\phi}{2-\phi} &= 0
+	\left(\frac{\delta\alpha(1-\phi)\theta}{1 + \beta\theta} - \lambda\right)(\beta^{-1}-\lambda) - \frac{\delta(\phi-1)\alpha\theta}{1 + \beta\theta} &= 0	\\
+	\Rightarrow \lambda^2 - \left(\frac{\beta^{-1}+\theta+\delta\alpha(1-\phi)\theta}{1+\beta\theta}\right)\lambda + \frac{(\beta^{-1}+1)\delta\alpha(1-\phi)\theta}{1+\beta\theta} &= 0
 \end{align*}
-Now, let $B=Q\Lambda Q^{-1}$
+Using the quadratic formula, we can solve:
+\[
+	\lambda = \frac{\beta^{-1} + \theta + \delta\alpha(1-\phi)\theta}{2(1+\beta\theta)} \pm \sqrt{ \frac{(\beta^{-1} + \theta + \delta\alpha(1-\phi)\theta)^2}{4(1+\beta\theta)^2} - \frac{(\beta^{-1} + 1)\delta\alpha(1-\phi)\theta}{1+\beta\theta} }
+\]
+Note that ${\phi>1}$, since ${\overline{C}/\overline{K}=\phi-1}$, and ${\overline{C},\overline{K}\geq 0}$. 
+\medskip \\ 
+I'm going to be frank here. I can't solve this. I must have gotten something wrong in the algebra along the way. I have re-calculated the log-linearization multiple times over several hours, with a different approach each time, and I keep getting the same result that I know is incorrect. I've run out of time to get this right, and I hope I can get partial credit. Here's how I would solve it if I found $\lambda_1$ and $\lambda_2$:
+\medskip \\
+First, I would note that $B=Q\Lambda Q^{-1}$, where $Q=[v_1\text{ }v_2]$, where $v_i$ is the eigenvector that corresponds to $\lambda_i$ and ${y_{t+1} = Q^{-1}x_{t+1}}$. Then, I would identify $i$ such that $|\lambda_i|>1$, then note that this implies that ${y_{it} = \underset{j\rightarrow\infty}{\text{lim }}\lambda_iy_{i,t+j}=0}$. Thus, the saddle path of the system is given by setting $y_{it} = 0$ for all $t$ and solving ${x_{t+1} = Q\Lambda y_t}$.
+%Now, let $B=Q\Lambda Q^{-1}$
 
 %%%________________________________________________________________%%%
 
@@ -228,7 +238,7 @@ Now, let $B=Q\Lambda Q^{-1}$
 
 
 % Typed into Wolfram Alpha:
-% solve (((1-(1-ap)(p-1)d)/(2-p)) - l)(1-d+dap-l) + d(p-1)(((1-ap)(1-d+dap))/(2-p)) = 0 for l
+% solve l^2 - (((1/b)(2-p)-1-ad(1-p)^2)/(2-p))l + (1/(b(1-p))) = 0 for l
 %
 
 
