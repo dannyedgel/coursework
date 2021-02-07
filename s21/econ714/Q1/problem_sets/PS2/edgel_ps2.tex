@@ -104,7 +104,7 @@
 
 %%%________________________________________________________________%%%
 
-\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
 
 %%%________________________________________________________________%%%
 
@@ -119,31 +119,87 @@ Combining the production function, resource constraint, and law of motion gives 
 \]
 Which has the following first-order conditions:
 \begin{align*}
-	\frac{\partial\L}{\partial C_t} 	&= \frac{\beta^t}{C_t} - \lambda_t\delta\left(AK_t^\alpha-C_t\right)^{\delta-1} 						= 0	\\
+	\frac{\partial\L}{\partial C_t} 	&= \frac{\beta^t}{C_t} - \lambda_t\delta K_t^{1-\delta}\left(AK_t^\alpha-C_t\right)^{\delta-1} 						= 0	\\
 	\frac{\partial\L}{\partial K_{t+1}} 
-		&= -\lambda_t + \lambda_{t+1}K_t^{-\delta}(AK_t^\alpha-C_t)^\delta\left[1-\delta + \alpha\delta AK_t^\alpha(AK_t^\alpha-C_t)^{-1}\right] = 0 	\\
-	\Rightarrow	\frac{C_{t+1}}{C_t} &= \beta K_t^\delta\left[\frac{(AK_{t+1}^\alpha-C_{t+1})^{1-\delta}}{AK_t^\alpha-C_t}\right]\left(1-\delta+\frac{\alpha\delta AK_t^\alpha}{AK_t^\alpha-C_t}\right)^{-1}
+		&= -\lambda_t + 
+		\lambda_{t+1}\left[(1-\delta)K_{t+1}^{-\delta}\left(AK_{t+1}^\alpha-C_{t+1}\right)^\delta + \delta K_{t+1}^{1-\delta}\alpha AK_{t+1}^{\alpha-1}\left(AK_{t+1}^\alpha - C_{t+1}\right)^{\delta-1}\right] = 0 	\\
+	\Rightarrow	\frac{C_{t+1}}{C_t} 
+	&= \beta \left(K_t^{1-\delta}I_t^{\delta-1}\right)\left(K_{t+1}^{\delta-1}I_{t+1}^{1-\delta}\right)\left(K_{t+1}^{-\delta}I_{t+1}^\delta\right)\left(1-\delta + \delta\alpha AK_{t+1}^\alpha I_{t+1}^{-1}\right)
 \end{align*}
 Which simplifies to the following Euler equation:
 \[
-	\frac{C_{t+1}}{C_t} = \beta K_t^\delta\left[\frac{(AK_{t+1}^\alpha-C_{t+1})^{1-\delta}}{(1-\delta)(AK_t^\alpha-C_t) + \alpha\delta AK_t^\alpha}\right] 
-									=  \beta K_t^\delta\left[\frac{(Y_{t+1}-C_{t+1})^{1-\delta}}{(1-\delta)(Y_t-C_t) + \alpha\delta Y_t}\right]
+	\frac{C_{t+1}}{C_t} = \beta \left(1-\delta+\delta\alpha AK_{t+1}^\alpha I_{t+1}^{-1}\right)
 \]
 
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 2}
-
+The two equations that pin down the steady-state of this model are the Euler equation from (1) and the combined production function, law of motion, and resource constraint (which we will simply refer to as the consolidated resource contraint):
+\begin{align*}
+	C_{t+1} &= \beta C_t\left(1-\delta+\delta\alpha AK^\alpha_{t+1}\left(AK_{t+1}^\alpha - C_{t+1}\right)^{-1}\right)	\\
+	K_{t+1} &= K_t^{1-\delta}\left(AK_t^\alpha - C_t\right)^\delta
+\end{align*}
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 3}
+Before log-linearizing this system, let us first simplify the steady-state values of the model's variables using the two equations we have. First, take the law of motion:
+\begin{align*}
+	\overline{K}		&= \overline{K}^{1-\delta}\overline{I}^\delta 	\\
+	\overline{K}^\delta &= \overline{I}^\delta	\Rightarrow \overline{K} = \overline{I}
+\end{align*}
+Then, if we plug this equality into the resource constraint, we get:
+\[
+	A\overline{K} = \overline{C} + \overline{K} \Rightarrow \overline{C} = \overline{K}\left(A\overline{K}^{\alpha-1} - 1\right)
+\]
+To simply notation, denote ${\phi = A\overline{K}^{\alpha-1}}$. Finally, using the law of motion equality and the Euler equation, we can determine:
+\[
+	\overline{C} = \beta\overline{C}(1-\delta+\delta\alpha A\overline{K}^\alpha\overline{I}^{-1} \rightarrow 1 = \beta(1-\delta+\delta\alpha\phi)
+\]
+Or, ${\beta^{-1} = 1-\delta+\delta\alpha\phi}$.
+\medskip \\
+\textit{The Euler Equation:} We can log-linearize the Euler equation in stages. Let ${I_{t+1} = AK_{t+1}^\alpha - C_{t+1}}$ and ${Z_t = 1-\delta+\delta\alpha AK^\alpha_{t+1}I_{t+1}^{-1}}$. Then:
+	\begin{align*}
+		c_{t+1} &= c_t + z_t																															\\
+		z_t 	&= \alpha k_{t+1} - i_{t+1}																														\\
+		i_{t+1}	&= \left(\frac{A\overline{K}^\alpha}{\overline{I}}\right)\alpha k_{t+1} - \left(\frac{\overline{C}}{\overline{I}}\right)c_{t+1}			\\
+	\Rightarrow 	
+		c_{t+1} &= c_t + \alpha k_{t+1} - \left(\frac{A\overline{K}^\alpha}{\overline{K}}\right)\alpha k_{t+1} + \left(\frac{\overline{K}\left(\phi - 1\right)}{\overline{K}}\right)c_{t+1}	\\
+(2-\phi)c_{t+1} &= c_t + \alpha(1-\phi)k_{t+1}				\\
+		c_{t+1} &= \left(\frac{1}{2-\phi}\right)c_t + \left(\frac{\alpha(1-\phi)}{2-\phi}\right)k_{t+1}
+	\end{align*}
+\\
+\textit{The Consolidated Resource Constraint:} Once again letting ${I_t = AK_t^\alpha - C_t}$:
+	\begin{align*}
+		k_{t+1} &= (1-\delta)k_t + \delta i_t										\\
+		i_t 	&= \alpha\phi k_t - (\phi-1)c_t										\\
+		k_{t+1} &= (1-\delta)k_t + \delta\left(\alpha\phi k_t - (\phi-1)c_t\right)	\\
+		k_{t+1} &= (1-\delta + \delta\alpha\phi)k_t - \delta(\phi-1)c_t				\\
+		k_{t+1} &= \beta^{-1}k_t - \delta(\phi-1)c_t				
+	\end{align*}
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 4}
-
+The log-linearized consolidated resource constraint from (3) is already given as a function of one state variable ($k_t$) and one choice variable ($c_t$). We can plug this function into $k_{t+1}$ in the log-linearized Euler equation from (3) to transform it into a function with one state variable and one choice variable, as well:
+\begin{align*}
+	c_{t+1} &= \left(\frac{1}{2-\phi}\right)c_t + \left(\frac{\alpha(1-\phi)}{2-\phi}\right)\left[\beta^{-1}k_t - \delta(\phi-1)c_t\right]	\\
+	c_{t+1} &= \left(\frac{1+\alpha\delta(1-\phi)^2}{2-\phi}\right)c_t + \left(\alpha\beta^{-1}\frac{1-\phi}{2-\phi}\right)k_t	
+\end{align*}
+We begin the Blanchard-Kahn method by writing the system in vector-matrix form:
+\[
+	x_{t+1}	= \colvec{2}{c_{t+1}}{k_{t+1}} = 
+			\begin{pmatrix}
+				\frac{1+\alpha\delta(1-\phi)^2}{2-\phi}	&	\alpha\beta^{-1}\frac{1-\phi}{2-\phi}	\\
+				- \delta(\phi-1)						&	\beta^{-1}
+			\end{pmatrix}\colvec{2}{c_t}{k_t} = Bx_t
+\]
+Next, we can find the eigenvalues of $B$ by solving ${B - \lambda I	= 0}$:
+\begin{align*}
+	\left(\frac{1+\alpha\delta(1-\phi)^2}{2-\phi} - \lambda\right)(\beta^{-1}-\lambda) + \delta(\phi-1)\alpha\beta^{-1}\frac{1-\phi}{2-\phi} &= 0
+\end{align*}
+Now, let $B=Q\Lambda Q^{-1}$
 
 %%%________________________________________________________________%%%
 
@@ -171,7 +227,9 @@ Which simplifies to the following Euler equation:
 \end{document}
 
 
-
+% Typed into Wolfram Alpha:
+% solve (((1-(1-ap)(p-1)d)/(2-p)) - l)(1-d+dap-l) + d(p-1)(((1-ap)(1-d+dap))/(2-p)) = 0 for l
+%
 
 
 
