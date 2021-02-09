@@ -130,7 +130,37 @@ Which simplifies to the following Euler equation:
 \[
 	\frac{C_{t+1}}{C_t} = \beta \left(1-\delta+\delta\alpha AK_{t+1}^\alpha I_{t+1}^{-1}\right)
 \]
-
+\textit{Perturbation:} Suppose that we are on the optimal growth trajectory at time $t$, and let there be a one-time deviation, $\Delta C_t>0$. This leads to an increase in utility of ${\frac{\beta}{C_t}\Delta C}$, but a decrease in capital:
+\[
+	\Delta K_{t+1} = -\delta K_t^{1-\delta}I_t^{\delta-1}\Delta C_t
+\]
+This decrease in capital in the second period, in turn, decreases output in the second period:
+\[
+	\Delta Y_{t+1} = \alpha A K^{\alpha-1}_{t+1}\Delta K_{t+1}
+\]
+Then, in period $t+2$, there must be an increase in investment in order to return to the equilibrium path level of capital:
+\begin{align*}
+	(1-\delta)\Delta K_{t+1}(K_{t+1}^{-\delta}I_{t+1}^\delta) &= -\delta\Delta I_{t+1}(K_{t+1}^{1-\delta}I_{t+1}^{\delta-1})	\\
+	\Rightarrow \Delta I_{t+1} &= \dfrac{\delta-1}{\delta}K_{t+1}^{-1}I_{t+1}\Delta K_{t+1}
+\end{align*}
+Thus, we can derive the change in consumption in period $t+1$ from the resource constraint:
+\begin{align*}
+	\Delta C_{t+1} 	&= \Delta Y_{t+1} - \Delta I_{t+1} 																						\\
+					&= \alpha A K^{\alpha-1}_{t+1}\Delta K_{t+1} - \dfrac{\delta-1}{\delta}K_{t+1}^{-1}I_{t+1}\Delta K_{t+1}				\\
+					&= -\alpha A K^{\alpha-1}_{t+1}\delta K_t^{1-\delta}I_t^{\delta-1}\Delta C_t 
+						+ \dfrac{\delta-1}{\delta}K_{t+1}^{-1}I_{t+1}\delta K_t^{1-\delta}I_t^{\delta-1}\Delta C_t							\\
+					&= -\delta K_t^{-\delta}I_t^{\delta-1}\left(\dfrac{1-\delta}{\delta}I_{t+1}+\alpha A K^{\alpha}_{t+1}\right)\Delta C_t
+\end{align*}
+Taken together, we can solve for the consumption level in period $t+1$ that ensures utility stays maximized:
+\begin{align*}
+	\Delta U 																																			&= 0	\\
+	\frac{\beta^t}{C_t}\Delta C_t - 
+		\frac{\beta^{t+1}}{C_{t+1}}\delta K_t^{-\delta}I_t^{\delta-1}\left(\dfrac{1-\delta}{\delta}I_{t+1}+\alpha A K^{\alpha}_{t+1}\right)\Delta C_t 	&= 0	\\
+\end{align*}
+\[
+	C_{t+1} = \beta C_t K_t^{-\delta}I_t^{\delta-1}\left((1-\delta)I_{t+1}+\delta\alpha A K^{\alpha}_{t+1}\right)	
+\]
+Which is equivalent to our Euler equation.
 
 %%%________________________________________________________________%%%
 
@@ -200,46 +230,85 @@ Next, we can find the eigenvalues of $B$ by solving ${B - \lambda I	= 0}$:
 	\left(\frac{\delta\alpha(1-\phi)\theta}{1 + \beta\theta} - \lambda\right)(\beta^{-1}-\lambda) - \frac{\delta(\phi-1)\alpha\theta}{1 + \beta\theta} &= 0	\\
 	\Rightarrow \lambda^2 - \left(\frac{\beta^{-1}+\theta+\delta\alpha(1-\phi)\theta}{1+\beta\theta}\right)\lambda + \frac{(\beta^{-1}+1)\delta\alpha(1-\phi)\theta}{1+\beta\theta} &= 0
 \end{align*}
-Using the quadratic formula, we can solve:
+Using the quadratic formula, we can\footnote{Uh, in theory, I guess.} solve:
 \[
 	\lambda = \frac{\beta^{-1} + \theta + \delta\alpha(1-\phi)\theta}{2(1+\beta\theta)} \pm \sqrt{ \frac{(\beta^{-1} + \theta + \delta\alpha(1-\phi)\theta)^2}{4(1+\beta\theta)^2} - \frac{(\beta^{-1} + 1)\delta\alpha(1-\phi)\theta}{1+\beta\theta} }
 \]
-Note that ${\phi>1}$, since ${\overline{C}/\overline{K}=\phi-1}$, and ${\overline{C},\overline{K}\geq 0}$. 
+Whether I made a mistake earlier or am unable to simplify the above equality, I don't know. The two eigenvalues are:
+\[
+	\lambda_1 = \frac{1}{\beta(1-\delta+\delta\alpha)}\text{, }\lambda_2 = 1-\delta+\delta\alpha
+\]
+Note that $\lambda_2$ can be rewritten as ${1-\delta(1-\alpha)}$, where ${\alpha,\delta\in(0,1)}$. Thus, ${\lambda_2\in(0,1)}$. By the same logic, since ${\beta<1}$, ${\lambda_1>1}$. 
 \medskip \\ 
-I'm going to be frank here. I can't solve this. I must have gotten something wrong in the algebra along the way. I have re-calculated the log-linearization multiple times over several hours, with a different approach each time, and I keep getting the same result that I know is incorrect. I've run out of time to get this right, and I hope I can get partial credit. Here's how I would solve it if I found $\lambda_1$ and $\lambda_2$:
-\medskip \\
-First, I would note that $B=Q\Lambda Q^{-1}$, where $Q=[v_1\text{ }v_2]$, where $v_i$ is the eigenvector that corresponds to $\lambda_i$ and ${y_{t+1} = Q^{-1}x_{t+1}}$. Then, I would identify $i$ such that $|\lambda_i|>1$, then note that this implies that ${y_{it} = \underset{j\rightarrow\infty}{\text{lim }}\lambda_iy_{i,t+j}=0}$. Thus, the saddle path of the system is given by setting $y_{it} = 0$ for all $t$ and solving ${x_{t+1} = Q\Lambda y_t}$.
-%Now, let $B=Q\Lambda Q^{-1}$
+Now that we have the eigenvalues of $B$, we can represent the system as ${B=Q\Lambda Q^{-1}}$, where the columns of $Q$ are the eigenvectors associated with $\lambda_1$ and $\lambda_2$, and:
+\begin{align*}
+	Bx_t =	x_{t+1}						&=  Q\Lambda Q^{-1}x_t							\\
+			Q^{-1}x_{t+1}				&= \Lambda Q^{-1}x_{t}							\\
+			y_{t+1}						&= \Lambda y_t									\\
+	\colvec{2}{y_{1,t+1}}{y_{2,t+1}}	&= \colvec{2}{\lambda_1y_{1t}}{\lambda_2y_{2t}}
+\end{align*}
+Where ${y_t = Q^{-1}x_t}$. Since ${\lambda_1>1}$, we can conclude that the solution to the system includes ${y_t=0}$ ${\forall t}$, since:
+\[
+	y_{1t} = \underset{j\rightarrow\infty}{\text{lim }}\lambda_1^{-j}y_{1,t+j}=0
+\]
+We have not solved for $Q$ yet, which would involve deriving the eigenvectors associated with $\lambda_1$ and $\lambda_2$. This may be possible analytically, but instead, let us begin with an arbitrary matrix:
+\[
+	Q = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \Rightarrow Q^{-1} = \frac{1}{ad-bc}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix}
+\]
+Then, our value of $y_t$ is:
+\[
+	y_t = Q^{-1}x_t = \frac{1}{ad-bc}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix}\colvec{2}{c_t}{k_t}
+\]
+Recall that ${y_{1t}=0}$ for all $t$. Then, the solution to our system can be written as ${c_t = \frac{b}{d}k_t}$. In other words, to a first-order approximation, deviations from steady-state capital correlate with capital's deviations from the steady-state by some constant proportion. Moreover, this proportion comes from the eigenvector of the non-explosive eigenvalue, $\lambda_2$.
+
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \subsection*{Question 5}
-
+If the true saddle path of the system is of the form ${C_t = ZK_t^a}$, where ${Z,a\in\R}$, then the log-linearized approximation is also the generalized solution to the social planner's problem. 
+\medskip \\
+One solution is that the consumer never maintains a capital stock and instead consumes all of the production each period. This is consistent with the generalized solution: ${C_t = AK_t^\alpha}$. We can solve for an interior solution by substituting $C_t$ for $ZK_t^a$ in our Euler equation and solving for $Z$, letting ${a=\alpha}$.\footnote{Full disclosure: I realized while solving this question that I made an algebraic error while reducing the Euler equation in question 1. I use the correct Euler equation below, but I simply don't have the time to go back and re-do everything up to this point.}
+{\small
+\begin{align*}
+	C_{t+1} 		&= \beta C_tK_t^{1-\delta}I_t^{\delta-1}K_{t+1}^{-1}\left((1-\delta)I_{t+1} + \delta\alpha AK_{t+1}^\alpha\right)	\\
+	ZK_{t+1}^\alpha &= \beta ZK_t^\alpha K_t^{1-\delta}\left(AK_t^\alpha - ZK_t^\alpha\right)^{\delta-1}K_{t+1}^{-1}
+							\left[(1-\delta)\left(AK_{t+1}^\alpha - ZK_{t+1}^\alpha\right) + \delta\alpha AK_{t+1}^\alpha\right]		\\
+	K_{t+1}^\alpha 	&= \beta K_t^\alpha K_t^{1-\delta}(A-Z)^{\delta-1}\left(K_t^\alpha\right)^{\delta-1}K_{t+1}^{-1}
+							\left[(1-\delta)(A-Z)+ \delta\alpha\right]K_{t+1}^\alpha 													\\
+	K_{t+1}			&= \beta K_t^\alpha K_t^{1-\delta +\delta\alpha-\alpha}(A-Z)^{\delta-1}\left[(1-\delta)(A-Z)+ \delta\alpha\right]	\\
+	K_t^{1-\delta}\left((A-Z)K_t^\alpha\right)^\delta 
+					&= \beta K_t^{1-\delta +\delta\alpha}(A-Z)^{\delta-1}\left[(1-\delta)(A-Z)+ \delta\alpha\right]						\\
+	(A-Z)^\delta	&= \beta K_t^{1-\delta +\delta\alpha}K_t^{\delta-1-\alpha\delta}(A-Z)^{\delta-1}
+							\left[(1-\delta)(A-Z)+ \delta\alpha\right]																	\\
+	A-Z				&= \beta(1-\delta)(A-Z) + \beta\delta\alpha A																		\\
+	Z\left[\beta(1-\delta)-1\right]
+					&= A\beta(1-\delta+\delta\alpha)-A\beta																				\\
+				Z 	&= \frac{A\beta(1-\beta)}{1-\beta(1-\delta)}
+\end{align*}
+}
+Thus, the saddle path of the system is:
+\[
+	C_t = \left(\frac{A\beta(1-\beta)}{1-\beta(1-\delta)}\right)K_t^\alpha
+\]
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 6}
-
+[Question omitted becase we only learned stochastic shocks in today's lecture]
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 7}
 
+The most notable functional form assumption in this model is the law of motion of capital, which is both strange and leads to a perfect correlation between capital and investment. As a result, any shock to capital also shocks investment which, due to the resource constraint, shocks consumption. This leads to a perfect correlation between capital and consumption. The economic intuition behind this correlation is that capital holdings influence lifetime wealth, leading consumption (which is based on discounted lifetime earnings) to swing with it.
 
 %%%________________________________________________________________%%%
 
-\subsection*{Question 8}
-
-
-%%%________________________________________________________________%%%
 
 
 \end{document}
 
 
-% Typed into Wolfram Alpha:
-% solve l^2 - (((1/b)(2-p)-1-ad(1-p)^2)/(2-p))l + (1/(b(1-p))) = 0 for l
-%
 
 
 
