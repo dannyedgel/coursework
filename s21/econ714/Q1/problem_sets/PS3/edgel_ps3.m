@@ -11,7 +11,7 @@
 clc; clear
 
 % set convergence variables
-tol             = 1e-3;  % convergence tolerance
+tol             = 1e-5;  % convergence tolerance
 
 %% Question 1: import and set up FRED data
 
@@ -115,9 +115,9 @@ v.gt = 3*( v.at + alpha*v.kt + (1-alpha)*v.lt - ...
 
 % estimate tau_Lt from labor supply, beginning with its steady-state
 v.TauL_SS = 1 + v.L_SS.^(phi+alpha) .* v.C_SS.^(-sigma) .* ...
-    v.K_SS.^(-alpha) .* v.A_SS.^(-2);
+    v.K_SS.^(-alpha) .* v.A_SS;
 
-v.tauLt = ((1-v.TauL_SS)./v.TauL_SS).*( 2*v.at + alpha*v.kt ...
+v.tauLt = ((1-v.TauL_SS)./v.TauL_SS).*( v.at + alpha*v.kt ...
     - (alpha+phi)*v.lt - sigma*v.ct );
 
 % compute persistence parameter for each wedge
@@ -135,6 +135,24 @@ for i = 1:length(wedges)
     v.(w_name) = regress(w, lagmatrix(w,1));
     
 end
+
+% output LaTeX table of persistence parameters
+filename = 'table4.tex';
+
+if exist(filename, 'file')==2
+  delete(filename);
+end
+file1 = fopen(filename,'w');
+
+tbl = ...
+    ['\\begin{tabular}{r c}\n',...
+    '\\hline $\\rho_{a}$ & %4.3f \\\\ \n',...
+    '$\\rho_{g}$ & %4.3f \\\\ \n', ...
+    '$\\rho_{\\tau_L}$ & %4.3f \\\\ \\hline\n',...
+    '\\end{tabular}'];
+fprintf(file1,tbl,...
+    round(v.at_rho,3), round(v.gt_rho,3),round(v.tauLt_rho,3));
+fclose(file1);
 
 
 %% Question 5: Implement Blanchard-Kahn to solve the model
@@ -164,6 +182,9 @@ figure(1)
     xlabel('k_t'); ylabel('c_t'); axis equal
     title('Blanchard-Kahn Saddle Path')
     saveas(gcf,'figure5.png')
+    
+% save saddle ratio separately, for use in next problem
+Q_rat = -(Qinv(r,1)/Qinv(r,2));
 
 
 %% Question 6: Solve the fixed-point problem for tauIt
@@ -171,37 +192,71 @@ figure(1)
 % initial conjecture for tauIt_rho: .8 (no reason for this value)
 v.tauIt_rho = 0.8;
 
+% calculate steady state of TauIt
+v.TauI_SS = ((alpha*beta*v.A_SS.*(v.K_SS.^(alpha-1)).*(v.L_SS.^(1-alpha))) ...
+    /(1-beta*(1-delta))) - 1;
+
+% calculate steady state of X, which is equal to everything in the
+% parentheses of the RHS of the Euler equation
+X_SS = alpha*v.A_SS.*(v.K_SS.^(alpha-1)).*(v.L_SS.^(1-alpha)) ...
+    + (1-delta)*(1 + v.TauI_SS);
+
+% in each period, calculate "cnext":= expected consumption in the next
+% period, using the saddle path value of c, given this period's k_{t+1}
+cnext = Q_rat*lagmatrix(v.kt,-1);
+
+% calculate "lnext" as the expected labor in the next period, using
+% expected consumption, etc. from the labor optimality condition
+lnext = (v.at_rho + alpha*lagmatrix(v.kt,-1) - sigma*cnext ...
+    - v.tauLt_rho*(v.TauL_SS./(1-v.TauL_SS)).*v.tauLt)/(phi + alpha);
+
 % iteratively solve the model, estimate tauIt_rho, and repeat until the
 % estimated value of tauIt_rho converges
 
-diff = 1;   % initialize convergence gap
-
-while diff > tol
+diff    = 1;    % initialize convergence gap
+attempt = 1;    % loop counter
+while diff > tol && attempt < 200
     
-    % solve model for consumption as a function of capital and wedges
+    % infer tauIt from Euler eqn using current loop's value of tauIt_rho
+    v.tauIt = ( sigma*X_SS.*v.TauI_SS.*(v.ct - cnext) + ...
+        alpha*v.TauI_SS.*v.A_SS.*(v.K_SS.^(alpha-1)).*(v.L_SS.^(1-alpha)) ...
+        .* (v.at_rho*v.at + (alpha-1)*lagmatrix(v.kt,-1) ...
+        + (1-alpha)*lnext) ) ./(X_SS - v.TauI_SS*v.tauIt_rho*(1-delta));
+    
+    % re-estimate tauIt_rho and update the convergence gap
+    tauIt_rho_new = regress(v.tauIt, lagmatrix(v.tauIt, 1));
+    
+    diff        = abs(tauIt_rho_new - v.tauIt_rho);
+    v.tauIt_rho = tauIt_rho_new;
+    
+    fprintf('Covergence attempt %d; diff = %d\n', attempt, diff)
+    attempt     = attempt + 1;
     
 end
 
-%% Question 7: Plot dynamics
-%{
-figure(1)
-    plot(t_vec,k_path,t_vec,k_ss*ones(151),'r--')
-    text(t_vec(end)*.8,k_ss*1.0003,'Steady State','Color','red')
-    xline(12,'--'); text(15,(max(k_path)+min(k_path))/2,'Event')
-    title('Capital post-shock transition path')
-    xlabel('t'); ylabel('K_t')
-    saveas(gcf,'figure4a.png')
-    
-figure(2)
-    plot(t_vec,c_path,t_vec,c_ss*ones(151),'r--')
-    text(t_vec(end)*.8,c_ss*.9999,'Steady State','Color','red')
-    xline(12,'--'); text(15,(max(c_path)+min(c_path))/2,'Event')
-    title('Consumption post-shock transition path')
-    xlabel('t'); ylabel('C_t')
-    saveas(gcf,'figure4b.png')
-%}
+% output LaTeX code for persistence parameter
+filename = 'q6.tex';
 
-%% Question 8: 
+if exist(filename, 'file')==2
+  delete(filename);
+end
+file1 = fopen(filename,'w');
+
+fprintf(file1,'${\\rho_{\\tau_I}=%4.3f}$', round(v.tauIt_rho,3));
+fclose(file1);
+
+%% Question 7: Plot dynamics of wedges
+figure(2)
+    plot(date1, v.at, date1, v.gt, date1, v.tauLt, date1, v.tauIt)
+    datetick('x','yyyy'); yline(0)
+    xlim([datenum('01/01/1980') datenum('12/31/2020')])
+    title('Wedge Dynamics: deviations from steady-state')
+    set(legend('$a_t$', '$g_t$', '$\hat{\tau}_{Lt}$','$\hat{\tau}_{It}$'),...
+        'Interpreter', 'latex')
+    saveas(gcf,'figure7.png')
+
+
+%% Question 8: Solve for each wedge separately; plot output counterfactual
 
 
 

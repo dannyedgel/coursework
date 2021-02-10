@@ -19,6 +19,7 @@
 \usepackage{changepage}
 \usepackage{centernot}
 \usepackage{graphicx}
+\usepackage{xcolor}
 \usepackage[shortlabels]{enumitem}
 \usepackage{fancyhdr}
 	\fancyhf{} % sets both header and footer to nothing
@@ -52,6 +53,7 @@
 \newcommand{\dc}[1]{\Delta c_{#1}}
 \newcommand{\N}{\mathcal{N}}
 \newcommand{\suminf}{\sum_{t=0}^\infty}
+\newcommand{\red}[1]{{\color{red}#1}}
 
 \newcommand{\E}[1]{\mathbb{E}\left[#1\right]} % expected value
 \newcommand{\Et}[1]{\mathbb{E}_t\left[#1\right]}
@@ -104,47 +106,50 @@
 
 %%%________________________________________________________________%%%
 
-\noindent\textit{Collaborated with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
+\noindent\textit{Discussed and/or compared answers with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
+\bigskip \\
+\noindent For all of the problems below, all computational work is performed in $\texttt{edgel\_ps3.m}$, which is attached. This code is heavily commented so as to mostly stand on its own. As a result, I will provide little explicit information about the code in this document, leaving it only for answering justifications, deriving relationships, etc.
 
 %%%________________________________________________________________%%%
 
-\subsection*{Question 1}
-
-
-
-%%%________________________________________________________________%%%
-
-\subsection*{Question 2}
-
+\subsection*{Questions 1 and 2}
+See first two sections of the attached code.
 
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 3}
-
+Since both capital and investment have moving steady states, it is reasonable to pick an arbitrary date to assume a steady state at some period prior to the sample period, then carrying the variables forward. With enough periods, the effect of assuming a steady state in the prior period is minimal-to-nonexistent. By the time the sample period begins, the steady state that $k_t$ is relative to actually comes from the data rather than the earlier assumption.
 
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 4}
+The table below displays the persistence parameters from the three wedges, $a_t$, $g_t$, and $\tau_{Lt}$.
+\begin{center} \input{table4.tex} \end{center}
 
 
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 5}
-
+Implementing Blanchard-Kahn to solve this model results in a proportional relationship between $c_t$ and $k_t$ in the saddle path of the model. \red{(show the $A$ and $B$ matrices and the solution)}
+\medskip \\
+The saddle path is displayed in the chart below.
+\begin{center}\includegraphics[scale=.75]{figure5.png}\end{center}
 
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 6}
-
-
+\red{include equations used to solve for $\tau_{It}$ and its steady state}
+\medskip \\
+Solving for the fixed-point estimate of $\tau_{It}$ results in a persistence parameter of \input{q6.tex}.
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 7}
+\begin{center}\includegraphics[scale=1]{figure7.png}\end{center}
 
 
 %%%________________________________________________________________%%%
