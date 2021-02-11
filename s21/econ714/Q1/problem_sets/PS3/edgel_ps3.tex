@@ -133,9 +133,24 @@ The table below displays the persistence parameters from the three wedges, $a_t$
 %%%________________________________________________________________%%%
 
 \subsection*{Question 5}
-Implementing Blanchard-Kahn to solve this model results in a proportional relationship between $c_t$ and $k_t$ in the saddle path of the model. \red{(show the $A$ and $B$ matrices and the solution)}
-\medskip \\
-The saddle path is displayed in the chart below.
+Implementing Blanchard-Kahn to solve this model results in a linear relationship between $c_t$ and $k_t$ in the saddle path of the model. Log-linearizing the Euler equation and resource constraint, results in (after some serious algebra) a system of the following form:
+\[
+	x_{t+1} = \colvec{2}{k_{t+1}}{c_{t+1}} = A\colvec{2}{k_t}{c_t} + B\colvec{4}{a_t}{g_t}{\tau_{It}}{\tau_{Lt}} = Ax_t + Bz_t
+\]
+Where $B$ does not need to be directly parametrically solved, and:
+\[
+	A = \begin{pmatrix}
+			\frac{\alpha\delta\overline{Y}}{\overline{I}} + 1-\delta + \frac{\delta(1-\alpha)\alpha\overline{Y}}{\overline{I}(\phi+\alpha)}	
+			& \frac{\delta(\alpha-1)\sigma\overline{Y}}{\overline{I}(\phi+\alpha)}-\frac{\delta\overline{C}}{\overline{I}}	\\
+			\left(\frac{\phi\Gamma}{1-\Gamma}\right)
+			\left(\frac{\alpha\delta\overline{Y}}{\overline{I}} + 1 - \delta + \frac{\delta(1-\alpha)\alpha\overline{Y}}{\overline{I}(\phi + \alpha)}\right) &
+			\frac{1}{1-\Gamma}\left(\sigma + \phi\Gamma
+			\left(\frac{\delta(\alpha-1)\sigma\overline{Y}}{\overline{I}(\phi+\alpha)}-\frac{\delta\overline{C}}{\overline{I}}\right)\right)
+		\end{pmatrix}
+\]
+Where $\overline{X}$ is the steady state of everything in the parentheses of the RHS of the Euler equation and: $$ \theta = \alpha\overline{A}\overline{K}^{\alpha-1}\overline{L}^{1-\alpha}\text{, }\Gamma = \frac{\theta(1-\alpha)}{\overline{X}(\phi+\alpha)}$$
+
+The saddle path, holding all wedges constant, is displayed in the chart below.
 \begin{center}\includegraphics[scale=.75]{figure5.png}\end{center}
 
 

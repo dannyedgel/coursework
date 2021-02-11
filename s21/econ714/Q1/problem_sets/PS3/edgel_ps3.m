@@ -160,12 +160,33 @@ fclose(file1);
 % assume persistence parameter for tau_It = 0
 v.tauIt_rho = 0;
 
-% define eta to simplify later matrix construction
-eta = beta*(1-alpha)*alpha*phi*(phi-delta)*(sigma^(-1));
+% calculate steady state of TauIt
+v.TauI_SS = ((alpha*beta*v.A_SS.*(v.K_SS.^(alpha-1)).*(v.L_SS.^(1-alpha))) ...
+    /(1-beta*(1-delta))) - 1;
 
-% define A and B matrices
-A = [ 1/beta, -(phi-delta); -((1-alpha)*alpha*phi/sigma), 1 + eta];
-B = [ phi; ((beta*alpha*phi)/sigma)*(v.tauLt_rho - (1-alpha)*phi) ];
+% calculate steady state of X, which is equal to everything in the
+% parentheses of the RHS of the Euler equation
+X_SS = alpha*v.A_SS.*(v.K_SS.^(alpha-1)).*(v.L_SS.^(1-alpha)) ...
+    + (1-delta)*(1 + v.TauI_SS);
+
+% define theta and gamma to simplify later matrix construction
+theta = alpha*v.A_SS.*(v.K_SS.^(alpha-1)).*(v.L_SS.^(1-alpha));
+gamma = (theta*(alpha-1))./(X_SS*(phi+alpha));
+
+% define A matrix
+A = [ mean((alpha*delta*v.Y_SS)./v.I_SS + 1-delta + ...
+    (delta*(1-alpha)*alpha*v.Y_SS)./(v.I_SS*(phi+alpha))), ...
+    mean((delta*(alpha-1)*sigma*v.Y_SS)./(v.I_SS*(phi+alpha))-...
+    (delta*v.C_SS)./v.I_SS); ...
+    mean(((phi*gamma)./(1-gamma)).*( (alpha*delta*v.Y_SS)./(v.I_SS) ...
+    +1-delta+ (delta*(1-alpha)*alpha*v.Y_SS)./(v.I_SS*(phi+alpha)) )), ...
+    mean( (1./(1-gamma)).*( sigma + phi*gamma.* ...
+    ( (delta*(alpha-1)*sigma*v.Y_SS)./(v.I_SS*(phi+alpha)) - ...
+    (delta*v.C_SS)./(v.I_SS) ) ) ) ];
+
+% Bz vector is everything that goes into k_{t+1} and c_{t+1} that isn't from
+% k_t or c_t
+Bz = [lagmatrix(v.kt,-1), lagmatrix(v.ct,-1)] - [v.kt, v.ct]*A';
 
 % return Q and Lambda matrices 
 [Q, Lambda] = eig(A);
@@ -175,7 +196,8 @@ Qinv        = inv(Q);
 if abs(Lambda(1,1)) > 1; r = 1; end % r gives the row of Qinv that 
 if abs(Lambda(2,2)) > 1; r = 2; end % corresponds to the explosive lambda
 
-c_saddle = -(Qinv(r,1)/Qinv(r,2))*v.kt;
+
+c_saddle    = -(Qinv(r,1)/Qinv(r,2))*v.kt;
 
 figure(1)
     plot(v.kt,c_saddle); yline(0); xline(0)
@@ -191,15 +213,6 @@ Q_rat = -(Qinv(r,1)/Qinv(r,2));
 
 % initial conjecture for tauIt_rho: .8 (no reason for this value)
 v.tauIt_rho = 0.8;
-
-% calculate steady state of TauIt
-v.TauI_SS = ((alpha*beta*v.A_SS.*(v.K_SS.^(alpha-1)).*(v.L_SS.^(1-alpha))) ...
-    /(1-beta*(1-delta))) - 1;
-
-% calculate steady state of X, which is equal to everything in the
-% parentheses of the RHS of the Euler equation
-X_SS = alpha*v.A_SS.*(v.K_SS.^(alpha-1)).*(v.L_SS.^(1-alpha)) ...
-    + (1-delta)*(1 + v.TauI_SS);
 
 % in each period, calculate "cnext":= expected consumption in the next
 % period, using the saddle path value of c, given this period's k_{t+1}
