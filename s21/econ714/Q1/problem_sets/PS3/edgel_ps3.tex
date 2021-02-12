@@ -135,7 +135,7 @@ The table below displays the persistence parameters from the three wedges, $a_t$
 \subsection*{Question 5}
 Implementing Blanchard-Kahn to solve this model results in a linear relationship between $c_t$ and $k_t$ in the saddle path of the model. Log-linearizing the Euler equation and resource constraint, results in (after some serious algebra) a system of the following form:
 \[
-	x_{t+1} = \colvec{2}{k_{t+1}}{c_{t+1}} = A\colvec{2}{k_t}{c_t} + B\colvec{4}{a_t}{g_t}{\tau_{It}}{\tau_{Lt}} = Ax_t + Bz_t
+	x_{t+1} = \colvec{2}{k_{t+1}}{c_{t+1}} = A\colvec{2}{k_t}{c_t} + B\colvec{4}{a_t}{g_t}{\hat{\tau_{It}}}{\hat{\tau_{Lt}}} = Ax_t + Bz_t
 \]
 Where $B$ does not need to be directly parametrically solved, and:
 \[
@@ -149,6 +149,7 @@ Where $B$ does not need to be directly parametrically solved, and:
 		\end{pmatrix}
 \]
 Where $\overline{X}$ is the steady state of everything in the parentheses of the RHS of the Euler equation and: $$ \theta = \alpha\overline{A}\overline{K}^{\alpha-1}\overline{L}^{1-\alpha}\text{, }\Gamma = \frac{\theta(1-\alpha)}{\overline{X}(\phi+\alpha)}$$
+Note that, since the steady state of each steady state in the model is not constant, the mean of each steady state is used. This does little to influence the entries of $A$, however, as they use ratios of one steady state to another, and the rates of, say, consumption to output, move little in the sample. \input{q5_a21.tex} In the case of the second row, the steady states cancel out, obviating the need for taking means.
 
 The saddle path, holding all wedges constant, is displayed in the chart below.
 \begin{center}\includegraphics[scale=.75]{figure5.png}\end{center}
@@ -157,9 +158,15 @@ The saddle path, holding all wedges constant, is displayed in the chart below.
 %%%________________________________________________________________%%%
 
 \subsection*{Question 6}
-\red{include equations used to solve for $\tau_{It}$ and its steady state}
-\medskip \\
-Solving for the fixed-point estimate of $\tau_{It}$ results in a persistence parameter of \input{q6.tex}.
+The Euler equation can be re-arranged to isolate $\hat{\tau}_{It}$:
+\[
+	\hat{\tau}_{It} = \frac{\overline{X}\overline{\tau}_I\sigma(c_t - \E{c_{t+1}}) + \alpha\overline{\tau}_I\overline{A}\overline{K}^{\alpha-1}\overline{L}^{1-\alpha}\left(\rho_aa_t + (\alpha-1)k_{t+1} + (1-\alpha)\E{\ell_{t+1}}\right)}{\overline{X} - \overline{\tau}_I\rho_{\tau_I}(1-\delta)}
+\]
+Where:
+\[
+	\overline{\tau}_I = \frac{\alpha\beta\overline{A}\overline{K}^{\alpha-1}\overline{L}^{1-\alpha}}{1-\beta(1-\delta)} - 1
+\]
+Solving for the fixed-point estimate of $\hat{\tau}_{It}$ results in a persistence parameter of \input{q6.tex}.
 
 %%%________________________________________________________________%%%
 
@@ -170,7 +177,23 @@ Solving for the fixed-point estimate of $\tau_{It}$ results in a persistence par
 %%%________________________________________________________________%%%
 
 \subsection*{Question 8}
-
+In order to graph the effect of each wage separately, we must explicitly solve for the parameterized $B$ matrix:
+\[
+	Bz = \begin{pmatrix}
+			\kappa & \frac{\theta(1-\alpha)}{\sigma\overline{X}(\phi+\alpha)}\left(\rho_A - \frac{\delta(1-\alpha)\overline{Y}}{\overline{I}}\right) \\ 
+			- \frac{\delta\overline{Y}}{3\overline{I}}   & -\frac{\theta(\alpha-1)\delta\overline{Y}}{3\sigma\overline{X}\overline{Y}} \\
+			0 & \left(\frac{(1-\delta)\rho_I}{\overline{X}}-\frac{1}{\overline{\tau}_I}\right)\frac{1+\overline{\tau}_I}{\sigma} \\
+			 - \left(\frac{\overline{\tau}_L}{1-\overline{\tau}_L}\right)\kappa & \frac{\theta(1-\alpha)\overline{\tau}_L}{\sigma\overline{X}(\phi+\alpha)(1-\overline{\tau}_L)}\left(\rho_L + \frac{\delta(\alpha-1)\overline{Y}}{\overline{I}}\right)
+		 \end{pmatrix}'
+		 \colvec{4}{a_t}{g_t}{\hat{\tau_{It}}}{\hat{\tau}_{Lt}}
+\]
+Where $\theta$ and $\overline{X}$ are defined in question 5 and: $$ \kappa = \frac{\delta(1-\alpha)\overline{Y}}{\overline{I}(\phi + \alpha)} $$
+With this matrix defined, we can extract counterfactuals of GDP's deviations from its steady state with all wedges except for one set to zero. for example, we can define a counterfactual deviation from consumption's steady state in period $t$ with \textit{only} a productivity wedge as:
+\[
+	c_t = \frac{q^{-1}_{11}}{q^{-1}_{12}}k_t - \frac{q^{-1}_{11}b_{11} + q^{-1}_{12}b_{21}}{\lambda_1q^{-1}_{12}}
+\]
+Assuming $\lambda_1$ is the explosive eigenvalue. We can then use the optimal labor condition to calculate labor, and, given labor and consumption, iterate through the rest of the time series using the law of motion of capital. The result is displayed below, against observed GDP deviations.
+\begin{center}\includegraphics[scale=1]{figure8.png}\end{center}
 
 %%%________________________________________________________________%%%
 

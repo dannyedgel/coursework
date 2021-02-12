@@ -3,7 +3,7 @@
     the first quarter of Econ 714
 
     Date created:  09 Feb 2021
-    Last modified: 09 Feb 2021
+    Last modified: 11 Feb 2021
     Author: Danny Edgel
 %}
 
@@ -184,10 +184,6 @@ A = [ mean((alpha*delta*v.Y_SS)./v.I_SS + 1-delta + ...
     ( (delta*(alpha-1)*sigma*v.Y_SS)./(v.I_SS*(phi+alpha)) - ...
     (delta*v.C_SS)./(v.I_SS) ) ) ) ];
 
-% Bz vector is everything that goes into k_{t+1} and c_{t+1} that isn't from
-% k_t or c_t
-Bz = [lagmatrix(v.kt,-1), lagmatrix(v.ct,-1)] - [v.kt, v.ct]*A';
-
 % return Q and Lambda matrices 
 [Q, Lambda] = eig(A);
 Qinv        = inv(Q);
@@ -207,6 +203,30 @@ figure(1)
     
 % save saddle ratio separately, for use in next problem
 Q_rat = -(Qinv(r,1)/Qinv(r,2));
+
+% output the mean, min, and max values of lower-left entry of A
+a11 = (alpha*delta*v.Y_SS)./v.I_SS + 1-delta + ...
+    (delta*(1-alpha)*alpha*v.Y_SS)./(v.I_SS*(phi+alpha));
+a12 = (delta*(alpha-1)*sigma*v.Y_SS)./(v.I_SS*(phi+alpha))-...
+    (delta*v.C_SS)./v.I_SS;
+a21 = ((phi*gamma)./(1-gamma)).*( (alpha*delta*v.Y_SS)./(v.I_SS) ...
+    +1-delta+ (delta*(1-alpha)*alpha*v.Y_SS)./(v.I_SS*(phi+alpha)) );
+a22 = (1./(1-gamma)).*( sigma + phi*gamma.* ...
+    ( (delta*(alpha-1)*sigma*v.Y_SS)./(v.I_SS*(phi+alpha)) - ...
+    (delta*v.C_SS)./(v.I_SS) ) ) ;
+
+filename = 'q5_a21.tex';
+
+if exist(filename, 'file')==2
+  delete(filename);
+end
+file1 = fopen(filename,'w');
+
+fprintf(file1, ...
+    ['The mean of $a_{11}$, for example, is %4.5f, with a minimum and', ...
+    ' maximum of %4.5f and %4.5f, respectively.'], ...
+    round(mean(a11),5), round(min(a11),5), round(max(a11),5));
+fclose(file1);
 
 
 %% Question 6: Solve the fixed-point problem for tauIt
@@ -271,11 +291,86 @@ figure(2)
 
 %% Question 8: Solve for each wedge separately; plot output counterfactual
 
+% define kappa separately to ease matrix construction
+kappa = (delta*(1-alpha)*v.Y_SS)./((phi+alpha)*v.I_SS);
 
+% Define B matrix
+B = [ mean(kappa), -mean((delta*v.Y_SS)./(3*v.I_SS)), 0, ...
+    -mean((v.TauL_SS./(1-v.TauL_SS)).*kappa); ...
+    mean( (((1-alpha)*theta)./(sigma*(phi+alpha)*X_SS)).* ...
+    (v.at_rho - (delta*(1-alpha)*v.Y_SS)./(v.I_SS) ) ), ...
+    -mean( ((alpha-1)*delta*theta.*v.Y_SS)./(3*sigma*X_SS.*v.Y_SS) ), ...
+    mean( ( (((1-delta)*v.tauIt_rho)./X_SS) - 1./v.TauI_SS ).* ...
+    ((1 + v.TauI_SS)/sigma) ), ...
+    mean( (((1-alpha)*theta.*v.TauL_SS)./ ...
+    (sigma*(phi+alpha)*X_SS.*(1-v.TauL_SS))).* ...
+    (v.tauLt_rho + (delta*(alpha-1)*v.Y_SS)./(v.I_SS) ) ) ];
 
+% Set up counterfactual: define a new time series for each wedge, assuming
+% all other wedges = 0
 
+wedges = {'at', 'gt','tauIt', 'tauLt'};
 
+% solve for each wedge separately
+Theta = (-1/Lambda(r,r))*B(r,:)/(eye(4) - (1/Lambda(r,r))*diag([v.at_rho, v.gt_rho, ...
+    v.tauIt_rho, v.tauLt_rho]));
 
+for i = 1:length(wedges)
+    
+    % save current wedge in 'w'
+    w = wedges{i};
+    
+    % initialize capital, consumption, and labor series
+    cf.(w).kt = zeros(length(v.ct),1); cf.(w).ct = cf.(w).kt; 
+    cf.(w).lt = cf.(w).kt; 
+    cf.(w).kt(1) = v.kt(1);
+    
+    % initialize wedges 
+    for j = 1:length(wedges)
+        if i == j; mult = 1; else; mult = 0; end
+        cf.(w).(wedges{j}) = mult*v.(wedges{j});
+    end
+    z = [ cf.(w).(wedges{1}), cf.(w).(wedges{2}), ...
+        cf.(w).(wedges{3}), cf.(w).(wedges{4}) ]; 
+    
+    % loop though periods, using the B-K solution to solve for ct, then the
+    % log-linearized model equations to define forward every other variable
+    for t = 1:length(v.ct)
+        
+        % consumption
+        cf.(w).ct(t) = (1/Qinv(r,2))*( -1*Qinv(r,1)*cf.(w).kt(t) ...
+            + Theta*z(t,:)');
+        
+        % labor 
+        cf.(w).lt(t) = (1/(phi+alpha))*( cf.(w).at(t) + ...
+            alpha*cf.(w).kt(t) - sigma*cf.(w).ct(t) - ...
+            (v.TauL_SS(t)/(1-v.TauL_SS(t)))*cf.(w).tauLt(t) );
+        
+        % next period's capital
+        if t < length(v.ct)
+            cf.(w).kt(t+1) = (1-delta)*cf.(w).kt(t) + ...
+                (v.Y_SS(t)/v.I_SS(t))*( cf.(w).at(t) + alpha*cf.(w).kt(t) ...
+                + (1-alpha)*cf.(w).lt(t) - ...
+                (v.C_SS(t)/v.Y_SS(t))*cf.(w).ct(t) - (1/3)*cf.(w).gt(t));
+        end
+        
+    end % end t loop
+    
+    % save output counterfactual
+    cf.(w).yt = cf.(w).at + alpha*cf.(w).kt + (1-alpha)*cf.(w).lt;
+
+end % end wedge loop
+
+% plot wedge counterfactuals 
+figure(3)
+    plot(date1, v.yt, date1, cf.at.yt, date1, cf.gt.yt, date1, cf.tauLt.yt, ...
+        date1, cf.tauIt.yt)
+    datetick('x','yyyy'); yline(0)
+    xlim([datenum('01/01/1980') datenum('12/31/2020')])
+    title('Wedge Dynamics: GDP counterfactuals')
+    set(legend('Actual','$a_t$', '$g_t$', '$\hat{\tau}_{Lt}$', ...
+        '$\hat{\tau}_{It}$'), 'Interpreter', 'latex')
+    saveas(gcf,'figure8.png')
 
 
 
