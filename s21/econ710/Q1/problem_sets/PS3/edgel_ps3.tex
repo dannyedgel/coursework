@@ -1,0 +1,280 @@
+%%% Econ710: Econometrics
+%%% Spring 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Tuesday, February 16th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{color}
+\usepackage{courier}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[shortlabels]{enumitem}
+\usepackage{boondox-cal}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\olz}[1]{\overline{Z}_{#1}}
+\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}^{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\vhat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\bcls}{\tilde{\beta}_{CLS}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\vt}{\tilde{\varepsilon}}
+\renewcommand{\Pr}[1]{Pr\left(#1\right)}
+\newcommand{\biv}{\bhat^{IV}}
+\newcommand{\xbar}{\overline{X}}
+\newcommand{\ybar}{\overline{Y}}
+\newcommand{\zbar}{\overline{Z}}
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\title{	Problem Set \#3 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 710: Economic Statistics and Econometrics II	\\
+			Spring 2021											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+
+\begin{enumerate}[(i)]
+	\item Before showing this equivalence, let us first observe $\E{ZX'}$ and $\E{ZZ'}$:
+	\[
+		\E{ZX'} = \begin{pmatrix} \E{Z_1X_1} & \E{X_2'Z_1} \\ \E{X_2X_1} & \E{X_2X_2'} \end{pmatrix}\text{, }
+		\E{ZZ'} = \begin{pmatrix} \E{Z_1^2}  & \E{X_2'Z_1} \\ \E{X_2Z_1} & \E{X_2X_2'}  \end{pmatrix}
+	\]
+	Note that the only difference between these two matrices is the first column. Further, since $X_2$ is assumed non-zero, $\E{X_2X_2'}$ is invertible. Thus, we know that the rank of the last ${k-1}$ columns of $\E{ZX'}$ and $\E{ZZ'}$ is $k-1$ so long as ${\E{X_2'Z_1}\neq0}$. We will show each side of the ``if and only if" condition separately.
+		\begin{itemize}
+			\item[(a)] If $\E{ZZ'}$ is invertible and ${\pi\neq 0}$, then we know that ${\E{ZZ'}^{-1}y=0}$ iff $y=0$. Since ${\pi_1\neq 0}$, ${\E{ZX_1}\neq0}$. Thus, the first column of ${\E{ZX'}\neq 0}$. Therefore, $\E{ZX'}$ is invertible.
+			
+			\item[(b)] If $\E{ZX'}$ is invertible, then rank($\E{ZX'}$)=$k$, so ${\pi_1\neq0}$. This implies that $\E{Z_1^2}\neq 0$, so $\E{ZZ'}$ is invertible.
+		\end{itemize}
+	$\therefore$  $\E{ZX'}$ is invertible $\iff$ $\E{ZZ'}$ is invertible and ${\pi\neq 0}$ $\blacksquare$
+	
+	\item Given our asymptotic distribution of $\biv$, if we assume homoskedasticity, we have:
+		\[
+			\Omega = \sigma_U^2\E{ZX'}^{-1}\E{ZZ'}\E{XZ'}^{-1}
+		\]
+		Using the block inversion formula, we can solve:
+		\begin{align*}
+			\E{Z'X}^{-1} &= \frac{1}{k}\begin{pmatrix} 1 & -\E{Z_1X_2'}\E{X_2X_2'}^{-1} \\ . & . \end{pmatrix}	\\
+			\E{XZ'}^{-1} &= \frac{1}{k}\begin{pmatrix} 1 & . \\ -\E{Z_1X_2}\E{X_2X_2'}^{-1} & . \end{pmatrix} 	\\
+			\text{Where } k &= \E{Z_1X_1} - \E{X_2'X_1}\E{X_2X_2'}^{-1}\E{X_2Z_1} = \E{X_1\tilde{Z}_1}
+		\end{align*}
+		And where neither the second row of $\E{Z'X}^{-1}$ nor the second column of $\E{XZ'}^{-1}$ enter $\Omega_{11}$. Then,
+		\begin{align*}
+			\Omega_{11} &= \frac{\sigma_U^2}{\E{X_1\tilde{Z}_1}^2}\left(\E{Z_1^2 }- \E{Z_1X_2'}\E{X_2X_2'}^{-1}\E{X_2Z_1}\right)	\\
+						&= \frac{\sigma_U^2}{\E{X_1\tilde{Z}_1}^2}\E{\tilde{Z}_1}^2 = \frac{\sigma_U^2\tilde{Z}_1}{\E{\tilde{Z}_1^2}\pi_1^2}
+		\end{align*}
+	
+	\item $(\pi_1,\pi_2)'$ is the vector of coefficients from a regression of $X_1$ on $Z$, and $\tilde{Z}_1$ is the residualized value of $Z_1$ from said regression.
+	
+	\item First, recognize that $\Omega_{11}$ can be rewritten as:
+		\[
+			\frac{\sigma^2_U\E{\tilde{Z}_1^2}}{\E{\tilde{Z}Z_*}^2}
+		\]
+		Then, by deploying Cauchy-Schwarz, we can derive:
+		\begin{align*}
+			\Omega_{11} = 
+			\frac{\sigma^2_U\E{\tilde{Z}_1^2}}{\E{\tilde{Z}Z_*}^2} 	&\geq 	\frac{\sigma^2_U\E{\tilde{Z}_1^2}}{\E{\tilde{Z}}^2\E{Z_*}^2}	\\
+																	&= 		 \frac{\sigma^2_U}{\E{\E{Z_*}^2}}
+		\end{align*}
+		We could acheive ${\Omega_{11} = \frac{\sigma^2_U}{\E{\E{Z_*}^2}}}$ if ${\tilde{Z}=\E{Z_*}}$.
+		
+	\item Let $X_2=1$. Then $\pi_1$ is simply the coefficient from a regression of $X_1$ on $Z_1$ that includes a constant term, so:
+		\begin{align*}
+													\tilde{Z}_1 = Z_1 - \E{Z_1}		&\Rightarrow \E{\tilde{Z}_1} = Var(Z_1)	\\
+																\E{X_1\tilde{Z}_1} 	&= Cov(X_1,\tilde{Z}_1)					\\
+			\Omega_{11} = \frac{\sigma_U^2}{\E{X_1\tilde{Z}_1}^2}\E{\tilde{Z}_1}^2 	&\Rightarrow 
+				\Omega_{11}											\\
+				\therefore \frac{\Omega_{11}}{\sigma_U^2} 							&= \frac{Var(Z_1)}{Cov(X_1,\tilde{Z}_1)^2}	
+		\end{align*}
+	
+\end{enumerate}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+
+\begin{enumerate}[(i)]
+	\item Let us begin by simplifying $\E{h(Z)(Y-X\beta)}$:
+		\begin{align*}
+			\E{h(Z)(Y-X\beta)} 	&= \E{h(Z)\left(X\beta_1 + U - X\beta\right)}	\\
+								&= \E{h(Z)\E{U|Z}} + \E{h(Z)X(\beta_1-\beta)}	\\
+								&= (\beta_1 - \beta)\E{h(Z)X}
+		\end{align*}
+		If $\E{h(Z)X}\neq0$, then ${(\beta_1 - \beta)\E{h(Z)X}=0}$ if and only if ${\beta=\beta_1}$.
+	
+	
+	\item Suppose ${\E{h(Z)X}\neq0}$. Then, we can derive $\bhat^h_1$ using the equality from (i):
+		\begin{align*}
+				\E{h(Z)(Y-X\beta)} = 0				&\Rightarrow \beta\E{h(Z)X} = \E{h(Z)Y}									\\
+				\beta = \frac{\E{h(Z)Y}}{\E{h(Z)X}} &\Rightarrow \bhat^h_1 = \frac{\sum_{i=1}^n h(Z_i)Y_i}{\sumn h(Z_i)X_i}
+		\end{align*}
+	
+	
+	\item By the central limit theorem,
+		\begin{align*}
+										\bhat^h_1	&= 				\frac{\sum_{i=1}^n h(Z_i)Y_i}{\sumn h(Z_i)X_i}								
+													= 				\frac{\sum_{i=1}^n h(Z_i)(X_i\beta_1 + U)}{\sumn h(Z_i)X_i}					
+													= 				\beta_1 + \frac{\sum_{i=1}^n h(Z_i)U}{\sumn h(Z_i)X_i}						\\
+			\sqrt{n}\left(\bhat^h_1-\beta_1\right)	&= 				\frac{\frac{1}{\sqrt{n}}\sum_{i=1}^n h(Z_i)U}{\frac{1}{n}\sumn h(Z_i)X_i}	
+													\rightarrow_d 	\frac{\E{h(Z)U}}{\E{h(Z)X}}\N(0,1)																		
+													=				\N\left(0,\Omega^h\right)													\\
+										\Omega^h 	&= 				\frac{\E{h(Z)^2U^2}}{\E{h(Z)X}^2}
+		\end{align*}
+	
+	
+	\item Using the Cauchy-Schwarz inequality, we can show:
+		\begin{align*}
+			\Omega^h 	&= 		\frac{\E{h(Z)^2U^2}}{\E{h(Z)X}^2} 			= \frac{\E{h(Z)^2\E{U^2|Z}}}{\E{h(Z)\E{X|Z}}^2}	\\
+						&\geq 	\E{\frac{h(Z)^2\E{U^2|Z}}{h(Z)^2\E{X|Z}^2}} = \E{\frac{\E{U^2|Z}}{\E{X|Z}^2}}				\\
+	\Rightarrow\Omega^h	&\geq 	\E{\frac{\E{X|Z}^2}{\E{U^2|Z}}}^{-1}
+		\end{align*}
+		This lower bound is achieved by ${h(Z) = \frac{\E{X|Z}}{\E{U^2|Z}}}$:
+		\begin{align*}
+			\Omega^h 	&= \frac{\E{ \left(\frac{\E{X|Z}}{\E{U^2|Z}}\right)^2U^2}}{\E{ \frac{\E{X|Z}}{\E{U^2|Z}}X}^2} 
+							= \frac{\E{\frac{\E{X|Z}^2}{\E{U^2|Z}^2}\E{U^2|Z}}}{\E{\frac{\E{X|Z}}{\E{U^2|Z}}\E{X|Z}}^2} 	\\
+						&= \frac{\E{\E{X|Z}^2}}{\E{\frac{\E{X|Z}^2}{\E{U^2|Z}}}^2} 
+							= \frac{1}{\E{\frac{\E{X|Z}^2}{\E{U^2|Z}}}} 													\\
+						&= \E{\frac{\E{X|Z}^2}{\E{U^2|Z}}}^{-1}
+		\end{align*}
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+The attached Matlab file, \texttt{edgel\_ps3.m}, calculates $\bhat^{2SLS}_1$ and $\hat{V}_\beta$ using formula (12.40) of Professor Hansen's textbook. The results for $\beta_1$ are displayed below, rounded to the nearest thousandth.
+	\input{q3.tex}
+The code used is provided at the end of this file.
+
+\pagebreak
+\lstinputlisting{edgel_ps3.m}
+
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
