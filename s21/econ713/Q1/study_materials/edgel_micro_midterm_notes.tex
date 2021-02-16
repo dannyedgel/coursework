@@ -100,7 +100,7 @@
 
 \title{	Midterm Review }
 \author{ 	Danny Edgel 					\\ 
-		Econ 713: Microeconomics I		\\
+		Econ 713: Microeconomics II		\\
 		Spring 2021, Quarter 1			\\
 		}
 \maketitle\thispagestyle{empty}
@@ -109,7 +109,7 @@
 
 %%%________________________________________________________________%%%
 
-\section*{NTU Matching}
+\section*{Non-Transferable Utility (NTU) Matching}
 
 \begin{itemize}
 	\item Positive-Assortative Matching (PAM): The derivative of each side’s payoff function has the same sign
@@ -159,7 +159,7 @@
 
 %%%________________________________________________________________%%%
 
-\section*{TU Matching}
+\section*{Transferable Utility (TU) Matching}
 
 
 \begin{itemize}
@@ -174,8 +174,13 @@
 			\item If not differentiable, decreasing differences 
 		\end{itemize}
 	
+	\item Competitive mechanics of a TU matching market: there exists an industry of ``match-makers" who get the output from the matches they make and pay wages to each side.
+		\begin{itemize}
+			\item If matchmakers are making a profit, then free entry of new match-makers hold that new match-makers will enter and out-compete incumbent match-makers by either making better matches or paying higher wages. Thus, the profit of match-makers has a maximum of 0
+			
+			\item If matchmakers make inefficient matches, then they will be unable to pay high enough wages to at least one side of the match to stave off more efficient matchmakers from offering higher wages for a more efficient match
+		\end{itemize}
 	
-
 	\item Finding wages (differentiable case)
 		\begin{enumerate}
 			\item Let $\pi=h(x,y)-v(x)-w(y)$ be the profit function for matchmakers in this market, where $h(x,y)$ is the output of a match. Find FOC for one side of the market\footnote{if FOCs aren’t symmetric, repeat steps 1-3 for other side of market}
@@ -189,9 +194,52 @@
 					\item If there is a short side of the market, pin wages down uniquely by setting $c$ and $k$ such that the short side captures all surplus. For example, if the mass of type $y$ exceeds that of type $x$, then $c=0$, $k=S$.
 				\end{itemize}
 		\end{enumerate}
+		
+	\item Finding wages (discrete case)
+		\begin{enumerate}
+			\item Determine the efficient match (i.e. the one that maximimizes total output)
+			\item Set up the inequalities for the wages in this match: 
+				\begin{itemize}
+					\item The sum of the two sides in each efficient match can be no greater than the output of that match 
+					\item The sum of each individual's wage and the wage of their next-best match must be weakly greater than their match output (in order to dissuade that match)
+				\end{itemize}
+			\item Due to competitive mechanics of TU matching, match condition (1) will hold with equality
+			\item Use these two sets of inequalities to derive the intervals for each individual's wage
+		\end{enumerate}
 \end{itemize}
 
 %%%________________________________________________________________%%%
 
+\section*{Double Auctions}
+
+\begin{itemize}
+	\item In a double auction, there are $n$ buyers with valuations $v_i$ for a homogenous good and $m$ sellers of the good with costs $c_j$
+	
+	\item NAM theorem: NAM of buyers and sellers in a double auction results in a total surplus that is weakly greater than any other matching method
+	
+	\item Solving for equilibrium in a double auction:
+		\begin{enumerate}
+			\item Determine market demand by sorting valuations in descending order and summing demand at each price
+			\item Determine market supply by sorting costs in ascending order and summing supply at each price 
+			\item Tip for steps 1 and 2: Draw up a table of each side of the market, with columns representing the open-closed interval of demand/supply at each price/cost/valuation\textemdash e.g., for ${v_i=\$10}$, if adding $i$'s demand at a price of \$10 takes demand from 20 units to 25, then have one column that represents pre-\$10 demand and another with demand at \$10. This makes graphing the staircase-looking function much easier.
+			\item Either visually identfy on the tables where the two curves intersect, or begin testing plausbile prices, raising or lowering price ``guesses" according to supply and demand at each guessed price 
+			\item After determining an equilibrium price/quantity, determine whether it is unique by graphing supply and demand around that point
+		\end{enumerate}
+	
+	\item Collusion outcomes:
+		\begin{itemize}
+			\item Sellers collude: Total seller profit is maximized. To solve:
+				\begin{enumerate}
+					\item Begin with the highest price that won't decrease demand 
+					\item Calculate the change in total seller profit if you raise to the next buyer's valuation
+					\item If (2) is negative, then the price from (1) is optimal. If (2) is positive, repeat step 2 until you find the price that results in negative marginal profit
+				\end{enumerate}
+			
+			\item Buyers collude: Total consumer surplus is maximized. To solve, use same method as solving for the seller collusion outcome, but with progressively lowering the price
+		\end{itemize}
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
 
 \end{document}
