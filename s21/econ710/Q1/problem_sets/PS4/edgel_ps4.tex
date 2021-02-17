@@ -189,7 +189,7 @@ In order for ${\text{Pr}(\text{Defying})=0}$, $Z$ must be monotonic in $X$. In o
 	\item $\theta_1$ is \textit{not} identified from the autocorrelation function, since it only shows up in the $k=1$ case, in which the solution is nonunique in most cases, since any value other than $-1$ or $1$ has the same autocorrelation for its reciprocal.
 	
 	
-	\item In the case where $\theta_1\in[-1,1]$, 
+	\item In the case where $\theta_1\in[-1,1]$, we can rule out the solution with an absolute value greater than 1, in which case $\theta_1$ is identified.
 	
 \end{enumerate}
 
@@ -198,10 +198,39 @@ In order for ${\text{Pr}(\text{Defying})=0}$, $Z$ must be monotonic in $X$. In o
 \section*{Question 3}
 
 \begin{enumerate}[(i)]
-	\item 
+	\item To set ${\mu=\E{Y_t}}$ such that $\E{Y_t}$ doesn't rely on $t$, we can use the first two observations of $Y_t$:
+		\[
+			Y_1 = \alpha_0 + Y_0\rho + \varepsilon_1 + \theta\varepsilon_0 = \alpha_0 + (\mu + \varepsilon_0 + \nu)\rho + \varepsilon_1 + \theta\varepsilon_0
+		\]
+		Thus,
+		\begin{align*}
+			\E{Y_0} &= \E{Y_1} 					\\
+			\mu		&= \alpha_0 + \rho\mu		\\
+			\mu 	&= \frac{\alpha_0}{1-\rho}
+		\end{align*}
+		Similarly, we can use $Y_0$ and $Y_1$ to determine $\tau$:
+		\begin{align*}
+			Var(Y_0) 		&= Var(Y_1) = Var(\rho Y_0 + \varepsilon_1 + \theta\varepsilon_0)	\\
+			\sigma^2 + \tau &= \rho^2(\sigma^2 + \tau) + \sigma^2 + \theta^2\sigma^2			\\
+			(1-\rho^2)\tau 	&= (\rho^2 + \theta^2)\sigma^2										\\
+					\tau	&= \frac{(\rho^2 + \theta^2)\sigma^2}{1-\rho^2}
+		\end{align*}
 	
-	
-	\item 
+	\item In order for $(1,Y_{t-2})$ to be a valid instrument for $(1,Y_{t-1})$, it would need to satisfy (1) exogeneity, and (2) relevance:
+		\begin{align}
+			\E{U_t|Y_{t-2}} 		&= 		0	\\
+			Cov(Y_{t-1},Y_{t-2}) 	&\neq	0
+		\end{align}
+		Since we've established that $\{Y_t\}$ is stationary, we need only establish exogeneity and relevance for $Y_0$ relative to $Y_1$ and $Y_2$:
+		\begin{align*}
+			\E{U_2|Y_{0}} 	&= \E{\varepsilon_1 + \theta\varepsilon_0|\mu + \varepsilon_0 + \nu} = 0										\\
+			Cov(Y_1,Y_0)	&= \E{Y_1Y_0} - \mu^2 \\
+							&= \alpha_0\mu + \rho\E{(\mu + \varepsilon_0 + \nu)^2} + \E{(\varepsilon_1 + \theta\varepsilon_0)Y_0} - \mu^2	\\
+							&= \alpha_0\mu + \rho(\mu^2 + \sigma^2 + \tau) + \E{(\varepsilon_1 + \theta\varepsilon_0)Y_0} - \mu^2			\\
+							&= \alpha_0\mu + \rho\mu^2 + \rho\sigma^2 + \rho\tau + \theta\sigma^2 - \mu^2									\\
+							&= \frac{\alpha_0^2}{1-\rho} - \frac{\alpha_0^2}{1-\rho} + \rho\tau + (\rho + \theta)\sigma^2					\\
+							&= \rho\tau + (\rho + \theta)\sigma^2 > 0
+		\end{align*}
 
 	
 \end{enumerate}
