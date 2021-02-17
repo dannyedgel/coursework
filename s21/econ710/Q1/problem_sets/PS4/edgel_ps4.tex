@@ -1,0 +1,225 @@
+%%% Econ710: Econometrics
+%%% Spring 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Tuesday, February 23rd, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{color}
+\usepackage{courier}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[shortlabels]{enumitem}
+\usepackage{boondox-cal}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\olz}[1]{\overline{Z}_{#1}}
+\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}^{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\vhat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\bcls}{\tilde{\beta}_{CLS}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\vt}{\tilde{\varepsilon}}
+\renewcommand{\Pr}[1]{Pr\left(#1\right)}
+\newcommand{\biv}{\bhat^{IV}}
+\newcommand{\xbar}{\overline{X}}
+\newcommand{\ybar}{\overline{Y}}
+\newcommand{\zbar}{\overline{Z}}
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\title{	Problem Set \#4 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 710: Economic Statistics and Econometrics II	\\
+			Spring 2021											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Collaborated with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+In order for ${\text{Pr}(\text{Defying})=0}$, $Z$ must be monotonic in $X$. In order for ${\text{Pr}(\text{Complying})>0}$, it must be the case that, in a nonzero number of cases, ${X(Z=1)=1}$ where ${X(Z=0)=0}$. Thus, ${U_1 > 0}$ and ${\text{Pr}(U_1>U_0)>0}$.
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+
+\begin{enumerate}[(i)]
+	\item The autocovariance function is defined as:
+		\[
+			\gamma(k) = Cov(Y_t,Y_{t-k}) = \E{\left(Y_t - \E{Y_t}\right)\left(Y_{t-k} - \E{Y_{t-k}}\right)} = \E{Y_tY_{t-k}} - \E{Y_{t}}\E{Y_{t-k}}
+		\]
+		Where:
+		\begin{align*}
+			\E{Y_t} 	&= \mu + \E{\varepsilon_t} + \theta_1\E{\varepsilon_{t-1}} + ... + \theta_q\E{\varepsilon_{t-q}} = \mu = \E{Y_{t-k}}\text{, }\forall k	\\
+			Y_tY_{t-k}	&= \mu^2 + \mu\left(\varepsilon_{t-k}+ \theta_1\varepsilon_{t-k-1}+ ... + \theta_q\varepsilon_{t-k-q}\right) 
+							+ \varepsilon_t\left(\varepsilon_{t-k}+ \theta_1\varepsilon_{t-k-1}+ ... + \theta_q\varepsilon_{t-k-q}\right) + ...							\\
+		\E{Y_tY_{t-k}}	&= \mu^2 + \varepsilon_t^2 + ... + \varepsilon_{t-k}^2			
+		\end{align*}
+		Thus, letting ${\varepsilon_t^2 = \sigma^2}$ for all $t$ and recognizing that ${\theta_k=0}$ for all ${k<t-q}$,
+		\[
+			\gamma(k) = \begin{cases} 
+							\left(\theta_k + ... + \theta_{q-k}\theta_q\right)\sigma^2, 	& k\leq q \\ 
+							0, 																& k>q 
+						\end{cases}
+		\]
+	
+	\item If ${q=1}$, then:
+		\[
+			\gamma(k) =  \begin{cases} 
+							\left(1 + \theta_1^2\right)\sigma^2	& k = 0	\\
+							\theta_1\sigma^2, 					& k = 1 \\ 
+							0, 									& k>1
+						\end{cases} \Rightarrow 
+			\rho(k) =  \begin{cases} 
+							1									& k = 0	\\
+							\frac{\theta_1}{1 + \theta_1^2}, 	& k = 1 \\ 
+							0, 									& k>1
+						\end{cases}
+		\]
+	
+	\item $\theta_1$ is \textit{not} identified from the autocorrelation function, since it only shows up in the $k=1$ case, in which the solution is nonunique in most cases, since any value other than $-1$ or $1$ has the same autocorrelation for its reciprocal.
+	
+	
+	\item In the case where $\theta_1\in[-1,1]$, 
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+
+\begin{enumerate}[(i)]
+	\item 
+	
+	
+	\item 
+
+	
+\end{enumerate}
+
+
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
