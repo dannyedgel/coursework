@@ -197,10 +197,45 @@ Finally, since labor is inelastically supplied at ${L_t=1}$, ${\ell_t=0}$. Note 
 			(1-\theta)P_t + \theta\frac{W_t}{A_t} = \varphi\Et{\frac{W_t}{C_t}\pi_t(\pi_t+1)-\beta\frac{W_{t+1}}{C_{t+1}}\pi_{t+1}}
 		\]
 	
-	\item 
+	\item With this simplified FOC, we can log-linearize to get a first-order approximation of deviations from the steady-state, nesting each side of the equation with:
+		\begin{align*}
+			&X_t = (1-\theta)P_t + \theta\frac{W_t}{A_t}	&Z_t = \frac{W_t}{C_t}\pi_t(\pi_t+1)-\beta\frac{W_{t+1}}{C_{t+1}}\pi_{t+1}
+		\end{align*}
+		Recall that ${\pi_t=\frac{P_t}{P_{t-1}}-1}$, so $\pi$ is already given as percent deviations from a steady-state of zero. Then, the first-order approximation of the sytstem is:
+		\begin{align*}
+			x_t	&= \varphi\Et{z_t}																								\\
+			x_t &= \left(\frac{(1-\theta)\overline{P}}{(1-\theta)\overline{P}+\theta(\overline{W}/\overline{A})}\right)p_t +
+					\left(\frac{\theta(\overline{W}/\overline{A})}{(1-\theta)\overline{P}+\theta(\overline{W}/\overline{A})}\right)(w_t-a_t)	\\
+			z_t &= \frac{\overline{W}}{\overline{C}}\pi_t- \beta\frac{\overline{W}}{\overline{C}}\pi_{t+1}					
+		\end{align*}
+		Since ${\overline{\pi}=0}$ in the steady state, ${\overline{X}=0}$, so the denominators on the left-hand side are irrelevant, enabling the following simplification:
+		\[
+			(1-\theta)\overline{P}p_t + \theta\frac{\overline{W}}{\overline{A}}(w_t-a_t) 
+					= \varphi\frac{\overline{W}}{\overline{C}}\pi_t- \varphi\beta\frac{\overline{W}}{\overline{C}}\Et{\pi_{t+1}}
+		\]
+		
+	\item To determine the output gap in terms of the FOC variables, consider the labor supply curve and market-clearing conditions:
+		\begin{align*}
+			&Y_t = C_t 	&C_t = \frac{W_t}{P_t}	\\
+			&y_t = c_t 	&c_t = w_t - p_t		\\
+		\end{align*}
+		Also note the steady-state equivalencies from question 1, which enable many cancellations, namely from ${\overline{W}=\overline{P}\overline{C}}$ and ${\frac{\overline{C}}{\overline{A}} = \frac{\theta-1}{\theta}}$:
+		\begin{align*}
+			\Rightarrow (1-\theta)\overline{P}p_t + \theta\frac{\overline{W}}{\overline{A}}(y_t+p_t-a_t) 
+					&= \varphi\frac{\overline{W}}{\overline{C}}\pi_t- \varphi\beta\frac{\overline{W}}{\overline{C}}\Et{\pi_{t+1}}	\\
+			\left[(1-\theta)\overline{P} + \theta\frac{\overline{P}\overline{C}}{\overline{A}}\right]p_t + 
+				\theta\frac{\overline{P}\overline{C}}{\overline{A}}(y_t-a_t) 
+				&= \varphi\frac{\overline{P}\overline{C}}{\overline{C}}\pi_t- \varphi\beta\frac{\overline{P}\overline{C}}{\overline{C}}\Et{\pi_{t+1}}	\\
+			\left[(1-\theta) + \theta\frac{\theta-1}{\theta}\right]p_t + 
+				\theta\frac{\theta-1}{\theta}(y_t-a_t)  &= \varphi\pi_t- \varphi\beta\Et{\pi_{t+1}}	\\
+			\Rightarrow \pi_t = \frac{\theta-1}{\varphi}(y_t-a_t) + \beta\Et{\pi_{t+1}}
+		\end{align*}
 	
-	\item 
-	
+	\item The NKPC under Calvo pricing is:
+		\[
+			\pi_t = \frac{1}{\lambda}(1-\lambda)(1-\beta\lambda)(\sigma + \phi)\left(y_t + \frac{1+\phi}{\sigma+\phi}a_t\right) + \beta\Et{\pi_{t+1}}
+		\]
+		Where $\lambda$ is a price friction parameter between 0 and 1, and $\phi$ is the reciprocal of the IES for labor. Note that setting ${\phi=0}$ and ${\sigma=1}$ enables easier comparability between the utility function in our model and the one used in Calvo pricing. In this case, the output gaps of the two Phillips curves are equal, and the coefficient on the output gaps, while different, are more comparable. In each case, this coefficient is positive and increases with greater price stickiness.
 	
 \end{enumerate}
 
@@ -210,13 +245,33 @@ Finally, since labor is inelastically supplied at ${L_t=1}$, ${\ell_t=0}$. Note 
 
 \subsection*{Question 3}
 
-
+The source of inflation costs in the Calvo model is the misallocation of labor that comes from some firms being unable to adjust their prices while others are able to: The firms that raise their prices are able to hire more workers than non-price-flexible firms, even though they have the same marginal costs. In this model, firms are symmetric, so there can be no such misallocation. Instead, there is an aggregate misallocation of labor, where workers are paid simply to change prices when, in a flexible-price model, nominal wages would adjust downward.
 
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 4}
 
+To find an equilibrium under this model with the Taylor rule ${i_t=\phi x_t + u_t}$, let us rewrite the NKPC and Euler equation as a linear system. First, we must write the Euler equation as a function of inflation and the output gap, $x_t$:
+\begin{align*}
+	c_t 			&= \Et{c_{t+1} + p_{t+1} - p_t - i_t}				\\
+	x_t + a_t 		&= \Et{x_{t+1} + a_{t+1} + \pi_{t+1} - i_t}			\\
+	\Et{x_{t+1}} 	&= -\Et{a_{t+1}-a_t} + x_t - \Et{\pi_{t+1}} + i_t
+\end{align*}
+As under Calvo pricing, we define the ``natural rate" as the one that prevails under flexible prices. Accounting for this and substituting the Taylor Rule and NKPC,
+\begin{align*}
+	r^n_t			&= \Et{a_{t+1}-a_t}																			\\
+	\Et{x_{t+1}} 	&= -r^n_t + x_t + \frac{\theta-1}{\beta\varphi}x_t - \frac{1}{\beta}\pi_t + \phi x_t + u_t	\\
+	\Et{x_{t+1}} 	&= \left(1+\phi + \frac{\theta-1}{\beta\varphi}\right)x_t - \frac{1}{\beta}\pi_t+u_t-r^n_t 	
+\end{align*}
+Taken as a linear system, we have:
+\[
+	\Et{\colvec{2}{\pi_{t+1}}{x_{t+1}}} = 
+		\begin{pmatrix} \frac{1}{\beta}		& -\frac{\theta-1}{\beta\varphi} 			\\
+						-\frac{1}{\beta}	& 1+\phi + \frac{\theta-1}{\beta\varphi}  								
+		\end{pmatrix} \colvec{2}{\pi_t}{x_t} + \colvec{2}{0}{1}(u_t-r^n_t) 	= Av + Bc
+\]
+To determine the restriction on $\phi$ that will give this model a unique equilibrium, we can find the eigenvalues of the $A$ matrix, which must be greater than one:
 
 
 
