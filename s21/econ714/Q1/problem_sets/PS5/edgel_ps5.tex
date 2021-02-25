@@ -249,7 +249,7 @@ The source of inflation costs in the Calvo model is the misallocation of labor t
 
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \subsection*{Question 4}
 
 To find an equilibrium under this model with the Taylor rule ${i_t=\phi x_t + u_t}$, let us rewrite the NKPC and Euler equation as a linear system. First, we must write the Euler equation as a function of inflation and the output gap, $x_t$:
@@ -271,8 +271,17 @@ Taken as a linear system, we have:
 						-\frac{1}{\beta}	& 1+\phi + \frac{\theta-1}{\beta\varphi}  								
 		\end{pmatrix} \colvec{2}{\pi_t}{x_t} + \colvec{2}{0}{1}(u_t-r^n_t) 	= Av + Bc
 \]
-To determine the restriction on $\phi$ that will give this model a unique equilibrium, we can find the eigenvalues of the $A$ matrix, which must be greater than one:
-
+To determine the restriction on $\phi$ that will give this model a unique equilibrium, we can find the eigenvalues of the $A$ matrix:
+\begin{align*}
+	f(\lambda) &= \left(\frac{1}{\beta}-\lambda\right)\left(1+\phi+\frac{\theta-1}{\beta\varphi}-\lambda\right) + \frac{\theta-1}{\beta^2\varphi}			\\
+	f(\lambda) &= \lambda^2 - \left(1+\phi+\frac{1}{\beta}+\frac{\theta-1}{\beta\varphi}\right)\lambda + \frac{1}{\beta}\left(1+\phi+\frac{\theta-1}{\beta\varphi}\right)
+\end{align*}
+In order for this system to have a unique equilibrium, each eigenvalue must be greater than one. This is true if ${f(0)>f(1)>0}$, or:
+\begin{align*}
+	f(0)-f(1) 																&> 0														\\
+	-1+\left(1+\phi+\frac{1}{\beta}+\frac{\theta-1}{\beta\varphi}\right)	&> 0														\\
+																	\phi	&< \frac{1}{\beta}\left(\frac{\theta-1}{\varphi}+1\right)
+\end{align*}
 
 
 
