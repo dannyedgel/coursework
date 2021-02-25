@@ -153,7 +153,7 @@ Log-linearizing our equations for this model provides the following, which descr
 Finally, since labor is inelastically supplied at ${L_t=1}$, ${\ell_t=0}$. Note that we can combine the equations for $p_t$, $p_{it}$, and $c_t$ to determine that ${c_t=a_t}$, which shows that all fluctuations in consumption come exclusively from productivity shocks.
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \subsection*{Question 2}
 
 \begin{enumerate}[(a)]
@@ -172,12 +172,20 @@ Finally, since labor is inelastically supplied at ${L_t=1}$, ${\ell_t=0}$. Note 
 			\usmax{\{P_{it}\}}\Et{\sum_{j=0}^\infty\beta^j\left(\frac{P_t}{P_{t+j}}\right)\frac{C_t}{C_{t+j}}
 				\left(P_{it+j}^{1-\theta}P_{t+j}^\theta C_{t+j}-\frac{W_{t+j}}{A_{t+j}}\left(\frac{P_{it+j}}{P_{t+j}}\right)^{-\theta}C_{t+j}-\frac{\varphi W_{t+j}}{2}\left(\frac{P_{it+j}-P_{it+j-1}}{P_{it+j-1}}\right)^2\right)}
 		\] }
-		The firm has a single first-order condition, for $P_{it}$, where the stochastic discount:
-		\begin{align*}
-			[something complicated]
-		\end{align*}
+		The firm has a single first-order condition, for $P_{it}$:
+		{\footnotesize \[
+			(\theta-1)\left(\frac{P_{it}}{P_t}\right)^{-\theta}C_t + \theta\frac{W_t}{A_t}P_{it}^{-\theta-1}P_t^\theta - 
+				\frac{\varphi W_t}{P_{it-1}}\left(\frac{P_{it}}{P_{it-1}} - 1\right)
+			= \beta\E{\Theta_{t,t+1}\frac{\varphi W_{t+1}P_{it+1}}{P_{it}^2}\left(\frac{P_{it+1}}{P_{it}}-1\right)}
+		\] }
 		
-	\item
+	\item Symmetry across producers implies ${P_{it}=P_t}$. Imposing this condition at letting ${\pi_t=\frac{P_t}{P_{t-1}}-1}$, the firm FOC becomes:
+		\begin{align*}
+			(\theta-1)C_t + \theta\frac{W_t}{P_tA_t} - \frac{\varphi W_t}{P_{t-1}}\pi_t
+				&= \beta\E{\Theta_{t,t+1}\frac{\varphi W_{t+1}P_{t+1}}{P_{t}^2}\pi_{t+1}}	\\
+			(\theta-1)P_tC_t + \theta\frac{W_t}{A_t} - \varphi W_t\pi_t(\pi_t+1)
+				&= \beta\E{\Theta_{t,t+1}\frac{\varphi W_{t+1}}{P_{t}}\pi_{t+1}(\pi_{t+1}+1)}	\\
+		\end{align*}
 	
 	\item 
 	
