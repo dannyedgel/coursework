@@ -174,18 +174,28 @@ Finally, since labor is inelastically supplied at ${L_t=1}$, ${\ell_t=0}$. Note 
 		\] }
 		The firm has a single first-order condition, for $P_{it}$:
 		{\footnotesize \[
-			(\theta-1)\left(\frac{P_{it}}{P_t}\right)^{-\theta}C_t + \theta\frac{W_t}{A_t}P_{it}^{-\theta-1}P_t^\theta - 
+			(1-\theta)\left(\frac{P_{it}}{P_t}\right)^{-\theta}C_t + \theta\frac{W_t}{A_t}P_{it}^{-\theta-1}P_t^\theta C_t - 
 				\frac{\varphi W_t}{P_{it-1}}\left(\frac{P_{it}}{P_{it-1}} - 1\right)
-			= \beta\Et{\Theta_{t,t+1}\frac{\varphi W_{t+1}P_{it+1}}{P_{it}^2}\left(\frac{P_{it+1}}{P_{it}}-1\right)}
+			= -\Et{\Theta_{t,t+1}\frac{\varphi W_{t+1}P_{it+1}}{P_{it}^2}\left(\frac{P_{it+1}}{P_{it}}-1\right)}
 		\] }
 		
 	\item Symmetry across producers implies ${P_{it}=P_t}$ and ${C_{it}=C_t}$. Imposing this condition and letting ${\pi_t=\frac{P_t}{P_{t-1}}-1}$, the firm FOC becomes:
-		\begin{align*}
-			(\theta-1)C_t + \theta\frac{W_t}{P_tA_t} - \frac{\varphi W_t}{P_{t-1}}\pi_t
-				&= \beta\Et{\Theta_{t,t+1}\frac{\varphi W_{t+1}P_{t+1}}{P_{t}^2}\pi_{t+1}}	\\
-			(\theta-1)P_tC_t + \theta\frac{W_t}{A_t} - \varphi W_t\pi_t(\pi_t+1)
-				&= \beta\Et{\Theta_{t,t+1}\varphi W_{t+1}\pi_{t+1}(\pi_{t+1}+1)}	\\
-		\end{align*}
+		{\small \begin{align*}
+			(1-\theta)C_t + \theta\frac{W_t}{P_tA_t}C_t - \frac{\varphi W_t}{P_{t-1}}\pi_t
+				&= -\Et{\Theta_{t,t+1}\frac{\varphi W_{t+1}P_{t+1}}{P_{t}^2}\pi_{t+1}}	\\
+			(1-\theta)P_tC_t + \theta\frac{W_t}{A_t}C_t - \varphi W_t\pi_t(\pi_t+1)
+				&= -\Et{\Theta_{t,t+1}\varphi W_{t+1}\pi_{t+1}(\pi_{t+1}+1)}	\\
+			(1-\theta)P_t + \theta\frac{W_t}{A_t} 
+				&= \varphi\Et{\frac{W_t}{C_t}\pi_t(\pi_t+1)-\frac{\Theta_{t,t+1}}{C_t} W_{t+1}\pi_{t+1}(\pi_{t+1}+1)}	
+		\end{align*} }
+		Where:
+		\[
+			\frac{\Theta_{t,t+1}}{C_t} = \beta\left(\frac{P_tC_t}{C_tP_{t+1}C_{t+1}}\right) = \beta C_{t+1}^{-1}(\pi_{t+1} + 1)^{-1}
+		\]
+		Thus, the simplified FOC is:
+		\[
+			(1-\theta)P_t + \theta\frac{W_t}{A_t} = \varphi\Et{\frac{W_t}{C_t}\pi_t(\pi_t+1)-\beta\frac{W_{t+1}}{C_{t+1}}\pi_{t+1}}
+		\]
 	
 	\item 
 	
