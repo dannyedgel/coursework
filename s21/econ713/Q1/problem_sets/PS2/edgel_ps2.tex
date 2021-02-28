@@ -193,8 +193,22 @@ Since we know that $F$ has a higher price intercept than $T$, we also know that 
 %%%________________________________________________________________%%%
 \pagebreak
 \subsection*{Question 5}
-
-
+Assuming that the firm has monopoly pricing power and is able to price discriminate between the two groups, the firm should charge each group according to the monopoly pricing formula that I derived in question 3: it should charge group 1 a price of \$2 and group 2 a price of \$3.
+\medskip \\
+If marginal cost increases proportionally to quantity, then the firm can no longer independently optimize for each group of shoppers. This is because the monopolist pricing rule is to choose $Q$ such that marginal revenue is equal to marginal cost, then set $P$ that clears demand at $Q$. However, if $MC=Q$, then choosing $Q_i$ for group ${i\in\{1,2\}}$ will change the value $Q_j$ for group ${i\neq j}$ that equates marginal revenue to marginal cost.\footnote{In simpler terms, the marginal cost of production for serving group $i$ is not constant in the quantity of production for group ${j\neq i}$.} The firm can still price discriminate between the two groups, but it now must consider a joint marginal revenue curve:
+\[
+	MR(Q_1 + Q_2) = \text{max}\left\{MR_1(Q_1),MR_2(Q_2)\right\}
+\]
+Since each group's demand curve has the same slope but different intercepts, this curve is just equal to $MR_2(Q)$ until ${Q=1}$, at which point the firm alternates between supplying each group until its marginal cost is equal to the marginal revenue of either curve. The table below displays the progression of each curve in the optimization problem, assuming the good can only be sold in discrete quantities:
+\begin{center}
+	\begin{tabular}{c|ccc|ccc|c}
+		$Q$ & $Q_1$ & $MR_1$ 	& $P_1$	& $Q_2$ & $MR_2$	& $P_2$	& $MC$	\\\hline
+		1	& 0		& -			& 3		& 1		& 4		 	& 4		& 1		\\
+		2 	& 0		& -			& 3		& 2		& 2		 	& 3		& 2		\\
+		3	& 1		& 2			& 2		& 2		& -			& 3		& 3
+	\end{tabular}
+\end{center}
+So the firm either chooses to supply two units to the second group or one unit to each group, in either case, netting \$3 of profit. In the first case, the firm charges \$3 to the second group. In the second case, the firm charges \$2 to the first group and \$4 to the second.
 
 
 %%%________________________________________________________________%%%
