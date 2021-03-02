@@ -70,6 +70,7 @@
 \newcommand{\ybar}{\overline{Y}}
 \newcommand{\zbar}{\overline{Z}}
 \newcommand{\eps}{\varepsilon}
+\newcommand{\esti}{\frac{1}{T_i-1}\sum_{t=1}^{T_i}}
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
 
 \newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
@@ -187,16 +188,39 @@
 		\]
 		This variance is achieved by ${\overline{Z}_i=\Omega_i^{-1}1_i}$
 		
-	\item %The GLS estimator for this 
-		% DANNY: JUST WAIT ON THIS; DO THE CODING PART
-		%If the sample is a balanced panel ($T_i=T$ $\forall i$), then,
-		%\[
-		%	\E{\hat{\mu}_{OLS}} = \frac{\sumn 1_i'Y_i}{\sumn1_i'1_i}
-		%\]
+	\item If $T_i=T$ for all $i$ (i.e., the panel is balanced), then the GLS estimator weights by the entries of $\Sigma^{-1}$, where:
+		\[
+			\Sigma^{-1} = \frac{1}{\sigma^2}\left(I_T - \frac{\sigma^2_\alpha T}{\sigma^2 + \sigma^2_T}\frac{1_i1_i'}{T}\right)
+		\]
+		Then, the optimal instrument for GLS is:
+		\[
+			\overline{Z}_i	= \Sigma^{-1}1_i = \frac{1_i}{\sigma^2}\left(1 - \frac{\sigma^2_\alpha T}{\sigma^2 + \sigma^2_T}\right)
+							= \frac{1_i}{\sigma^2 + \sigma^2T}
+		\]
+		This instrument cancels out in the estimator for $\mu_0$, yielding the OLS estimator:
+		\[
+			\hat{\mu}_{GLS} = \frac{\sumn \overline{Z}_i'Y_i}{\sumn\overline{Z}_i'1_i} 
+							= \frac{\sumn \frac{1}{\sigma^2 + \sigma^2_T}1_i'Y_i}{\sumn\frac{1}{\sigma^2 + \sigma^2_T}1_i'1_i} 
+							= \frac{\sumn 1_i'Y_i}{\sumn1_i'1_i} = \hat{\mu}_{OLS}
+		\]
+		Thus, if the panel is balanced, OLS and GLS are identical.
 	
 	
-	
-	\item 
+	\item First, note that:
+		\[
+			\overline{Y} = \frac{1}{T_i}\sum{t=1}^{T_i}\mu_0 + \alpha_i + \varepsilon_{it} = \mu_0 + \alpha_i + \frac{1}{T_i}\sum{t=1}^{T_i}\varepsilon_{it}
+		\]
+		And let $\overline{\varepsilon} = \frac{1}{T_i}\sum{t=1}^{T_i}\varepsilon_{it}$. Then,
+		\begin{align*}
+			\E{\hat{\sigma}_i^2} 	&= \frac{1}{T_i-1}\sum_{t=1}^{T_i}\E{(\mu_0 + \alpha_i + \eps_{it}-\mu_0 - \alpha_i - \overline{\eps})^2}	\\
+									&= \frac{1}{T_i-1}\sum_{t=1}^{T_i}\E{(\eps_{it} - \overline{\eps})^2}										\\
+									&= \frac{1}{T_i-1}\sum_{t=1}^{T_i}\E{(\eps_{it} - \overline{\eps})\eps_{it}}								\\
+									&= \frac{1}{T_i-1}\sum_{t=1}^{T_i}\E{\eps_{it}^2} - \esti\E{\eps_{it}\overline{\eps})}						\\
+									&= \frac{1}{T_i-1}\sum_{t=1}^{T_i}\E{\eps_{it}^2} - \frac{1}{T_i(T_i-1)}\sum_{t=1}^{T_i}\E{\eps_{it}^2}
+										- \frac{1}{T_i(T_i-1)}\sum_{t=1}^{T_i}\sum_{s\neq t}^{T_i}\E{\eps_{it}\eps_{is}}						\\
+									&= \frac{1}{T_i-1}\sum_{t=1}^{T_i}\sigma^2 - \frac{1}{T_i(T_i-1)}\sum_{t=1}^{T_i}\sigma^2					\\
+									&= \sigma^2
+		\end{align*}
 	
 	
 	\item 
@@ -225,18 +249,10 @@
 %%%________________________________________________________________%%%
 
 \section*{Question 3}
-
-\begin{enumerate}[(i)]
-	\item 
-	
-
-	\item 
-	
-
-	\item 
-	
-	
-\end{enumerate}
+The table below presents the results of the simulations.\footnote{See the attached .do file for the code used to generate this table.} As you can see, the pooled OLS estimator of $\beta_0$ is substantially biased upward. An intuitive but less clearly apparent result is that both the fixed effect estimation of $\beta_0$ is generally efficient but much more efficient for larger $n$ and no autocorrelation.
+\begin{center}
+	\input{q3.tex}
+\end{center}
 
 
 
