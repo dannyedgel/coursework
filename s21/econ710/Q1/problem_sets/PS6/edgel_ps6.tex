@@ -47,7 +47,8 @@
 \newcommand{\olx}[1]{\overline{X}_{#1}}
 \newcommand{\oly}[1]{\overline{Y}_{#1}}
 \newcommand{\olz}[1]{\overline{Z}_{#1}}
-\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+%\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\est}[1]{\frac{1}{\uppercase{#1}}\sum_{\lowercase{#1}=1}^{\uppercase{#1}}}
 \newcommand{\sumn}{\sum_{i=1}^{n}}
 \newcommand{\loge}[1]{\text{log}\left(#1\right)}
 \renewcommand{\tilde}[1]{\widetilde{#1}}
@@ -170,7 +171,7 @@
 			\Rightarrow \Omega_i	&= \sigma^2_\alpha1_i1_i' + \sigma^2I_{T_i}
 		\end{align*}
 	
-	
+	\pagebreak
 	\item To determine how we can show that ${Var(\hat{\mu}_{IV}\geq\left(\sumn 1_i'\Omega_i^{-1}1_i\right)^{-1}}$, we simply need to find that the following inequality holds:
 		\[
 			\left(\sumn Z_i'1_i\right)^2 \leq \left(\sumn Z_i'\Omega_iZ_i\right)\left(\sumn 1_i'\Omega_i^{-1}1_i\right)
@@ -223,10 +224,27 @@
 		\end{align*}
 	
 	
-	\item 
-	
-	
-	\item 
+	\item From (v) and letting $\mu=\mu_0$, we can derive,
+		{\small \begin{align*}
+			\E{\hat{\sigma}_{\alpha,i}^2} 	
+					&= \E{\esti(Y_{it}-\mu_0)^2-\hat{\sigma}_i^2} = \esti\E{(Y_{it}-\mu_0)^2}-\sigma_i^2										\\
+					&= \esti \E{Y_{it}^2} - 2\mu_0\E{Y_{it}} + \mu_0^2 - \sigma_i^2 															\\
+					&= \esti \E{(\mu_0 + \alpha_i + \eps_{it})^2} - 2\mu_0^2 + \mu_0^2 - \sigma_i^2 											\\
+					&= \E{(\mu_0 + \alpha_i)^2} - \mu_0^2  - \sigma_i^2  + \esti -2\mu_0\E{\eps_{it}}- 2\E{\alpha_i\eps_{it}}+\E{\eps_{it}^2}	\\
+					&= \mu_0^2 + 2\mu_0\E{\alpha_i} + \E{\alpha_i^2} - \mu_0^2 - \sigma_i^2 + \sigma_i^2										\\
+					&= \sigma_\alpha^2
+		\end{align*} }
+		This shows that $\hat{\sigma}_{\alpha,i}^2$ is an unbiased estimator of $\sigma_\alpha^2$ for each $i$. Then ${\est{n}\hat{\sigma}_{\alpha,i}(\hat{\mu}_{OLS})}$ must be an unbiased estimator of $\sigma_\alpha^2$, as well.
+		
+	\pagebreak
+	\item We can use the fact that FGLS and GLS have the same asymptotic variance to construct a variance estimator for FGLS. The asymptotic variance for GLS is:
+		\[
+			V = \left(\sumn 1_i'\Omega_i^{-1}1_i\right)^{-1} = \left(\sumn\frac{T_i}{T_i\sigma^2_\alpha+\sigma^2}\right)^{-1}
+		\]
+		Then, an estimator for the asymptotic variance for FGLS is:
+		\[
+			\hat{V} = \left(\sumn\frac{T_i}{T_i\hat{\sigma}_\alpha^2+\hat{\sigma}^2}\right)^{-1}
+		\]
 	
 	
 \end{enumerate}
@@ -237,10 +255,25 @@
 \section*{Question 2}
 
 \begin{enumerate}[(i)]
-	\item 
-	
-
-	\item 
+	\item The asymptotic bias of the fixed effects estimator can be deduced from the probability limit of $\hat{\beta}_{FE}$:
+		{\small \begin{align*}
+			\hat{\beta}_{FE} &\rightarrow_p \beta_0 + \frac{\E{\sum_{t=1}^T(X_{it}-\olx{i})\eps_{it}}}{\E{\sum_{t=1}^T(X_{it}-\olx{i})^2}}	\\
+			\E{\sum_{t=1}^T(X_{it}-\olx{i})\eps_{it}} 	&= \sum_{t=1}^T\E{X_{it}\eps_{it}}-\E{\olx{i}\eps_{it}} 							\\
+														&= -\sum_{t=1}^T\E{\frac{1}{T}\sum_{s=1}^TX_{is}\eps_{it}}							\\
+														&= -\sum_{t=1}^T\E{X_{it+1}\eps_{it}} = -\sum_{t=1}^T\delta\sigma^2_X				\\
+			\Rightarrow \hat{\beta}_{FE} &\rightarrow_p \beta_0 - \frac{\sum_{t=1}^T\delta\sigma^2_X}{\E{\sum_{t=1}^T(X_{it}-\olx{i})^2}}	
+		\end{align*}}
+		The asymptotic bias of the first differences estimator can be similarly derived:
+		{\small \begin{align*}
+			\hat{\beta}_{FD} 
+				&\rightarrow_p \beta_0 + \frac{\E{\sum_{t=2}^T(X_{it}-X_{it-1})(\eps_{it} - \eps_{it-1})}}{\E{\sum_{t=2}^T(X_{it}-X_{it-1})^2}}	\\
+			\E{\sum_{t=2}^T(X_{it}-X_{it-1})(\eps_{it} - \eps_{it-1})}
+				&= \sum_{t=2}^T\E{X_{it}\eps_{it}} - \E{X_{it}\eps_{it-1}} - \E{X_{it-1}\eps_{it}} + \E{X_{it-1}\eps_{it-1}}					\\
+				&= -\sum_{t=2}^T\E{X_{it}\eps_{it-1}} = -\sum_{t=2}^T \delta\sigma^2_X															\\
+			\Rightarrow \hat{\beta}_{FD} &\rightarrow_p \beta_0 - \frac{\sum_{t=2}^T \delta\sigma^2_X}{\E{\sum_{t=2}^T(X_{it}-X_{it-1})^2}}	
+		\end{align*} }
+		
+	\item Yes; if $T=2$, then the bias of these two estimators is identical.
 	
 	
 \end{enumerate}
@@ -249,7 +282,9 @@
 %%%________________________________________________________________%%%
 
 \section*{Question 3}
-The table below presents the results of the simulations.\footnote{See the attached .do file for the code used to generate this table.} As you can see, the pooled OLS estimator of $\beta_0$ is substantially biased upward. An intuitive but less clearly apparent result is that both the fixed effect estimation of $\beta_0$ is generally efficient but much more efficient for larger $n$ and no autocorrelation.
+The table below presents the results of the simulations.\footnote{See the attached .do file for the code used to generate this table.} As you can see, the pooled OLS estimator of $\beta_0$ is substantially biased upward. An intuitive but less clearly apparent result is that both the fixed effect estimation of $\beta_0$ is generally efficient but much more efficient for larger $n$ and no autocorrelation. However, the FE estimate is still biased upward in all specifications, though the bias decreases in the FE model for larger $n$ (this is not true for OLS).
+\medskip \\
+The coverage results are more muddled. The confidence intervals are more accurate with heteroskedasticity robust SEs when there is no autocorrelation, but the cluster robust SEs provide more accurate confidence intervals in the presence of autocorrelation. The latter result is consistent with theory, since the autocorrelation only occurs within the groups which get clustered in the cluster robust SEs.
 \begin{center}
 	\input{q3.tex}
 \end{center}

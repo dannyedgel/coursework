@@ -3,7 +3,7 @@ This file is used to conduct all empirical exercises from Problem Set 6 of
 Econ710q1.
 
 Date created:  01 Mar 2021
-Last modified: 01 Mar 2021
+Last modified: 02 Mar 2021
 Author: Danny Edgel
 */
 set more off
@@ -178,7 +178,7 @@ foreach n in `n_vals'{
 		file write q3															///
 			_tab "`n' & `phi' && `ols_b0_m' & `ols_b0_c' "						///
 					"& `rb_b0_m' & `rb_b0_c' & `cl_b0_m' & `cl_b0_c' \\"		///
-					_newline " &&&&&&&& \\"	_newline	
+					_newline	
 		
 	}
 }
