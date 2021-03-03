@@ -1,0 +1,287 @@
+%%% Econ714: Macroeconomics II
+%%% Spring 2021
+%%% Danny Edgel
+%%%
+% Due on Canvas Monday, March 8th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\Mt}{M_{t+1}^t}
+\newcommand{\vhat}{\hat{v}}
+\newcommand{\olp}{\overline{p}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\olq}{\overline{q}}
+\newcommand{\zinf}{_{t=0}^\infty}
+\newcommand{\aneg}{A^{-1}}
+\newcommand{\sneg}{s^{-1}}
+\newcommand{\olk}{\overline{k}}
+\newcommand{\olc}{\overline{c}}
+\newcommand{\olr}{\overline{r}}
+\newcommand{\olpi}{\overline{\pi}}
+\newcommand{\Aneg}{A^{-1}}
+\renewcommand{\sneg}{s^{-1}}
+\newcommand{\dc}[1]{\Delta c_{#1}}
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\suminf}{\sum_{t=0}^\infty}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\sumnk}{\sum_{i=1}^{N_k}}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\Tau}{\mathrm{T}}
+\newcommand{\phat}{\hat{p}}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]} % expected value
+\newcommand{\Et}[1]{\mathbb{E}_t\left[#1\right]}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#6 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 714: Macroeconomics II		\\
+			Spring 2021						\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Discussed and/or compared answers with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
+ \\
+
+%%%________________________________________________________________%%%
+
+\subsection*{Questions 1}
+
+The monetary policy authority faces the following problem:
+\begin{align*}
+	&\usmin{\{x_t,\pi_t,i_t\}}\frac{1}{2}\E{\sum_{t=0}^\infty\beta^t\left(x_t^2 + \alpha\pi_t^2\right)} \text{, s.t. } 
+		&\sigma\Et{\Delta x_{t+1}} = i_t - \Et{\pi_{t+1}} - r^n_t	\\
+	&	&\pi_t = \kappa x_t + \beta\Et{\pi_{t+1}} + u_t
+\end{align*}
+Using the primal approach, we can optimize the Lagrangian, considering only the NKPC constraint:
+\[
+	\L = -\E{\frac{1}{2}\sum_{t=0}^\infty\beta^t\left(x_t^2 + \alpha\pi_t^2\right) - \lambda_t\left(\pi_t - \kappa x_t - \beta\pi_{t+1} - u_t\right)}
+\]
+Which has the following first order conditions:
+\begin{align*}
+	\frac{\partial\L}{\partial x_t} 	&= -\beta^tx_t + \kappa\lambda_t 						= 0	\\
+	\frac{\partial\L}{\partial \pi_t} 	&= \begin{cases} 
+												-\beta^t\alpha\pi_t - \lambda_t + \beta\lambda_{t-1} 	= 0, &t\geq 1	\\
+												-\beta^t\alpha\pi_t - \lambda_t							= 0, &t=    0
+											\end{cases}
+\end{align*}
+Combining these FOCs enables us to derive an optimal policy rule:
+\begin{align*}
+	&\alpha\kappa\pi_t + \Delta x_t = 0\text{, }t\geq 1		&\alpha\kappa\pi_0 + x_0 = 0
+\end{align*}
+Let $x_{-1}=p_{-1}=0$; then, we can represent the optimal rule as a single equation:
+\[
+	\alpha\kappa\pi_t + \Delta x_t = 0
+\]
+Since this holds for all $t$, we can prove via induction that ${\alpha\kappa p_t + x_t = 0}$:
+\begin{align*}
+	\alpha\kappa(p_0 - p_{-1}) + (x_0 - x_{-1}) &= \alpha\kappa p_0 + x_0 = 0	\\
+	\alpha\kappa(p_t - p_{t-1}) + (x_t - x_{t-1}) &= \alpha\kappa p_t + x_t - (\alpha\kappa p_{t-1} + x_{t-1}) = 0
+\end{align*}
+We can use this optimal policy rule and the NKPC (adjusted to use $p_t-p_{t-1}$ instead of $\pi$) to contruct a linear system from which to solve for equilibrium dynamics:
+\begin{align*}
+	-\beta\E{p_{t+1}} + p_t - p_{t-1} -\kappa(-\alpha\kappa p_t) &= u_t 	\\
+	-\beta\E{p_{t+1}} &= -(1 + \beta + \alpha\kappa^2)p_t + p_{t-1} + u_t 	
+\end{align*}
+\begin{align*}
+	\Rightarrow \colvec{2}{\E{p_{t+1}}}{p_t} 
+		&= 	\begin{pmatrix}
+				1+\frac{1}{\beta}+\frac{\alpha\kappa^2}{\beta}	& -\frac{1}{\beta} \\
+				1												& 0 
+			\end{pmatrix}\colvec{2}{p_t}{p_{t-1}} + \colvec{2}{-\frac{1}{\beta}}{0}u_t
+\end{align*}
+To determine equilibrium dynamics in this model, we must find the eigenvalues of the matrix in this linear system:
+\begin{align*}
+	(1+\frac{1}{\beta}+\frac{\alpha\kappa^2}{\beta}-\lambda)(-\lambda) + \frac{1}{\beta}	&= 0	\\
+	\lambda^2 - (1+\frac{1}{\beta}+\frac{\alpha\kappa^2}{\beta})\lambda + \frac{1}{\beta}	&= 0
+\end{align*}
+Because this system has one state and one choice variable, $\lambda_1>1$ and $\lambda_2<1$, where $\lambda_1$ is the eigenvalue associated with $\E{p_{t+1}}$. Without paying too much mind to the exact values of $\lambda_1$ and $\lambda_2$ and omitting intermediate (and tedious) steps, we can find:
+\begin{align*}
+	\lambda 			&= \frac{1}{2\beta}\left[1+\beta+\alpha\kappa^2 \pm \sqrt{(1+\beta+\alpha\kappa^2}-4\beta\right]	\\
+	\lambda_1\lambda_2 	&= \frac{1}{4\beta^2}\left[(1+\beta+\alpha\kappa^2)^2 - (1+\beta+\alpha\kappa^2)^2 + 4\beta\right]	\\
+						&= \frac{1}{\beta}
+\end{align*}
+Furthermore, we can see that ${\beta(\lambda_1 + \lambda_2) = 1+\beta+\alpha\kappa^2}$. This enables us to write the NKPC with just our eigenvalues and lag operators:
+\begin{align*}
+	-\beta(1-\lambda_1L)(1-\lambda_2L)L^{-1}p_t 				&= u_t																			\\
+	\left(\beta\lambda_1-\beta L^{-1}\right)(1-\lambda_2L)p_t 	&= u_t																			\\
+										p_t - \lambda_2p_{t-1}	&= \left(\frac{1}{\lambda_2}-\beta L^{-1}\right)^{-1}u_t 						\\
+															p_t	&= \left(\frac{\lambda_2}{1-\beta\lambda_2L^{-1}}\right)u_t + \lambda_2p_{t-1}
+\end{align*}
+Since we are given the distribution of the markup shock $u_t$, we can determine solve for $p_t$ at any given $t$, with past realizations accounted for in $p_{t-1}$ and expected future realizations given by the distribution of $u_t$:
+\begin{align*}
+	p_t &= \lambda_2p_{t-1} + \lambda_2\Et{\sum_{j=0}^\infty(\lambda_2\beta)^ju_{t+j}}										\\
+		&= \lambda_2p_{t-1} + \lambda_2\left(u_t + \sum_{j=1}^\infty(\lambda_2\beta)^j\Et{u_{t+j}}\right)					\\
+		&= \lambda_2p_{t-1} + \lambda_2\left(u_t + \left(\frac{\lambda_2\beta}{1-\lambda_2\beta}\right)\overline{u}\right)	\\
+	p_t &= \lambda_2(p_{t-1} + u_t) + \left(\frac{\lambda_2}{\lambda_1-1}\right)\overline{u}					
+\end{align*}
+Recalling our equation for the output gap, this equation can be used to describe the dynamics of $x_t$, as well:
+\[
+	x_t = \lambda_2x_{t-1} - \lambda_2\alpha\kappa u_t - \left(\frac{\lambda_2\alpha\kappa}{\lambda_1-1}\right)\overline{u}
+\]
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 2}
+Under a discretionary policy, the planner can ensure that ${\alpha\kappa\pi_t + x_t = 0}$ in every period. Then, since the NKPC holds each period, we can solve:
+\begin{align*}
+	\pi_t 	&= \kappa x_t + \beta\Et{\pi_{t+1}} + u_t																						\\
+	\pi_t	&= -\alpha\kappa^2\pi_t + \beta\Et{\pi_{t+1}} + u_t																				\\
+	\pi_t	&= \frac{1}{1 + \alpha\kappa^2}\left(\beta\Et{\pi_{t+1}} + u_t\right)															\\
+	\pi_t	&= \frac{1}{1 + \alpha\kappa^2}\sum_{j=0}^\infty \left(\frac{\beta}{1 + \alpha\kappa^2}\right)^j\E{u_{t+j}}						\\
+	\pi_t	&= \left(\frac{1}{1 + \alpha\kappa^2}\right)u_t + \sum_{j=0}^\infty \left(\frac{\beta}{1 + \alpha\kappa^2}\right)^j\E{u_{t+j}}	\\
+	\pi_t	&= \left(\frac{1}{1 + \alpha\kappa^2}\right)u_t + \left(\frac{\beta}{1 -\beta + \alpha\kappa^2}\right)\overline{u}
+\end{align*}
+Applying this to the optimal policy rule yields our equation for the output gap:
+\[
+	x_t = -\left(\frac{\alpha\kappa}{1 + \alpha\kappa^2}\right)u_t - \left(\frac{\beta\alpha\kappa}{1 -\beta + \alpha\kappa^2}\right)\overline{u}
+\]
+
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 3}
+Under the $\pi_t=0$ rule, the NKPC yields the equilibrium allocation:
+\[
+	\pi_t = \kappa x_t + \beta\Et{\pi_{t+1}} + u_t \Rightarrow x_t = -\frac{u_t}{\kappa}
+\]
+
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 4}
+Similar to in question 3, we can determine the equilibrium allocation by setting ${x_t=0}$ in the NKPC:
+\begin{align*}
+	\pi_t &= \beta\Et{\pi_{t+1}} + u_t = \sum_{j=0}^\infty\beta^j\E{u_{t+j}}	\\
+	\pi_t &= u_t + \left(\frac{\beta}{1-\beta}\right)\overline{u}
+\end{align*}
+
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 5}
+To determine under which circumstances one policy is preferable to the other, we must first determine the expected welfare losses under each policy:, letting $W_\pi$ and $W_d$ denote welfare losses under an inflation-targeting and discretionary policy, respectively:
+\[
+	W_\pi 	= \frac{1}{2}\E{\sum_{t=0}^\infty\beta^t\left(-\frac{u_t}{\kappa}\right)^2}
+			= \frac{\sigma^2-\overline{u}^2}{2\kappa^2(1-\beta)}
+\]
+{\footnotesize \begin{align*}
+	W_d		&= \frac{1}{2}\E{\sum_{t=0}^\infty\beta^t\left(\left(-\left(\frac{\alpha\kappa}{1 + \alpha\kappa^2}\right)u_t - \left(\frac{\beta\alpha\kappa}{1 -\beta + \alpha\kappa^2}\right)\overline{u}\right)^2 + \alpha\left(\left(\frac{1}{1 + \alpha\kappa^2}\right)u_t + \left(\frac{\beta}{1 -\beta + \alpha\kappa^2}\right)\overline{u}\right)^2\right)}	\\
+		&= \frac{1}{2}\E{\sum_{t=0}^\infty\beta^t\left[
+				\left(\frac{\alpha^2(1+\kappa^2)}{(1+\alpha\kappa^2)^2}\right)u_t^2 + 
+				\left(\frac{\alpha\beta(\kappa^2 + \alpha)}{(1+\alpha\kappa^2)(1-\beta+\alpha\kappa^2)}\right)u_t\overline{u} + 
+				\left(\frac{\alpha^2\beta^2(1+\kappa^2)}{(1-\beta+\alpha\kappa^2)^2}\right)\overline{u}^2
+			\right]}		\\
+		&= \frac{\alpha}{2(1-\beta)}\left[
+				\left(\frac{\alpha(1+\kappa^2)}{(1+\alpha\kappa^2)^2}\right)(\sigma^2-\overline{u}^2) + 
+				\left(\frac{\beta(\kappa^2 + \alpha)}{(1+\alpha\kappa^2)(1-\beta+\alpha\kappa^2)} + \frac{\alpha\beta^2(1+\kappa^2)}{(1-\beta+\alpha\kappa^2)^2}\right)\overline{u}^2
+			\right]		\\
+		&= \frac{\alpha}{2(1-\beta)}\left[
+				\left(\frac{\alpha(1+\kappa^2)}{(1+\alpha\kappa^2)^2}\right)\sigma^2 + 
+				\left(\frac{\beta(\kappa^2 + \alpha)}{(1+\alpha\kappa^2)(1-\beta+\alpha\kappa^2)} + \frac{\alpha\beta^2(1+\kappa^2)}{(1-\beta+\alpha\kappa^2)^2}-\frac{\alpha(1+\kappa^2)}{(1+\alpha\kappa^2)^2}\right)\overline{u}^2
+			\right]		\\
+\end{align*} }
+
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 6}
+
+
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 7}
+
+
+
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
