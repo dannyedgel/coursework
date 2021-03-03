@@ -201,7 +201,7 @@ Under a discretionary policy, the planner can ensure that ${\alpha\kappa\pi_t + 
 	\pi_t	&= \frac{1}{1 + \alpha\kappa^2}\left(\beta\Et{\pi_{t+1}} + u_t\right)															\\
 	\pi_t	&= \frac{1}{1 + \alpha\kappa^2}\sum_{j=0}^\infty \left(\frac{\beta}{1 + \alpha\kappa^2}\right)^j\E{u_{t+j}}						\\
 	\pi_t	&= \left(\frac{1}{1 + \alpha\kappa^2}\right)u_t + \sum_{j=0}^\infty \left(\frac{\beta}{1 + \alpha\kappa^2}\right)^j\E{u_{t+j}}	\\
-	\pi_t	&= \left(\frac{1}{1 + \alpha\kappa^2}\right)u_t + \left(\frac{\beta}{1 -\beta + \alpha\kappa^2}\right)\overline{u}
+	\pi_t	&= \left(\frac{1}{1 + \alpha\kappa^2}\right)u_t + \left(\frac{\beta}{(1 + \alpha\kappa^2)(1 -\beta + \alpha\kappa^2)}\right)\overline{u}
 \end{align*}
 Applying this to the optimal policy rule yields our equation for the output gap:
 \[
@@ -237,24 +237,53 @@ Similar to in question 3, we can determine the equilibrium allocation by setting
 To determine under which circumstances one policy is preferable to the other, we must first determine the expected welfare losses under each policy:, letting $W_\pi$ and $W_d$ denote welfare losses under an inflation-targeting and discretionary policy, respectively:
 \[
 	W_\pi 	= \frac{1}{2}\E{\sum_{t=0}^\infty\beta^t\left(-\frac{u_t}{\kappa}\right)^2}
-			= \frac{\sigma^2-\overline{u}^2}{2\kappa^2(1-\beta)}
+			= \frac{\sigma^2+\overline{u}^2}{2\kappa^2(1-\beta)}
 \]
 {\footnotesize \begin{align*}
-	W_d		&= \frac{1}{2}\E{\sum_{t=0}^\infty\beta^t\left(\left(-\left(\frac{\alpha\kappa}{1 + \alpha\kappa^2}\right)u_t - \left(\frac{\beta\alpha\kappa}{1 -\beta + \alpha\kappa^2}\right)\overline{u}\right)^2 + \alpha\left(\left(\frac{1}{1 + \alpha\kappa^2}\right)u_t + \left(\frac{\beta}{1 -\beta + \alpha\kappa^2}\right)\overline{u}\right)^2\right)}	\\
-		&= \frac{1}{2}\E{\sum_{t=0}^\infty\beta^t\left[
-				\left(\frac{\alpha^2(1+\kappa^2)}{(1+\alpha\kappa^2)^2}\right)u_t^2 + 
-				\left(\frac{\alpha\beta(\kappa^2 + \alpha)}{(1+\alpha\kappa^2)(1-\beta+\alpha\kappa^2)}\right)u_t\overline{u} + 
-				\left(\frac{\alpha^2\beta^2(1+\kappa^2)}{(1-\beta+\alpha\kappa^2)^2}\right)\overline{u}^2
-			\right]}		\\
-		&= \frac{\alpha}{2(1-\beta)}\left[
-				\left(\frac{\alpha(1+\kappa^2)}{(1+\alpha\kappa^2)^2}\right)(\sigma^2-\overline{u}^2) + 
-				\left(\frac{\beta(\kappa^2 + \alpha)}{(1+\alpha\kappa^2)(1-\beta+\alpha\kappa^2)} + \frac{\alpha\beta^2(1+\kappa^2)}{(1-\beta+\alpha\kappa^2)^2}\right)\overline{u}^2
-			\right]		\\
-		&= \frac{\alpha}{2(1-\beta)}\left[
-				\left(\frac{\alpha(1+\kappa^2)}{(1+\alpha\kappa^2)^2}\right)\sigma^2 + 
-				\left(\frac{\beta(\kappa^2 + \alpha)}{(1+\alpha\kappa^2)(1-\beta+\alpha\kappa^2)} + \frac{\alpha\beta^2(1+\kappa^2)}{(1-\beta+\alpha\kappa^2)^2}-\frac{\alpha(1+\kappa^2)}{(1+\alpha\kappa^2)^2}\right)\overline{u}^2
-			\right]		\\
+	W_d		&= \frac{1}{2}\E{\sum_{t=0}^\infty\beta^t\left((-\alpha\kappa\pi_t)^2 + \alpha\pi_t^2\right)}	\\
+			&= \frac{\alpha(1+\alpha\kappa^2)}{2}\E{\sum_{t=0}^\infty\beta^t
+					\left(\left(\frac{1}{1 + \alpha\kappa^2}\right)u_t + \left(\frac{\beta}{(1 + \alpha\kappa^2)(1 -\beta + \alpha\kappa^2)}\right)\overline{u}\right)^2
+				}		\\
+			&= \frac{\alpha(1+\alpha\kappa^2)}{2(1-\beta)}\left[
+					\left(\frac{1}{(1 + \alpha\kappa^2)^2}\right)\Et{u_t^2} + 
+					2\left(\frac{\beta}{(1 + \alpha\kappa^2)^2(1 -\beta + \alpha\kappa^2)}\right)\Et{u_t}\overline{u} +
+					\left(\frac{\beta^2}{(1 + \alpha\kappa^2)^2(1 -\beta + \alpha\kappa^2)^2}\right)\overline{u}^2
+				\right]		\\
+			&= \frac{\alpha}{2(1-\beta)(1 + \alpha\kappa^2)^2}\left[
+					\sigma^2+\overline{u}^2 + 
+					\left(\frac{2\beta}{1 -\beta + \alpha\kappa^2} + \frac{\beta^2}{(1 -\beta + \alpha\kappa^2)^2}\right)\overline{u}^2
+				\right]		\\
+			&= \frac{\alpha}{2(1-\beta)(1+\alpha\kappa^2)}\left[
+					\sigma^2 + \left(
+							1 + \frac{2\beta}{1 -\beta + \alpha\kappa^2} 
+							+ \frac{\beta^2}{(1 -\beta + \alpha\kappa^2)^2}
+							\right)\overline{u}^2
+				\right]		\\
+			&= \frac{\alpha}{2(1-\beta)(1+\alpha\kappa^2)}\left[
+					\sigma^2 + \left(
+							\frac{1+2\alpha\kappa^2 + \alpha^2\kappa^4-\beta^2}{(1 -\beta + \alpha\kappa^2)^2}
+							\right)\overline{u}^2
+				\right]	
 \end{align*} }
+The social planner prefers an inflation-targeted policy if $W_\pi\leq W_d$:
+\begin{align*}
+	\frac{\sigma^2+\overline{u}^2}{2\kappa^2(1-\beta)}	&\leq 
+		\frac{\alpha}{2(1-\beta)(1+\alpha\kappa^2)}\left[
+					\sigma^2 + \left(
+							\frac{1+2\alpha\kappa^2 + \alpha^2\kappa^4-\beta^2}{(1 -\beta + \alpha\kappa^2)^2}
+							\right)\overline{u}^2 \right]	\\
+	\left(\frac{1+\alpha\kappa^2}{\kappa^2}\right)\sigma^2-\alpha\sigma^2 &\leq	
+		\left[\frac{\alpha(1+2\alpha\kappa^2 + \alpha^2\kappa^4-\beta^2)}{(1 -\beta + \alpha\kappa^2)^2} - \frac{1+\alpha\kappa^2}{\kappa^2}\right]\overline{u}^2	\\
+	\sigma^2 &\leq \left[\frac{\alpha\kappa^2(1+2\alpha\kappa^2 + \alpha^2\kappa^4-\beta^2)}{(1 -\beta + \alpha\kappa^2)^2} - 1-\alpha\kappa^2\right]\overline{u}^2
+\end{align*}
+At the limit as $\beta\rightarrow 1$, this inequality simplifies cleanly:
+\begin{align*}
+	\sigma^2 	&\leq \left[\frac{\alpha\kappa^2(2\alpha\kappa^2 + \alpha^2\kappa^4)}{(\alpha\kappa^2)^2} - 1-\alpha\kappa^2\right]\overline{u}^2	\\
+				&\leq \left[\frac{(\alpha\kappa^2)^2(2 + \alpha\kappa^2)}{(\alpha\kappa^2)^2} - 1-\alpha\kappa^2\right]\overline{u}^2				\\
+				&\leq \left(2 + \alpha\kappa^2 - 1-\alpha\kappa^2\right)\overline{u}^2																\\
+	\sigma^2 	&\leq \overline{u}^2	
+\end{align*}
+Thus, an inflation-targeted policy is preferable is the mean of mark-up shocks exceeds its standard deviation.
 
 
 
