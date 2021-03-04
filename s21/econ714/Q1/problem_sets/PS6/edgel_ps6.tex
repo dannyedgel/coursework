@@ -261,7 +261,7 @@ To determine under which circumstances one policy is preferable to the other, we
 				\right]		\\
 			&= \frac{\alpha}{2(1-\beta)(1+\alpha\kappa^2)}\left[
 					\sigma^2 + \left(
-							\frac{1+2\alpha\kappa^2 + \alpha^2\kappa^4-\beta^2}{(1 -\beta + \alpha\kappa^2)^2}
+							\frac{1+2\alpha\kappa^2 + \alpha^2\kappa^4}{(1 -\beta + \alpha\kappa^2)^2}
 							\right)\overline{u}^2
 				\right]	
 \end{align*} }
@@ -270,35 +270,66 @@ The social planner prefers an inflation-targeted policy if $W_\pi\leq W_d$:
 	\frac{\sigma^2+\overline{u}^2}{2\kappa^2(1-\beta)}	&\leq 
 		\frac{\alpha}{2(1-\beta)(1+\alpha\kappa^2)}\left[
 					\sigma^2 + \left(
-							\frac{1+2\alpha\kappa^2 + \alpha^2\kappa^4-\beta^2}{(1 -\beta + \alpha\kappa^2)^2}
+							\frac{1+2\alpha\kappa^2 + \alpha^2\kappa^4}{(1 -\beta + \alpha\kappa^2)^2}
 							\right)\overline{u}^2 \right]	\\
 	\left(\frac{1+\alpha\kappa^2}{\kappa^2}\right)\sigma^2-\alpha\sigma^2 &\leq	
-		\left[\frac{\alpha(1+2\alpha\kappa^2 + \alpha^2\kappa^4-\beta^2)}{(1 -\beta + \alpha\kappa^2)^2} - \frac{1+\alpha\kappa^2}{\kappa^2}\right]\overline{u}^2	\\
-	\sigma^2 &\leq \left[\frac{\alpha\kappa^2(1+2\alpha\kappa^2 + \alpha^2\kappa^4-\beta^2)}{(1 -\beta + \alpha\kappa^2)^2} - 1-\alpha\kappa^2\right]\overline{u}^2
+		\left[\frac{\alpha(1+2\alpha\kappa^2 + \alpha^2\kappa^4)}{(1 -\beta + \alpha\kappa^2)^2} - \frac{1+\alpha\kappa^2}{\kappa^2}\right]\overline{u}^2	\\
+	\sigma^2 &\leq \left[\frac{\alpha\kappa^2(1+2\alpha\kappa^2 + \alpha^2\kappa^4)}{(1 -\beta + \alpha\kappa^2)^2} - 1-\alpha\kappa^2\right]\overline{u}^2
 \end{align*}
 At the limit as $\beta\rightarrow 1$, this inequality simplifies cleanly:
 \begin{align*}
-	\sigma^2 	&\leq \left[\frac{\alpha\kappa^2(2\alpha\kappa^2 + \alpha^2\kappa^4)}{(\alpha\kappa^2)^2} - 1-\alpha\kappa^2\right]\overline{u}^2	\\
-				&\leq \left[\frac{(\alpha\kappa^2)^2(2 + \alpha\kappa^2)}{(\alpha\kappa^2)^2} - 1-\alpha\kappa^2\right]\overline{u}^2				\\
-				&\leq \left(2 + \alpha\kappa^2 - 1-\alpha\kappa^2\right)\overline{u}^2																\\
-	\sigma^2 	&\leq \overline{u}^2	
+	\sigma^2 	&\leq \left[\frac{\alpha\kappa^2(1+2\alpha\kappa^2 + \alpha^2\kappa^4)}{(\alpha\kappa^2)^2} - 1-\alpha\kappa^2\right]\overline{u}^2	\\
+				&\leq \left[\frac{(\alpha\kappa^2)^2((\alpha\kappa^2)^{-2} + 2 + \alpha\kappa^2)}{(\alpha\kappa^2)^2} - 1-\alpha\kappa^2\right]\overline{u}^2				\\
+				&\leq \left((\alpha\kappa^2)^{-2} 2 + \alpha\kappa^2 - 1-\alpha\kappa^2\right)\overline{u}^2																\\
+	\sigma^2 	&\leq \frac{\overline{u}^2}{1 + \alpha^2\kappa^4}	
 \end{align*}
-Thus, an inflation-targeted policy is preferable is the mean of mark-up shocks exceeds its standard deviation.
-
 
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 6}
-
-
-
+Following the same steps and logic as in question 5, we can determine the necessary relationship between $\sigma^2$ and $\overline{u}^2$ such that an output-targeting montary policy is optimal. First, we must find the welfare loss from an output policy, $W_x$:
+\begin{align*}
+	W_x	&= \frac{1}{2}\E{\sum_{t=0}^\infty\beta^t\alpha\left(u_t + \left(\frac{\beta}{1-\beta}\right)\overline{u}\right)^2}	\\
+		&= \frac{\alpha\beta}{2(1-\beta)}\left[\Et{u_t^2} + 2\left(\frac{\beta}{1-\beta}\right)\overline{u}\Et{u_t} + \left(\frac{\beta}{1-\beta}\right)^2\overline{u}^2\right]	\\
+		&= \frac{\alpha\beta}{2(1-\beta)}\left[\sigma^2 + \left(\frac{2\beta}{1-\beta} + \frac{\beta^2}{(1-\beta)^2}\right)\overline{u}^2\right]	\\
+	W_x	&= \frac{\alpha\beta}{2(1-\beta)}\left[\sigma^2 + \left(\frac{\beta(2-\beta)}{(1-\beta)^2}\right)\overline{u}^2\right]
+\end{align*}
+Then,
+\begin{align*}
+	W_x	&\leq W_\pi \\
+	\frac{\alpha\beta}{2(1-\beta)}\left[\sigma^2 + \left(\frac{\beta(2-\beta)}{(1-\beta)^2}\right)\overline{u}^2\right]
+		&\leq \frac{\sigma^2+\overline{u}^2}{2\kappa^2(1-\beta)}	\\
+	\alpha\beta\left[\sigma^2 + \left(\frac{\beta(2-\beta)}{(1-\beta)^2}\right)\overline{u}^2\right]
+		&\leq \frac{\sigma^2+\overline{u}^2}{\kappa^2}	\\
+	(\alpha\beta\kappa^2-1)\sigma^2 &\leq \left[1 - \frac{2\kappa^2\beta(2-\beta)}{(1-\beta)^2}\right]\overline{u}^2	\\
+	\sigma^2 \leq \left(\frac{1 - \frac{2\kappa^2\beta(2-\beta)}{(1-\beta)^2}}{\alpha\beta\kappa^2-1}\right)\overline{u}^2
+\end{align*}
+At the limit of $\beta\rightarrow 1$, this converges to:
+\[
+	\sigma^2 \leq \frac{\overline{u}^2}{\alpha\kappa^2-1}
+\]
+Thus, if $\alpha\kappa^2<1$, output targeting is never preferred to inflation targeting.
 
 %%%________________________________________________________________%%%
 
 \subsection*{Question 7}
-
-
+Recall the final two equations from question 1, which decribe the dynamics of inflation and output in this model:
+\begin{align*}
+	p_t &= \lambda_2(p_{t-1} + u_t) + \left(\frac{\lambda_2}{\lambda_1-1}\right)\overline{u}									\\
+	x_t &= \lambda_2x_{t-1} - \lambda_2\alpha\kappa u_t - \left(\frac{\lambda_2\alpha\kappa}{\lambda_1-1}\right)\overline{u}
+\end{align*}
+Setting ${u_t=\overline{u}=0}$ for all $t$, the value of $p$ and $x$ in any period $t$ are:
+\begin{align*}
+	&p_t = \lambda_2^tp_{-1}	&x_t = \lambda_2^tx_{-1}
+\end{align*}
+Then ${p_{-1}=x_{-1}=0}$ would give a first-best allocation. From the NKPC, we know that ${\Delta x_t=-\alpha\kappa\pi_t}$. Then, by the NKIS, we can determine $\pi_t$ under the Taylor rule:
+\begin{align*}
+	\sigma\Et{\Delta x_{t+1}} &= i_t - \Et{\pi_{t+1}} - r^n_t						\\
+	-\alpha\kappa\sigma\Et{\pi_{t+1}} &= \phi\pi_t - \Et{\pi_{t+1}} - r^n_t			\\
+	\pi_t &= \frac{1}{\phi}\left[(1-\alpha\kappa\sigma)\Et{\pi_{t+1}}+r^n_t\right]
+\end{align*}
+Thus, as $\phi\rightarrow\infty$, $\pi_t\rightarrow 0$ for all $t$, indicating that the first-best allocation is achieved.
 
 
 %%%________________________________________________________________%%%
