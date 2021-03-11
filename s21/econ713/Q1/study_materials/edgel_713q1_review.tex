@@ -43,6 +43,7 @@
 \newcommand{\union}{\bigcup}
 \newcommand{\olw}{\overline{w}}
 \newcommand{\olx}{\overline{x}}
+\newcommand{\oly}{\overline{y}}
 \newcommand{\loge}[1]{\text{log}\left(#1\right)}
 \renewcommand{\P}{\mathcal{P}}
 \renewcommand{\L}{\mathcal{L}}
@@ -520,6 +521,50 @@ Then, each consumer solves:
 	\usmax{x^i}u^i(x^i)\text{ s.t. }x^i\in\B^i(\olx^i,p)
 \]
 An allocation is \blue{feasible} for $\Epsilon$ if $\sum_{i=1}^Nx_\ell^i\leq\sumn \olx_\ell^i$ $\forall \ell$. A feasible allocation $x$ is \blue{socially optimal} if $\nexists$ a feasible allocation $z$ such that no trader is worse off but at least one trader is strictly better off.
+
+\pagebreak
+\subsubsection{Competitive Equilibrium}
+\red{Most questions on exchange economy GE appear to be given as two-person, two-good economies and involve both solving for and plotting the contract curve.}
+\begin{itemize}
+	\item \blue{Edgeworth box:} a graph of a two-person, two-good economy:
+		\begin{center}
+			\includegraphics[scale=.75]{edgeworth.png}
+		\end{center}
+	\item \blue{Contract curve:} The set of all socially efficient allocations
+	\item Any individually rational allocation is one where $u^i(x^i)\geq u^i(\olx^i)$ $\forall i$
+	\item The \blue{core} is the set of individually rational allocations
+	\item A competitive equilirbium (CE) in $\Epsilon$ is a $(x,p)$ s.t. $x$ is feasible and optimal for traders, given $p$
+		\begin{itemize}
+			\item Optimal in a 2-good, 2-person economy $\Rightarrow$ $MRS^1_{x,y}=MRS^2_{x,y}$
+		\end{itemize}
+	\item In an exchange economy, gains from trade arise from differences in preferences and/or endowments
+	\item \blue{First Welfare Theorem:} If $(x,p)$ is a CE of $\Epsilon$ and preferences are locall non-satiated, then $x$ is socially efficient
+	\item \blue{Second Welfare Theorem:} If traders have continuous, monotonic, and quasiconcave utility functions and $x$ is a socially efficient allocation, then ${\exists p}$ such that $(x,p)$ is a CE of $\Epsilon$ 
+		\begin{itemize}
+			\item If at least one consumer has smooth, convex preferences, $p$ is unique
+		\end{itemize}
+\end{itemize}
+
+\subsubsection{Excess Demand Functions}
+\begin{itemize}
+	\item Since preferences are assumed to be strictly convex, each consumer has a unique demand for each good $\ell$ at each price $p$: $x_\ell^i(p)$
+	\item Consumer $i$'s \blue{excess demand} for $\ell$ is their demand for $\ell$, net of their endowment of $\ell$: ${ED^i_\ell(p)=x_\ell^i(p)-\olx_\ell^i(p)}$
+	\item Market clearing implies $\sumn ED_\ell^i(p)=0$ $\forall \ell$
+	\item \blue{Walras's Law:} If traders cosume their entire income at allocation $x(p)$, then the market calue of net excess demand vanishes: ${\sum_\ell^Lp_\ell \sumn ED^i_\ell(p)=0}$
+		\begin{itemize}
+			\item Implication: If $L-1$ markets clear, then $L$ markets clear
+			\item Other implication: Can normalize all prices by a numeraire and solve for the price ratio, e.g. $\frac{p_y}{p_x}$
+			\item $\therefore$ CE problem is $L-1$ equations in $L-1$ goods
+			\item e.g. $L=2$ with $x$ and $y$: let $p=\frac{p_y}{p_x}$, then set ${ED^1_x(p) + ED^2_x(p) = 0}$. The only unknown is $p$.
+		\end{itemize}
+	\item \blue{Theorem (existence):} If every trader $i$ has strictly monotone and convex preferences over $x$ and $y$ and owns a positive endowment, $(\olx^i,\oly^i)$, then there exists a Walrasian stable competitive equilibrium, $(x,y,p)$
+		\begin{itemize}
+			\item Proof: monotonicity and convexity imply that ${ED_x(0)<0<ED_x(\infty)}$. By intermediate value theorem, ${\exists p\text{ s.t. }ED_x(p)=0}$
+			\item Even though excess demand functions can look basically any which way, they're almost always locally unique, so you don't need to worry about cases where they're not
+		\end{itemize}
+\end{itemize}
+
+\subsubsection{Trade Offer Curves}
 
 %%%________________________________________________________________%%%
 
