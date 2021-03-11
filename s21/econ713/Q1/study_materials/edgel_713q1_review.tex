@@ -46,11 +46,15 @@
 \newcommand{\loge}[1]{\text{log}\left(#1\right)}
 \renewcommand{\P}{\mathcal{P}}
 \renewcommand{\L}{\mathcal{L}}
+\newcommand{\B}{\mathcal{B}}
 \newcommand{\olp}{\overline{p}}
 \renewcommand{\exp}[1]{\text{exp}\left\{#1\right\}}
 \newcommand{\binv}[1]{b_j^{-1}\left(#1\right)}
 \newcommand{\contains}{\supseteq}
+\newcommand{\Epsilon}{\mathcal{E}}
 \newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\sumn}{\sum_{i=1}^n}
 
 %\DeclareMathOperator{\E}{\mathbb{E}}% expected value
 
@@ -250,7 +254,7 @@
 \end{itemize}
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 %%%----------------------------------------------------------------------
 %%%
 %%% SECTION: Partial Equilibrium
@@ -262,25 +266,232 @@
 %%%________________________________________________________________%%%
 
 \subsection{Supply and Demand}
+\subsubsection{Intensive vs. Extensive Margins}
+\begin{itemize}
+	\item \textbf{Extensive Margins} reflect who is in the market
+		\begin{itemize}
+			\item e.g. fixed costs decrease $\Rightarrow$ new firms enter the market $\Rightarrow$ supply increases on the extensive margin
+		\end{itemize}
+	\item \textbf{Intensive Margins} reflect how much each actor in the market buys/sells
+		\begin{itemize}
+			\item e.g. incomes increase $\Rightarrow$ consumers have more money $\Rightarrow$ demand increases on the intensive margin
+		\end{itemize}
+	\item \blue{Supply:}
+		\begin{itemize}
+			\item Marginal costs determine intensive margin ($MR = MC$ sets optimal quantity)
+			\item Average costs determine extensive margin ($P=AVC$ determines shutdown decision in short run, $P=ATC$ determines entry/exit in long run)
+		\end{itemize}
+	\item Supply and demand curves reflect \blue{both} intensive and extensive margins
+\end{itemize}
 
+\subsubsection{Competitive Equilibrium}
+\begin{itemize}
+	\item \textbf{Walrasian Price Stability}: Use net demand to determine whether to raise/lower price
+		\begin{itemize}
+			\item During price adjustment, the \blue{short side} of the market determines the quantity
+			\item $Q^D>Q^S\Rightarrow$ market quantity is $Q^S$, price increases
+			\item $Q^S>Q^D\Rightarrow$ market quantity is $Q^D$, price decreases
+			\item $Q^S=Q^D=Q^*\Rightarrow$ market is Walrasian stable
+		\end{itemize}
+	\item \textbf{Marshallian Quantity Stability}: Use gap between demand price and supply price to raise/lower supply prices
+		\begin{itemize}
+			\item During price adjustment, the \blue{short side} of the market determines the quantity
+			\item $P^D>P^S\Rightarrow$ Suppliers raise prices
+			\item $P^S>P^D\Rightarrow$ Suppliers lower prices
+			\item $P^S=P^D=P^*\Rightarrow$ market is Marshallian stable
+		\end{itemize}
+\end{itemize}
+
+\subsubsection{Elasticity}
+\begin{itemize}
+	\item Demand: $\varepsilon = \frac{dQ^D}{dP}\frac{P}{Q} = \frac{d\loge{Q^S}}{d\loge{P}}\approx \frac{\%\Delta Q^D}{\%\Delta  P} < 0$ (usually)
+	\item Supply: $\eta = \frac{dQ^S}{dP}\frac{P}{Q} = \frac{d\loge{Q^S}}{d\loge{P}}\approx \frac{\%\Delta Q^S}{\%\Delta  P} > 0$ (usually)
+	\item Le Chatellier's Principle: demand/supply is more elastic (i.e. the absolute value is greater) in the long run than in the short run
+	\item Elasticity and price volatility:
+		\begin{itemize}
+			\item More elastic $\Rightarrow$ greater quantity volatility, lower price volatility
+			\item Less elastic $\Rightarrow$ greater price volatility, lower quantity volatility
+		\end{itemize}
+	\item Elasticity and tax incidence:
+		\begin{itemize}
+			\item \blue{Incidence Theorem:} The more elastic side of the market bears the lower burden, regardless of who ``pays" the tax
+			\begin{itemize}
+				\item Impose excise tax $\tau\equiv dP^D-dP^S$. Then:
+					\[
+						dP^D\approx \left(\frac{\eta}{\eta-\varepsilon}\right)\tau>0\text{ and }dP^S\approx\left(\frac{\varepsilon}{\eta-\varepsilon}\right)\tau<0
+					\]
+					Where $\frac{\eta}{\eta-\varepsilon}$ is the share of the tax paid by consumers, and so on.
+			\end{itemize}
+			\item Deadweight loss for small taxes: Using $\varepsilon$ and tax $\tau$,
+				\[
+					DWL = \frac{1}{2}dQ(dP^D-DP^S)=\left(\frac{1}{1/\varepsilon-1/\eta}\right)\left(\frac{Q}{2P^D}\right)\tau^2
+				\]
+			\item \blue{Tax Irrelevance Theorem:} Regardless of whether demand or supply ``pays" the tax, the demand and supply prices, market quantity, and efficiency loss are the same.
+			\item \blue{Ramsey Inverse Elasticity Rule:} taxes should be proportional to the sum of the reciprocals of its supply and demand elasticities
+			\begin{itemize}
+				\item In other words, DWL is lower and tax revenue is higher if you tax less elastically-supplied or -demanded goods.
+			\end{itemize}
+		\end{itemize}
+	
+\end{itemize}
 
 %%%________________________________________________________________%%%
-
 \subsection{Market Power}
+
+\subsubsection{Barriers to Entry}
+\begin{itemize}
+	\item Technical Barriers to Entry: Barriers that are due to the specific nature of production, distribution, etc.
+		\begin{itemize}
+			\item Minimum efficient scale, i.e. fixed costs that are so high, you can only profitably operate if sales and/or prices are sufficiently high
+			\item Ownership of unique resources - exhaustible resources or a location (e.g. ski resorts)
+		\end{itemize}
+	\item Legal Barriers to Entry:
+		\begin{itemize}
+			\item Natural monopolies chartered by the government (e.g. the post office, public utilities)
+			\item Patents, trademarks, copyrights
+		\end{itemize}
+	\item Cartels (legal and illegal)
+	\item Noncompete Agreements
+	\item Network Externalities: the value of a good/service increases with scale (e.g. social media)
+\end{itemize}
+
+\subsubsection{Monopoly}
+\begin{itemize}
+	\item 101 stuff: $MC=MR$ comes from maximizing profit where the price, rather than being taken as given, is the inverse demand curve
+	\item \blue{Inverse Elasticity Rule:} Rewriting the FOC yields:
+		\[
+			P(Q)\left(1-\frac{1}{|\varepsilon|}\right) = C'(Q)
+		\]
+		From which markups are an inversely related to demand elasticity. Which gives us the \blue{Lerner index} of market power, which goes from 0 (perfect competition) to 1 (captive market):
+		\[
+			L = \frac{P(Q) - C'(Q)}{P(Q)} = \frac{1}{|\varepsilon|} < 1
+		\]
+\end{itemize}
+
+\subsubsection{Monopsony}
+\begin{itemize}
+	\item Rather than a single seller having full control over quantity supplied, a single buyer with full control over quantity demanded 
+	\item Canonical example: employers with monospony power hiring at $W<VMP$
+		\begin{itemize}
+			\item Inverse elasticity rule: $VMP(L) = w(L)\left(1 + \frac{1}{\eta}\right)$
+		\end{itemize}
+\end{itemize}
+
+\subsubsection{Oligopoly}
+\begin{itemize}
+	\item Cartels
+		\begin{itemize}
+			\item Successful cartels operate as a multiplant firm, setting market quantity equal to the monopoly's profit-maximizing quantity
+			\item Problem: individual firms face $MR>MC$, tempting them to ``chisel" by increasing supply
+		\end{itemize}
+	\item Cournot competition: $i\in\{1,...,n\}$ firms solve:
+		\[
+			\usmax{q_i}P(Q)q_i-C(q_i)\text{, }Q=\sum_{j=1}^nq_j
+		\]
+		\begin{itemize}
+			\item The Cournot equilibrium converges to the competitive equilibrium as $n\rightarrow\infty$
+			\item The Cournot game is submodular (``strategic substitutes"), because each firm $i$'s best reply function is monotonically decreasing in other firms' choice variables ($q_j$, $j\neq i$)
+		\end{itemize}
+	\item Stackelberg competition: a large, dominant firm ($L$) moves first, followed by another firm (or set of firms), $F$. Solved via backward induction by the leading firm:
+		\[
+			\usmax{q_F}P(q_L+q_F)q_F-C(q_F)
+		\]
+	\item Stackelberg leads to a higher equilibrium supply than Cournot, which is higher than monopoly, and all of them are lower than perfect competition
+\end{itemize}
+
+\subsubsection{Price Discrimination}
+\begin{itemize}
+	\item \blue{Def:} Charging different prices to different consumers.
+	\item First degree: Charging different prices at the individual level (profit-maximizing 1st degree PD: charging each consumer their willingness to pay)
+	\item Second degree: Charging different prices based on quantity
+		\begin{itemize}
+			\item \blue{Two-part tariff:} paying a fixed fee for the right to trade at a linear price (e.g. Costco memberships)
+			\item Quantity discounts (e.g. lower per-unit price when you buy in bulk)
+		\end{itemize}
+	\item Third degree: Charging different prices to different consumer groups (e.g. senior or student discounts)
+\end{itemize}
 
 
 %%%________________________________________________________________%%%
 
 \subsection{Externalities}
+Pecuniary vs. technical externalities:
+\begin{itemize}
+	\item Pecuniary externality: an increase in demand for some good increases the price, harming existing consumers 
+		\begin{itemize}
+			\item The price system reallocates gains from trade, maximizing welfare
+		\end{itemize}
+	\item \blue{Technical externality:} A transaction between two agents imposes a cost or benefit on a third party, which is not intenalized in the price of that transaction.
+		\begin{itemize}
+			\item An uninternalized benefit is a \textit{positive externality} (e.g. beekeepers near a flower garden)
+			\item An uninternalized cost is a \textit{negative externality} (e.g. carbon pollution)
+		\end{itemize}
+	\item The efficient allocation comes from social marginal cost being equal to social marginal benefit: ($SMC=SMB$)
+		\begin{itemize}
+			\item Without externalities, private marginal costs/benefits are equal to social marginal costs/benefits
+		\end{itemize}
+\end{itemize}
 
+\subsubsection{Coase Theorem}
+\begin{itemize}
+	\item \blue{Big idea:} If property rights are well-defined and agents can costlessly bargain, then the efficient allocation will be reached even in the prescence of externalities.
+	\item E.g.: If a cattle rancher is given cattle-grazing rights, then the farmer pays the rancher to reduce grazing; If the farmer is given the right not to have cattle graze on their farm, then the rancher pays the farmer for grazing access.
+\end{itemize}
+
+\subsubsection{Pigouvian Taxation}
+\begin{itemize}
+	\item The efficient outcome can be attained in the presence of externalities by taxing activities with negative externalities and subsidizing those with positive externalities such that ${PMC(Q) -\tau(Q)=SMC(Q)}$ or ${PMB(Q) + \tau(Q)=SMB(Q)}$
+	\item The efficient tax is set at the marginal damage (or marginal benefit) of the activity
+	\item Alternatively, tradable permits for the activity/good with negative externalities can be issued; the permits should be equal to the optimal quantity and will trade at cost of marginal damage
+\end{itemize}
 
 %%%________________________________________________________________%%%
 
 \subsection{Public Goods}
+\begin{center}
+	\begin{tabular}{rp{1cm}p{1cm}}
+					& Rival 										& Nonrival 										\\\cline{2-3}
+	Excludable		& \multicolumn{1}{|c|}{Private Goods}			& \multicolumn{1}{|c|}{Club Goods}				\\\cline{2-3}
+	Non-Excludable	& \multicolumn{1}{|c|}{Congestion Public Goods}	& \multicolumn{1}{|c|}{Pure Public Goods}		\\\cline{2-3}
+	\end{tabular}
+\end{center}
+\begin{itemize}
+	\item \blue{Rival:} One agent's consumption of a good diminishes another agent's benefit (e.g. you and I can't both drink the same 1ml of coca-cola)
+	\item \blue{Excludable:} Providers of a good/service cannot prevent those who haven't paid for it from consuming it (e.g. a fireworks display)
+	\item For nonrival goods, the aggregate demand curve is calculated by adding inverse demand curves: $P^D_{agg}=\sum_iP^D_i$
+\end{itemize}
 
+\subsubsection{Efficient Provisioning}
+\begin{itemize}
+	\item \blue{Tragedy of the Commons:} Because a consumers return on (or cost of) a public good is equal to the average return (or cost) rather than the marginal return (or cost) $PMC\neq SMC$ and/or $PMB\neq SMB$ $\Rightarrow$ the competitive equilibrium will not be efficient
+	\item The efficient allocation can be reached via Pigouvian taxes
+		\begin{itemize}
+			\item Example: fishing between to lakes, $A$ and $B$, with returns $F(X_A)$ and $G(X_B)$, with $X_A+X_B=1$.
+			\item SPP: $F'(X_A)=G'(X_B)\Rightarrow X_A^*,X_B^*$
+			\item Suppose $X_B>X_B^*$ in the competitive equilibrium. Determine Pigouvian tax, $\tau^*$ with:
+				\[
+					\frac{G(X^*_B)}{X_B^*}-\tau^* = \frac{F(X^*_A)}{X_A^*}
+				\]
+		\end{itemize}
+	\item Discrete nonrival goods: provision of one more unit of the good at cost $c$ is efficient if $\exists\{t_i\}_1^n$ such that $\sum_i^nt_i=c$ and each agent $i$ is weakly better off paying $t_i$ and having one more unit of the good, and at least one agent is strictly better off.
+	\item Continuous nonrival goods: maximize some social welfare function (SWF), $W$ 
+		\begin{itemize}
+			\item a strictly quasi-concave one $\Rightarrow$ $\exists!$ solution
+			\item \blue{Lemma: Samuelson Condition} The opimal consumption of a public good, $G$ is given by $\sum_{i=1}^nMRS^i_{G,w}=MRT_{G,w}$
+				\begin{itemize}
+					\item Reduces to $\sum_iMB^i(G)=MC(G)$
+				\end{itemize}
+			\item \blue{Lindahl Equilibrium:} Let $G$ be a public good and each $i$ of $n$ consumers are endowed with $w_i$ of some private good. Then, a LE is an allocation, ${(G^*,x_1^*,...,x_n^*)}$, and set of prices, $\{p_1,...,p_n\}$, paid by each consumer for the public good, such that, for each consumer:
+				\[
+					(G^*,x_i^*) = \text{arg}\usmax{x_i,G}U^i(G,x_i)\text{ s.t. }x_i + p_iG = w_i
+				\]
+				The Lindahl equilibrium satisfied the Samuelson condition, because each consumer contributes their marginal benefit.
+			\item \red{Example: Preak Load Pricing} This is an interesting problem that I don't yet understand and want to come back to
+		\end{itemize}
+\end{itemize}
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 %%%----------------------------------------------------------------------
 %%%
 %%% SECTION: General Equilibrium
@@ -292,7 +503,23 @@
 %%%________________________________________________________________%%%
 
 \subsection{GE in Exchange Economies}
-
+Notation:
+\begin{itemize}
+	\item $\Epsilon = (\{u^i\},\overline{x})$
+	\item $L\geq 2$ goods, $\ell\in\{1,...,L\}$
+	\item $n\geq 2$ traders, $i\in\{1,...,n\}$
+	\item Endowments $\overline{x}^i=(\olx_1^i,...,\olx_L^i)'\in\R_+^L$ 
+	\item An allocation is a matrix $x=(x^1,...,x^n)\in\R_+^{L\times n}$
+	\item Price vector $p=(p_1,...,p_L)\in\R^L$
+	\item Trader $i$ has utility $u^i:\R_+^L\rightarrow\R$
+	\item Trader $i$'s income is the market value of their endowment: $p\cdot \olx^i$
+	\item Trader $i$'s budget set is $\B^i(\olx^i,p) = \left\{x^i\in\R_+^L|p\cdot x^i\leq p\cdot\olx^i\right\}$
+\end{itemize}
+Then, each consumer solves:
+\[
+	\usmax{x^i}u^i(x^i)\text{ s.t. }x^i\in\B^i(\olx^i,p)
+\]
+An allocation is \blue{feasible} for $\Epsilon$ if $\sum_{i=1}^Nx_\ell^i\leq\sumn \olx_\ell^i$ $\forall \ell$. A feasible allocation $x$ is \blue{socially optimal} if $\nexists$ a feasible allocation $z$ such that no trader is worse off but at least one trader is strictly better off.
 
 %%%________________________________________________________________%%%
 
