@@ -661,7 +661,100 @@ An allocation is \blue{feasible} for $\Epsilon$ if $\sum_{i=1}^Nx_\ell^i\leq\sum
 
 \subsection{GE under Uncertainty}
 
+\subsubsection{Arrow-Debreu Securities}
+\begin{itemize}
+	\item Again, let there be $L$ goods and $n$ traders, where goods are indexed by $\ell$ and traders indexed by $i$
+	\item Suppose that one of $S$ states of the worls will be realize in time $t=1$
+	\item Assume that in time ${t=0}$, the probability, $\pi_s$ of state ${s\in\{1,...,S\}}$ occuring in time ${t=1}$ is known
+	\item Then, there is a market in time ${t=0}$ for \blue{state-contingent claims} to consumption of each good in each state: $x_{\ell s}$
+	\item $p_\ell s$ is the price to a contingent claim (``Arrow security") to $\ell$ in state $s$\textemdash the market in time ${t=0}$ is for $L\times S$ forward contracts, which are binding agreements to buy/sell goods in the future, contingent on $s$
+	\item Consumption vector for trader $i$ is ${x^i\in\R^{L\times S}}$
+	\item \blue{Consumer problem}: Suppose $S=2$ and $L=1$. Then consumer $i$'s problem is:
+		\[
+			\usmax{x^i_1,x^i_2}\pi_1u^i(x^i_1) + \pi_2u^i(x^i_2)
+		\]
+	\item \blue{Intensive margin risk-smoothing:} Suppose wealth in state 2 (occuring with probability $\pi$) is given by $q$ and costs $p$ at time ${t=0}$. Then, the consumer's problem is:
+		\[
+			\usmax{q\geq0}\pi u(w-L+q-pq) + (1-\pi)u(w-pq)
+		\]
+		Where the FOC shows that $q^*=L$ under actuarially fair insurance ($p=\pi$), but $q<L$ (the consumer under-insures) if $p>\pi$ and the consumer is risk-averse
+\end{itemize}
 
+\subsubsection{Risk Bearing}
+\begin{itemize}
+	\item Setup:
+		\begin{itemize}
+			\item Endowment is state-dependent: $\olx^i\in\R_+^S$
+			\item Expected utility is given by $U(x^i_1,...,x^i_S) = \sum_{s=1}^S\pi_su(x^i_s)$
+		\end{itemize}
+	\item \blue{Fundamental Theorem of Risk Bearing:}
+		\[
+			\frac{\pi_1u'(x_1)}{p_1} = ... = \frac{\pi_Su'(x_S)}{p_S}
+		\]
+		\begin{itemize}
+			\item Derived from FOC of consumer problem: ${\lambda = \frac{\pi_su'(x_s)}{p_s}\text{ }\forall s}$
+			\item Implication: the price of a state-contingent security rises in proportion to the likelihood of the state
+		\end{itemize}
+\end{itemize}
+
+\subsubsection{Idiosyncratic vs. Aggregate Risk }
+\begin{itemize}
+	\item Idiosyncratic risk: ${\olx_s = \sum_{i=1}^n\olx_s^i=\olx_r \text{ }\forall r,s\in\{1,...,S\}}$
+		\begin{itemize}
+			\item Traders fully insure
+			\item Fair prices reflect probabilities of states: $\frac{p_1}{p_2}=\frac{\pi_1}{\pi_2}$
+			\item Two-agent, two-state equilibrium: simple exchange economy where $x_1$ and $x_2$ are treated as two different goods
+		\end{itemize}
+	\item Aggregate risk: ${\exists r\neq s: \olx_r<\olx_s}$
+		\begin{itemize}
+			\item Traders share risk, and disaster state insurance premiums exceed distaster state probability 
+			\item Two agent, two-state example: ${\frac{p_2}{p_1}=\left(\frac{\olx_1}{\olx_2}\right)\left(\frac{\pi_2}{\pi_1}\right)>\frac{\pi_2}{\pi_1}}$
+		\end{itemize}
+\end{itemize}
+		
+\subsubsection{Imperfect Information}
+\red{Reference: MWG Section 19.H}
+\begin{itemize}
+	\item Suppose exact probabilities are unknown, such that each consumer $i$ believes that state $s$ occurs with probability $\pi_s^i$, where it is not necessarily the case that ${\pi_s^i=\pi_s^j}$ for ${i\neq j}$
+		\begin{itemize}
+			\item Two-state example: Suppose all consumers have log utility. In order for the market for wealth in state 2, $x$, to clear, market excess demand must equal zero:
+				\begin{enumerate}
+					\item Consumers solve:
+						\[
+							\usmax{x_i}\pi_i\loge{w_i + x_i(1-p)} + (1-\pi_i)\loge{w_i-x_ip}\Rightarrow x_i(p) = w_i\left(\frac{\pi_i-p}{p(1-p)}\right)
+						\]
+					\item Assume $w_i=w\text{ }\forall i$. Then,
+						\[
+							ED(p) =0\Rightarrow \sum_{\pi_i>p}(\pi_i-p)=\sum_{\pi_i\leq p}(p-\pi_i)\Rightarrow p=\frac{1}{n}\sumn\pi_i
+						\]
+				\end{enumerate}
+		\end{itemize}
+	\item \blue{Rational Expectations Equilibrium}
+		\begin{itemize}
+			\item Suppose that, instead of state $s$ being revealed in time $t=1$, each consumer $i$ receives a signal, $\sigma_i(s)$, where they can distinguish between $s$ and $s'$ if only if ${\sigma_i(s)\neq\sigma_i(s')}$. As a result, it is possible for one consumer to have an informative signal (i.e. know the true state of the world) and another to require an averaging across states
+				\begin{itemize}
+					\item \red{MWG Example 19.H.2 shows that equilibrium prices can no longer convey information about states of the world; once the information is conveyed, the uninformed consumer infers the state of the world and changes their demand, upsetting the equilibrium}
+				\end{itemize}
+			\item \blue{Definition} (\red{MWG 19.H.2}): The price function $p(\cdot)$ is a rational expectations equilibrium price function if, for every $s$, $p(s)$ clears the spot market when every consumer $i$ knows that ${s\in E_{p(s),\sigma_i(s)}}$ and, therefore, evaluates commodity bundles ${x^i\in\R^L}$ according to the updated utility function:
+				\[
+					\sum_{s'=1}^SPr(s'|p(s),\sigma_i(s))u_{s'}^i(x^i)
+				\]
+				Where:
+				\[
+					E_{p(s),\sigma_i(s)} = \{s'|p(s')=p(s),\sigma_i(s')=\sigma_i(s)\}
+				\]
+			\item \red{Lones's explanation of the Rational Expectations Equilibrium (REE) is confusing. His example is explained in MWG 19.H.3. The explanation is here:}
+				\begin{itemize}
+					\item In an REE, it must be the case that either:
+						\begin{enumerate}[(a)]
+							\item the price is equal across the two states, such that the information never gets revealed, resulting in a pooled price equilibrium across the two states
+							\item the price differs by state such that the information about the state is revealed (in which case, there is a pooled price equilibrium across the two states)
+						\end{enumerate}
+					\item In the Kreps example from lecture (and MWG 19.H.3), if Joe learns from the price and adjusts his demand, the pooled price that doesn't differ by state is different from the price where he doesn't learn. If he uses a non-state-dependent demand, then there is a state-dependent price that does not clear the market. Thus, a REE doesn't exist in this market
+				\end{itemize}
+		\end{itemize}
+\end{itemize}
+		
 %%%________________________________________________________________%%%
 
 
