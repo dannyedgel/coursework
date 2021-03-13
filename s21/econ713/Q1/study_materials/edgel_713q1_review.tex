@@ -565,6 +565,7 @@ An allocation is \blue{feasible} for $\Epsilon$ if $\sum_{i=1}^Nx_\ell^i\leq\sum
 \end{itemize}
 
 \subsubsection{Trade Offer Curves}
+\red{Reference: 15.B in MWG; Figures 15.B.3 through 15.B.5 illustrate much better than Lones's slides}
 \begin{itemize}
 	\item Plots, for each trader $i$, the optimal consumption at each possible price, holding endowments constant (think of it as a best response curve)
 	\item The TOC can be non-monotone, even with monotone preferences; with two goods, $x$ and $y$:
@@ -588,11 +589,73 @@ An allocation is \blue{feasible} for $\Epsilon$ if $\sum_{i=1}^Nx_\ell^i\leq\sum
 \end{itemize}
 
 \subsubsection{Monopoly in an Exchange Economy}
+\begin{itemize}
+	\item \red{I don't fully understand this, but I'm going to office hours to try to clear it up}
+\end{itemize}
 
 %%%________________________________________________________________%%%
 
 \subsection{GE with Production}
 
+\subsubsection{Notation}
+\begin{itemize}
+	\item $m$ firms, indexed $j=1,...,m$
+	\item $n$ consumers, indexed $i=1,...,n$ 
+	\item A firm is $y^j\subset\R^L$, were positive entries of $y^j$ are outputs and negative entries are inputs; all of the quarter 1 producer theory stuff applies (convexity, free disposal, etc.)
+		\begin{itemize}
+			\item with price vector $p\in\R^L_+$, then, firm profits are $p\cdot y^j$
+		\end{itemize}
+	\item Conumers have utility functions $u^i$ and endowments $\olx^i$
+	\item Each consumer, $i$, owns a share, $\theta_{ij}\geq 0$ of each firm, $j$, and faces the budget set:
+		\[
+			B^i(p)=\left\{x^i\in X^i| p\cdot x^i\leq p\cdot\olx^i + \sum_{h=1}^m\theta_{ij}p\cdot y^j \right\}
+		\]
+\end{itemize}
+
+\subsubsection{Competitive Equilibrium}
+\begin{itemize}
+	\item Basically a static version of the competitive equilibrium from a standard macro model
+	\item \blue{Definition:} A \blue{competitive equilibrium} of a private ownership economy, ${\left(\{Y^j\}_{j=1}^m;\{X^i,u^i,\olx^i,\theta_{i1},...\theta_{im}\}_{i=1}^n\right)}$, is an allocation, ${(x,y)\in\R^{n\times L}\times\R^{m\times L}}$ and a price vector $p\in\R^L$ such that,
+		\begin{enumerate}
+			\item $y^j$ maximizes profits $\forall j$, given $p$
+			\item $x^i$ maximizes utility $u^i$ subject to $B^i(p)$
+			\item Markets clear: ${D(p)-\olx-S(p)\leq 0}$, where $D(p)$ is market demand, $S(p)$ is market supply, and ${D(p)-\olx-S(p)}$ is market excess demand in a production economy
+				\begin{itemize}
+					\item \textbf{Note}: for any good $k$, if excess demand is negative, $p_k=0$
+					\item Also note that this condition implies ${D(p)\leq S(p) + \olx}$
+				\end{itemize}
+		\end{enumerate}
+	\item \blue{Theorem (Existence):} If each consumer, $i$ has a continuous, nonsatiated and strictly quasiconcave utility function, positive endowment, and dividend shares and firms have closed and convex production technologies, then a competitive equilibrium exists.
+		\begin{itemize}
+			\item Corollary: If the consumer conditions are satisfied, then a competitive equilibrium exists in a pure exchange economy
+		\end{itemize}
+\end{itemize}
+
+\subsubsection{Robinson Crusoe Economies}
+\red{Reference: 15.C in MWG}
+\medskip \\
+\textbf{Def:} An economy with one consumer and one producer (usually with two goods).
+\medskip \\
+\blue{Setup:} Let $u(y,\ell)$ represent the consumer's utility over production good, $y$, and leisure, $\ell$. Let $f(L)$ represent the production technology with labor as the only input, and let the consumer's endowment be given by ${L + \ell = \overline{L}}$. Then, solving for the CE involves:
+\begin{enumerate}
+	\item Solving the firm problem for optimal $y$ and $L$ in terms of price vector $(p,w)$:
+		\[
+			\usmax{y,L}\pi = py-wL
+		\]
+		The solution to this problem also yields the firm's maximum profit in terms of the price vector, $\pi(p,w)$
+	\item Solving the conumser problem for optimal $y$ and $\ell$, subject to the budget constraint:
+		\[
+			\usmax{y,\ell} u(y,\ell)\text{ s.t. } py \leq wL + \pi(p,w)
+		\]
+	\item Imposing labor market clearing (this is generally done automatically in step 2):
+		\[
+			\ell + L=\overline{L}
+		\]
+	\item Solving for the equilibirum price vector, $(p^*,w^*)$ by imposing the goods market clearing condition:
+		\[
+			y^d(p,w) = y^s(p,w)
+		\]
+\end{enumerate}
 
 %%%________________________________________________________________%%%
 
