@@ -487,7 +487,13 @@ Pecuniary vs. technical externalities:
 					(G^*,x_i^*) = \text{arg}\usmax{x_i,G}U^i(G,x_i)\text{ s.t. }x_i + p_iG = w_i
 				\]
 				The Lindahl equilibrium satisfied the Samuelson condition, because each consumer contributes their marginal benefit.
-			\item \red{Example: Preak Load Pricing} This is an interesting problem that I don't yet understand and want to come back to
+			\item \blue{Preak Load Pricing}. Solving these problems typically takes the following steps:
+				\begin{enumerate}
+					\item Set up a Langrangian function that maximizes total suplus (consumer and producer separately, where producer surplus is generally a rectangle, since public goods usually have a constant marginal cost), with multiplier for off-peak and peak supply, which must be weakly less than total capacity (e.g. buses purchased)
+					\item Take first-order conditions
+					\item Use complementary slackness from the Kuhn-Tucker conditions to solve for optimal peak and off-peak supply under different scenarios (e.g. peak and off-peak are equal, in which case the Lagrangian multiplier on off-peak supply isn't zero, etc.)
+				\end{enumerate}
+				\red{Example: Public goods exercise 9}
 		\end{itemize}
 \end{itemize}
 
