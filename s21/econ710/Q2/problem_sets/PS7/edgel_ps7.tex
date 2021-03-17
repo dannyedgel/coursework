@@ -232,7 +232,16 @@
 %%%________________________________________________________________%%%
 
 \section*{Exercise 17.5}
-
+To show this statement, recognize that, since $M_D$ is idempotent, the inequality can be reduced as follows:
+\begin{align*}
+	\sigma^2_\eps\left(\sum_{i=1}^n\dot{X}_i'\dot{X}_i\right)^{-1}	&\geq \sigma^2_\eps\left(\sum_{i=1}^nX_i'X_i\right)^{-1}	\\
+	\left(\sum_{i=1}^nX_i'X_i\right)								&\geq \left(\sum_{i=1}^n\dot{X}_i'\dot{X}_i\right)			\\
+	\sum_{i=1}^nX_i'X_i												&\geq \sum_{i=1}^n(M_DX_i)'(M_DX_i)							\\
+	\sum_{i=1}^nX_i'X_i												&\geq \sum_{i=1}^n(M_DX_i)'(M_DX_i)							\\
+	\sum_{i=1}^nX_i'X_i												&\geq \sum_{i=1}^nX_i'M_DX_i								\\
+	\sum_{i=1}^nX_i'X_i												&\geq \sum_{i=1}^nX_i'X_i - X_i'D(D'D)^{-1}X_i
+\end{align*}
+Where $X_i'D(D'D)^{-1}X_i$ is positive semi-definite.
 
 %%%________________________________________________________________%%%
 
