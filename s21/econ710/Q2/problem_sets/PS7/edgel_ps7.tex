@@ -48,7 +48,7 @@
 \newcommand{\oly}[1]{\overline{Y}_{#1}}
 \newcommand{\olz}[1]{\overline{Z}_{#1}}
 %\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
-\newcommand{\est}[1]{\frac{1}{\uppercase{#1}}\sum_{\lowercase{#1}=1}^{\uppercase{#1}}}
+\newcommand{\est}[1]{\frac{1}{\lowercase{#1}}\sum_{i=1}^{\lowercase{#1}}}
 \newcommand{\sumn}{\sum_{i=1}^{n}}
 \newcommand{\loge}[1]{\text{log}\left(#1\right)}
 \renewcommand{\tilde}[1]{\widetilde{#1}}
@@ -72,6 +72,7 @@
 \newcommand{\zbar}{\overline{Z}}
 \newcommand{\eps}{\varepsilon}
 \newcommand{\esti}{\frac{1}{T_i-1}\sum_{t=1}^{T_i}}
+\newcommand{\oinv}{\Omega^{-1}}
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
 
 \newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
@@ -144,7 +145,6 @@
 %%%________________________________________________________________%%%
 
 \noindent\textit{Discussed and/or compared answers with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
- \\
 
 % Chapter 13 problems: 13.1, 13.2, 13.3, 13.4, 13.11, 13.13, 13.18, 13.19, 13.28
 % Chapter 17 problem: 17.15
@@ -152,33 +152,118 @@
 %%%________________________________________________________________%%%
 
 \section*{Exercise 13.1}
+We can use the moment condition ${\E{Xe}=0}$ to obtain a consistent estimator for $\beta$, which we can then use to obtain a consistent estimator for $e$, which we can combine with the moment condition ${\E{Z\eta}=0}$ to obtain an estimator for $\gamma$:
+\begin{align*}
+								\E{X(Y-X\beta)}	&=	0																\\
+								\beta\E{X'X}	&= \E{Y}															\\
+							\Rightarrow \bhat 	&= \left(\est{n}X_iX_i'\right)^{-1}\est{n}X_iY_i					\\
+	\E{Z\left((Y-X'\bhat)^2-Z'\gamma\right)}	&= 0																\\
+								\gamma\E{Z'Z}	&= \E{Z(Y-X'\bhat)^2}												\\
+						\Rightarrow\hat{\gamma}	&= \left(\est{n}Z_iZ_i'\right)^{-1}Z_i\left(Y_i-X_i\bhat\right)^2
+\end{align*}
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \section*{Exercise 13.2}
+The GMM estimator with weight matrix $W$ is:
+\[
+	\bhat = \left(X'ZWZ'X\right)^{-1}\left(X'ZWZ'Y\right)
+\]
+Thus, letting $W=\left(ZZ'\right)^{-1}$, 
+\[
+	\sqrt{n}\left(\bhat-\beta\right) = \left[\left(\frac{1}{n}X'Z\right)\left(\frac{1}{n}Z'Z\right)^{-1}\left(\frac{1}{n}Z'X\right)\right]^{-1}\left[\left(\frac{1}{n}X'Z\right)\left(\frac{1}{n}Z'Z\right)^{-1}\left(\frac{1}{\sqrt{n}}Z'e\right)\right]	
+\]
+Then, let $M=\E{ZZ'}$ and ${Q=\E{ZX'}}$:
+\begin{align*}
+	\sqrt{n}\left(\bhat-\beta\right)	&\rightarrow_d  \left[Q'M^{-1}Q\right]^{-1}Q'M^{-1}\N\left(0,Ze^2Z'\right) = Q^{-1}\N\left(0,M\sigma^2\right)	\\
+	\sqrt{n}\left(\bhat-\beta\right)	&\rightarrow_d   \N\left(0,\sigma^2(Q'M^{-1}Q)^{-1}\right)	
+\end{align*}
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 13.3}
+By the weak law of large numbers and the law of iterated expectation, and by recognizing that, since $\tb$ is consistent, ${\tb-\beta\rightarrow_p0}$:
+\begin{align*}
+	\hat{W} &\rightarrow_p 	\E{ZZ'\tilde{e}^2}^{-1} 			= \E{ZZ'(Y-X'\tb)^2}^{-1}							\\
+			&=				\E{ZZ'(X'\beta + e -X'\tb)^2}^{-1} 	= \E{ZZ'(X'(\beta-\tb) + e )^2}^{-1}				\\
+			&=				\E{ZZ'\left(\E{XX'(\beta-\tb)^2|Z} + \E{2X'(\beta-\tb)e|Z} + \E{e^2|Z}\right)}^{-1}
+			&=				\E{ZZ'e^2}^{-1}
+\end{align*}
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 13.4}
 
 \begin{itemize}
-	\item[(a)]
+	\item[(a)] 
+		\begin{align*}
+			V_0 &= (Q'\oinv Q)^{-1}Q'\oinv\Omega\oinv Q(Q'\oinv Q)^{-1} = Q^{-1}\Omega(Q')^{-1}Q'\oinv QQ^{-1}\Omega(Q')^{-1} 	\\
+				&= Q^{-1}\Omega(Q')^{-1} = \left(Q'\oinv Q\right)^{-1}
+		\end{align*}
 	
-	\item[(b)]
+	\item[(b)] In the process of answering (a), we found that ${B=(Q')^{-1}}$. Simply looking at $V$, we can define:
+		\[
+			A = WQ\left(Q'WQ\right)^{-1}
+		\]
 	
 	\item[(c)]
+		\begin{align*}
+			B'\Omega A	&= Q^{-1}\Omega WQ\left(Q'WQ\right)^{-1} = Q^{-1}\Omega WQQ^{-1}W^{-1}(Q')^{-1} = Q^{-1}\Omega (Q')^{-1}	\\
+						&= B'\Omega B
+		\end{align*}
+		Thus, ${B'\Omega(A-B)=0}$. This also implies ${(A-B)'\Omega B=0}$.
 	
-	\item[(d)]
+	\item[(d)] First, note that $A\geq B$, so $A-B$ is positive semi-definite. Then,
+		\begin{align*}
+			V	&= A'\Omega A = [B + (A-B)]'\Omega A = B'\Omega A + (A-B)'\Omega A = B'\Omega B  + [A'\Omega(A-B)]'	\\
+				&= V_0 + [(A-B)'\Omega(B + (A-B))] = V_0 + (A-B)'\Omega(A-B)										\\
+				&\geq V_0
+		\end{align*}
+		
 	
 \end{itemize}
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 13.11}
+The model in question is ${Y=X\beta + e}$, where $X$ and $\beta$ are scalars. The efficient GMM estimator is: 
+\[
+	\bhat_{GMM} = \left(X'Z\oinv Z'X\right)^{-1}\left(X'Z\oinv Z'Y\right)
+\]
+First, we must obtain a consistent estimator for $\Omega$. To do so, consider the 2SLS estimator for $\beta$. Since $X$ is also an instrument, 2SLS and OLS are the same. Then,
+\[
+	\bhat_{2SLS} = \frac{\sumn x_iy_i}{\sumn x_i^2}
+\]
+So, letting ${\hat{e}_i = y_i - \bhat_{2SLS}x_i}$, we can calculate:
+\[
+	\hat{\Omega} = \est{n}Z_iZ_i'\hat{e}^2_i
+		= 	\begin{pmatrix} \est{n}x_i^2\hat{e}^2_i & \est{n}x_i^3\hat{e}^2_i \\
+							\est{n}x_i^3\hat{e}^2_i & \est{n}x_i^4\hat{e}^2_i 
+			\end{pmatrix} 
+\]
+Then,
+{\small \begin{align*}
+	\bhat_{GMM} \rightarrow_p	&\left(X(X\text{ }X^2)
+								\frac{1}{\E{x_i^3e_i^2}^2-\E{x_i^2e_i^2}\E{x_i^4e_i^2}}
+								\begin{pmatrix} \E{x_i^4e_i^2} & -\E{x_i^3e_i^2} \\ -\E{x_i^3e_i^2} & \E{x_i^2e_i^2} \end{pmatrix}
+								\colvec{2}{X}{X^2}X\right)^{-1}\left(X'Z\oinv Z'Y\right)	\\
+							=	&\left((X^2\text{ }X^3)
+								\frac{1}{\E{x_i^3e_i^2}^2-\E{x_i^2e_i^2}\E{x_i^4e_i^2}}
+								\colvec{2}{X^2\E{x_i^4e_i^2} -X^3\E{x_i^3e_i^2}}{X^3\E{x_i^2e_i^2}-X^2\E{x_i^3e_i^2} }
+								\right)^{-1}\left(X'Z\oinv Z'Y\right)	\\
+							=	&\left(
+								\frac{X^4\E{x_i^4e_i^2} -2X^5\E{x_i^3e_i^2} + X^6\E{x_i^2e_i^2}}
+								{\E{x_i^3e_i^2}^2-\E{x_i^2e_i^2}\E{x_i^4e_i^2}}
+								\right)^{-1}\left(X'Z\oinv Z'Y\right)	\\
+							=	&\left(
+								\frac{\E{x_i^3e_i^2}^2-\E{x_i^2e_i^2}\E{x_i^4e_i^2}}
+								{X^4\E{x_i^4e_i^2} -2X^5\E{x_i^3e_i^2} + X^6\E{x_i^2e_i^2}}
+								\right)\left(\frac{X^3\E{x_i^4e_i^2} -2X^4\E{x_i^3e_i^2} + X^5\E{x_i^2e_i^2}}
+								{\E{x_i^3e_i^2}^2-\E{x_i^2e_i^2}\E{x_i^4e_i^2}}Y\right)	\\
+							=	&\frac{\E{x_i^4e_i^2} -2X\E{x_i^3e_i^2} + X^2\E{x_i^2e_i^2}}
+								{ X\E{x_i^4e_i^2} -2X^3\E{x_i^3e_i^2} + X^4\E{x_i^2e_i^2} }Y	
+\end{align*} }
+This is not, in general, equal to the OLS and 2SLS estimators for $\beta$. 
 
 %%%________________________________________________________________%%%
 
