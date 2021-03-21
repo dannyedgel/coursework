@@ -73,6 +73,7 @@
 \newcommand{\eps}{\varepsilon}
 \newcommand{\esti}{\frac{1}{T_i-1}\sum_{t=1}^{T_i}}
 \newcommand{\oinv}{\Omega^{-1}}
+\newcommand{\olg}{\overline{g}_n}
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
 
 \newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
@@ -266,67 +267,115 @@ Then,
 This is not, in general, equal to the OLS and 2SLS estimators for $\beta$. 
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \section*{Exercise 13.13}
 
 \begin{itemize}
-	\item[(a)]
+	\item[(a)] Since $\Omega$ is positive definite and square, we can define some orthonormal $Q$ and diagonal matrix of eigenvalues $\Lambda$ such that ${\Omega=Q'\Lambda Q}$. Then, we can define ${C=Q\Lambda^{-1/2}}$:
+		\[
+			\Omega = Q'\Lambda Q = Q'\Lambda^{1/2}\Lambda^{1/2}Q = [(Q\Lambda^{-1/2})']^{-1}(Q\Lambda^{-1/2})^{-1} = (C')^{-1}C^{-1}
+		\]
+		Thus, ${\oinv=CC'}$
 	
 	
-	\item[(b)]
+	\item[(b)] We can demonstrate a simple equality: {\small $$ n\left(C'\olg(\bhat)\right)'\left(C'\hat{\Omega}C\right)^{-1}C'\olg(\bhat) = n\olg(\bhat)'CC^{-1}\hat{\Omega}^{-1}(C')^{-1}C'\olg(\bhat) = n\olg(\bhat)'\hat{\oinv}\olg(\bhat) = J $$}
 	
 	
-	\item[(c)]
+	\item[(c)] Letting ${\olg(\bhat)=\frac{1}{n}Z\hat{e}}$, note that:
+		\begin{align*}
+			\hat{e} &= Y-X\bhat = X\beta + e - X\bhat = (\beta-\bhat)X + e 	\\
+					&= e - X\left(X'Z\hat{\oinv}Z'X\right)^{-1}\left(X'Z\hat{\oinv}Z'e\right)
+		\end{align*}
+		Then, 
+		{\small \begin{align*}
+			C'\olg(\bhat)	&= C'\frac{1}{n}Z'e - C'\frac{1}{n}Z'X\left(X'Z\hat{\oinv}Z'X\right)^{-1}\left(X'Z\hat{\oinv}Z'e\right)	\\
+							&= \left(I_\ell - C'\left(\frac{1}{n}Z'X\right)\left(\left(\frac{1}{n}X'Z\right)\hat{\oinv}\left(\frac{1}{n}Z'X\right)\right)^{-1}\left(\frac{1}{n}X'Z\right)\hat{\oinv}(C')^{-1}\right)C'\frac{1}{n}Z'e	\\
+							&= D_nC'\olg(\beta)
+		\end{align*} }
+	
+	\item[(d)] Recall that ${\Omega= (C')^{-1}C^{-1}}$. By the law of large numbers and the continuous mapping theorem, 
+		{\small $$ D_n	\rightarrow I_\ell - C'\E{Z'X}\left(\E{X'Z}CC'\E{Z'X}\right)^{-1}\E{X'Z}CC'(C')^{-1}
+					=I_\ell - R\left(R'R\right)^{-1}R' $$ }
 	
 	
-	\item[(d)]
+	\item[(e)] It is apparent that ${I_\ell - R\left(R'R\right)^{-1}R'=0}$, so we are left to demonstrate that the asymptotic variance of $C'\olg(\beta)$ is $I_\ell$. We can begin by noting, by the central limit theorem,
+		\[
+			\frac{1}{\sqrt{n}}Z'e\rightarrow_d\N(0,\Omega)
+		\]
+		Then,
+		\[
+			\frac{1}{\sqrt{n}}C'Z'e \rightarrow_d C'\N\left(0,(C')^{-1}C^{-1}\right) = \N\left(0,C'(C')^{-1}C^{-1}C\right) = \N(0,I_\ell)
+		\]
 	
+	\item[(f)] Note that $I_\ell - R\left(R'R\right)^{-1}R'$ is idempotent. From our equivalences above (and denoting the asymptotic distribution of $C'\olg(\beta)$ as $u$), we can solve:
+		\begin{align*}
+			J 	&= 				n\left(C'\olg(\bhat)\right)'\left(C'\hat{\Omega}C\right)^{-1}C'\olg(\bhat)														\\
+				&= 				\left(\sqrt{n}C'\olg(\beta)\right)'D_n'\left(C'\hat{\Omega}C\right)^{-1}D_n\sqrt{n}C'\olg(\beta)								\\
+				&\rightarrow_d	u'\left(I_\ell - R\left(R'R\right)^{-1}R'\right)'\left(C'(C')^{-1}C^{-1}C\right)\left(I_\ell - R\left(R'R\right)^{-1}R'\right)u	\\
+				&=				u'\left(I_\ell - R\left(R'R\right)^{-1}R'\right)'\left(I_\ell - R\left(R'R\right)^{-1}R'\right)u								\\
+				&=				u'\left(I_\ell - R\left(R'R\right)^{-1}R'\right)u
+		\end{align*}
 	
-	\item[(e)]
-	
-	
-	\item[(f)]
-	
-	
-	\item[(g)]
-	
+	\item[(g)] The asymptotic distribution of $J$ is chi-squared by dint of the fact that $u$ is normally distributed with variance one and ${I_\ell - R\left(R'R\right)^{-1}R'}$ is a projection matrix. We can solve for the degrees of freedom of the distribution using the trace of the projection matrix:
+		\[
+			tr\left(I_\ell - R\left(R'R\right)^{-1}R'\right) = \ell - tr\left(R'R\left(R'R\right)^{-1}\right) = \ell - tr(I_k) = \ell - k
+		\]
 	
 \end{itemize}
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 13.18}
+Since $X$ is exogenous, our instrument for this specification is ${Z=(X,Q)'}$. Then OLS and 2SLS are equivalent, so the variance matrix for 2SLS is:
+\[
+	\Omega = \E{Z_iZ_i'e_i^2} = \begin{pmatrix} \E{X_iX_i'e_i^2} & \E{X_iQ_i'e_i^2} \\ \E{X_iQ_i'e_i^2} & \E{Q_iQ_i'e_i^2} \end{pmatrix} 
+\]
+Let $\hat{\Omega}$ be an efficient estimator of $\Omega$. Then, the efficient GMM estimator of $\beta$ is:
+\[
+	\bhat_{GMM} = \left(X'Z\hat{\Omega}^{-1}Z'X\right)^{-1}X'Z\hat{\Omega}^{-1}Z'Y
+\]
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 13.19}
+Our moment function for this estimator is:
+\[
+	g(\mu) = \colvec{2}{Y-\mu}{X}
+\]
+Efficient GMM uses the optimal weight matrix $\Omega^{-1}$, where
+\[
+	\Omega =	\begin{pmatrix}
+				\sigma^2_Y	& \sigma_{XY}	\\
+				\sigma_{XY}	& \sigma^2_X
+			\end{pmatrix}
+\]
+Then the error function is
+\[
+	J(\mu) = \overline{g}(\mu)'\Omega^{-1}\overline{g}(\mu) = \frac{\sigma_X^2(\ybar-\mu)^2-2\sigma_{XY}\xbar(\ybar-\mu) + \sigma_Y^2X^2}{\sigma_X^2\sigma_Y^2-\sigma^2_{XY}}
+\]
+Taking the first-order condition of this function gives us the optimal estimate for $\mu$:
+\begin{align*}
+	J'(\mu)		&= \frac{2\sigma_{XY}\xbar - 2\sigma_X^2(\ybar-\mu)}{\sigma_X^2\sigma_Y^2-\sigma^2_{XY}} = 0	\\
+	\ybar-\mu	&= \frac{\sigma_{XY}\xbar}{\sigma^2_X}															\\
+	\hat{\mu}	&= \ybar - \frac{\sigma_{XY}\xbar}{\sigma^2_X}
+\end{align*}
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 13.28}
 
-\begin{itemize}
-	\item[(a)]
-	
-	\item[(b)]
-	
-	\item[(c)]
-	
-\end{itemize}
+The table below displays the results of both 2SLS and GMM estimations of the model, with the $J$ statistic for the GMM estimations reported at the bottom of the table.\footnote{See the attached .do file to see how it was generated. That file also includes the code for exercise 17.15.} Whether or not the results change ``meaningfully" depends on what you consider meaningful, I guess. The model fit does not change when approximated to the nearest hundreth, and the coefficient of interest changes only slightly, with no discenable change in standard errors.
+\begin{center}
+	\input{q13_28.tex}
+\end{center}
 
 %%%________________________________________________________________%%%
 
-\section*{Exercise 17.5}
-To show this statement, recognize that, since $M_D$ is idempotent, the inequality can be reduced as follows:
-\begin{align*}
-	\sigma^2_\eps\left(\sum_{i=1}^n\dot{X}_i'\dot{X}_i\right)^{-1}	&\geq \sigma^2_\eps\left(\sum_{i=1}^nX_i'X_i\right)^{-1}	\\
-	\left(\sum_{i=1}^nX_i'X_i\right)								&\geq \left(\sum_{i=1}^n\dot{X}_i'\dot{X}_i\right)			\\
-	\sum_{i=1}^nX_i'X_i												&\geq \sum_{i=1}^n(M_DX_i)'(M_DX_i)							\\
-	\sum_{i=1}^nX_i'X_i												&\geq \sum_{i=1}^n(M_DX_i)'(M_DX_i)							\\
-	\sum_{i=1}^nX_i'X_i												&\geq \sum_{i=1}^nX_i'M_DX_i								\\
-	\sum_{i=1}^nX_i'X_i												&\geq \sum_{i=1}^nX_i'X_i - X_i'D(D'D)^{-1}X_i
-\end{align*}
-Where $X_i'D(D'D)^{-1}X_i$ is positive semi-definite.
+\section*{Exercise 17.15}
+The table below displays the output for both (a) and (b). The results differ because $K_t$ is too close to a random walk, as evidenced by the coefficient on $K_{t-1}$ being near 1. Thus, the lagged values of $K$ are too weak for a reliable Arellano-Bond estimate. The weak instrument problem is attenuated by the Blundell-Bond estimator, which explains the difference in estimates.
+\begin{center}
+	\input{q17_15.tex}
+\end{center}
 
 %%%________________________________________________________________%%%
 
