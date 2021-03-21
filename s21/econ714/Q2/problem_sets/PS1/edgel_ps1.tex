@@ -1,0 +1,209 @@
+%%% Econ714: Macroeconomics II
+%%% Spring 2021
+%%% Danny Edgel
+%%%
+% Due on Canvas Friday, March 26th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\Mt}{M_{t+1}^t}
+\newcommand{\vhat}{\hat{v}}
+\newcommand{\olp}{\overline{p}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\olq}{\overline{q}}
+\newcommand{\zinf}{_{t=0}^\infty}
+\newcommand{\aneg}{A^{-1}}
+\newcommand{\sneg}{s^{-1}}
+\newcommand{\olk}{\overline{k}}
+\newcommand{\olc}{\overline{c}}
+\newcommand{\olr}{\overline{r}}
+\newcommand{\olpi}{\overline{\pi}}
+\newcommand{\Aneg}{A^{-1}}
+\renewcommand{\sneg}{s^{-1}}
+\newcommand{\dc}[1]{\Delta c_{#1}}
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\suminf}{\sum_{t=0}^\infty}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\sumnk}{\sum_{i=1}^{N_k}}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\Tau}{\mathrm{T}}
+\newcommand{\phat}{\hat{p}}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]} % expected value
+\newcommand{\Et}[1]{\mathbb{E}_t\left[#1\right]}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#1 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 714: Macroeconomics II		\\
+			Spring 2021						\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Discussed and/or compared answers with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
+ \\
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 1}
+Since both $u$ and $w$ are increasing, strinctly concave, and twice differentiable, the solution to the consumer problem comes from the first-order conditions of the Lagrangian function:
+\begin{align*}
+	\L &= \theta u(c^1) + (1-\theta) w(c^2) - \lambda( c^1 + c^2 - c )		\\
+	\frac{\partial\L}{\partial c^1} &= \theta u'(c^1) 		- \lambda = 0	\\
+	\frac{\partial\L}{\partial c^2} &= (1-\theta) w'(c^2) 	- \lambda = 0	\\
+	\Rightarrow \theta u'(c^1) &= (1-\theta) w'(c^2)
+\end{align*}
+Using the envelope condition, we can show the change in total utility given a change in $c$:
+\begin{align*}
+	v_\theta'(c)	&= \theta u'(c^1)\frac{\partial c^1}{\partial c} + (1-\theta) w'(c^2)\frac{\partial c^2}{\partial c}	\\
+			&= \theta u'(c^1)\frac{\partial c^1}{\partial c} + \theta u'(c^1)\frac{\partial c^2}{\partial c}		\\
+			&= \theta u'(c^1)\frac{\partial (c^1 + c^2)}{\partial c} = \theta u'(c^1) =  (1-\theta) w'(c^2)
+\end{align*}
+To show that $v_\theta(c)$ is concave, we must prove that, for any $c<c'$ and $\lambda\in(0,1)$,
+\[
+	v_\theta(\lambda c + (1-\lambda)c') \geq \lambda v_\theta(c) + (1-\lambda)v_\theta(c')
+\] 
+Let $f(c)=c^1$ and $g(c)=c^2$ determine the value of $c^1$ and $c^2$ that maximize $v_\theta$ such that ${f(c) + g(c) = c}$. Then,
+{\small \begin{align*}
+	v_\theta(\lambda c + (1-\lambda)c') 			&= \theta u(f(\lambda c + (1-\lambda)c')) + (1-\theta)w(g(\lambda c + (1-\lambda)c'))	\\
+	\lambda v_\theta(c) + (1-\lambda)v_\theta(c')	&= \theta\left[\lambda u(f(c))+ (1-\lambda)u(f(c'))\right] + (1-\theta)\left[\lambda w(g(c))  + (1-\lambda)w(g(c'))\right]		
+\end{align*} }
+Where, since $u$ and $w$ are concave,
+\begin{align*}
+	u(f(\lambda c + (1-\lambda)c')) &\geq \lambda u(f(c))+ (1-\lambda)u(f(c')) 	\\
+	w(g(\lambda c + (1-\lambda)c')) &\geq \lambda w(g(c))  + (1-\lambda)w(g(c'))	
+\end{align*}
+Thus, ${v_\theta(\lambda c + (1-\lambda)c')  - \left(\lambda v_\theta(c) + (1-\lambda)v_\theta(c')\right)\geq 0}$, so $v_\theta$ is concave.
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 2}
+\begin{itemize}
+	\item[a.] A competitive equilibrium in this economy is a price system, ${\left\{q_t\right\}_{t=0}^\infty}$, and an allocation, ${\left\{c^1_t, c^2_t\right\}_{t=0}^\infty}$, that solves each consumer's problem and clears both the goods and claims markets in every period, $t$:
+		\begin{align*} &c_t^1 + c_t^2 = y_t^1 + y_t^2	&q_t^1 + q_t^2 = 0  \end{align*}
+	
+	\item[b.] Each agent solves their utility maximization problem in period zero, which is represented by the following Lagrangian function and features a single budget constraint:
+		\[
+			\L = \sum_{t=0}^\infty \beta^tu(c_t^i) - \lambda^i\left(\sum_{t=0}^\infty q_tc_t^i - q_ty^i_t\right)
+		\]
+		Then optimal consumption in each period, for each agent, has the following first order condition:
+		\[
+			\frac{\partial\L}{\partial c^i_t} = \beta^tu'(c_t^i) - \lambda^i\left(q_t\right) = 0
+		\]
+		Thus, we can determine that relative consumption across consumers is constant in every state and time period:
+		\[
+			\frac{u'(c_t^1)}{u'(c_t^2)} = \frac{\lambda^1}{\lambda^2}
+		\]
+		Furthermore, since markets are complete with full commitment, we know that consumers with perfectly insure, such that ${c^i_t(s^t)=c^i}$ for all $t$ and $s^t$. Thus, using each consumer's first order condition, we can solve:
+		\[
+			\frac{\beta^tu'(c_t^i)}{u'(c_0^i)} = \frac{q_t}{q_0}\Rightarrow q_t = \beta^tq_0
+		\]
+		Then each consumer's budget constraint implies:
+		\begin{align*}
+			\sum_{t=0}^\infty q_t(s^t)c_t^i 	&= \sum_{t=0}^\infty q_ty^i_t		\\
+			c^iq_0\sum_{t=0}^\infty \beta^t 	&= q_0\sum_{t=0}^\infty\beta^ty^i_t	\\
+		\end{align*}
+		So the allocation is independent of date 0 prices and the right-hand side of this equation depends on each consumer's endowment series:
+		\begin{align*}
+			\sum_{t=0}^\infty\beta^ty^1_t	&= 1 + \beta^3 + \beta^6 + ... = \sum_{t=0}^\infty(\beta^3)^t = \frac{1}{1-\beta^3}										\\
+			\sum_{t=0}^\infty\beta^ty^2_t	&= \beta + \beta^2 + \beta^4 + \beta^5 + ... = \beta\sum_{t=0}^\infty(\beta^3)^t + \beta^2\sum_{t=0}^\infty(\beta^3)^t	
+											= \frac{\beta + \beta^2}{1-\beta^3}
+		\end{align*}
+		Thus, the competitive equilibrium allocation is:
+		\begin{align*} &c_t^1 = \frac{1-\beta}{1-\beta^3}	&c_t^2 = \frac{\beta-\beta^3}{1-\beta^3}  \end{align*}
+	
+	\item[c.] The present discounted value of this asset is $$ p = \sum_{t=0}^\infty 0.05\beta^t = \frac{1}{20(1-\beta)} $$ So this would also be the price of the asset.
+	
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 3}
+Exercise 8.4 from Ljungqvist and Sargent
+
+
+%%%________________________________________________________________%%%
+
+
+
+
+\end{document}
+
+
+
+
+
+
