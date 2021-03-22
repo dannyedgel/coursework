@@ -112,7 +112,6 @@
 %%%________________________________________________________________%%%
 
 \noindent\textit{Discussed and/or compared answers with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
- \\
 
 %%%________________________________________________________________%%%
 
@@ -193,6 +192,57 @@ Thus, ${v_\theta(\lambda c + (1-\lambda)c')  - \left(\lambda v_\theta(c) + (1-\l
 
 \subsection*{Question 3}
 Exercise 8.4 from Ljungqvist and Sargent
+
+\subsubsection*{Part I}
+\begin{itemize}
+	\item[a.] A competitive equilibrium in this economy is a price system, ${\left\{\{q_t(s^t)\}_{s^t\in S}\right\}_{t=0}^\infty}$, and an allocation, ${\left\{\{c_t\}_{s^t\in S}\right\}_{t=0}^\infty}$, that solves the consumer's problem and clears the goods in every period, $t$:
+		\begin{align*} &c_t(s^t) = d_t(s^t)  \end{align*}
+		If there were a market for claims in period 0, then the claims market would also have to clear. However, since there is only one consumer in this economy, there will be no claims market. The consumer's problem is solved by the following first order condition:
+		\[
+			\beta^t\pi_t(s^t)u'(c_t(s^t)) = \mu q_t(s^t)
+		\]
+		Where $\pi_t(s^t)$ is the probability of $s^t$ occuring in time $t$ and $\mu$ is the Lagrangian multiplier for the consumer problem. This condition will be used to price claims to consumption in each period, but the goods market clearing condition ensures that the consumer consumes only their endowment in each period. Let ${q_0(s_0)=1}$ to normalize all prices according to date 0 consumption. Then, we can solve for the equilibrium price of consumption at any period, $t$:
+		\[
+			q_t(s^t) = \beta^t\frac{\pi_t(s^t)u'(c_t(s^t))}{\pi_0(s_0)u'(c_0(s_0))} = (0.95)^t\frac{\pi_t(s^t)d_t(s^t)^{-2}}{1d_0^{-2}} = (0.95)^t\pi_t(s^t)d_t(s^t)^{-2}
+		\]
+	
+	\item[b.] Using the pricing equation derived in part (a), we can calculate:
+		\begin{align*}
+						q_5(s^5)	&= (0.95)^5\pi_5(s^5)d_5(s^5)^{-2}						\\
+						d_5(s^5)	&= (0.97)(0.97)(1.03)(0.97)(1.03) \approx 0.968			\\
+						\pi_5(s^5)	&= (0.8)(0.8)(0.2)(0.1)(0.2) = 0.00256					\\
+			\Rightarrow q_5(s^5)	&\approx (0.774)(0.00256)(0.968)^{-2} \approx 0.00211
+		\end{align*}
+	
+	\item[c.] Using the same pricing system, we can calculate:
+		\[
+			q_5(s^5) = (0.95)^5\left(0.2*0.9*0.9*0.9*0.1\right)\left(1.03*1.03*1.03*1.03*0.97\right)^{-2} \approx 0.00946
+		\]
+	
+	\item[d.] The price of a claim to the entire endowment sequence, $Q$, is simply the sum of the price of a claim to each possible state in each period:
+		\[
+			Q = \sum_{t=1}^\infty \sum_{s^t\in S} (0.95)^t\pi_t(s^t)d_t(s^t)^{-2}
+		\]
+	
+	\item[e.] The price of a claim to consumption in period 5 if $\lambda$ is 0.97 regardless of the transtition sequence is the sum of the price of all claims in period 5 with sequences ending in 0.97:
+		\[
+			Q_5^{\lambda = .97} = \sum_{s^5|s_5=0.97}(0.95)^5\pi_5(s^5)d_5(s^5)^{-2}
+		\]
+	
+\end{itemize}
+
+\subsubsection*{Part II}
+\begin{itemize}
+	\item[f.] A recursive competitive equilibrium in this economy is a price system, ${\left\{\{q_t(s^t,s_{t+1})\}_{s^t\in S}\right\}_{t=0}^\infty}$, and an allocation, ${\left\{\{c_t\}_{s^t\in S}\right\}_{t=0}^\infty}$, that solves the consumer's problem and clears the goods in every period, $t$:
+		\begin{align*} &c_t(s^t) = d_t(s^t)  \end{align*}
+	
+	\item[g.] 
+	
+	\item[h.] 
+	
+	\item[i.] 
+	
+\end{itemize}
 
 
 %%%________________________________________________________________%%%
