@@ -221,12 +221,12 @@ Exercise 8.4 from Ljungqvist and Sargent
 	
 	\item[d.] The price of a claim to the entire endowment sequence, $Q$, is simply the sum of the price of a claim to each possible state in each period:
 		\[
-			Q = \sum_{t=1}^\infty \sum_{s^t\in S} (0.95)^t\pi_t(s^t)d_t(s^t)^{-2}
+			Q = \sum_{t=1}^\infty \sum_{s^t\in S} d_t(s^t)q_t(s^t) = \sum_{t=1}^\infty \sum_{s^t\in S} (0.95)^t\pi_t(s^t)d_t(s^t)^{-1}
 		\]
 	
 	\item[e.] The price of a claim to consumption in period 5 if $\lambda$ is 0.97 regardless of the transtition sequence is the sum of the price of all claims in period 5 with sequences ending in 0.97:
 		\[
-			Q_5^{\lambda = .97} = \sum_{s^5|s_5=0.97}(0.95)^5\pi_5(s^5)d_5(s^5)^{-2}
+			Q_5^{\lambda = .97} = \sum_{s^5|s_5=0.97} d_5(s^5)q_t(s^5) = \sum_{s^5|s_5=0.97}(0.95)^5\pi_5(s^5)d_5(s^5)^{-1}
 		\]
 	
 \end{itemize}
