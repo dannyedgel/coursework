@@ -195,7 +195,7 @@ Exercise 8.4 from Ljungqvist and Sargent
 
 \subsubsection*{Part I}
 \begin{itemize}
-	\item[a.] A competitive equilibrium in this economy is a price system, ${\left\{\{q_t(s^t)\}_{s^t\in S}\right\}_{t=0}^\infty}$, and an allocation, ${\left\{\{c_t\}_{s^t\in S}\right\}_{t=0}^\infty}$, that solves the consumer's problem and clears the goods in every period, $t$:
+	\item[a.] A competitive equilibrium in this economy is a price system, ${\left\{\{q_t(s^t)\}_{s^t\in S}\right\}_{t=0}^\infty}$, and an allocation, ${\left\{\{c_t(s^t)\}_{s^t\in S}\right\}_{t=0}^\infty}$, that solves the consumer's problem and clears the goods in every period, $t$:
 		\begin{align*} &c_t(s^t) = d_t(s^t)  \end{align*}
 		If there were a market for claims in period 0, then the claims market would also have to clear. However, since there is only one consumer in this economy, there will be no claims market. The consumer's problem is solved by the following first order condition:
 		\[
@@ -233,14 +233,46 @@ Exercise 8.4 from Ljungqvist and Sargent
 
 \subsubsection*{Part II}
 \begin{itemize}
-	\item[f.] A recursive competitive equilibrium in this economy is a price system, ${\left\{\{q_t(s^t,s_{t+1})\}_{s^t\in S}\right\}_{t=0}^\infty}$, and an allocation, ${\left\{\{c_t\}_{s^t\in S}\right\}_{t=0}^\infty}$, that solves the consumer's problem and clears the goods in every period, $t$:
+	\item[f.] A recursive competitive equilibrium in this economy is a price system, ${\left\{\{q_t(s^t,s_{t+1})\}_{s^t\in S}\right\}_{t=0}^\infty}$, and an allocation of consumption and one-period Arrow securities, ${\left\{\{c_t(s^t),a_t(s^t,s_{t+1})\}_{s^t\in S}\right\}_{t=0}^\infty}$, that solves the consumer's problem and clears the goods in every period, $t$:
 		\begin{align*} &c_t(s^t) = d_t(s^t)  \end{align*}
+		
+		
+	\item[g.] The natural debt limit in any period, $\overline{a}_{t+1}$, is the present value of the  total endowment stream, priced according to the equilibrium price system:
+		\[
+			\overline{a}_{t+1} = d_t(s^t) + \sum_{\tau=t}^\infty\sum_{s_{\tau+1}}\beta^\tau d_\tau(s^\tau)q(s^\tau,s_{\tau+1})
+		\]
 	
-	\item[g.] 
+	\item[h.] Since there is still only one consumer, the equilibrium allocation is ${c_t(s^t)=d_t(s^t)}$ for all states and periods. However, the price of an asset can be determined from the conumer's problem, which is represented by the following Lagrangian:
+	$$ \L = \E{\sum_{t=0}^\infty\sum_{s^t}\beta^tu(s^t) - \lambda_t\left[c_t(s^t) + \sum_{s_{t+1}}q_t(s^t,s_{t+1})a_{t+1}(s^t,s_{t+1})-d_t(s^t)-a(s^{t+1})\right] }$$
+	The first-order condition of the consumer's utility maximization problem is now:
+	\[
+		q_t(s^t,s_{t+1}) = \beta\left(\frac{u'(c_{t+1}(s^{t+1}))}{u'(c_t(s^t))}\right)\pi(s_{t+1}|s^t)
+	\]
+	Then, given the model's primitives and recognizing the equilibrium allocation, this condition becomes:
+	\[
+		q_t(s^t,s_{t+1}) = 0.95\left(\frac{d_t(s^t))}{d_{t+1}(s^{t+1})}\right)^2\pi(s_{t+1}|s^t)
+	\]
+	Furthermore, the endowment series is governed by ${d_{t+1} = \lambda_{t+1}d_t}$, so:
+	\[
+		q_t(s^t,s_{t+1}) = 0.95\lambda_{t+1}(s^{t+1})^{-2}\pi(s_{t+1}|s^t)
+	\]
 	
-	\item[h.] 
-	
-	\item[i.] 
+	\item[i.] The price of this security, $p_t$, is equal to the expected value of a risk-free one-period bond in period $t+1$:
+		{\footnotesize \begin{align*}
+			p_t(s^t) 	&= \sum_{s_{t+1}}\sum_{s_{t+2}}q_t(s^{t+1},s_{t+2})\pi(s_{t+1}|s^t)	\\
+						&= \begin{cases}
+								(0.95^2)\left[(0.97)^{-2}(0.8)^2 + (1.03)^{-2}(0.2)(0.8) + 
+									(0.97)^{-2}(0.1)(0.2) + (1.03)^{-2}(0.9)(0.2)\right], \lambda_t = 0.97	\\
+								(0.95^2)\left[(0.97)^{-2}(0.1)(0.9) + (1.03)^{-2}(0.9)^2 + 
+									(0.97)^{-2}(0.8)(0.1) + (1.03)^{-2}(0.2)(0.1)\right], \lambda_t = 1.03
+							\end{cases}  
+		\end{align*} }																				\\
+		\[
+			p_t(s^t) 	\approx \begin{cases}
+									0.922, \lambda_t = 0.97	\\
+									0.869, \lambda_t = 1.03
+								\end{cases} 
+		\]
 	
 \end{itemize}
 
