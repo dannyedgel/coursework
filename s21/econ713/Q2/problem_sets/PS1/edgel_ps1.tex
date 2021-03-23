@@ -1,0 +1,216 @@
+%%% Econ713: Microeconomics II
+%%% Spring 2021
+%%% Danny Edgel
+%%%
+% Due on Canvas Thursday, April 1st, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\union}{\bigcup}
+\newcommand{\olw}{\overline{w}}
+\newcommand{\olx}{\overline{x}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\P}{\mathcal{P}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\olp}{\overline{p}}
+\renewcommand{\exp}[1]{\text{exp}\left\{#1\right\}}
+\newcommand{\binv}[1]{b_j^{-1}\left(#1\right)}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]} % expected value
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Homework \#1 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 713: Microeconomics II		\\
+			Spring 2021						\\
+		}
+\maketitle\thispagestyle{empty}
+
+%\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 1}
+
+\begin{itemize}
+	\item[a)] The auction is a Bayesian game where each player ${i\in\{1,...,N\}}$ observes type ${v_i\sim F(x)}$ and chooses a continuous action ${b_i\geq 0}$ to maximize their expected payoff, $\E{u_i}$, where:
+		\[
+			u_i(v_i,b_i,b_{-i}) =	\begin{cases}
+										v_i - b_i, 				&b_i>b_j \forall j\neq i												\\
+										\frac{1}{k}(v_i-b_i), 	&b_i\in A=\text{max}\{b_1,...,b_N\} \text{, where }|A|=k 	\\
+										0						&b_i < \text{max}\{b_1,...,b_N\}
+									\end{cases}
+		\]
+		On any continuous distribution, the probability that any two draws are exactly equal is zero. Therefore, the knife's-edge case is excluded from the reminder of the analysis for brevity.
+
+	
+	\item[b)] Player $i$'s expected payoff is:
+		\[
+			\E{u_i} = (v_i - b_i)\left[\prod_{j\neq i}Pr(b_i>b_j)\right] + 0\left[1-\prod_{j\neq i}Pr(b_i>b_j)\right] = (v_i - b_i)\left[\prod_{j\neq i}Pr(b_i>b_j)\right]
+		\]
+		Assume that all players bet according to a linear function of their valuation: ${b_j = d + cv_j}$. Then, player $i$'s expected payoff becomes:
+		\begin{align*}
+			\E{u_i} &= (v_i - b_i)\left[\prod_{j\neq i}Pr(b_i>d + cv_j)\right] = (v_i - b_i)\left[\prod_{j\neq i}Pr\left(v_j < \frac{b_i-d}{c}\right)\right]	\\
+					&= (v_i - b_i)\left[\prod_{j\neq i}\left(\frac{b_i-d}{c}\right)^a\right] = (v_i - b_i)\left(\frac{b_i-d}{c}\right)^{Na}
+		\end{align*}
+		Player $i$'s optimal bet, then, can be derived from the first-order condition of their expected payoff:
+		$$	\frac{v_iNa}{c}\left(\frac{b_i-d}{c}\right)^{Na-1} - \left(\frac{b_i-d}{c}\right)^{Na} - \frac{b_iNa}{c}\left(\frac{b_i-d}{c}\right)^{Na-1} = 0 $$
+		\begin{align*}
+			Nav_i - b_i + d - b_iNa  &= 0								\\
+			b_i &= \left(\frac{Na}{1 + Na}\right)v_i + \frac{d}{Na + 1}
+		\end{align*}
+		Assuming every player uses the same formula, then, we can solve:
+		\begin{align*}
+			c &= \frac{Na}{Na + 1}
+			d &= \frac{d}{Na + 1}\Rightarrow d=0
+		\end{align*}
+		Thus, the Bayesian Nash equilibrium is for all players to bet:
+			\[
+				b = \left(\frac{Na}{Na+1}\right)v
+			\]
+			
+	\item[c)] 
+
+
+	\item[d)] The limit of $b$ as ${a\rightarrow\infty}$ is $v$, so the payoff of the winner converges to zero. Therefore, bidding becomes more competitive as $a$ increases.
+
+
+	\item[e)] 
+
+
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 2}
+
+\begin{itemize}
+	\item[a)] 
+
+	
+	\item[b)] 
+
+
+	\item[c)] 
+
+
+	\item[d)] 
+
+
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 3}
+
+\begin{itemize}
+	\item[a)] The auction is a Bayesian game where each player ${i\in\{1,2,3\}}$ observes type ${v_i\sim U[0,1]}$ and chooses a continuous action ${b_i\geq 0}$ to maximize their expected payoff, $\E{u_i}$, where, for ${i\neq j \neq k}$:
+		\[
+			u_i(v_i,b_i,b_j,b_k) =	\begin{cases}
+										v_i - b_i, 				&b_i>b_j\geq b_k 					\\
+										\frac{1}{2}(v_i-b_i), 	&b_i=b_j>b_k						\\
+										\frac{1}{3}(v_i-b_i),	&b_i=b_j=b_k						\\
+										0						&b_i < b_j\leq b_k
+									\end{cases}
+		\]
+		On any continuous distribution, the probability that any two draws are exactly equal is zero. Therefore, the knife's-edge cases are excluded from the reminder of the analysis for brevity.
+
+	
+	\item[b)] 
+
+
+	\item[c)] To determine expected revenue, we must first determine the expected value of the third-highest valuation. Begin by solving the pdf of the third-highest price, $f^3$, using the order statistic pdf formula:
+		\[
+			f^3(x) = \left(frac{n!}{(2!(n-3)!}\right)x^2(1-x)^{n-3} = \left(\frac{n(n-1)(n-2)}{2}\right)x^2(1-x)^{n-3}
+		\]
+		Then, the expected revenue is the expected value of the third-lowest bid:
+		\begin{align*}
+			R_s	&= \frac{n(n-1)(n-2)}{2}\int_0^1v^2(1-v)^{n-3}dv = 	\frac{n(n-1)(n-2)}{2}\int_1^0(1-2y+y^2)y^{n-3}dy					\\
+				&= \frac{n(n-1)(n-2)}{2}\int_1^0y^{n-3}-2y^{n-2}+y^{n-1}dy
+		\end{align*}
+		Thus, the expected revenue of the seller is:
+		\[
+			\E{\frac{n-1}{n-2}v} = \frac{n-1}{(n-2)(n+1)}
+		\]
+
+	\item[d)] 
+
+
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+
+
+\end{document}
