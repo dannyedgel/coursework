@@ -219,7 +219,7 @@ If $N_2$ interaction dummies are included, then no observation will be used as t
 \end{enumerate}
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \section*{Exercise 17.1}
 
 $$ \hat{f}(x) = \frac{1}{nh}\sum_{i=1}^n K\left(\frac{x-X_i}{h}\right) $$
@@ -235,9 +235,12 @@ $$ \hat{f}(x) = \frac{1}{nh}\sum_{i=1}^n K\left(\frac{x-X_i}{h}\right) $$
 	
 	\item 
 		\begin{align*}
-			Var(X^*)	&= \E{(X^*)^2} - \E{X^*}^2 = \E{(X^*)^2} - \olx{n}^2			\\
-			\E{(X^*)^2}	&= \int\frac{x^2}{nh}\sum_{i}^nK\left(\frac{x-X_i}{h}\right)dx	\\
-						&= \frac{1}{n}\sum_{i}^n\int(X_i+uh)^2K(u)du
+			Var(X^*)	&= \E{(X^*)^2} - \E{X^*}^2 = \E{(X^*)^2} - \olx{n}^2										\\
+			\E{(X^*)^2}	&= \int\frac{x^2}{nh}\sum_{i}^nK\left(\frac{x-X_i}{h}\right)dx								\\
+						&= \frac{1}{n}\sum_{i}^n\int(X_i+uh)^2K(u)du												\\
+						&= \frac{1}{n}\sum_{i}^nX_i^2 + 2\frac{1}{n}\sum_{i}^nX_ih\int uK(u)du + h^2\int u^2K(u)du	\\
+						&= \frac{1}{n}\sum_{i}^nX_i^2+ h^2															\\
+   \Rightarrow Var(X^*) &= \frac{1}{n}\sum_{i}^nX_i^2 - \olx{n}^2+ h^2	 = \hat{\sigma}^2 + h^2
 		\end{align*}
 	
 \end{enumerate}
@@ -245,22 +248,34 @@ $$ \hat{f}(x) = \frac{1}{nh}\sum_{i=1}^n K\left(\frac{x-X_i}{h}\right) $$
 %%%________________________________________________________________%%%
 
 \section*{Exercise 17.3}
+(17.11) provides the following optimal bandwidth equation (and definitions for secondary values):
+\begin{align*}
+	h_0		&= \left(\frac{R_K}{R(f'')}\right)^{1/5}n^{-1/5} 	\\
+	R_K 	&= \int K(u)^2du									\\
+	R(f'') 	&= \int\left(f''(x)\right)^2dx
+\end{align*}
+Uniform density on $[0,1]$ has the pdf $f(x)=1$, which results in ${R(f'')=0}$ and an optimal bandwidth approaching positive infinity. $h_0$ is derived as the bandwidth that optimally trades off the variance gains of having a higher bandwidth against the increased bias of doing so. On a uniform density, there is no bias from increasing bandwidth, so this formula recommends minimizing variance by using the entire range of $X$ as a single bin.
 
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 17.4}
-
+The bandwidth itself will not change because it is given as a percentile value of the range of $X$. However, the variance of the distribution in the second estimation is a substantially smaller number, so a lower bandwidth will be necessary to obtain an optimal trade-off between variance and bias. Using the same bandwidth for each estimation will lead to a large bias in the estimation that uses millions of dollars.
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 19.3}
 
 
+
 %%%________________________________________________________________%%%
 
 \section*{Exercise 19.4}
-
+The asymptotic bias of Nadaraya-Watson is $h^2B_{nw}(x)$, where $$ B_{nw}(x) = \frac{1}{2}m''(x) + f(x)^{-1}f'(x)m'(x) $$ Thus, in this case,
+\begin{align*}
+	B_{nw}(x) &= \frac{1}{2} + \frac{f'(x)\beta}{\alpha + \beta x}
+\end{align*}
+Where $f(x)$ is the marginal density of $x$. 
 
 %%%________________________________________________________________%%%
 
