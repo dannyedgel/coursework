@@ -266,6 +266,7 @@ The bandwidth itself will not change because it is given as a percentile value o
 
 \section*{Exercise 19.3}
 
+The local linear estimator, as implied by its name, estimates the relationship between $X$ and $Y$ as linear at each point. Thus, the local linear estimator of an increasing and convex relationship is biased upward (positive bias), and the local linear estimator of an increaseing and concave relationship is biased downward (negative bias).
 
 
 %%%________________________________________________________________%%%
@@ -273,14 +274,14 @@ The bandwidth itself will not change because it is given as a percentile value o
 \section*{Exercise 19.4}
 The asymptotic bias of Nadaraya-Watson is $h^2B_{nw}(x)$, where $$ B_{nw}(x) = \frac{1}{2}m''(x) + f(x)^{-1}f'(x)m'(x) $$ Thus, in this case,
 \begin{align*}
-	B_{nw}(x) &= \frac{1}{2} + \frac{f'(x)\beta}{\alpha + \beta x}
+	B_{nw}(x) &= \frac{f'(x)\beta}{f(x)}
 \end{align*}
-Where $f(x)$ is the marginal density of $x$. 
+Where $f(x)$ is the marginal density of $x$. Since $f(x)>0$ for all $x$, when ${\beta>0}$, this bias is positive when the density function for $x$ is increasing and negative when it is decreasing. When $\beta<0$, the opposite is true. This makes intuitive sense, because when the density function is increasing, most of the observations of $x$ are to the right of a given point, which influences the N-W estimator more.
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 19.9}
-The graphs for the Nadaraya-Watson and local-linear estimators are displayed below. They show some evidence of a non-linear relationship between $I$ and $Q$, but they roughly show a linear relationship between $\loge{e}$ and $Q$.
+The graphs for the Nadaraya-Watson and local-linear estimators are displayed below. They show some evidence of a non-linear relationship between $I$ and $Q$, but they roughly show a linear relationship between $I$ and $\loge{Q}$.
 \begin{center}
 	\includegraphics[width=0.9\textwidth]{fig19_9a.png}
 	\includegraphics[width=0.9\textwidth]{fig19_9b.png}
