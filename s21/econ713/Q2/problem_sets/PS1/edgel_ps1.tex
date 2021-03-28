@@ -106,47 +106,70 @@
 	\item[a)] The auction is a Bayesian game where each player ${i\in\{1,...,N\}}$ observes type ${v_i\sim F(x)}$ and chooses a continuous action ${b_i\geq 0}$ to maximize their expected payoff, $\E{u_i}$, where:
 		\[
 			u_i(v_i,b_i,b_{-i}) =	\begin{cases}
-										v_i - b_i, 				&b_i>b_j \forall j\neq i												\\
-										\frac{1}{k}(v_i-b_i), 	&b_i\in A=\text{max}\{b_1,...,b_N\} \text{, where }|A|=k 	\\
-										0						&b_i < \text{max}\{b_1,...,b_N\}
+										v_i - b_i, 					&b_i>b_j \forall j\neq i									\\
+										\frac{1}{k}(v_i-b_i) -b_i, 	&b_i\in A=\text{max}\{b_1,...,b_N\} \text{, where }|A|=k 	\\
+										-b_i						&b_i < \text{max}\{b_1,...,b_N\}
 									\end{cases}
 		\]
 		On any continuous distribution, the probability that any two draws are exactly equal is zero. Therefore, the knife's-edge case is excluded from the reminder of the analysis for brevity.
 
 	
 	\item[b)] Player $i$'s expected payoff is:
-		\[
-			\E{u_i} = (v_i - b_i)\left[\prod_{j\neq i}Pr(b_i>b_j)\right] + 0\left[1-\prod_{j\neq i}Pr(b_i>b_j)\right] = (v_i - b_i)\left[\prod_{j\neq i}Pr(b_i>b_j)\right]
-		\]
-		Assume that all players bet according to a linear function of their valuation: ${b_j = d + cv_j}$. Then, player $i$'s expected payoff becomes:
+		{\small \[
+			\E{u_i} = (v_i - b_i)\left[\prod_{j\neq i}Pr(b_i>b_j)\right] -b_i\left[1-\prod_{j\neq i}Pr(b_i>b_j)\right]
+		\] }
+		Assume that all players bet according to the same of their valuation, $b(v_j)$. Then, player $i$'s expected payoff becomes:
 		\begin{align*}
-			\E{u_i} &= (v_i - b_i)\left[\prod_{j\neq i}Pr(b_i>d + cv_j)\right] = (v_i - b_i)\left[\prod_{j\neq i}Pr\left(v_j < \frac{b_i-d}{c}\right)\right]	\\
-					&= (v_i - b_i)\left[\prod_{j\neq i}\left(\frac{b_i-d}{c}\right)^a\right] = (v_i - b_i)\left(\frac{b_i-d}{c}\right)^{Na}
+			\E{u_i} &= (v_i - b_i)\left[\prod_{j\neq i}Pr(b_i>b(v_j)\right]-b_i\left[1-\prod_{j\neq i}Pr(b_i>b(v_j))\right] 							\\
+					&= (v_i - b_i)\left[\prod_{j\neq i}Pr\left(v_j < b^{-1}(b_i)\right)\right]-b_i\left[1-\prod_{j\neq i}Pr(v_j < b^{-1}(b_i))\right]	\\
+					&= (v_i - b_i)\left[\prod_{j\neq i}\left(b^{-1}(b_i)\right)^a\right]-b_i\left[1-\prod_{j\neq i}\left(b^{-1}(b_i)\right)^a\right] 	\\
+					&= (v_i - b_i)\left(b^{-1}(b_i)\right)^{(N-1)a}-b_i\left[1-\left(b^{-1}(b_i)\right)^{(N-1)a}\right] 								\\
+					&= v_i\left(b^{-1}(b_i)\right)^{Na-a} - b_i
 		\end{align*}
 		Player $i$'s optimal bet, then, can be derived from the first-order condition of their expected payoff:
-		$$	\frac{v_iNa}{c}\left(\frac{b_i-d}{c}\right)^{Na-1} - \left(\frac{b_i-d}{c}\right)^{Na} - \frac{b_iNa}{c}\left(\frac{b_i-d}{c}\right)^{Na-1} = 0 $$
 		\begin{align*}
-			Nav_i - b_i + d - b_iNa  &= 0								\\
-			b_i &= \left(\frac{Na}{1 + Na}\right)v_i + \frac{d}{Na + 1}
+			\frac{v_i(Na-a)}{b'\left(b^{-1}(b_i)\right)}\left(b^{-1}(b_i)\right)^{Na-a-1} - 1 &= 0						\\
+			b'\left(b^{-1}(b_i)\right) &= v_i(Na-a)\left(b^{-1}(b_i)\right)^{Na-a-1}								
 		\end{align*}
-		Assuming every player uses the same formula, then, we can solve:
+		Assuming every player uses the same bidding function in equilibirum, we can solve:
 		\begin{align*}
-			c &= \frac{Na}{Na + 1}
-			d &= \frac{d}{Na + 1}\Rightarrow d=0
+			\int b'(v_i)dv_i 	&= \int (Na-a)v_i^{Na-a}dv_i	\\
+							b_i	&= \left(\frac{Na-a}{Na-a+1}\right)v_i^{Na-a+1} + c
 		\end{align*}
-		Thus, the Bayesian Nash equilibrium is for all players to bet:
+		A bidder with a valuation of 0 would bid zero, so ${c=0}$. Thus, the Bayesian Nash equilibrium is for all players to bet:
 			\[
-				b = \left(\frac{Na}{Na+1}\right)v
+				b = \left(\frac{Na-a}{Na-a+1}\right)v^{Na-a+1}
 			\]
 			
-	\item[c)] 
+	\item[c)] To verify that this is an equilibrium, we can simply repeat the payoff maximization process using bid function above as the bid that player $i$ assumes each player $j$ plays, then determine if player $i$'s best response is the same function:
+		\begin{align*}
+			b^{-1}(b_i)	&= \left[\left(\frac{Na-a+1}{Na-a}\right)b_i\right]^{\frac{1}{Na-a+1}}	\\
+				\E{u_i} &= v_i\left(b^{-1}(b_i)\right)^{Na-a} - b_i 
+						= v_i\left(\left[\left(\frac{Na-a+1}{Na-a}\right)b_i\right]^{\frac{1}{Na-a+1}}\right)^{Na-a} - b_i	\\
+						&= v_i\left[\left(\frac{Na-a+1}{Na-a}\right)b_i\right]^{\frac{Na-a}{Na-a+1}} - b_i
+		\end{align*}
+		The first order condition for this expected payoff is:
+		\begin{align*}
+			\left(\frac{Na-a}{Na-a+1}\right)v_i\left[\left(\frac{Na-a+1}{Na-a}\right)b_i\right]^{\frac{Na-a}{Na-a+1}-1}\frac{Na-a+1}{Na-a} - 1 &= 0	\\
+			\left[\left(\frac{Na-a+1}{Na-a}\right)b_i\right]^{\frac{1}{Na-a+1}}	&= v_i
+		\end{align*}
+		\[
+			b_i = \left(\frac{Na-a}{Na-a+1}\right)v_i^{Na-a+1}
+		\]
+		
+	\pagebreak 
+	\item[d)] The limit of $b$ as ${a\rightarrow\infty}$ is $v^\infty$, where $v$ is between 0 and 1. Therefore, bidding becomes \textit{less} competitive as $a$ increases. This simple consideration of the equilibrium bid obscures the mechanics of why: When ${a=1}$, the distribution is uniform. As $a$ increases, the distribution gets more convex, resulting in a fatter upper tail. As a result, the probability of winning gets lower, conditional on $N$ and $v$, so bidders optimize by betting less to lower their losses conditional on losing the auction.
 
 
-	\item[d)] The limit of $b$ as ${a\rightarrow\infty}$ is $v$, so the payoff of the winner converges to zero. Therefore, bidding becomes more competitive as $a$ increases.
-
-
-	\item[e)] 
-
+	\item[e)] After learning her value, each bidder's expected payment is the equilibrium bid:
+		\[
+			\E{b_i|v_i} = \left(\frac{Na-a}{Na-a+1}\right)v_i^{Na-a+1}
+		\]
+		Prior to learning her value, her expected payment is her conditional bid, integrated over her possible realizations of $v_i$:
+		\begin{align*}
+			\E{b_i}	&= \int_0^1\left(\frac{Na-a}{Na-a+1}\right)v_i^{Na-a+1}av_i^{a-1}dv_i = \frac{a^2(N-1)}{Na-a+1}\int_0^1v_i^{Na}dv_i	\\
+					&= \frac{a^2(N-1)}{Na-a+1}\left[\frac{1}{Na+1}v_i^{Na+1}\right]^1_0 = \frac{a^2(N-1)}{(Na-a+1)(Na+1)}
+		\end{align*}
 
 \end{itemize}
 
@@ -156,7 +179,12 @@
 \subsection*{Question 2}
 
 \begin{itemize}
-	\item[a)] 
+	\item[a)] Assume that bidders know their own valuation but only the distribution of the other player's valuation. Further assume that the reserve price is known, but each bidder is unaware of whether the other will submit a bid following the realization of their valuation (and will thus submit a bid even if the other player chooses not to participate in the auction). In a first-price auction, each player chooses their bid after learning their valuation, $v$, to maximize their expected payoff, where their payoff is given by:
+		\[
+			u(v_i,b_i,b_j) = 	\begin{cases}
+									v_i-b_i, &b_i > \text{max}\{r,b_j\}
+								\end{cases}
+		\]
 
 	
 	\item[b)] 
@@ -178,33 +206,62 @@
 	\item[a)] The auction is a Bayesian game where each player ${i\in\{1,2,3\}}$ observes type ${v_i\sim U[0,1]}$ and chooses a continuous action ${b_i\geq 0}$ to maximize their expected payoff, $\E{u_i}$, where, for ${i\neq j \neq k}$:
 		\[
 			u_i(v_i,b_i,b_j,b_k) =	\begin{cases}
-										v_i - b_i, 				&b_i>b_j\geq b_k 					\\
-										\frac{1}{2}(v_i-b_i), 	&b_i=b_j>b_k						\\
+										v_i - b_k, 				&b_i>b_j\geq b_k 					\\
+										\frac{1}{2}(v_i-b_k), 	&b_i=b_j>b_k						\\
 										\frac{1}{3}(v_i-b_i),	&b_i=b_j=b_k						\\
 										0						&b_i < b_j\leq b_k
 									\end{cases}
 		\]
 		On any continuous distribution, the probability that any two draws are exactly equal is zero. Therefore, the knife's-edge cases are excluded from the reminder of the analysis for brevity.
 
-	
-	\item[b)] 
-
-
-	\item[c)] To determine expected revenue, we must first determine the expected value of the third-highest valuation. Begin by solving the pdf of the third-highest price, $f^3$, using the order statistic pdf formula:
+	\item[b)] The expected payoff of bidder $i$ is:
 		\[
-			f^3(x) = \left(frac{n!}{(2!(n-3)!}\right)x^2(1-x)^{n-3} = \left(\frac{n(n-1)(n-2)}{2}\right)x^2(1-x)^{n-3}
+			\E{u_i} = \left(v_i - \E{b_k|b_i\geq\text{max}\{b_j,b_k\}}\right)Pr\left(b_i\geq\text{max}\{b_j,b_k\}\right) 
+		\]
+		Now assume that all players play ${b = \frac{n-1}{n-2}v = 2v}$. Then bidder $i$'s expected payoff is:
+		\begin{align*}
+			\E{u_i} &= \left(v_i - \E{b_k|b_i\geq\text{max}\{b_j,b_k\}}\right)Pr\left(b_i\geq\text{max}\{b_j,b_k\}\right) 							\\
+					&= \left(v_i - \E{v_k|b_i\geq\text{max}\{2v_j,2v_k\}}\right)Pr\left(b_i\geq\text{max}\{2v_j,2v_k\}\right)			\\
+					&= \left(v_i - 2\E{v_k\bigm|\frac{b_i}{2}\geq\text{max}\{v_j,v_k\}}\right)Pr\left(\frac{b_i}{2}\geq\text{max}\{v_j,v_k\}\right)	
+		\end{align*}
+		The expected value of $v_k$ (the minimum value) conditional on $i$ having the highest bid is the mean of the 2nd order statistic of a two-draw uniform distribution from 0 to $b_i$:
+		\begin{align*}
+			\E{v_k\bigm|\frac{b_i}{2}\geq\text{max}\{v_j,v_k\}}	&= \int_0^{\frac{b_i}{2}}\left(\frac{4}{b_i}-\frac{8}{b_i^2}v_k\right)v_kdv_k			\\
+																&= \frac{4}{b_i}\left[\frac{1}{2}v_k^2 - \frac{2}{3b_i}v_k^3\right]_0^{\frac{b_i}{2}}	\\
+																&= \frac{1}{6}b_i																		\\
+											\Rightarrow \E{u_i}	&= \left(v_i - \frac{1}{3}b_i\right)\left(\frac{b_i}{2}\right)^2
+		\end{align*}
+		The bidder chooses $b_i$ to maximize their expected payoff:
+		\begin{align*}
+			\frac{v_i}{2}b_i - \frac{1}{4}b_i^2 &= 0	\\
+			\frac{b_i}{4}\left(2v_i-b_i\right)	&= 0	\\
+								\Rightarrow b_i	&= 2v_i
+		\end{align*}
+		Thus, ${b = \frac{n-1}{n-2}v = 2v}$ is a symmetric Bayesian Nash equilibrium.
+
+	\item[c)] To determine expected revenue, we must first determine the expected value of the third-highest valuation. In this example, since we have $n=3$, we can simply use the distribution of the minimum valuation, $F^3$:
+		\[
+			F^3(v) = 1 - \left(1-F(x)\right)^3 = 1 - (1-x)^3 \Rightarrow f^3(x) = 3(1-x)^2
 		\]
 		Then, the expected revenue is the expected value of the third-lowest bid:
 		\begin{align*}
-			R_s	&= \frac{n(n-1)(n-2)}{2}\int_0^1v^2(1-v)^{n-3}dv = 	\frac{n(n-1)(n-2)}{2}\int_1^0(1-2y+y^2)y^{n-3}dy					\\
-				&= \frac{n(n-1)(n-2)}{2}\int_1^0y^{n-3}-2y^{n-2}+y^{n-1}dy
+			R_s	&= \int_0^1\left(\frac{n-1}{n-2}v\right)f^3(v) = 2\int_0^1v \left(3(1-v)^2\right)				\\
+				&= 6\int_0^1v - 2v^2 + v^3 = 6\left[\frac{1}{2}v^2 - \frac{2}{3}v^3 + \frac{1}{4}v^4\right]_0^1	\\
+				&= 6\left(\frac{1}{2} - \frac{2}{3} + \frac{1}{4}\right) = \frac{1}{2}
 		\end{align*}
-		Thus, the expected revenue of the seller is:
-		\[
-			\E{\frac{n-1}{n-2}v} = \frac{n-1}{(n-2)(n+1)}
-		\]
+		Then, ${R_s = \frac{n-1}{n+1}}$ holds, since ${n=3\Rightarrow R_s = \frac{1}{2}}$.
 
-	\item[d)] 
+	\item[d)] For any $k^{\text{th}}$-price auction with $k\geq 3$, each bidder balances the increase in payoffs conditional on winning from lowering their bids with the increase in the odds of winning from increasing their bids by bidding above their valuation, as we saw in the $3^{\text{rd}}$-price auction.  As $k$ increases, bidders bid increasingly further above their valuation in equilibrium by maximizing their expected payoff:
+	\[
+		\E{u_i} = \left(v_i - \E{v_k\bigm|b_i>b_j\forall j\neq i}\right)Pr\left(b_i>b_j\forall j\neq i\right)
+	\]
+	On a uniform distribution, we know the following equilibrium bids:
+	\begin{align*}
+		1^{\text{st}}\text{-price auction: } &\frac{n-1}{n}v 		\\
+		2^{\text{nd}}\text{-price auction: } & v 					\\
+		3^{\text{rd}}\text{-price auction: } &\frac{n-1}{n-2}v 	
+	\end{align*}
+	The emerging pattern suggests that the equilibrium bid for a $k^{\text{th}}$-price auction is ${\frac{n-1}{n-k+1}v}$. I won't prove it, since doing so consists of ``detailed analysis," but this can be proven using the same steps as those used in part (b), using the order statistic formula for an arbitrary number of draws/bidders on a uniform distribution.
 
 
 \end{itemize}
@@ -214,3 +271,15 @@
 
 
 \end{document}
+
+
+		Where $\beta$ is the opposing player's bid. Let player 1 be the player with ${F(x)=x}$ and player 2 be the one with ${F(x)=x^2}$. Assume that each player knows their own valuation and the other player's distribution. Then, each player's expected payoff is given by:
+		\begin{align*}
+			\E{u_1|b_1}	&= (v_1-b_1)\left(b_2^{-1}(b_1)\right)^2	\\
+			\E{u_2|b_2}	&= (v_2-b_2)b_1^{-1}(b_2)
+		\end{align*}
+		Then, each player chooses their bid to maximize their expected payoff:
+		\begin{align*}
+			\frac{v_2-b_2}{b_1'\left(b_1^{-1}(b_2)\right)} - b_1^{-1}(b_2) 		&= 0	\\
+			\frac{2(v_1-b_1)}{b_2'\left(b_2^{-1}(b_1)\right)} - b_2^{-1}(b_1)^2 &= 0	\\
+		\end{align*}
