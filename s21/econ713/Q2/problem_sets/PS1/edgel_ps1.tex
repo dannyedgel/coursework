@@ -195,12 +195,12 @@ Assume that bidders know their own valuation but only the distribution of the ot
 	Then, each player chooses their bid to maximize their expected payoff:
 	\begin{align*}
 		\frac{v_2-b_2}{b_1'\left(b_1^{-1}(b_2)\right)} - b_1^{-1}(b_2) 		&= 0	\\
-		\frac{2(v_1-b_1)}{b_2'\left(b_2^{-1}(b_1)\right)} - b_2^{-1}(b_1)^2 &= 0	\\
+		\frac{2(v_1-b_1)}{b_2'\left(b_2^{-1}(b_1)\right)} - b_2^{-1}(b_1)^2 &= 0	
 	\end{align*}
 	Thus, the system of differential equations that determines each player's bid is:
 	\begin{align*}
 		b_1'\left(b_1^{-1}(b_2)\right)	&= \frac{v_2-b_2}{b_1^{-1}(b_2) }		\\
-		b_2'\left(b_2^{-1}(b_1)\right)	&= \frac{2(v_1-b_1)}{b_2^{-1}(b_1)^2}	\\
+		b_2'\left(b_2^{-1}(b_1)\right)	&= \frac{2(v_1-b_1)}{b_2^{-1}(b_1)^2}	
 	\end{align*}
 	The seller, will choose $r$ to maximize their expected profit:
 	{\small \begin{align*}
@@ -239,7 +239,7 @@ Assume that bidders know their own valuation but only the distribution of the ot
 					&+ (r-c)\left(r+r^2-2r^3\right)
 	\end{align*} }
 	Expected profit, then, is a function only of $r$ (conditional on $c$, which is known and constant). Furthermore, expected profit conditional on $r$ being below the maximum valuation rises monotonically with $r$, but the probability of $r$ being below the maximum decreases monotonically with $r$. Thus, the first order condition of expected profit with respect to $r$ yields a finite maximum for each value of $c$, though for sufficiently high $c$, there is likely a boundary solution at 1. \\
-	The optimal $r$ for the second-price auction may have an analytical solution, but there is not such a solution for the first-price auction, as we cannot determine a closed-form bid function for the first-price auction. Thus, solving for maximum expected profit in the second-price auction will not aid us in determining which auction is more profitable for the seller. Instead, let us consider the incentives of the bidder with ${F(x)=x^2}$ in the first-price auction. This bidder knows that they are likely to draw a higher valuation than the other opponent, who has no incentive to bid above their valuation. As a result, they will bid well below their valuation to extract a higher net payoff. However, they will bet their valuation in the second-price auction. Without a reserve price, there would often be large gaps between the bidders' valuations. The seller can set a reserve price to extract revenue from some of the valuation gap in such case. Thus, the second price auction with a reserve price between the expected valuations of the to bidders.
+	The optimal $r$ for the second-price auction may have an analytical solution, but there is not such a solution for the first-price auction, as we cannot determine a closed-form bid function for the first-price auction. Thus, solving for maximum expected profit in the second-price auction will not aid us in determining which auction is more profitable for the seller. Expected profit in each auction depends on $r$, which also influences the functions of each bidder in the equilibrium of the first price auction (since $b(r)=r$ is the boundary condition). Furthermore, expected profit depends on $c$. Thus, the seller's decision of which auction to use will depend on $c$, which will determine optima in the auction that the seller chooses.
 
 	\item[d)] If the seller can offer at a discount to one of the bidders in the second-price auction, then the seller will choose to offer the discount to the bidder with the lower likelihood to win so that, conditional on the non-discounted bidder winning, the seller does not have to offer the discount but the winner pays a higher price for the good. As such, the seller will offer the discount to the bidder with ${F(x)=x}$, who will bid ${b(v) = \frac{x}{\alpha}}$. Now, the expected profit of the seller (which is equal to expected revenue, since the seller no longer has any costs) is:
 	\[
