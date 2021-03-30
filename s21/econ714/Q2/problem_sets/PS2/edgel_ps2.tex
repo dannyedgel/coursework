@@ -123,9 +123,9 @@
 			\usmax{\{c_{it},b_{i,t+1}\}}\sum_{t=0}^\infty\beta^tu(c_{it})\text{ s.t. }c_{it}+b_{i,t+1}\leq y_{it} + R_tb_{it}\text{, }b_{i,t+1}\geq\phi_t
 		\]
 		Where, in our example from class, endowments alternate between a high and low endowment for each type of borrower, $i$. Let ${i=l}$ index the low-endowment borrower and ${i=h}$ index the high-endowment borrower, with the following primitives:
-		\begin{align*}
-			&u(c) = \loge{c} &\beta = 0.5 &(y_h,y_l) = (15,4)
-		\end{align*}
+		\[
+			u(c) = \loge{c}\quad\quad \beta = 0.5 		\quad\quad (y_h,y_l) = (15,4)
+		\]
 		Then, the Euler equation yields:
 		\begin{align*}
 			\frac{1}{c_{lt}}	&\geq \beta R\frac{1}{c_{h,t+1}}	\\
@@ -173,17 +173,53 @@
 \subsection*{Question 2}
 
 \begin{enumerate}
-	\item 
+	\item Let $s$ be the savings of an agent in autarky. With $R$ as the equilibrium interest rate, the new autarky utility level of an agent in the high state is given by:
+		\[
+			V^d = \frac{\loge{y_h-s}}{1-\beta^2} + \beta\frac{\loge{y_l + Rs}}{1-\beta^2}
+		\]
 	
-	\item 
+	\item An equilibrium in this economy is an allocation, ${\{c_{lt},c_{ht}\}}$, price system, $\{R_t\}$, and borrowing constraint, $\{\phi_t\}$ that solve the consumer's problem:
+		\[
+			\usmax{\{c_{it},b_{i,t+1}\}}\sum_{t=0}^\infty\beta^t\loge{c_{it}}\text{ s.t. }c_{it} + b_{i,t+1}\leq y_{it} + R_tb_{it}\text{, }b_{i,t+1}\geq -\phi_t
+		\]
+		In each period, markets clear:
+		\begin{align*}
+			&c_{lt} + c_{ht} = y_{lt} + y_{ht}	&\text{(Goods Market)}		\\
+			&b_{lt} + b_{ht} = 0				&\text{(Securities Market)}	
+		\end{align*}
+		And the not-too-tight debt constraint is satisfied:
+		\[
+			\frac{\loge{y_h-\phi(1+R)}}{1-\beta^2} + \beta\frac{\loge{y_l +\phi(1+R)}}{1-\beta^2} = \frac{\loge{y_h-s}}{1-\beta^2} + \beta\frac{\loge{y_l + Rs}}{1-\beta^2}
+		\]
 	
-	\item 
+	\item The two equations that characterize the equilibrium are the not-too-tight debt constraint and high type's Euler equation (in equilibrium):
+		\[
+			\frac{1}{y_h - \phi(1+R)} = \frac{\beta R}{y_l + \phi(1+R)}
+		\]
+		The optimal $s$ chosen in autarky is a function of $R$, determined by the agent's Euler equation:
+		\begin{align*}
+			\frac{1}{y_h-s} &= \frac{\beta R}{y_l + Rs}	\\
+			\Rightarrow s	&= \frac{\beta R y_h-y_l}{R(\beta+1)}
+		\end{align*}
 	
-	\item 
+	\item From the Euler equation, we can solve for $\phi$ as a function of $R$:
+		\begin{align*}
+			\frac{1}{y_h - \phi(1+R)} 		&= \frac{\beta R}{y_l + \phi(1+R)}			\\
+			\phi(1+R) + \beta R\phi(1+R) 	&= \beta Ry_h-y_l							\\
+			\Rightarrow \phi				&= \frac{\beta R y_h-y_l}{(1+\beta R)(1+R)}
+		\end{align*}
+		Which we can plug into the not-too-tight debt constraint (with each side multiplied to remove the common denominator) to solve for $R$:
+		{\small \begin{align*}
+			\loge{y_h-\frac{\beta R y_h-y_l}{(1+\beta R)(1+R)}(1+R)} &+ \beta\loge{y_l +\frac{\beta R y_h-y_l}{(1+\beta R)(1+R)}(1+R)} 	\\
+													&= \loge{y_h-\frac{\beta R y_h-y_l}{R(\beta+1)}} + \beta\loge{y_l + R\frac{\beta R y_h-y_l}{R(\beta+1)}}	\\
+			\loge{y_h-\frac{\beta R y_h-y_l}{1+\beta R}} &+ \beta\loge{y_l +\frac{\beta R y_h-y_l}{1+\beta R}} 	\\
+													&= \loge{y_h-\frac{\beta R y_h-y_l}{R(\beta+1)}} + \beta\loge{y_l + \frac{\beta R y_h-y_l}{\beta+1}}	\\
+		\end{align*} }
+		This equation is satisfied when $R=1$, which gives an equilibrium borrowing constraint of ${\phi=\frac{\beta y_h-y_l}{2(1+\beta)}}$
+		
+	\item Given this result and our primitives, we can calculate ${\phi=\frac{14}{3}}$ and the equilibrium consumption as ${(c_l,c_h)=\left(4 +2\phi,15-2\phi\right)\approx\left(15.3,5.7\right)}$. This compares to equilibrium consumption of ${(10,9)}$ with the autarky punishment.
 	
-	\item 
-	
-	\item 
+	\item This result suggests an intuitive relationship between consumption smoothing and default punishment: that lower punishments result to less consumption smoothing. This comes from the fact that weaker default punishments appear in the form of tighter voluntary participation constraints, so borrowing constraints must be tighter in order to satisfy the voluntary participation constraint. 
 	
 \end{enumerate}
 
