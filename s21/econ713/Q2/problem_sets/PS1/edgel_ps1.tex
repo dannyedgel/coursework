@@ -249,8 +249,8 @@ Assume that bidders know their own valuation but only the distribution of the ot
 	Which simplifies as follows:
 	\begin{align*}
 		\E{\frac{v_2}{\alpha}\bigm|v_1>\frac{v_2}{\alpha}} 	&= \int_0^1\int_0^{\alpha v_1}\frac{v_2}{\alpha}dv_22v_1dv_1	
-															= \int_0^1\left[\frac{v_2^2}{2\alpha}\right]_0^{2v_1}dv_1		\\
-															&= \int_0^1\frac{1}{2}\alpha v_1^2dv_1 = \frac{\alpha}{6}		\\
+															= \int_0^1\left[\frac{v_2^2}{2\alpha}\right]_0^{2v_1}2v_1dv_1		\\
+															&= \int_0^1\alpha v_1^3dv_1 = \frac{\alpha}{4}		\\
 					Pr\left(v_1>\frac{v_2}{\alpha}\right)	&= \int_0^1\int_0^{\alpha v_1}dv_22v_1dv_1						\\
 															&= \int_0^12\alpha v_1^2dv_1 = \frac{2}{3}\alpha				\\
 				\E{\alpha v_1\bigm|\frac{v_2}{\alpha}>v_1}	&= \int_0^1\int_0^{\frac{v_2}{\alpha}}2\alpha v_1^2dv_1dv_2	
@@ -258,17 +258,17 @@ Assume that bidders know their own valuation but only the distribution of the ot
 															&= \frac{1}{6\alpha^2}											\\
 					Pr\left(\frac{v_2}{\alpha}>v_1\right)	&= \int_0^1\left(\frac{v_2}{\alpha}\right)^2v_1dv_2 
 															= \frac{1}{3\alpha^2}											\\
-								\Rightarrow\E{\pi|\alpha}	&= \left(\frac{\alpha}{6}\right)\left(\frac{2}{3}\alpha\right)
+								\Rightarrow\E{\pi|\alpha}	&= \left(\frac{\alpha}{4}\right)\left(\frac{2}{3}\alpha\right)
 										+\left(\frac{1}{6\alpha^2}\right)\left(\frac{1}{3\alpha^2}\right)	\\
-															&= \frac{\alpha^2}{9} + \frac{1}{18\alpha^4}
+															&= \frac{\alpha^2}{6} + \frac{1}{18\alpha^4}
 	\end{align*}
 	Which has the first order condition for $\alpha$:
 	\[
-		\frac{2}{9}\alpha - \frac{1}{6\alpha^4} = 0	\Rightarrow \alpha = \left(\frac{3}{4}\right)^{1/5}
+		\frac{1}{3}\alpha - \frac{1}{6\alpha^4} = 0	\Rightarrow \alpha = \left(\frac{1}{2}\right)^{1/5}
 	\]
 	Thus, at the optimal $\alpha$, the seller has expected revenue:
 	\[
-		\E{\pi|\alpha} = \frac{1}{9}\left(\frac{3}{4}\right)^{2/5} + \frac{1}{18}\left(\frac{3}{4}\right)^{-4/5}
+		\E{\pi|\alpha} = \frac{1}{6}\left(\frac{1}{2}\right)^{2/5} + \frac{1}{18}\left(\frac{3}{4}\right)^{-4/5}
 	\]
 
 
