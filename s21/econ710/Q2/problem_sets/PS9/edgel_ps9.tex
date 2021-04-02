@@ -1,0 +1,246 @@
+%%% Econ710: Econometrics
+%%% Spring 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Tuesday, April 6th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{color}
+\usepackage{courier}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[shortlabels]{enumitem}
+\usepackage{boondox-cal}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\olz}[1]{\overline{Z}_{#1}}
+%\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\est}[1]{\frac{1}{\lowercase{#1}}\sum_{i=1}^{\lowercase{#1}}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}^{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\ehat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\bcls}{\tilde{\beta}_{CLS}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\vt}{\tilde{\varepsilon}}
+\renewcommand{\Pr}[1]{Pr\left(#1\right)}
+\newcommand{\biv}{\bhat^{IV}}
+\newcommand{\xbar}{\overline{X}}
+\newcommand{\ybar}{\overline{Y}}
+\newcommand{\zbar}{\overline{Z}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\esti}{\frac{1}{T_i-1}\sum_{t=1}^{T_i}}
+\newcommand{\oinv}{\Omega^{-1}}
+\newcommand{\olg}{\overline{g}_n}
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\title{	Problem Set \#9 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 710: Economic Statistics and Econometrics II	\\
+			Spring 2021											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Discussed and/or compared answers with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
+
+%Chapter 20:
+%Exercises 20.1, 20.3, 20.11, 20.15
+%
+%Chapter 21:
+%Exercises 21.1, 21.2, 21.3, 21.4, 21.6, 21.8
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 20.1}
+If $X=3$, then all three dummies for $X$ are equal to 1, so the marginal effect is ${2 + 5 -3 = 4}$.
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 20.3}
+$m_K(x)$ is concave if $\beta_1>0$ and $\beta_j<0$ for ${j\in\{2,3,4\}}$.
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Exercise 20.11}
+The graph below displays the results of the polynomial regression, with both experience and wage rescaled to their absolute levels.
+\begin{center}
+	\includegraphics[width=\textwidth]{fig20_11b.png}
+\end{center}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 20.15}
+
+The results of the three regression estimations and the plot of $\hat{m}(x)$ for the second model are below. The AIC for each model is displayed at the bottom of the regression table. The AIC suggests that the linear model is half as probable as the two spline models, which are equally likely. This suggests that the true relationship between the debt-to-GDP ratio may have a slope discontinuity, but it is not clear from the analysis shown here.
+
+\begin{center}
+	\input{tbl20_15.tex}
+\end{center}
+
+\begin{center}
+	\includegraphics[width=\textwidth]{fig20_15b.png}
+\end{center}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 21.1}
+When the treatment occurs after the discontinuity, we estimate average treatment effect ${\hat{\theta} = \hat{m}_1(c)-\hat{m}_0(c)}$. The only difference that arises when the treatment occurs prior to the discontinuity is that $\hat{\theta}$ is now the negative treatment effect.
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 21.2}
+By the logic of RDD, we have two points over which we can estimate an average treatment effect. Our model is:
+\[
+	\E{Y|X=x,D} = m(x) = m_0(x)\one{X<c_1|X>c_2} + m_1(x)\one{c_1\leq X\leq c_2}
+\]
+Thus, we can identify either ${ATE(c_1) = m_1(c_1)-m_0(c_1)}$ or ${ATE(c_1) = m_1(c_2)-m_0(c_2)}$
+
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 21.3}
+Suppose that we have the following model:
+\[
+	Y = m(X) + e 
+\]
+Where $\E{e|X}=0$ and there exists a policy that affects $Y$ and applies whenever ${X\geq c}$. Then, taking the expectation of each side of the model, we get:
+\begin{align*}
+			\E{Y|X=x} 	&= \E{Y_0|X=x}\one{X<c} + \E{Y_1|X=x}\one{X\geq x}	\\
+			\E{Y_0|X=x}	&= m_0(x) \\ \E{Y_1|X=x} &= m_1(x)					\\
+	\Rightarrow m(x)	&= m_0(x) = m_0(x)\one{x<c} + m_1(x)\one{x\geq c}
+\end{align*}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 21.4}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 21.6}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 21.8}
+
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
