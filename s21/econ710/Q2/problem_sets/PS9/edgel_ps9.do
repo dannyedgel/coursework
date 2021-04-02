@@ -3,10 +3,12 @@ This file is used to conduct all empirical exercises from Problem Set 9 of
 Econ710q2.
 
 Date created:  01 Apr 2021
-Last modified: 01 Apr 2021
+Last modified: 02 Apr 2021
 Author: Danny Edgel
 */
 set more off
+capture file close table21_6
+capture file close table21_8
 
 
 // establish problem set directory
@@ -19,7 +21,7 @@ loc n = 10001
 /*
 	Exercise 20.11
 */
-/*
+
 // open the March 2009 CPS data set
 use cps09mar, clear
 
@@ -78,7 +80,7 @@ frame plotframe{
 	graph export fig20_11b.png, replace
 }
 
-*/
+
 
 /*
 	Exercise 20.15
@@ -176,7 +178,7 @@ sort debtm1
 loc note "Lagged growth included as a regressor"
 mylabels -10(5)15, suffix("%") loc(ylabs)
 tw	///
-	rarea y_high y_low debtm1,  col(gs10) lc(gs8)	||	///
+	rarea y_high y_low debtm1,  col(gs10) lc(gs10)	||	///
 	line yhat debtm1, lc(blue)							///
 		title("Estimated Effect of Debt-to-GDP Ratio on Growth") note("`note'") ///
 		subtitle("Linear Spline at 60%") xlab(0(20)120) leg(off) 				///
@@ -186,7 +188,147 @@ graph export fig20_15b.png, replace
 
 restore
 	
-	
-	
 
+/*
+	Exercise 21.6
+*/
+
+// open Ludwig & Miller (2007) data set
+use LM2007, clear
 	
+	
+// initialize output table
+file open table21_6 using table21_6.tex, write replace
+file write table21_6															///
+	"\begin{tabular}{lccccc}" _newline "\hline\hline"				_newline	///
+		_tab " & \multicolumn{2}{c}{$ h=4$} && \multicolumn{2}{c}{ $ h=12$} \\"	///
+				"\cline{2-3}\cline{5-6}"										///
+		_tab " & Baseline & Covariates & &Baseline & Covariates \\"				///
+				"\cline{2-6}"										_newline	 	
+		
+// generate RDD cutoff variables
+g D		= (povrate60 >= 59.2)
+g Dmx 	= (povrate60 - 59.2)*D
+
+// store regression variables in local macros
+loc Y 	mort_age59_related_postHS
+loc RDD povrate60 D Dmx
+loc X 	census1960_pctblack census1960_pcturban
+
+// run baseline model and estimate theta for h = 4
+reg `Y' `RDD' 		if abs(povrate60 - 59.2) <= 4, robust
+loc b2 	= _b[D]
+loc se2	= _se[D]
+
+// run covariate model and estimate theta for h = 4
+reg `Y' `RDD' `X' 	if abs(povrate60 - 59.2) <= 4, robust
+loc b3 	 = _b[D]
+loc se3	 = _se[D]
+loc b13	 = _b[census1960_pctblack] 
+loc se13 = _se[census1960_pctblack]
+loc b23	 = _b[census1960_pcturban] 
+loc se23 = _se[census1960_pcturban]
+
+
+// run baseline model and estimate theta for h = 12
+reg `Y' `RDD' 		if abs(povrate60 - 59.2) <= 12, robust
+loc b4 	= _b[D]
+loc se4	= _se[D]
+
+// run covariate model and estimate theta for h = 12
+reg `Y' `RDD' `X' 	if abs(povrate60 - 59.2) <= 12, robust
+loc b5 	 = _b[D]
+loc se5	 = _se[D]
+loc b15	 = _b[census1960_pctblack] 
+loc se15 = _se[census1960_pctblack]
+loc b25	 = _b[census1960_pcturban] 
+loc se25 = _se[census1960_pcturban]
+
+// loop through estimates, formatting them
+foreach i in 2 3 4 5 13 15 23 25{
+	foreach x in b se{
+		loc `x'`i': di %4.3f ``x'`i''
+	}
+}
+
+// output results in table
+file write table21_6															///
+		_tab "$\hat{\theta}$ & `b2' & `b3' & &`b4' & `b5' \\"		_newline	///
+		_tab "$ s(\hat{\theta})$ &(`se2') &(`se3') & & (`se4') & (`se5') \\"	///
+																	_newline	///
+		_tab "\% Black &  & `b13' & & & `b15' \\"					_newline	///
+		_tab "$ s(\hat{\beta}_1)$ & &(`se13') & &  & (`se15') \\"	_newline	///
+		_tab "\% Urban &  & `b23' & & & `b25' \\"					_newline	///
+		_tab "$ s(\hat{\beta}_2)$ &&(`se23') &&& (`se25') \\\hline"	_newline	///
+	"\end{tabular}"					
+		
+		
+// close and save tex file
+file close table21_6		
+
+
+/*
+	Exercise 21.8 -- repeat 21.6, but with different dependent variable
+*/
+
+// initialize output table
+file open table21_8 using table21_8.tex, write replace
+file write table21_8															///
+	"\begin{tabular}{lccccc}" _newline "\hline\hline"				_newline	///
+		_tab " & \multicolumn{2}{c}{$ h=4$} && \multicolumn{2}{c}{ $ h=12$} \\"	///
+				"\cline{2-3}\cline{5-6}"										///
+		_tab " & Baseline & Covariates & &Baseline & Covariates \\"				///
+				"\cline{2-6}"		
+	
+loc Y mort_age25plus_related_postHS
+
+// run baseline model and estimate theta for h = 4
+reg `Y' `RDD' 		if abs(povrate60 - 59.2) <= 4, robust
+loc b2 	= _b[D]
+loc se2	= _se[D]
+
+// run covariate model and estimate theta for h = 4
+reg `Y' `RDD' `X' 	if abs(povrate60 - 59.2) <= 4, robust
+loc b3 	 = _b[D]
+loc se3	 = _se[D]
+loc b13	 = _b[census1960_pctblack] 
+loc se13 = _se[census1960_pctblack]
+loc b23	 = _b[census1960_pcturban] 
+loc se23 = _se[census1960_pcturban]
+
+
+// run baseline model and estimate theta for h = 12
+reg `Y' `RDD' 		if abs(povrate60 - 59.2) <= 12, robust
+loc b4 	= _b[D]
+loc se4	= _se[D]
+
+// run covariate model and estimate theta for h = 12
+reg `Y' `RDD' `X' 	if abs(povrate60 - 59.2) <= 12, robust
+loc b5 	 = _b[D]
+loc se5	 = _se[D]
+loc b15	 = _b[census1960_pctblack] 
+loc se15 = _se[census1960_pctblack]
+loc b25	 = _b[census1960_pcturban] 
+loc se25 = _se[census1960_pcturban]
+
+// loop through estimates, formatting them
+foreach i in 2 3 4 5 13 15 23 25{
+	foreach x in b se{
+		loc `x'`i': di %4.3f ``x'`i''
+	}
+}
+
+// output results in table
+file write table21_8															///
+		_tab "$\hat{\theta}$ & `b2' & `b3' & &`b4' & `b5' \\"		_newline	///
+		_tab "$ s(\hat{\theta})$ &(`se2') &(`se3') & & (`se4') & (`se5') \\"	///
+																	_newline	///
+		_tab "\% Black &  & `b13' & & & `b15' \\"					_newline	///
+		_tab "$ s(\hat{\beta}_1)$ & &(`se13') & &  & (`se15') \\"	_newline	///
+		_tab "\% Urban &  & `b23' & & & `b25' \\"					_newline	///
+		_tab "$ s(\hat{\beta}_2)$ &&(`se23') &&& (`se25') \\\hline"	_newline	///
+	"\end{tabular}"					
+		
+		
+// close and save tex file
+file close table21_8		

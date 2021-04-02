@@ -217,16 +217,36 @@ Where $\E{e|X}=0$ and there exists a policy that affects $Y$ and applies wheneve
 %%%________________________________________________________________%%%
 
 \section*{Exercise 21.4}
+If we pick a rectangular kernel, then we have kernel function:
+\[
+	K(u) = \one{|u|\leq\frac{1}{2}}
+\]
+Thus, the objective function for a local linear estimation with rectangular bandwidth is:
+\[
+	\usmin{}\sum_{i=1}^n(Y_i-\beta_0-\beta_1X_i-\beta_2(x_i-c)T_i-\theta T_i)^2\one{|\frac{X_i-c}{2h}|\leq\frac{1}{2}}
+\]
+If the subsample $|X-C|\leq h$ is used, then the indicator function in the objection function is always satisfied, so the first-order condition of the local linear estimation is:
+\[
+	Y_i-\beta_0-\beta_1X_i-\beta_2(x_i-c)T_i-\theta T_i = 0 \Rightarrow Y_i = \beta_0+\beta_1X_i+\beta_2(x_i-c)T_i+\theta T_i
+\]
+Which is equivalent to equation (21.4).
 
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 21.6}
-
+The results are displayed below and generated in the attached .do file.
+\begin{center}
+	\input{table21_6.tex}
+\end{center}
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 21.8}
+The table below uses the \textit{mort\_age25plus\_related\_postHS} variable instead of \textit{mort\_age59\_related\_postHS}, as in exercise 21.6.
+\begin{center}
+	\input{table21_8.tex}
+\end{center}
 
 
 %%%________________________________________________________________%%%
