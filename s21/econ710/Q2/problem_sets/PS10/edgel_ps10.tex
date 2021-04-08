@@ -200,36 +200,70 @@
 
 \section*{Exercise 23.2}
 
+We can rewrite the model as:
+\[
+	Y = 	\begin{cases}
+				\left(\lambda\beta + \lambda\beta_1 X + \lambda\eps  + 1\right)^{1/\lambda},	\lambda\neq 0	\\
+				e^{\beta_0 + \beta_1X + \eps},												 	\lambda = 0
+			\end{cases}
+\]
+The model is clearly not linear in $(\lambda,\beta_0,\beta_1)$ when $\lambda\neq0$. However, in the ${\lambda=0}$ case, the model is linear with $\loge{Y}$ as a dependent variable. Thus, we can run OLS and transform the parameters post-estimation. However, this makes the model linear in $(\beta_0,\beta_1)$, but not $\lambda$.
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 23.7}
+Given that a consistent estimator for the variance of $\theta$, $\hat{V}$, has already been obtained, \textbf{what would the variance of $m(X,\theta)$ be given the variance of $\theta$? think on this more}
+
 
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 23.8}
+The results of the nonlinear least squares CES estimation using an alternative measure are displayed below.\footnote{This table is generated using the attached do file.} Point estimates for each parameter except for $\beta$ are similar across the two tables, but $\beta$ is wildly different. Standard errors are lower for every parameter. 
+\begin{center}
+	\input{table23_8.tex}
+\end{center}
 
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 24.3}
-
+We can simplify:
+\[
+	\E{\phi(Y-\theta)} = \E{\tau - \one{\theta<0}} = \tau - \E{\one{\theta<0}}
+\]
+$\E{\phi(Y-\theta)}=0$ if and only if $\theta=\tau$. Thus, $\theta$ is the $\tau^{\text{th}}$ quantile of $Y$.
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 24.4}
 
+\begin{enumerate}[(a)]
+	\item The two moments are equivalent:
+		\begin{align*}
+			\E{Y|X}			&= \E{X'\beta + e|X} 			= X'\beta	\\
+			\text{med}[Y|X]	&= \text{med}[X'\beta + e|X]	= X'\beta
+		\end{align*}
+	
+	\item OLS and LAD estimate the same coefficient because the errors are symmetrically distributed about their mean.
+	
+	\item We would prefer LAD if we sought to find an accurate prediction of a single draw from a skewed distribution, since LAD is robust to influential observations. We would prefer OLS if we wanted to estimate the mean but were either indifferent to outliers or our estimates aren't materially influenced by outliers.
+	
+\end{enumerate}
+
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 24.5}
-
+Not necessarily. If the distribution of the errors is heavily asymmetric, then OLS will more accurately predict the conditional mean of $Y$ (thus generating a higher $R^2$), but it will not necessarily yield more desirable predictions. Whether LAD or OLS  is preferable depends on the model's purpose.
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 24.14}
-
+The results of the quantile regression for a set of quantiles are below.\footnote{See the attached do file for the code that generated this plot.} Interpretation of these results is dubious and difficult. Each line represents the relationship between education and wages, conditional on an individual remaining in their quantile despite the increase in their wages.
+\begin{center}
+	\includegraphics[width=\textwidth]{fig24_14.png}
+\end{center}
 
 %%%________________________________________________________________%%%
 
