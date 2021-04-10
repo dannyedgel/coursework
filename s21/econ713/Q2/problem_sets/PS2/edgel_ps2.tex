@@ -1,0 +1,181 @@
+%%% Econ713: Microeconomics II
+%%% Spring 2021
+%%% Danny Edgel
+%%%
+% Due on Canvas Thursday, April 15th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\union}{\bigcup}
+\newcommand{\olw}{\overline{w}}
+\newcommand{\olx}{\overline{x}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\P}{\mathcal{P}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\olp}{\overline{p}}
+\renewcommand{\exp}[1]{\text{exp}\left\{#1\right\}}
+\newcommand{\binv}[1]{b_j^{-1}\left(#1\right)}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]} % expected value
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Homework \#2 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 713: Microeconomics II		\\
+			Spring 2021						\\
+		}
+\maketitle\thispagestyle{empty}
+
+%\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\subsection*{Problem 1}
+
+It is true that the effectiveness of signaling in the model of education we studied would break down if the costs of acquiring education were equal for individuals with different abilities. This is because the signal is intended to provide information to the employer about an individual's productivity so that the employer can pay each individual as closely to their level of productivity as possible, based on their level of education. Each individual wants to maximize their payoff (which is a function of their wage). Thus, if the employer pays more for individuals with higher education levels, then any education level that is individually rational for the higher-productivity type is also individually rational for the lower-productivity type. Therefore, education cannot be an effective signal of productivity.
+
+%%%________________________________________________________________%%%
+
+\subsection*{Problem 2}
+
+\begin{itemize}
+	\item[a)] With no information about the distribution of the sellers' valuations, the buyers assume that, at any price, each car is equally likely to be high-quality and lemons. Thus, the buyer's maximum willingness to pay is the price at which her expected payoff conditional on buying a car is zero: \$6,000.
+	
+	
+	\item[b)] If it is common knowledge that sellers value high-quality cars at \$8,000, then the equilibrium price of cars would be \$2,000, because buyers' willingness to pay in a pooling equilibrium is \$6,000, so sellers would not enter the market. Thus, buyers know that the only sellers in the market are lemon sellers. If sellers value high-quality cars at \$6,000, then this market can sustain a pooling equilibrium at a price of \$6,000.
+		
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+\subsection*{Problem 3}
+
+\begin{itemize}
+	\item[a)] Let $(p_i,w_i)$ be the equilibrium contract for a firm with ${i\in\{L,H\}}$. Then, the incentive constraints for each type of firm are:
+		\begin{align*}
+			&p_H - c_H - q_Hc_Hw_H	\geq p - c_H - q_Hc_Hw\text{, }\forall(p,w)		&\text{(}H\text{-type firm)}	\\
+			&p_L - c_L - q_Lc_Lw_L	\geq p - c_L - q_Lc_Lw\text{, }\forall(p,w)		&\text{(}L\text{-type firm)}
+		\end{align*}
+	
+	
+	\item[b)] The consumer will accept any contract such that, given their beliefs, their utility is weakly greater than zero. Suppose that the consumer believes that ${Pr(i=H|w=1)=1}$ and ${Pr(i=L|w=0)}$. Then, any equilibrium must satisfy:
+	\begin{align*}
+		&(1-q_H)S + q_HS - p(w=1)\geq 0	\Rightarrow p(1) \leq 1			\\
+		&(1-q_L)S - p(w=0) \geq 0		\Rightarrow p(0) \leq (1-q_L)S 
+	\end{align*}
+	In order for this separating equilibrium to satisfy the incentive constraints of the firm, the following inequalities must hold:
+		\begin{align*}
+			p(1) - c_H - q_Hc_H	&\geq p(0) - c_H			\\
+			p(0) - c_L 			&\geq p(1) - c_L - q_Lc_L
+		\end{align*}
+		Simplifying and combining these conditions yields:
+		\[
+			p(0) + q_Hc_H \leq p(1) \leq p(0) + q_Lc_L
+		\]
+		Thus, a separating equilibrium in which the high-quality seller offers a warranty but a low-quality seller does not requires:
+		\begin{align*}
+			p(1) \leq &1	\\ p(0) \leq &(1-q_L)S		\\
+			p(0) + q_Hc_H \leq &p(1) \leq p(0) + q_Lc_L
+		\end{align*}
+		
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+\subsection*{Problem 4}
+
+\begin{itemize}
+	\item[a)] Knowing $\theta$, the seller chooses to maximize her profit by solving:
+		\[
+			\usmax{q,t}t-q^2\text{ s.t. }\theta q - t\geq 0
+		\]
+		Let $\lambda$ be the Lagrangian multiplier of the Lagragian for this problem. Then, the seller's problem has first-order conditions:
+		\begin{align*}
+			\frac{\partial\L}{\partial q} &= -2q + \lambda\theta = 0	\\
+			\frac{\partial\L}{\partial t} &= 1 - \lambda = 0
+		\end{align*}
+		Thus, $\lambda=1$, so the seller chooses ${q=\theta/2}$, then chooses $t$ such that ${\theta q=t}$. Thus, the seller offers ${(q,t)=(1/2,1/2)}$ when ${\theta=1}$ and ${(1,2)}$ when ${\theta=2}$.
+	
+	\item[b)] 
+	
+	
+	\item[c)]
+		
+		
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+
+\end{document}
+
