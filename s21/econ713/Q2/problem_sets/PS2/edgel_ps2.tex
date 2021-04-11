@@ -166,11 +166,32 @@ It is true that the effectiveness of signaling in the model of education we stud
 		\end{align*}
 		Thus, $\lambda=1$, so the seller chooses ${q=\theta/2}$, then chooses $t$ such that ${\theta q=t}$. Thus, the seller offers ${(q,t)=(1/2,1/2)}$ when ${\theta=1}$ and ${(1,2)}$ when ${\theta=2}$.
 	
-	\item[b)] 
+	\item[b)] Being unable to observe $\theta$, the seller now offers two price-quality pairs. Each type of buyer, then, chooses the price-quality pair that maximizes their utility. An equilibrium set of price-quality pairs, ${(q^*_1,t^*_1)}$ and ${(q^*_2,t^*_2)}$, face the following incentive compatability constraints:
+		\begin{align*}
+			q_1^* - t_1^* 	&\geq q_2^* - t_2^*		\\
+			2q_2^* - t_2^* 	&\geq 2q_1^* - t_1^*
+		\end{align*}
+		The first inequality is satisfied for the full-information price-quality pairs, but the second is not: ${0\ngeq 1/2}$
 	
 	
-	\item[c)]
-		
+	\item[c)] Given ${q_1=1/4}$, the incentive compatability constraints can be combined to obtain:
+		\[
+			\frac{1}{2} - 2q_2 + t_2\leq t_1 \leq \frac{1}{4} - q_2 + t_2
+		\]
+		Ignoring, for now, the $t_2$ on each end of this inequality. Then, we have ${q_2\geq1/4}$. Let ${q_2=1/2}$. Then, to find a set of price-quality pairs that satisfy incentive compatability for both types of consumers and the firm, we can solve the firm's problem:
+		\begin{align*}
+			&\usmax{t_1,t_2}\left\{t_1 - \frac{1}{16} + t_2 - \frac{1}{4}\right\}\text{ s.t. } 	& t_2 - \frac{1}{2}\leq t_1 \leq t_2 - \frac{1}{4}	\\
+			&																					& \frac{1}{4} - t_1 \geq 0							\\
+			&																					& 1 - t_2 			\geq 0
+		\end{align*}
+		Setting $t_1$ at its highest incentive-compatible level of $\frac{1}{4}$ and rearranging the combined incentive compatability constraint restrict $t_2$ to:
+		\[
+			\frac{1}{2}\leq t_2\leq \frac{3}{4}
+		\]
+		To maximize profit, the firm sets ${t_2=\frac{3}{4}}$, which results in a total profit of $7/8$, which exceeds that of the full-information price-quanitity pairs, of $1/2$. To summarize, the firm offers the following price-quality pairs:
+		\begin{align*}
+			&(q_1,t_1) = (1/4,1/4)	&(q_2,t_2) = (1/2,3/4)
+		\end{align*}
 		
 \end{itemize}
 
