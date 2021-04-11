@@ -1,0 +1,186 @@
+%%% Econ714: Macroeconomics II
+%%% Spring 2021
+%%% Danny Edgel
+%%%
+% Due on Canvas Friday, April 16th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\Mt}{M_{t+1}^t}
+\newcommand{\vhat}{\hat{v}}
+\newcommand{\olp}{\overline{p}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\olq}{\overline{q}}
+\newcommand{\zinf}{_{t=0}^\infty}
+\newcommand{\aneg}{A^{-1}}
+\newcommand{\sneg}{s^{-1}}
+\newcommand{\olk}{\overline{k}}
+\newcommand{\olc}{\overline{c}}
+\newcommand{\olr}{\overline{r}}
+\newcommand{\olpi}{\overline{\pi}}
+\newcommand{\Aneg}{A^{-1}}
+\renewcommand{\sneg}{s^{-1}}
+\newcommand{\dc}[1]{\Delta c_{#1}}
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\suminf}{\sum_{t=0}^\infty}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\sumnk}{\sum_{i=1}^{N_k}}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\Tau}{\mathrm{T}}
+\newcommand{\phat}{\hat{p}}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]} % expected value
+\newcommand{\Et}[1]{\mathbb{E}_t\left[#1\right]}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#4 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 714: Macroeconomics II		\\
+			Spring 2021						\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Discussed and/or compared answers with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\subsection*{Question 1}
+
+To set up the Ramsey problem, we must first solve for the resource constraint and implementability contraint of this economy. The resource constraint is simply:
+\[
+	c_t + k_{t+1} = F(k_t,1-l_t) +(1-\delta)k_t
+\]
+We can derive the implementability constraint by solving the household problem:
+\[
+	\usmax{c_t,l_t,\tau_t,k_t}\sum_{t=1}^\infty \beta^t\left[\frac{c_t^{1-\sigma}}{1-\sigma}-\nu(l_t)\right]\text{ s.t. } 
+		(1-\tau)c_t + k_{t+1} = w_t(1-l_t) +(1-\delta + r_t)k_t
+\]
+
+
+%%%________________________________________________________________%%%
+\pagebreak
+\subsection*{Question 2}
+
+\begin{enumerate}
+	\item A competitive equilibrium is a policy, $(M_t,B_t)$; allocation, ${(c_{1t},c_{2t},n_t)}$; and price system, ${(p_t,w_t,R_t)}$, such that:
+		\begin{enumerate}
+			\item Given the policy and price system, the allocation solves the household problem
+			\item The allocation satisfies the government budget constraint
+		\end{enumerate}
+	
+	\item The first order conditions of the household problem are:
+		\begin{align*}
+			&\frac{\beta^t}{c_{1t}} - \lambda_{t+1}p_t - \mu_tp_t = 0	&(c_{1t})	\\
+			&\frac{\alpha\beta^t}{c_{2t}} - \lambda_{t+1}p_t = 0		&(c_{2t})	\\
+			&-\frac{\gamma\beta^t}{1-n_t} + \lambda_{t+1}w_t = 0		&(n_{t})	\\
+			&-\lambda_t + \lambda_{t+1}R = 0							&(B_t)		\\
+			&-\lambda_t + \lambda_{t+1} + \mu_t = 0						&(M_t)		
+		\end{align*}
+		From the FOCs for $M_t$, $B_t$, and $c_{1t}$, we can solve:
+		\begin{align*}
+			&\frac{\lambda_t}{\lambda_{t+1}}	= 1 + \frac{\mu_t}{\lambda_{t+1}}									\\
+			\Rightarrow &R_t = \frac{\lambda_t}{\lambda_{t+1}} = 1 + \frac{\mu_t}{\lambda_{t+1}}					\\
+			\Rightarrow &\frac{\beta^t}{\lambda_{t+1}c_{1t}} =  p_t\left(1 + \frac{\mu_t}{\lambda_{t+1}}\right) 	\\
+			\Rightarrow &\frac{\beta^t}{c_{1t}} = \lambda_{t+1}p_tR
+		\end{align*}
+		Combining this with the FOC for $c_{2t}$ gives us: $$ \frac{c_{2t}}{\alpha c_{1t}} = R $$ Combining the FOCs for $c_{2t}$ and $n_t$ yields: $$ \frac{\gamma}{\alpha}\left(\frac{c_{2t}}{1-n_t}\right) = \frac{w_t}{p_t} $$ Since production is linear in labor, ${w_t=p_t}$, so the righthand side of the equation becomes 1. To observe the relationship between $n_t$ and $R$, combine our two optimization conditions with the resource constraint to solve for $n_t$ as a function of $R$:
+		\begin{align*}
+			c_{1t}			&= \frac{c_{2t}}{\alpha R}													\\
+			c_{1t} + c_{2t} &= n_t																		\\
+			c_{2t}			&= \frac{\alpha Rn_t}{1 + \alpha R}											\\
+			\frac{\gamma}{\alpha}\left[\frac{\frac{n_t}{1 + \frac{1}{\alpha R}}}{1-n_t}\right] &= 1		\\
+			\gamma n_t &= \left(\alpha + \frac{1}{R}\right)(1-n_t)										\\
+			n_t &= \frac{1 + \alpha R}{1 + (\gamma + \alpha)R}
+		\end{align*}
+		Taking the derivative yields:
+		\[
+			\frac{dn_t}{dR} = -\frac{\gamma}{\left[1 + (\gamma + \alpha)R\right]^2} < 0
+		\]
+		Thus, labor decreases when $R$ increases.
+	
+\end{enumerate}
+
+
+%%%________________________________________________________________%%%
+
+
+
+
+\end{document}
+
+
+
+
+
+
