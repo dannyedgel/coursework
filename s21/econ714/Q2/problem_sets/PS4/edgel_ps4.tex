@@ -119,13 +119,74 @@
 
 To set up the Ramsey problem, we must first solve for the resource constraint and implementability contraint of this economy. The resource constraint is simply:
 \[
-	c_t + k_{t+1} = F(k_t,1-l_t) +(1-\delta)k_t
+	c_t + g_t + k_{t+1} = F(k_t,1-l_t) +(1-\delta)k_t
 \]
 We can derive the implementability constraint by solving the household problem:
 \[
-	\usmax{c_t,l_t,\tau_t,k_t}\sum_{t=1}^\infty \beta^t\left[\frac{c_t^{1-\sigma}}{1-\sigma}-\nu(l_t)\right]\text{ s.t. } 
-		(1-\tau)c_t + k_{t+1} = w_t(1-l_t) +(1-\delta + r_t)k_t
+	\usmax{c_t,l_t,k_{t+1},b_{t+1}}\sum_{t=1}^\infty \beta^t\left[\frac{c_t^{1-\sigma}}{1-\sigma}+\nu(l_t)\right]\text{ s.t. } 
+		(1+\tau_t)c_t + k_{t+1} + b_{t+1} = w_t(1-l_t) +(1-\delta + r_t)k_t + R_{bt}b_t
 \]
+Let $p_t$ be the Langrangian multiplier for the household budget contraint. Then, the FOC of the household problem are:
+\begin{align*}
+	\beta^tc_t^{-\sigma} - p_t(1+\tau_t) 	&= 0	&(c_t)		\\
+	\beta^tv'(l_t)-p_tw_t 					&= 0	&(l_t)		\\
+	[(1-\delta+r_{t+1})p_{t+1} - p_t]k_t	&= 0	&(k_{t+1})	\\
+	(R_{bt+1}p_{t+1}-p_t)b_t				&= 0	&(b_{t+1})	
+\end{align*}
+Multiplying each size of the budget constraint by the lagrangian multiplier and rearranging, we get:
+\begin{align*}
+	p_t(1+\tau_t)c_t - p_tw_t(1-l_t) 					&= p_t(1-\delta + r_t)k_t - p_tk_{t+1} + p_tR_{bt}b_t - p_tb_{t+1}	\\
+	\beta^t\left(c_t^{1-\sigma}-v'(l_t)(1-l_t)\right) 	&= p_t(1-\delta + r_t)k_t - p_tk_{t+1} + p_tR_{bt}b_t - p_tb_{t+1}
+\end{align*}
+Then, summing each side across all $t$ yields the implementability constraint:
+\[
+	\sum_{t=1}^\infty\beta^t\left(c_t^{1-\sigma}-v'(l_t)(1-l_t)\right)  = \frac{c_0^{-\sigma}}{1+\tau_0}\left[(1-\delta + r_0)k_{-1} + R_{b0}b{-1}\right]
+\]
+Then, the Ramsey problem is to maximize household utility subject to the resource and implementability constraints:
+\begin{align*}
+	\usmax{c_t,l_t,k_{t+1},b_{t+1}}&\sum_{t=1}^\infty \beta^t\left[\frac{c_t^{1-\sigma}}{1-\sigma}+\nu(l_t)\right]	\\
+		\text{ s.t. } 	&c_t + g_t + k_{t+1} = F(k_t,1-l_t) +(1-\delta)k_t	\\
+						&\sum_{t=1}^\infty\beta^t\left(c_t^{1-\sigma}-v'(l_t)(1-l_t)\right)  = \frac{c_0^{-\sigma}}{1+\tau_0}\left[(1-\delta + r_0)k_{-1} + R_{b0}b{-1}\right]
+\end{align*}
+This problem can be written by augmenting the objective function with the implementability constraint, as follows:
+{\footnotesize \[
+	\usmax{c_t,l_t,k_{t+1},b_{t+1}}\sum_{t=1}^\infty \beta^t\left[\frac{c_t^{1-\sigma}}{1-\sigma}-\nu(l_t) + \lambda\left(c_t^{1-\sigma}-v'(l_t)(1-l_t)\right)\right] 
+		- \lambda\frac{c_0^{-\sigma}}{1+\tau_0}\left[(1-\delta + r_0)k_{-1} + R_{b0}b{-1}\right]
+\] }
+Denote the first two terms of the objective function (excluding the discount factor) as $w(c_t,l_t,\lambda)$. Then, the Ramsey problem is represented by the following Lagrangian function:
+{ \begin{align*}
+	\L = \sum_{t=0}^\infty &\beta^tw(c_t,l_t,\lambda)- \lambda\frac{c_0^{-\sigma}}{1+\tau_0}\left[(1-\delta + r_0)k_{-1} + R_{b0}b{-1}\right] \\
+		&- \mu_t\left(c_t + g_t + k_{t+1} - F(k_t,1-l_t) - (1-\delta)k_t\right)
+\end{align*} }
+Which has the following first-order conditions:
+\begin{align*}
+	\beta^tw_1(c_t,l_t,\lambda) - \mu_t					&= 0	&(c_t)		\\
+	\beta^tw_2(c_t,l_t,\lambda) - \mu_tF_2(k_t,1-l_t)	&= 0	&(l_t)		\\
+	-\mu_{t-1} + \mu_t[F_1(k_t,1-l_t)+1-\delta]			&= 0	&(k_t)	
+\end{align*}
+Combining the first two FOCs, we have the intratemporal optimization condition:
+\[
+	\frac{w_2(c_t,l_t,\lambda)}{w_1(c_t,l_t,\lambda)} = F_2(k_t,1-l_t)
+\]
+Combining the first and third FOCs give the intertemporal optimization condition:
+\[
+	\frac{w_1(c_t,l_t,\lambda)}{w_1(c_{t+1},l_{t+1},\lambda)} = \beta\left[F_1(k_{t+1},1-l_{t+1})+1-\delta\right]
+\]
+Where:
+\[
+	w_1(c_t,l_t,\lambda) = c_t^{-\sigma}\left(1 + \lambda(1-\sigma)\right)
+\]
+Thus, the intertemporal condition becomes:
+\[
+	\left(\frac{c_t}{c_{t+1}}\right)^{-\sigma} = \beta\left[F_1(k_{t+1},1-l_{t+1})+1-\delta\right]
+\]
+In a competitive equilibrium, households have the following intertemporal optimization condition:
+\[
+	\left(\frac{c_t}{c_{t+1}}\right)^{-\sigma} = \beta\frac{1 + \tau_t}{1+\tau_{t+1}}\left(\frac{p_t}{p_{t+1}}\right) 
+		= \beta\frac{1 + \tau_t}{1+\tau_{t+1}}[1-\delta+r_{t+1}]
+\]
+Where, since the production function satisfies the usual conditions, $${r_{t+1} = F_1(k_{t+1},1-l_{t+1})}$$ In a competitive equilibrium. Thus, the optimal policy is to set ${\tau_t = \tau_{t+1}}$ for all ${t\geq 1}$. 
+
 
 
 %%%________________________________________________________________%%%
