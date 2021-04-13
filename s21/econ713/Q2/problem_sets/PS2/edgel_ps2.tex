@@ -157,7 +157,7 @@ It is true that the effectiveness of signaling in the model of education we stud
 \begin{itemize}
 	\item[a)] Knowing $\theta$, the seller chooses to maximize her profit by solving:
 		\[
-			\usmax{q,t}t-q^2\text{ s.t. }\theta q - t\geq 0
+			\usmax{q,t}t-q^2\text{ s.t. }\theta q - t\geq 0\text{, s.t. } 
 		\]
 		Let $\lambda$ be the Lagrangian multiplier of the Lagragian for this problem. Then, the seller's problem has first-order conditions:
 		\begin{align*}
@@ -171,26 +171,36 @@ It is true that the effectiveness of signaling in the model of education we stud
 			q_1^* - t_1^* 	&\geq q_2^* - t_2^*		\\
 			2q_2^* - t_2^* 	&\geq 2q_1^* - t_1^*
 		\end{align*}
-		The first inequality is satisfied for the full-information price-quality pairs, but the second is not: ${0\ngeq 1/2}$
-	
-	
-	\item[c)] Given ${q_1=1/4}$, the incentive compatability constraints can be combined to obtain:
-		\[
-			\frac{1}{2} - 2q_2 + t_2\leq t_1 \leq \frac{1}{4} - q_2 + t_2
-		\]
-		Ignoring, for now, the $t_2$ on each end of this inequality. Then, we have ${q_2\geq1/4}$. Let ${q_2=1/2}$. Then, to find a set of price-quality pairs that satisfy incentive compatability for both types of consumers and the firm, we can solve the firm's problem, assuming without loss of generality that there is one buyer of each type:
+		The first inequality is satisfied for the full-information price-quality pairs, but the second is not: ${0\ngeq 1/2}$. Futhermore, we can prove that the full-information price-quality pairs are not incentive compatible for \textit{any} two types. We saw in (a) that the full-information optimum is to set ${t_i=q_i\theta_i}$, where ${\theta_i=c'(q_i)=2q_i}$. Then, the incentive compatability constraint for the high type can be rearranged as follows:
 		\begin{align*}
-			&\usmax{t_1,t_2}\left\{t_1 - \frac{1}{16} + t_2 - \frac{1}{4}\right\}\text{ s.t. } 	& t_2 - \frac{1}{2}\leq t_1 \leq t_2 - \frac{1}{4}	\\
-			&																					& \frac{1}{4} - t_1 \geq 0							\\
-			&																					& 1 - t_2 			\geq 0
+			\theta_2q_2^* - \theta_2q_2^*		&\geq \theta_2q_1^* - \theta_1q_1^*	\\
+			0						&\geq (\theta_2-\theta_1)q_1^*
 		\end{align*}
-		Setting $t_1$ at its highest incentive-compatible level of $\frac{1}{4}$ and rearranging the combined incentive compatability constraint restrict $t_2$ to:
-		\[
-			\frac{1}{2}\leq t_2\leq \frac{3}{4}
-		\]
-		To maximize profit, the firm sets ${t_2=\frac{3}{4}}$, which results in a total profit of $7/8$, which exceeds that of the full-information price-quanitity pairs, of $1/2$. To summarize, the firm offers the following price-quality pairs:
+		Where ${\theta_2>\theta_1}$ by assumption, so this does not hold.
+	
+	
+	\item[c)] Let ${p=Pr(\theta=2)}$. Then, the firm's problem is:
 		\begin{align*}
-			&(q_1,t_1) = (1/4,1/4)	&(q_2,t_2) = (1/2,3/4)
+			&\usmax{t_1,t_2,q_1,q_2}\left\{p(t_2 - q_2^2)+(1-p)(t_1- q_1^2)\right\}\text{ s.t. } 	
+				& q_1-t_1 	\geq q_2-t_2		\\
+			&	& 2q_2-t_2	\geq 2q_1-t_1	\\
+			&	& q_1 - t_1 	\geq 0			\\
+			&	& 2q_2 - t_2 	\geq 0
+		\end{align*}
+		We are given $q_1=1/4$. We could trivially prove that type 1's incentive compatability constraint will hold so long as type 2's is satisfied, so the monopolist can extract all surplus from the low type by setting ${t_1=1/4}$. Then, the monopolist can maximize profit by choosing ${(q_2,t_2)}$ such that the high type's incentive compatability constraint binds:
+		\[
+			2q_2 - t_2 = 2q_1 - t_1 = \frac{1}{2} - \frac{1}{4} = \frac{1}{4}
+		\]
+		Now, we can find the optimal bundle for the high type by augmenting the profit function and finding its first order condition:
+		\begin{align*}
+			\usmax{q_2}	& p\left(2q_2-\frac{1}{4}-q_2^2\right) + (1-p)\left(\frac{1}{4} -\frac{1}{16}\right)	\\
+			\Rightarrow	& p\left(2-2q_2\right) = 0	\\
+					& q_2 = 1			\\
+			\Rightarrow 	& t_2 = 7/4
+		\end{align*}
+		This result is consistent with the principle that, in screening games, there is no distortion from private information for the highest-type agent. To summarize, the firm offers the following price-quality pairs:
+		\begin{align*}
+			&(q_1,t_1) = (1/4,1/4)	&(q_2,t_2) = (1,7/4)
 		\end{align*}
 		
 \end{itemize}
