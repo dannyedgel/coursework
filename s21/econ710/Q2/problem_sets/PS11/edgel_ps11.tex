@@ -158,11 +158,34 @@ The slope coefficients represent the difference in log odds between the two depe
 %%%________________________________________________________________%%%
 
 \section*{Exercise 25.3}
-
+Recall that ${P(x)=P[Y=1|X=x]}$, where ${Y\in\{0,1\}}$. Then, when we have the model:
+\[
+	Y = P(X) + e
+\]
+It must be the case that $e$ is bounded by 0 and 1, where:
+\[
+	e =	\begin{cases}
+			1-P(x),	&Y = 1	\\
+			P(x),	&Y = 0
+		\end{cases}
+\]
+Where $Y=1$ with probability $P(x)$ and ${Y=0}$ with probability ${1-P(x)}$. Now, we can find the conditional variance of $e$:
+\begin{align*}
+				Var(e|X)	&= \E{e^2|X} - \E{e|X}^2 = \E{e^2|X}		\\
+				e^2 		&= Y^2 - 2YP(x) + P(x)^2					\\
+				\E{e^2|X}	&= \E{Y^2|X} - 2\E{Y|X}P(x) + P(x)^2		\\
+				\E{Y|X}		&= P(x)										\\
+				\E{Y^2|X}	&= (1)P(x) + (0)(1-P(x)) = P(x)				\\
+	\Rightarrow Var(e|X)	&= P(x) - P(x)^2 = P(x)\left(1-P(x)\right)
+\end{align*}
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 25.9}
+The logit log-likelihood funciton is:
+\[
+	\ell_n(\beta) = \sumn\loge{\Lambda\left(Z_i'\beta\right)}
+\]
 
 %%%________________________________________________________________%%%
 
