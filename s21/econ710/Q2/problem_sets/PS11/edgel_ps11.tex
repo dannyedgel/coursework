@@ -182,21 +182,58 @@ Where $Y=1$ with probability $P(x)$ and ${Y=0}$ with probability ${1-P(x)}$. Now
 %%%________________________________________________________________%%%
 
 \section*{Exercise 25.9}
-The logit log-likelihood funciton is:
+The logit log-likelihood function is:
 \[
 	\ell_n(\beta) = \sumn\loge{\Lambda\left(Z_i'\beta\right)}
 \]
+Where $$ Z_i = \begin{cases} X_i, &X_i Y = 1 \\ -X_i, &Y=0\end{cases} $$ Which yields the following first-order condition:
+\begin{align*}
+																		\frac{d\ell_n(\beta)}{d\beta}	&= 0	\\
+	\sumn\left[\frac{Z_i\Lambda(Z_i'\beta)\left(1-\Lambda(Z_i'\beta)\right)}{\Lambda(Z_i'\beta)}\right]	&= 0	\\
+												\sumn\left[Z_i\left(1-\Lambda(Z_i'\beta)\right)\right]	&= 0	
+\end{align*}
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 25.12}
+A nonlinear leat squares (NLLS) estimator is derived by finding the parameter $\beta$ that solves:
+\[
+	\usmin{\beta}\frac{1}{n}\sumn \left(Y_i-m(X_i|\beta)\right)^2
+\]
+Where ${m(X_i|\beta)}$ is the expectation of $Y$ with respect to $X$. Let ${\lambda(x)=\phi(x)/\Phi(x)}$. Then, in a probit model,
+\begin{align*}
+	\E{Y_i|X_i=x}	&= \E{Y_i|X_i=x,Y_i^*\geq 0}Pr\left(Y_i^*\geq 0|X_i=x\right)												\\
+					&= \left(x'\beta + \E{e_i|X_i=x,Y_i^*\geq 0}\right)Pr\left(x'\beta+e_i\geq0\right)							\\
+					&= \left(x'\beta + \sigma\lambda\left(\frac{x'\beta}{\sigma}\right)\right)Pr\left(e_i\geq-x'\beta\right)	\\
+					&= \left(x'\beta + \sigma\lambda\left(\frac{x'\beta}{\sigma}\right)\right)\Phi\left(x'\beta\right)
+\end{align*}
+Then, the probit estimator is the solution to:
+\[
+	\usmin{\beta,\sigma}\frac{1}{n}\sumn \left(Y_i-\left(x'\beta + \sigma\lambda\left(\frac{x'\beta}{\sigma}\right)\right)\Phi\left(x'\beta\right)\right)^2
+\]
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 25.14}
 
-%%%________________________________________________________________%%%
+\begin{enumerate}
+	\item In this case, the response probability is given as the probability that $Y$ is not censored (i.e., equal to 0):
+		\begin{align*}
+			Pr(Y>0)	&= Pr(Y^*>0) = Pr(m(X) + e>0) = Pr(e>-m(X))	\\
+					&= 1 - \Phi\left(-m(X)\right)
+		\end{align*}
+		Where $\Phi(\cdot)$ is the mean zero normal CDF with a standard deviation equal to $\sigma^2(X)$.
+	
+	\item No. $\sigma^2(X)$ is not known, so we can only identify $m(X)/\sigma^2(X)$.
+	
+	\item Following from (b), we can identify a scaled version of $m(X)$ by estimating a model that assumes that errors are normally distributed with variance 1.
+	
+	\item No, becuase this model, which assumes heteroskedastic errors, uses the same identification as a model that assumes homoskedastic errors. In any case, we interpret the coefficients as of the model as if they have been scaled by the model's variance.
+	
+\end{enumerate}
 
+%%%________________________________________________________________%%%
+\pagebreak
 \section*{Exercise 25.15}
 The results of the probit estimation are displayed below, with coefficients reported in the first column and average marginal effects reported in the second column for interpretation. The AME column provides the average change in probability of union membership caused by a change in the independent variable. This suggests that each year of age adds .043\% to the odds that an individual belongs to a union, while Hispanic individuals are 1.15\% less likely, on average, to belong to a union than non-Black and non-Hispanic individuals (i.e. the omitted group).
 
@@ -205,9 +242,13 @@ The results of the probit estimation are displayed below, with coefficients repo
 \end{center}
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \section*{Exercise 25.17}
-
+The graph below displays the results of the estimation.\footnote{See the attached do file for the code that generated the graph.} I chose to estimate the probability of marriage with a probit model that includes linear splines at the ages of 25, 30, 35, 50, 50, and 60. These dates were chosen based on intuition and anecdotal experience. However, compared to the empirical proportions shown in the chart below, they match the data well. There is a large increase in the chare of women with college degrees hwo are married from age 20 to age 30, but the relationship levels off from 30 to 40, then reverses from 40 onward.
+\begin{center}
+	\includegraphics[width=\textwidth]{fig_25_17.png}
+\end{center}
+This result differs so substantially from the one displayed in figure 25.1 that I tested my exact code, but flipping the subsetting line from female to male just to make sure that there was not a critical error in my estimation. Sure enough, the result for men was similar to figure 25.1. The main difference is the reversal of the age-marriage relationship that begins around age 40, which does not exist for men but exists for women.
 
 %%%________________________________________________________________%%%
 
