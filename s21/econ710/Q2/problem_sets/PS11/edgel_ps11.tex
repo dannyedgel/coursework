@@ -74,6 +74,7 @@
 \newcommand{\esti}{\frac{1}{T_i-1}\sum_{t=1}^{T_i}}
 \newcommand{\oinv}{\Omega^{-1}}
 \newcommand{\olg}{\overline{g}_n}
+\newcommand{\e}[1]{\text{exp}\left(#1\right)}
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
 
 \newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
@@ -251,24 +252,68 @@ The graph below displays the results of the estimation.\footnote{See the attache
 This result differs so substantially from the one displayed in figure 25.1 that I tested my exact code, but flipping the subsetting line from female to male just to make sure that there was not a critical error in my estimation. Sure enough, the result for men was similar to figure 25.1. The main difference is the reversal of the age-marriage relationship that begins around age 40, which does not exist for men but exists for women.
 
 %%%________________________________________________________________%%%
-
+\pagebreak
 \section*{Exercise 26.1}
-
+The model in question is:
+\[
+	P_j(x) = \frac{\e{x'\beta_j}}{\sum_{\ell=1}^J\e{x'\beta_\ell}}
+\]
+The statement $0\leq P_j(x) \leq 1$ is trivially clear by the fact that $P_j(x)$ is a fraction where the denominator is a sum of a weakly positive series that includes the numerator. Similarly, we can show that ${\sum_{j=1}^J P_j(x)=1}$ as follows:
+\[
+	\sum_{j=1}^J P_j(x)=\sum_{j=1}^J \frac{\e{x'\beta_j}}{\sum_{\ell=1}^J\e{x'\beta_\ell}}
+		= \frac{\sum_{j=1}^J \e{x'\beta_j}}{\sum_{\ell=1}^J\e{x'\beta_\ell}} = 1
+\]
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 26.3}
-
+\begin{align*}
+	\frac{\partial}{\partial x} P_j(x) &= \frac{\partial}{\partial x} \frac{\e{x'\beta_j}}{\sum_{\ell=1}^J\e{x'\beta_\ell}}					\\
+		&= \beta_j\left(\frac{\e{x'\beta_j}}{\sum_{\ell=1}^J\e{x'\beta_\ell}}\right) 
+			+ \sum_{\ell=1}^J\left(-\beta_\ell\e{x'\beta_\ell}\frac{\e{x'\beta_j}}{\left(\sum_{\ell=1}^J\e{x'\beta_\ell}\right)^2}\right)	\\
+		&= \beta_jP_j(x) - \sum_{\ell=1}^J\beta_\ell\left(\frac{\e{x'\beta_\ell}}{\sum_{\ell=1}^J\e{x'\beta_\ell}}\right)
+			\left(\frac{\e{x'\beta_j}}{\sum_{\ell=1}^J\e{x'\beta_\ell}}\right)																\\
+		&= \beta_jP_j(x) - \sum_{\ell=1}^J\beta_\ell P_\ell(x)P_j(x) = P_j(x)\left(\beta_j-\sum_{\ell=1}^J\beta_\ell P_\ell(x)\right)
+\end{align*}
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 26.7}
+The marginal effect of the conditional logit model is:
+\[
+	\delta_{j\ell}(w,x) =\frac{\partial}{\partial x_\ell}P_j(w,x) 
+		= 	\begin{cases}
+				\gamma P_j(w,x)\left(1-P_j(w,x)\right), & \ell=j 	\\
+				-\gamma P_j(w,x)P\ell(w,x),				&\ell\neq j
+			\end{cases}
+\]
+Then, the average marginal effect is:
+\[
+	AME_{j\ell} = \E{\delta_{j\ell}(W,X)}
+\]
+Which can be estimated as:
+\[
+	\widehat{AME}_{j\ell} = \begin{cases}
+								\hat{\gamma}  \sumn \hat{P}_j(w,x)\left(1-\hat{P}_j(w,x)\right), 	& \ell=j 	\\
+								-\hat{\gamma} \sumn \hat{P}_j(w,x)\hat{P}\ell(w,x),					&\ell\neq j
+							\end{cases}
+\]
+
 
 
 %%%________________________________________________________________%%%
 
 \section*{Exercise 26.8}
-
+From equation (26.1), we have:
+\[
+	P_j(x) = \frac{\e{x'\beta_j}}{\sum_{\ell=1}^J\e{x'\beta_\ell}}
+\]
+Then, we can solve:
+\[
+	\frac{P_j(W,X|\theta)}{P_\ell(W,X|\theta)}	
+		= \frac{\frac{\e{W'\beta_j + X'_j\gamma}}{\sum_{k=1}^J\e{W'\beta_k + X'_k\gamma}}}{\frac{\e{W'\beta_\ell + X'_\ell\gamma}}{\sum_{k=1}^J\e{W'\beta_k + X'_k\gamma}}}
+		= \frac{\e{W'\beta_j + X'_j\gamma}}{\e{W'\beta_\ell + X'_\ell\gamma}}
+\]
 
 %%%________________________________________________________________%%%
 
