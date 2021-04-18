@@ -3,7 +3,7 @@ This file is used to conduct all empirical exercises from Problem Set 11 of
 Econ710q2.
 
 Date created:  15 Apr 2021
-Last modified: 15 Apr 2021
+Last modified: 18 Apr 2021
 Author: Danny Edgel
 */
 set more off
@@ -20,6 +20,9 @@ cd "C:\Users\edgel\Google Drive\UW-Madison\s21\econ710\Q2\problem_sets\PS11"
 
 // open the March 2009 CPS data set
 use cps09mar, clear
+
+// subset to men
+keep if female == 0
 
 // generate dummy variable for Black individuals
 g black = (race == 2)
