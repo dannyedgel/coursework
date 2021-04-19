@@ -1,0 +1,190 @@
+%%% Econ713: Microeconomics II
+%%% Spring 2021
+%%% Danny Edgel
+%%%
+% Due on Canvas Thursday, April 25th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\union}{\bigcup}
+\newcommand{\olw}{\overline{w}}
+\newcommand{\olx}{\overline{x}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\P}{\mathcal{P}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\olp}{\overline{p}}
+\renewcommand{\exp}[1]{\text{exp}\left\{#1\right\}}
+\newcommand{\binv}[1]{b_j^{-1}\left(#1\right)}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]} % expected value
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Homework \#3 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 713: Microeconomics II		\\
+			Spring 2021						\\
+		}
+\maketitle\thispagestyle{empty}
+
+%\noindent\textit{Collaborated with Sarah Bass, Emily Case, Michael Nattinger, and Alex Von Hafften}
+
+%%%________________________________________________________________%%%
+
+\subsection*{Problem 1}
+
+\begin{itemize}
+	\item[a)] Regardless of whether the wage is set based on effot, the agent chooses whichever level of effort maximizes expected utility. If the principal paid $w_H$ for high effort and $w_L$ for low effort, then the incentive compatability constraint for implementing high effort is:
+		\[
+			\sqrt{w_H} - 1 \geq \sqrt{w_L} - \frac{1}{2} \Rightarrow \sqrt{w_H} \geq \sqrt{w_L} + \frac{1}{2}
+		\]
+		Whereas, if the wage is set only based on output, then the following inequality must be satisfied in order to induce high effort:
+		\begin{align*}
+			\frac{1}{2}\left(\sqrt{w_H} - 1\right) + \frac{1}{2}\left(\sqrt{w_L} - 1\right)
+				&\geq\frac{1}{4}\left(\sqrt{w_H} - \frac{1}{2}\right) + \frac{3}{4}\left(\sqrt{w_L} - \frac{1}{2}\right)	\\
+			\Rightarrow \sqrt{w_H} &\geq \sqrt{w_L} + 2
+		\end{align*}
+		Thus, it is not optimal for the principal to pay a wage constract that is fixed with respect to effort if the principal can observe effort. The intuition behind this result is that, if the principal can observe effort, then the wage premium for high effort comes only at the agent's utility cost from high effort (and it costs the agent $1/2$ to put in extra effort). However, if the principal pays only if the project pays off, then wage premium for high effort internalizes the risk of low output despite high effort.
+	
+	\item[b)] Since the principal is risk-neutral, they have the following conditional payoff function:
+		\[
+			\pi(w|e) = Pr\left(y=8|e\right)(8-w) + Pr\left(y=0|e\right)(-w)
+		\]
+		And they must pay the agent $w$ such that ${\sqrt{w}-g(e)\geq 0}$. Assuming that the principal is a monopsonist, set ${\sqrt{w} = g(e)}$. Then, given the result from a), the principal chooses ${w_H=1}$ and ${w_L=1/4}$, which satisfies the incentive compatability constraint. If profit from paying $w_H$ exceeds that from paying $w_L$, then the principal will implement high effort:
+		\begin{align*}
+			\frac{1}{2}(8-1) + \frac{1}{2}(-1)	&\geq \frac{1}{4}\left(8-\frac{1}{4}\right) + \frac{3}{4}\left(-\frac{1}{4}\right)	\\
+											3	&\geq \frac{3}{2}
+		\end{align*}
+		Thus, the principal should implement high effort by offering only a wage of 1 for high effort and a wage of 1/4 for low effort.
+	
+	\item[c)] If effort is not observable, then the principal will pay based on output and must pay a premium of 2 in order to induce high effort. Again assuming that the principal has all bargaining power, they will set $w_H$ and $w_L$ to maximize expected profit while satisfying the individual rationality constraint, which depends on whichever level of effort is implemented. The IR constraint for low effort is:
+		\begin{align*}
+			\frac{1}{4}\left(\sqrt{w_H} - \frac{1}{2}\right) + \frac{3}{4}\left(\sqrt{w_L} - \frac{1}{2}\right) &\geq 0	\\
+																					\sqrt{w_H} + 3\sqrt{w_L}	&\geq 2
+		\end{align*}
+		To implement high effort, the principal must satisfy both the agent's IC and IR constraints. To see whether satisfying the IC constraint also satisfied the IR constraint, we can assume that the IC constraint is met with equality and plug it into the IR constraint:
+		\begin{align*}
+			&\sqrt{w_H}	= \sqrt{w_L} + 2															&\text{(IC)}	\\
+			&\frac{1}{2}\left(\sqrt{w_L}+2-1\right) + \frac{1}{2}\left(\sqrt{w_L}-1\right)	\geq 0	&\text{(IR)}	\\
+			&\sqrt{w_L}	\geq 0
+		\end{align*}
+		Thus, if the IC constraint for high effort is satisfied, the IR is also satisfied. Then the optimal constract for implementing high effort is ${(w_L,w_H)=(4,0)}$. The optimal constract for low effort can be solved by solving:
+		\[
+			\usmax{w_L,w_H}\frac{1}{4}\left(8-w_H\right) - \frac{3}{4}w_L\text{ s.t. } \sqrt{w_H} + 3\sqrt{w_L}\geq 2
+		\]
+		Letting the IR constraint hold with equality and substituting for $w_H$, we can solve from the FOC:
+		\begin{align*}
+			-\frac{1}{2}\left(2-3\sqrt{w_L}\right)\left(-\frac{3}{2\sqrt{w_L}}\right) - \frac{3}{4}	&= 0			\\
+																			\frac{6}{\sqrt{w_L}}	&= 12			\\
+																								w_L	&= \frac{1}{4}	\\
+																					\Rightarrow	w_H	&= \frac{1}{4}
+		\end{align*}
+		Then, the across the two optimal contracts, the principal has expected payoffs:
+		\begin{align*}
+			\pi_L &= \frac{1}{4}\left(8-\frac{1}{4}\right) - \frac{3}{4}\left(\frac{1}{4}\right) = \frac{3}{2}	\\
+			\pi_H &= \frac{1}{2}\left(8-4\right) - \frac{1}{2}\left(4\right) = 0
+		\end{align*}
+		Thus, the principal should implement low effort if they cannot observe effort.
+		
+\end{itemize}
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Problem 2}
+
+
+%%%________________________________________________________________%%%
+
+\subsection*{Problem 3}
+
+\begin{itemize}
+	\item[a)] 
+		\begin{itemize}
+			\item[(a)] 
+			
+			\item[(b)]
+			
+			\item[(c)]
+			
+		\end{itemize}
+	
+	\item[b)] 
+		
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+
+
+\end{document}
+
