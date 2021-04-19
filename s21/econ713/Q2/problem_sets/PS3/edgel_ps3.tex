@@ -161,24 +161,34 @@
 %%%________________________________________________________________%%%
 
 \subsection*{Problem 2}
-
+If the bank implements high effort on the part of the entrepreneur, then it chooses $x$ to solve:
+\begin{align*}
+	&\usmax{x}P_1(z-x) - r\text{ s.t. }	&P_1x-c_1\geq P_2x	&\text{(IC)}	\\
+	&									&P_1x-c_1\geq 0		&\text{(IR)}
+\end{align*}
+The IR constraint is clearly satisfied whenever the IC is satisfied, and the IC constraint binds, since the bank's bliss point is ${x=0}$. Thus, the bank chooses:
+\[
+	x = \frac{c_1}{P_1-P_2}
+\]
+If the firm chooses to implement low effort, then the IR constraint doesn't bind since low effort is costless to the entrepreneur; the solution is simply ${x=0}$. 
 
 %%%________________________________________________________________%%%
 
 \subsection*{Problem 3}
 
 \begin{itemize}
-	\item[a)] 
-		\begin{itemize}
-			\item[(a)] 
-			
-			\item[(b)]
-			
-			\item[(c)]
-			
-		\end{itemize}
+	\item[a)] If there are no consumers in this market, consumers know that the monopolist has no incentive to produce a good with high quality, so they will not purchase the good as any strictly positive price. Thus, a pure-strategy PBE is ${q=0}$, ${p=0}$. To see why this is the case, consider an equilibrium where ${p>0}$, ${q=1}$, and trade occurs. Then consumers are taking on faith that ${q=0}$, so the firm can increase its profits by choosing ${q=0}$, so this cannot be an equilibrium. However, ${p>0}$ and ${q=0}$ cannot be an equilbrium, because consumers could improve their payoffs by not buying the good. Therefore, there is no equilibrium where ${q=1}$ or where ${p>0}$ and trade occurs.
 	
-	\item[b)] 
+	\item[b)] With a proportion $\alpha$ of consumers who can observe the quality of the good, the seller now has an incentive to produce a high-quality good. Suppose the sellser chooses ${q=1}$. Then, to choose the price, the seller solves:
+		\begin{align*}
+			&\usmax{p}p-c_1\text{ s.t. }&\alpha\left(p-c_1\right) \geq (1-\alpha)p	&\text{(IC)}	\\
+			&							&p-c_1\geq 0								&\text{(IR)}
+		\end{align*}
+		Thus, in any equilibrium where the firm chooses ${q=1}$, it also chooses:
+		\[
+			p = \left(\frac{\alpha}{2\alpha-1}\right)c_1
+		\]
+		This equilibrium is only possible, then, if at least half of the consumers are informed.
 		
 \end{itemize}
 
