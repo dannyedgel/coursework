@@ -169,16 +169,18 @@
 	\medskip \\
 	The government budget constraint pins down the tax rate:
 	\begin{align*}
-				\tau y^* &= b_1 + \frac{b_2}{R} = c_1^{l*} + \frac{c_2^{l*}}{R} = c^{l*}\left(1 + \frac{1}{R}\right) = \left(\frac{1 + R}{R}\right)c^{l*}	\\
-		\Rightarrow \tau &= \left(\frac{1 + R}{R}\right)\frac{c^{l*}}{y^*}
+				\tau y^* &= b_1 = c^{l*}		\\
+		\Rightarrow \tau &= \frac{c^{l*}}{y^*}
 	\end{align*}
-	To satisfy the implementability constraint and ensure that the productive agents work the optimal amount, the govenment can undertake the following transfer scheme in the second period (assuming that transfers must be linear in the first period):
+	In the second period, the government uses its ``transfer" function to tax productive households and transfer all revenue to unproductive households:
 	\[
 		b_2 =	\begin{cases}
-					c^{l*},	& y=0			\\
-					-c_1, 	& y\neq y^*
+					c^{l*},		& y=0					\\
+					-c^{l*}, 	& y= y^*				\\
+					S, 			& \text{otherwise}		\\
 				\end{cases}
 	\]
+	Where $S$ is the savings of the household (this ensures that the household will not choose a positive output that is not equal to the optimal output). We could check, now, to see whether this satisfies incentive compatability by setting up the household's problem, but it is trivially satisfied by the fact that $c^{1*}$ was chosen to ensure incentive compatability. In the planner's problem, the productive agents' output was taken if they reported as productive. In this case, the productive agent's output is taken (i.e. taxed) if they produce, and they are not given a reasonable intensive margin choice about how much to produce. For all intents and purposes, they are making the same choice of reporting or not reporting as they were in the planner's problem.
 	
 	\end{enumerate}
 
@@ -201,7 +203,7 @@
 										& u(c^L_L) - v\left(\frac{y^H_L}{\theta_L}\right) \geq u(c^L_H) - v\left(\frac{y^H_H}{\theta_L}\right)	
 		\end{align*}
 	
-	\item 
+	\item A full-information efficient allocation would set ${c^j_H=c^j_L}$ for all $j$ but have the high types work more. Thus, the incentive compatability constraint for low types will not bind, so the allocations for the low types (regardless of which signal they send) will be distorted to ensure that the incentive compatability constraints for the high type are satisfied without any distortions. Thus, the allocations for high types, regardless of signal, will be ex post efficient. 
 	
 \end{enumerate}
 
