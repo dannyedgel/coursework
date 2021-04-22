@@ -3,7 +3,7 @@ This file is used to conduct all empirical exercises from Problem Set 12 of
 Econ710q2.
 
 Date created:  21 Apr 2021
-Last modified: 21 Apr 2021
+Last modified: 22 Apr 2021
 Author: Danny Edgel
 */
 set more off
