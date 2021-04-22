@@ -159,12 +159,13 @@ The latent variable model is:
 	Y^* = X'\beta + e
 \]
 We can derive the conditional means of the censored ($m(X)$) and truncated ($m^{\#}(X)$) variables by assuming that ${e|X\sim\N(0,\sigma^2)}$. Then, for the censored conditional mean,
-
+\[
+	m(X) = \E{Y|X} = \E{Y^*\one{Y^*>0}|X} = X'\beta\Phi\left(\frac{X'\beta}{\sigma}\right) + \sigma\phi\left(\frac{X'\beta}{\sigma}\right)
+\]
 And for the truncated conditional mean,
-\begin{align*}
-	m^{\#}(X)	&= \E{Y|X} = X'\beta \E{\one{Y^*>0}|X} = X'\beta \E{\one{e>-X'\beta}|X}	\\
-				&= X'\beta\left(1-\Phi\left(-\frac{X'\beta}{\sigma^2}\right)\right)
-\end{align*}
+\[
+	m^{\#}(X) = \E{Y|X} = \E{Y^*|X,Y^*>0} = X'\beta + \sigma\lambda\left(\frac{X'\beta}{\sigma}\right)
+\]
 
 
 
