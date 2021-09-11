@@ -7,20 +7,21 @@ prim, res = Initialize() #initialize primitive and results structs
 @unpack val_func, pol_func = res
 @unpack k_grid = prim
 
-### NEXT: CHANGE PLOTS
-
 ##############Make plots
 #value function
-Plots.plot(k_grid, val_func, title="Value Function")
+Plots.plot(k_grid, transpose(val_func), title="Value Functions",
+                label = ["Z = 1.25" "Z = 0.2"], legend=:bottomleft)
 Plots.savefig("02_Value_Functions.png")
 
 #policy functions
-Plots.plot(k_grid, pol_func, title="Policy Functions")
+Plots.plot(k_grid, transpose(pol_func), title="Policy Functions",
+                label = ["Z = 1.25" "Z = 0.2"], legend=:topleft)
 Plots.savefig("02_Policy_Functions.png")
 
 #changes in policy function
-pol_func_δ = copy(pol_func).-k_grid
-Plots.plot(k_grid, pol_func_δ, title="Policy Functions Changes")
+pol_func_δ = transpose(copy(pol_func)).-repeat(k_grid, outer = [1 2])
+Plots.plot(k_grid, pol_func_δ, title="Policy Functions Changes",
+                label = ["Z = 1.25" "Z = 0.2"], legend=:bottomright)
 Plots.savefig("02_Policy_Functions_Changes.png")
 
 println("All done!")
