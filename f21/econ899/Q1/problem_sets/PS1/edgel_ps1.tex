@@ -120,11 +120,11 @@
 	\item The dynamic programming problem is:
 	\[
 		\usmax{\left\{K_{t+1}, C_t\right\}_{t=1}^\infty}\E{\sum_{t=1}^\infty\beta^t\loge{C_t}}
-			\text{ s.t. }C_t + K_{t+1} - (1-\delta)K_t\leq (1+r_t)K_t\text{ }\forall t = 1,2,3,...
+			\text{ s.t. }C_t + K_{t+1} - (1-\delta)K_t\leq Z_tK_t^\theta\text{ }\forall t = 1,2,3,...
 	\]
 	Which can be represented by the following Bellman equation:
 	\[
-		V(K) = \usmax{K'}\left\{\loge{(1+r-\delta)K - K'} + \beta\E{V(K')}\right\}
+		V(K,Z) = \usmax{K'}\left\{\loge{ZK^\theta + (1-\delta)K - K'} + \beta\E{V(K', Z)|Z}\right\}
 	\]
 	
 	% Plot the value frunction over K for each state Z. Is it increasing? Is it concave?
@@ -132,6 +132,8 @@
 	
 	% Is the decision rule increasing in K and Z? Is saving increasing in K and Z?
 	\item 
+	
+	% Compare speed savings from parallel computing!
 \end{enumerate}
 
 %%%________________________________________________________________%%%
