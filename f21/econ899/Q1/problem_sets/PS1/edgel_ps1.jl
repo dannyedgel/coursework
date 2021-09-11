@@ -19,8 +19,8 @@ Plots.plot(k_grid, transpose(pol_func), title="Policy Functions",
 Plots.savefig("02_Policy_Functions.png")
 
 #changes in policy function
-pol_func_δ = transpose(copy(pol_func)).-repeat(k_grid, outer = [1 2])
-Plots.plot(k_grid, pol_func_δ, title="Policy Functions Changes",
+pol_func_δ = transpose(copy(pol_func)[:,2:end].-copy(pol_func)[:,1:(end-1)])
+Plots.plot(k_grid[1:(end-1)], pol_func_δ, title="Policy Functions Changes",
                 label = ["Z = 1.25" "Z = 0.2"], legend=:bottomright)
 Plots.savefig("02_Policy_Functions_Changes.png")
 
