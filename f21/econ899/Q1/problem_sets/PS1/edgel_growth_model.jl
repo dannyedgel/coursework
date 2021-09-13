@@ -34,7 +34,7 @@ function Bellman(prim::Primitives,res::Results)
     @unpack k_grid, z_grid, β, δ, θ, nk, nz, Π = prim #unpack model primitives
     v_next = zeros(nz, nk) #next guess of value function to fill
 
-    choice_lower = 1 #for exploiting monotonicity of policy function
+    #choice_lower = 1 #for exploiting monotonicity of policy function
     for z_index = 1:nz
         for k_index = 1:nk
             k = k_grid[k_index] #value of k
@@ -42,7 +42,7 @@ function Bellman(prim::Primitives,res::Results)
             candidate_max = -Inf #bad candidate max
             budget = z*k^θ + (1-δ)*k #budget
 
-            for kp_index in choice_lower:nk #loop over possible selections of k', exploiting monotonicity of policy function
+            for kp_index in 1:nk #loop over possible selections of k', exploiting monotonicity of policy function
                 c = budget - k_grid[kp_index] #consumption given k' selection
                 if c>0 #check for positivity
                     exp_val = 0 # expected value in next period
@@ -54,7 +54,7 @@ function Bellman(prim::Primitives,res::Results)
                     if val>candidate_max #check for new max value
                         candidate_max = val #update max value
                         res.pol_func[z_index, k_index] = k_grid[kp_index] #update policy function
-                        choice_lower = kp_index #update lowest possible choice
+                        #choice_lower = kp_index #update lowest possible choice
                     end
                 end
             end
