@@ -1,0 +1,214 @@
+%%% Econ710: Econometrics
+%%% Spring 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Tuesday, March 2nd, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{color}
+\usepackage{courier}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[shortlabels]{enumitem}
+\usepackage{boondox-cal}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\olz}[1]{\overline{Z}_{#1}}
+\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}^{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\vhat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\bcls}{\tilde{\beta}_{CLS}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\vt}{\tilde{\varepsilon}}
+\renewcommand{\Pr}[1]{Pr\left(#1\right)}
+\newcommand{\biv}{\bhat^{IV}}
+\newcommand{\xbar}{\overline{X}}
+\newcommand{\ybar}{\overline{Y}}
+\newcommand{\zbar}{\overline{Z}}
+\newcommand{\eps}{\varepsilon}
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\title{	Problem Set \#5 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 710: Economic Statistics and Econometrics II	\\
+			Spring 2021											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Discussed and/or compared answers with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
+ \\
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+
+\begin{enumerate}[(i)]
+	\item Each of the series is covariance stationary if their autocovariance can be represented by some constant function $\gamma(k)$:
+		\begin{align*}
+			Cov(U_t,U_{t+k}) 	&= \E{(U_t - \E{U_t})(U_{t+k} - \E{U_{t+k}})} 																	\\
+								&= \E{(\eps_t\eps_{t-1} - \E{\eps_t\eps_{t-1}})(\eps_{t+k}\eps_{t+k-1} - \E{\eps_{t+k}\eps_{t+k-1}})}			\\
+								&= \E{\eps_t\eps_{t-1}\eps_{t+k}\eps_{t+k-1}} = 0 \text{ }\forall k\in\{1,T-t\}									\\
+		\Rightarrow\gamma_U(k)	&= \begin{cases} \sigma^4, & k = 0 \\ 0, & k\geq 1 \end{cases}													\\
+			Cov(W_t,W_{t+k}) 	&= \E{(W_t - \E{W_t})(U_{W+k} - \E{W_{t+k}})} 																	\\
+								&= \E{(\eps_t\eps_0 - \E{\eps_t\eps_0})(\eps_{t+k}\eps_0- \E{\eps_{t+k}\eps_0)}}								\\
+								&= \E{\eps_t\eps_0\eps_{t+k}\eps_0} = 0\sigma^2 = 0 \text{ }\forall k\in\{1,T-t\}								\\
+		\Rightarrow\gamma_W(k)	&= \begin{cases} \sigma^4, & k = 0 \\ 0, & k\geq 1 \end{cases}													\\
+			Cov(V_t,V_{t+k}) 	&= \E{(V_t - \E{V_t})(U_{V+k} - \E{V_{t+k}})} 																	\\
+								&= \E{(\eps_t^2\eps_{t-1} - \E{\eps_t^2\eps_{t-1}})(\eps_{t+k}^2\eps_{t+k-1} - \E{\eps_{t+k}^2\eps_{t+k-1}})}	\\
+								&= \E{\eps_t^2\eps_{t-1}\eps_{t+k}^2\eps_{t+k-1}} = 0 \text{ }\forall k\in\{1,T-t\}								\\
+		\Rightarrow\gamma_V(k)	&= \begin{cases} \sigma^6, & k = 0 \\ 0, & k\geq 1 \end{cases}													
+		\end{align*}
+	
+	\pagebreak
+	\item $\overline{U}$, $\overline{W}$, and $\overline{V}$ converge in probability if their variance, divided by $T$, converges to zero as ${T\rightarrow\infty}$. Since, as we showed in (i), each series' variance is constant, this is true. Therefore, each sample mean converges to its expectation.
+	
+	\item As with (ii), the weak law of large numbers holds that any estimator will converge to its expectation if its variance, divided by sample size, converges to zero as sample size approaches infinity. By assumption, ${\E{\eps^8}<\infty}$, where $\E{\eps^8}$ is the variance of $\hat{\gamma}_U(0)$ and $\hat{\gamma}_W(0)$. Thus, the sample second moments of $U$ and $V$ converge in probability to their expectations. However, we do not have enough information to determine whether $\hat{\gamma}_W(0)$ has a finite second moment and thus converges to its expectation in probability.
+	
+	\item Since each of the three series are mean zero with finite variance, drawn from a random sample and serially independent, the Central Limit Theorem holds that all three have asymptotically normal scaled sample means.
+	
+\end{enumerate}
+
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Question 2}
+
+\begin{enumerate}[(i)]
+	\item Table below displays the OLS estimates of a single simulation of the model, generated by the attached code.
+		\begin{center}
+			\input{2i.tex}
+		\end{center}
+	\pagebreak
+	\item The table below displays the mean of the OLS coefficient from this model, across 10,000 simulations, as well as the coverage rate of 95\% confidence intervals in each simulation.
+		\begin{center}
+			\input{2ii.tex}
+		\end{center}
+	
+	\item As the table above shows, coverage decreases and bias increases with greater persistence in $Y_t$ but increases with sample size. However, the bias and inconsistency from the persistence of $Y_t$ is attenuated by larger samples, with $\delta_0$ being more-or-less without error above 150 observations.
+	
+\end{enumerate}
+
+
+
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+

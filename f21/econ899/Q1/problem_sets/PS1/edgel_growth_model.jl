@@ -1,7 +1,7 @@
 
 
 #keyword-enabled structure to hold model primitives
-@with_kw struct Primitives
+@everywhere @with_kw struct Primitives
     β::Float64 = 0.99 #discount rate
     δ::Float64 = 0.025 #depreciation rate
     θ::Float64 = 0.36 #capital share
@@ -14,7 +14,7 @@
     Π::Array{Float64, 2} = collect([0.977 0.023; 0.074 0.926])
 end
 #structure that holds model results
-mutable struct Results
+@everywhere mutable struct Results
     val_func::Array{Float64, 2} #value function
     pol_func::Array{Float64, 2} #policy function
 end
@@ -29,20 +29,20 @@ function Initialize()
 end
 
 #Bellman Operator
-function Bellman(prim::Primitives,res::Results)
+function Bellman(prim::Primitives, res::Results)
     @unpack val_func = res #unpack value function
     @unpack k_grid, z_grid, β, δ, θ, nk, nz, Π = prim #unpack model primitives
-    v_next = zeros(nz, nk) #next guess of value function to fill
+    v_next = SharedArray{Float64}(nz, nk) #next guess of value function to fill
 
     #choice_lower = 1 #for exploiting monotonicity of policy function
-    for z_index = 1:nz
-        for k_index = 1:nk
+    for z_index = 1:nz # state space loop
+        for k_index = 1:nk # starting capital loop
             k = k_grid[k_index] #value of k
             z = z_grid[z_index] #value of z
             candidate_max = -Inf #bad candidate max
             budget = z*k^θ + (1-δ)*k #budget
 
-            for kp_index in 1:nk #loop over possible selections of k', exploiting monotonicity of policy function
+            @sync @distributed for kp_index in 1:nk # choice set loop
                 c = budget - k_grid[kp_index] #consumption given k' selection
                 if c>0 #check for positivity
                     exp_val = 0 # expected value in next period
@@ -65,7 +65,8 @@ function Bellman(prim::Primitives,res::Results)
 end
 
 #Value function iteration
-function V_iterate(prim::Primitives, res::Results; tol::Float64 = 1e-4, err::Float64 = 100.0)
+function V_iterate(prim::Primitives, res::Results; tol::Float64 = 1e-4,
+     err::Float64 = 100.0)
     n = 0 #counter
 
     while err>tol #begin iteration
