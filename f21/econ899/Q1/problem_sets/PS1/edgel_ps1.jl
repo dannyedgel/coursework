@@ -11,7 +11,6 @@ addprocs(5)
 
 prim, res = Initialize() #initialize primitive and results structs
 @elapsed Solve_model(prim, res) #solve the model!
-#@elapsed prim, res = Solve_model() #solve the model!
 @unpack val_func, pol_func = res
 @unpack k_grid = prim
 

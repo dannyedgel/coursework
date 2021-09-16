@@ -29,20 +29,21 @@ function Initialize()
 end
 
 #Bellman Operator
-function Bellman(prim::Primitives, res::Results)
+function Bellman(prim::Primitives,res::Results)
     @unpack val_func = res #unpack value function
     @unpack k_grid, z_grid, β, δ, θ, nk, nz, Π = prim #unpack model primitives
     v_next = SharedArray{Float64}(nz, nk) #next guess of value function to fill
+    k_next = SharedArray{Float64}(nz, nk)
 
     #choice_lower = 1 #for exploiting monotonicity of policy function
-    for z_index = 1:nz # state space loop
-        for k_index = 1:nk # starting capital loop
+    for z_index = 1:nz
+        @sync @distributed for k_index = 1:nk
             k = k_grid[k_index] #value of k
             z = z_grid[z_index] #value of z
             candidate_max = -Inf #bad candidate max
             budget = z*k^θ + (1-δ)*k #budget
 
-            @sync @distributed for kp_index in 1:nk # choice set loop
+            for kp_index in 1:nk #loop over possible selections of k', exploiting monotonicity of policy function
                 c = budget - k_grid[kp_index] #consumption given k' selection
                 if c>0 #check for positivity
                     exp_val = 0 # expected value in next period
@@ -53,7 +54,7 @@ function Bellman(prim::Primitives, res::Results)
                     val = log(c) + β*exp_val #compute value
                     if val>candidate_max #check for new max value
                         candidate_max = val #update max value
-                        res.pol_func[z_index, k_index] = k_grid[kp_index] #update policy function
+                        k_next[z_index, k_index] = k_grid[kp_index] #update policy function
                         #choice_lower = kp_index #update lowest possible choice
                     end
                 end
@@ -61,7 +62,7 @@ function Bellman(prim::Primitives, res::Results)
             v_next[z_index, k_index] = candidate_max #update value function
         end
     end
-    v_next #return next guess of value function
+    v_next, k_next #return next guess of value function
 end
 
 #Value function iteration
@@ -70,9 +71,10 @@ function V_iterate(prim::Primitives, res::Results; tol::Float64 = 1e-4,
     n = 0 #counter
 
     while err>tol #begin iteration
-        v_next = Bellman(prim, res) #spit out new vectors
+        v_next, k_next = Bellman(prim, res) #spit out new vectors
         err = maximum(abs.(v_next.-res.val_func)) #reset error level
         res.val_func = v_next #update value function
+        res.pol_func = k_next
         n+=1
     end
     println("Value function converged in ", n, " iterations.")
