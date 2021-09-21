@@ -10,7 +10,7 @@
     nS::Int64 = 2 #number of states
     a_grid::Array{Float64, 1} = collect(range(a_min, length = na, stop = a_max)) #asset grid
     S::Array{Float64, 1} = collect([1, 0.5]) # earnings in each state
-    Π::Array{Float64, 2} = collect([0.97 0.03; 0.05 0.05])
+    Π::Array{Float64, 2} = collect([0.97 0.03; 0.5 0.5])
 end
 
 
@@ -42,13 +42,13 @@ function Bellman(prim::Primitives, res::Results)
     #choice_lower = 1 #for exploiting monotonicity of policy function
     for S_index = 1:nS
         for a_index = 1:na
-            a = a_grid[a_index] #value of k
-            e = S[S_index] #value of z
-            candidate_max = -Inf #bad candidate max
-            budget = e + q̄*a #budget
+            a = a_grid[a_index]     # value of a
+            e = S[S_index]          # value of S
+            candidate_max = -Inf    # bad candidate max
+            budget = e + a        # budget
 
-            for ap_index in 1:na #loop over possible selections of k', exploiting monotonicity of policy function
-                c = budget - a_grid[ap_index] #consumption given k' selection
+            for ap_index in 1:na #loop over possible selections of a', exploiting monotonicity of policy function
+                c = budget - q̄*a_grid[ap_index] #consumption given a' selection
                 if c>0 #check for positivity
                     exp_val = 0 # expected value in next period
                     for Snext = 1:nS
@@ -111,25 +111,32 @@ function Dist_Solve(prim::Primitives, res::Results; tol::Float64 = 1e-4, err::Fl
 end
 
 # solve the model
-function Solve_model(prim::Primitives, res::Results; tol::Float64 = 1e-3, Ed::Float64 = 100.0, θ::Float64 = 0.8)
-    @unpack q̄ = res     # initial price guess
+function Solve_model(prim::Primitives, res::Results; tol::Float64 = 1e-3,
+     Ed::Float64 = 100.0, θ::Float64 = 0.95)
     n = 0               # counter
 
     while abs(Ed) > tol
-
         V_iterate(prim, res)    # retrieve policy function for current q̄
         Dist_Solve(prim, res)   # retrieve stationary distribution for current q̄
 
         Ed = sum(res.μ.*res.pol_func)   # calculate excess demand at current q̄
-        if Ed < 0 & (abs(Ed) >= tol)      # adjust price toward bounds according to tuning parameter
-            res.q̄ = θ*q̄ + (1-θ)*prim.β
+        
+        if Ed < 0 & (abs(Ed) > tol)      # adjust price toward bounds according to tuning parameter
+            res.q̄ = θ*res.q̄ + (1-θ)*prim.β
         elseif abs(Ed) >= tol 
-            res.q̄ = θ*q̄ + 1 - θ
+            res.q̄ = θ*res.q̄ + 1 - θ
         end
         n+=1
 
-        if (n % 10 == 0)
-            println(n, " iterations; excess demand= = ", Ed)
+        println(n, " iterations; excess demand= ", Ed, ", q̄ = ", res.q̄, ", θ = ", θ)
+
+        # adjust tuning parameter based on excess demand 
+        if (abs(Ed) > tol*100) & (θ <= 0.85)
+            θ = 0.85
+        elseif (abs(Ed) > tol*10) & (θ <= 0.95)
+            θ = 0.95
+        elseif θ < 0.99
+            θ = 0.99
         end
     end
     println("q̄ converged in ", n, " iterations.")

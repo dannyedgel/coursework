@@ -3,7 +3,7 @@ cd("C:/Users/edgel/Google Drive/UW-Madison/f21/econ899/Q1/problem_sets/PS2")
 include("edgel_model_functions.jl") #import the functions that solve our growth model
 
 prim, res = Initialize() #initialize primitive and results structs
-@elapsed Solve_model(prim, res) #solve the model!
+@elapsed Solve_model(prim, res, θ = 0.5) #solve the model!
 @unpack val_func, pol_func, μ, q̄ = res
 @unpack a_grid = prim
 
