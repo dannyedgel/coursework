@@ -1,0 +1,167 @@
+%%% Econ714: Macroeconomics II
+%%% Spring 2021
+%%% Danny Edgel
+%%%
+% Due on Canvas Friday, April 23rd, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\Mt}{M_{t+1}^t}
+\newcommand{\vhat}{\hat{v}}
+\newcommand{\olp}{\overline{p}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\olq}{\overline{q}}
+\newcommand{\zinf}{_{t=0}^\infty}
+\newcommand{\aneg}{A^{-1}}
+\newcommand{\sneg}{s^{-1}}
+\newcommand{\olk}{\overline{k}}
+\newcommand{\olc}{\overline{c}}
+\newcommand{\olr}{\overline{r}}
+\newcommand{\olpi}{\overline{\pi}}
+\newcommand{\Aneg}{A^{-1}}
+\renewcommand{\sneg}{s^{-1}}
+\newcommand{\dc}[1]{\Delta c_{#1}}
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\suminf}{\sum_{t=0}^\infty}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\sumnk}{\sum_{i=1}^{N_k}}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\Tau}{\mathrm{T}}
+\newcommand{\phat}{\hat{p}}
+\newcommand{\qs}{q^*}
+\newcommand{\pl}{\partial}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]} % expected value
+\newcommand{\Et}[1]{\mathbb{E}_t\left[#1\right]}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#1 }
+\author{ 		Danny Edgel 						\\ 
+			Econ 761: Industrial Organization Theory	\\
+			Fall 2021						\\
+		}
+\maketitle\thispagestyle{empty}
+
+
+%%%________________________________________________________________%%%
+
+\begin{enumerate}
+	\item Consider a market in which the goods are homogenous.
+		\begin{enumerate}[(a)]
+			\item The elasticity of demand, $\varepsilon<0$, can be written as: 
+                \[ \varepsilon = \left(P'(Q)\right)^{-1}\frac{P(Q)}{Q} \]
+				Thus, letting $\varepsilon$ remain constant, we can derive:
+				\begin{align*}
+					P(Q)	&= QP'(Q)\varepsilon				\\
+					P'(Q)	&= \left(QP''(Q) + P'(Q)\right)\varepsilon
+				\end{align*}
+				Thus, with $P'(Q)<0$ and $\varepsilon<0$, ${QP''(Q) + P'(Q)>0}$ for all $Q$.
+
+			\item Under Cournot competition, each firm, $i$, solves the following problem:
+                \[
+                    \usmax{q_i}\Pi_i = P(Q)q_i - c(q_i),\quad\quad Q = \sum_{j=1}^N q_j
+                    \]
+                Which yields the following FOC, which is identical for all firms:
+                \[
+                    P(Q) + P'(Q)q_i = c'(q_i)\Rightarrow q_i = \left(P'(Q)\right)^{-1}\left(c'(q_i) - P(Q)\right)
+                    \]
+                Since cost functions are identical by assumption, $q_i=q_j=q$ $\forall i,j$ in equilibrium, so we use the implicit function theorem to solve:\footnote{Due to algebraic errors, I had to redo this several times, spending a long time on it. As a result, many intermediate steps are omitted below.}
+                \begin{align*}
+                    qP'(Nq) + c'(q) &= P(Nq)    \\
+                    \frac{\pl q}{\pl N}\left[P'(Nq) + c''(q)\right] &= \left(q + N\frac{\pl q}{\pl N}\right)\left[P'(Nq)-qP''(Nq)\right]    \\
+                    \frac{\pl q}{\pl N} &= \frac{q\left[P'(Nq)-qP''(Nq)\right]}{P'(Nq) + c''(q) + N\left[qP''(Nq) - P'(Nq)\right]}
+                \end{align*}
+                By assumption (A1), we know $c''(q)\geq P'(Nq)$, and by assumption (A2), we know ${-qP''(Nq)\geq P'(Nq)}$. Thus, we can reduce the equation as follows:
+                \begin{align*} 
+                    \frac{\pl q}{\pl N} &\leq \frac{q^2P''(Nq)}{c''(q) - NP'(Nq)}  \\
+                    \frac{\pl q}{\pl N} &\leq \frac{q^2c''(q)}{c''(q) - Nc''(q)}  \\
+                    \frac{\pl q}{\pl N} &\leq \frac{q^2}{1-N} < 0\quad\forall N>1  \\
+                \end{align*}
+                Since demand slopes downward and $Q=Nq$, an increase in $q$ necessarily increases $Q$, decreasing price. Thus, equilibrium price and price per firm quantity are decreasing in $N$.
+		\end{enumerate}
+
+        \item 
+
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+
+
+
+\end{document}
+
+
+
+
+
+
