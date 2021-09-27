@@ -263,6 +263,36 @@
       \end{align*}
       Thus, the socially-optimal location choice is for each firm to locate equidistant between either town and the center of the road.
   \end{enumerate}
+  \pagebreak
+  \item 
+  \begin{enumerate}
+    \item Before solving for the equilibrium, we can reduce the space of unknown variables by recognizing that, in any equilibrium, ${p_2=p_{1R}=p_R}$. This is due to firm 2's payoff function. Let ${X=X(p_R)}$ be the demand for products at the right endpoint at ${p_R=\text{min}\{p_2,p_{1R}\}}$. Then, firm 2's payoff function (taking $X$ as given) is: \[
+      \pi_2(p_2,p_{1R};X) = \begin{cases}
+        p_2X(p_R) &, p_2\leq p_{1R} \\
+        0         &, p_2>p_{1R}
+      \end{cases}
+    \]
+    Thus, firm 2 always has an incentive to set $p_2$ at least as low as $p_{1R}$. Now, we can solve for the equilibrium by calculating each firm's best response function. In order to do so, we must first solve for the marginal consumer at each set of prices, $(p_{1L}, p_R)$. Let $x\in[0,1]$ be the marginal consumer's location on the product space:\[
+      1-x - p_{1L} = x - p_R\quad\Rightarrow\quad x= \frac{1}{2}\left(1-p_{1L}+p_R\right)
+    \]
+    Next, we consider each firm's payoff function. Let us consider firm 1's payoff function without considering firm 2's strategic incentives:\[
+      \pi_1(p_{1L}, p_{1R}, p_2) = \begin{cases}
+        \frac{p_1}{2}\left(1-p_{1L}+p_R\right) + \frac{p_2}{2}\left(1+p_{1L}-p_R\right) &, p_{1R}<p_2     \\
+        \frac{p_1}{2}\left(1-p_{1L}+p_R\right)                                          &, p_{1R}\geq p_2
+      \end{cases}
+    \]
+    We can see that firm 1 only has an incentive to decrease $p_{1R}$ when ${p_{1R}<p_2}$. Thus, taking firm 2's strategic incentives into account, firm 1 optimizes only on $p_{1L}$, which is henceforth denoted as $p_1$. Understanding this, we can use our simplified payoff functions to derive best response functions: 
+    \begin{align*}
+      p_1(p_2) &= \text{arg}\usmax{p_1}\frac{p_1}{2}\left(1-p_{1L}+p_R\right) = \frac{1}{2}(1 + p_2) \\
+      p_2(p_1) &= \text{arg}\usmax{p_2}\frac{p_2}{2}\left(1+p_{1L}-p_R\right) = \frac{1}{2}(1 + p_1) 
+    \end{align*}
+    Thus, prices and profit in equilibrium are:\begin{align*}
+      &p_1^*=p_2^*=1  &\pi_1^*=\pi_2^*=\frac{1}{2}
+    \end{align*}
+
+    \item Firm 1 is neither better-off nor worse-off with product $R$. The only way that firm 1 could influence the market with product $R$ is by decreasing the profits of \textit{both} firms by undercutting firm 2's price, leading firm 2 to offer a lower price and taking demand from product $L$ (and/or requiring firm 1 to offer a lower price for $L$). Thus, it makes no difference whether firm 1 keeps or drops product $R$ (assuming neither entry/exit nor capacity costs).
+
+  \end{enumerate}
 \end{enumerate}
 
 %%%________________________________________________________________%%%
