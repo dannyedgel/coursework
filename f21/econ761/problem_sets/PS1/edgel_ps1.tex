@@ -190,6 +190,38 @@
 
             \item If the seller sets some reserve price $R\in(0,V)$, then the lower bound of the equilibrium distribution will be truncated such that $F^*(b)$ is instead be a uniform distribution from $R$ to $V$. Intuitively, this would increase the seller's revenue by increasing the mean of the equilibrium bid distribution.
           \end{enumerate}
+          \pagebreak
+          \item 
+          \begin{enumerate}
+            \item The marginal consumers on either side of Esquires are indifferent to purchasing a cup of coffee from Starbucks and Esquires. Letting $p_i$ represent the price from the nearest Starbucks for $i\in\{0,1\}$ and $x_i\in[0,1]$ represent the location of the consumer on Main Street, where $i=1$ is the consumer closer to the Starbucks on the end of main street: \begin{align*}
+              v - x_0^2 - p_0     &= v - (.5 - x_0)^2 - q \\
+              v - (1-x_1)^2 - p_1 &= v - (x_1 - .5)^2 - q
+            \end{align*}
+            Solving for $x_i$ yields:
+            \begin{align*}
+              &x_0 = q-p_0+\frac{1}{4}    &x_1 = p_1 - q + \frac{3}{4}
+            \end{align*}
+
+            \item Assuming Starbucks can set different prices at each location, the firms' optimization problems are:
+            \begin{align*}
+              q(p_0,p_1)  &= \text{arg}\usmax{q}q\left[p_1 - q + \frac{3}{4}-\left(q-p_0+\frac{1}{4}\right)\right]  \\
+                          &= \frac{1}{4}\left(p_0 + p_1\right) + \frac{1}{8}  \\
+              p(q)        &= \text{arg}\usmax{p_0,p_1}p_0\left[q-p_0+\frac{1}{4}\right] + p_1\left[1-\left(p_1 - q + \frac{3}{4}\right)\right]  \\
+                          &= \colvec{2}{\frac{1}{2}q + \frac{1}{8}}{\frac{1}{2}q + \frac{1}{8}}
+            \end{align*}
+
+            \item Since $p_0=p_1$ in equilibrium, Esquires's best response function can be simplified as ${\frac{1}{2}p + \frac{1}{8}}$. Then, we can solve for the equilibrium as follows: 
+            \begin{align*}
+              q   &= q(p(q)) = \frac{1}{2}\left(\frac{1}{2}q + \frac{1}{8}\right) + \frac{1}{8}  \\
+              \Rightarrow q^* &= \frac{1}{4}  \\
+              p^* &= p(q^*) = \frac{1}{2}\left(\frac{1}{8}\right) + \frac{1}{8} = \frac{1}{4}
+            \end{align*}
+
+            \item Assume that the Starbucks at the end of the street swaps with Esquires. Then, Starbucks's best response function becomes:
+            \begin{align*}
+              p(q) &= \text{arg}\usmax{p_0,p_1}p_0\left[p_1-p_0+\frac{1}{4}\right] + p_1\left[1-\left(q - p_1 + \frac{3}{4}-\left(p_1-p_0+\frac{1}{4}\right)\right)\right]
+            \end{align*}
+          \end{enumerate}
 \end{enumerate}
 
 %%%________________________________________________________________%%%
