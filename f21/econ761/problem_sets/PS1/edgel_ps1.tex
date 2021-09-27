@@ -136,16 +136,11 @@
                     \]
                 Since cost functions are identical by assumption, $q_i=q_j=q$ $\forall i,j$ in equilibrium, so we use the implicit function theorem to solve:\footnote{Due to algebraic errors, I had to redo this several times, spending a long time on it. As a result, many intermediate steps are omitted below.}
                 \begin{align*}
-                    qP'(Nq) + c'(q) &= P(Nq)    \\
-                    \frac{\pl q}{\pl N}\left[P'(Nq) + c''(q)\right] &= \left(q + N\frac{\pl q}{\pl N}\right)\left[P'(Nq)-qP''(Nq)\right]    \\
-                    \frac{\pl q}{\pl N} &= \frac{q\left[P'(Nq)-qP''(Nq)\right]}{P'(Nq) + c''(q) + N\left[qP''(Nq) - P'(Nq)\right]}
+                    c'(q) - qP'(Nq) &= P(Nq)    \\
+                    \frac{\pl q}{\pl N}\left[c''(q)-P'(Nq)\right] &= \left[P'(Nq) + qP''(Nq)\right]\left(q + N\frac{\pl q}{\pl N}\right)   \\
+                    \frac{\pl q}{\pl N}\left[1-N\frac{P'(Nq) + qP''(Nq)}{c''(q)-P'(Nq)}\right] &= q\left[\frac{P'(Nq) + qP''(Nq)}{c''(q)-P'(Nq)}\right]
                 \end{align*}
-                By assumption (A1), we know $c''(q)\geq P'(Nq)$, and by assumption (A2), we know ${-qP''(Nq)\geq P'(Nq)}$. Thus, we can reduce the equation as follows:
-                \begin{align*} 
-                    \frac{\pl q}{\pl N} &\leq \frac{q^2P''(Nq)}{c''(q) - NP'(Nq)}  \\
-                    \frac{\pl q}{\pl N} &\leq \frac{q^2c''(q)}{c''(q) - Nc''(q)}  \\
-                    \frac{\pl q}{\pl N} &\leq \frac{q^2}{1-N} < 0\quad\forall N>1  \\
-                \end{align*}
+                By assumption (A1), we know $c''(q)-P'(Nq)\geq 0$, and by assumption (A2), we know ${P'(Nq)+qP''(Nq)\leq 0}$. Thus, by the equation above, $\frac{\pl q}{\pl N}\leq 0$. \medskip \\
                 Since demand slopes downward and $Q=Nq$, an increase in $q$ necessarily increases $Q$, decreasing price. Thus, equilibrium price and price per firm quantity are decreasing in $N$.
 		\end{enumerate}
 
@@ -226,8 +221,23 @@
             \begin{align*}
               q(p)  &= \text{arg}\usmax{q} q\left(q-p_1 + \frac{3}{4}\right) = \frac{1}{2}p_1 + \frac{3}{8}  \\
               p(q)  &= \text{arg}\usmax{p_0,p_1}p_0\left[p_1-p_0+\frac{1}{4}\right] + p_1\left[q-p_1 + \frac{3}{4}-\left(p_1 - p_0 + \frac{1}{4}\right)\right] \\
-              \begin{pmatrix} 1 & -1 \\ -1 & 2 \end{pmatrix}p  &= \colvec{2}{1/8}{\frac{1}{2}q - 1/8} 
+              \begin{pmatrix} 1 & -1 \\ -1 & 2 \end{pmatrix}p  &= \colvec{2}{1/8}{\frac{1}{2}q + 1/8} 
             \end{align*}
+            Plugging the best response function for $q$ into the best response for $p$, we can solve for prices in the new equilibrium: 
+            \begin{align*}
+              p^* &= \begin{pmatrix} 1 & -1 \\ -1 & 7/4 \end{pmatrix}^{-1}\colvec{2}{1/8}{5/16}
+                  = \colvec{2}{17/24}{7/12} \approx \colvec{2}{.71}{.58}  \\
+              q^* &= \frac{1}{2}\left(\frac{7}{12}\right) + \frac{3}{8} = \frac{2}{3}
+            \end{align*}
+            Again using the equations for marginal consumers from (a), we can compute market shares:
+            \begin{align*} 
+              &x_0 = 3/8 \approx 0.37  &x_1 = 5/6 \approx 0.83
+            \end{align*}
+            Since marginal consumer $i=0$ is indifferent between two Starbucks locations, only $x_1$ is informative for market share purposes.\footnote{Further note that the consumer at $x_0$ still derives positive utility under this price regime, so the market is covered.} In this equilibrium, Starbucks takes five sixths, or about 83\% of the market. \medskip \\
+            This equilibrium differs from (c) because in (c), there were no marginal consumers choosing between two Starbucks locations, so Starbucks faced a tradeoff between increasing its price and increasing its market coverage at both of its locations. However, in this equilibrium, the marginal conumer on the left side of the street was indifferent between two Starbucks locations, so Starbucks only faced a tradeoff between losing consumers to its lower-price location (which competes with Esquire's) and losing consumers to Esquire's.
+
+            \item Now suppose that Esquires is still located at the center of the road, but Starbucks sells the location at the end of the road to Seattle's Best, which charges price $z$. The resulting equilibrium is identical to the one in (c) because, as I mentioned in (d), both Starbucks locations in (c) had to price competitively to avoid losing business to Esquire's. The same will be true with Starbucks and Seattle's Best in this equilibrium, resulting in ${p^*=q^*=z^*=1/4}$, with Esquire's taking half of the market and the remaining half split equally between Starbucks and Seattle's Best.\footnote{An interesting addition to this question would be to ask what price Starbucks would charge for this location, given some prevailing interest rate and the assumption of certainty over an infinite time horizon.}
+              
           \end{enumerate}
 \end{enumerate}
 
