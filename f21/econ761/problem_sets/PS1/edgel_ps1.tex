@@ -204,10 +204,10 @@
 
             \item Assuming Starbucks can set different prices at each location, the firms' optimization problems are:
             \begin{align*}
-              q(p_0,p_1)  &= \text{arg}\usmax{q}q\left[p_1 - q + \frac{3}{4}-\left(q-p_0+\frac{1}{4}\right)\right]  \\
-                          &= \frac{1}{4}\left(p_0 + p_1\right) + \frac{1}{8}  \\
-              p(q)        &= \text{arg}\usmax{p_0,p_1}p_0\left[q-p_0+\frac{1}{4}\right] + p_1\left[1-\left(p_1 - q + \frac{3}{4}\right)\right]  \\
-                          &= \colvec{2}{\frac{1}{2}q + \frac{1}{8}}{\frac{1}{2}q + \frac{1}{8}}
+              q(p)  &= \text{arg}\usmax{q}q\left[p_1 - q + \frac{3}{4}-\left(q-p_0+\frac{1}{4}\right)\right]  \\
+                    &= \frac{1}{4}\left(p_0 + p_1\right) + \frac{1}{8}  \\
+              p(q)  &= \text{arg}\usmax{p_0,p_1}p_0\left[q-p_0+\frac{1}{4}\right] + p_1\left[1-\left(p_1 - q + \frac{3}{4}\right)\right]  \\
+                    &= \colvec{2}{\frac{1}{2}q + \frac{1}{8}}{\frac{1}{2}q + \frac{1}{8}}
             \end{align*}
 
             \item Since $p_0=p_1$ in equilibrium, Esquires's best response function can be simplified as ${\frac{1}{2}p + \frac{1}{8}}$. Then, we can solve for the equilibrium as follows: 
@@ -216,10 +216,17 @@
               \Rightarrow q^* &= \frac{1}{4}  \\
               p^* &= p(q^*) = \frac{1}{2}\left(\frac{1}{8}\right) + \frac{1}{8} = \frac{1}{4}
             \end{align*}
-
-            \item Assume that the Starbucks at the end of the street swaps with Esquires. Then, Starbucks's best response function becomes:
+            Given these equilibrium prices, we can solve for market shares using the equations derived in (a) for the marginal consumer on either side of Esquires:
             \begin{align*}
-              p(q) &= \text{arg}\usmax{p_0,p_1}p_0\left[p_1-p_0+\frac{1}{4}\right] + p_1\left[1-\left(q - p_1 + \frac{3}{4}-\left(p_1-p_0+\frac{1}{4}\right)\right)\right]
+              &x_0 = \frac{1}{4}  &x_1 = \frac{3}{4}
+            \end{align*}
+            Thus, the middle half of the distribution buys from Esquires, while the ends buy from Starbucks. Starbucks and Esquires, then, each take half of the market.
+            
+            \item Assume that the Starbucks at the end of the street swaps with Esquires. Then, the best response functions are now:
+            \begin{align*}
+              q(p)  &= \text{arg}\usmax{q} q\left(q-p_1 + \frac{3}{4}\right) = \frac{1}{2}p_1 + \frac{3}{8}  \\
+              p(q)  &= \text{arg}\usmax{p_0,p_1}p_0\left[p_1-p_0+\frac{1}{4}\right] + p_1\left[q-p_1 + \frac{3}{4}-\left(p_1 - p_0 + \frac{1}{4}\right)\right] \\
+              \begin{pmatrix} 1 & -1 \\ -1 & 2 \end{pmatrix}p  &= \colvec{2}{1/8}{\frac{1}{2}q - 1/8} 
             \end{align*}
           \end{enumerate}
 \end{enumerate}
