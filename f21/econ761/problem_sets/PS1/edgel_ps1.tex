@@ -116,33 +116,33 @@
 
 \begin{enumerate}
 	\item Consider a market in which the goods are homogenous.
-		\begin{enumerate}[(a)]
-			\item The elasticity of demand, $\varepsilon<0$, can be written as: 
-                \[ \varepsilon = \left(P'(Q)\right)^{-1}\frac{P(Q)}{Q} \]
-				Thus, letting $\varepsilon$ remain constant, we can derive:
-				\begin{align*}
-					P(Q)	&= QP'(Q)\varepsilon				\\
-					P'(Q)	&= \left(QP''(Q) + P'(Q)\right)\varepsilon
-				\end{align*}
-				Thus, with $P'(Q)<0$ and $\varepsilon<0$, ${QP''(Q) + P'(Q)>0}$ for all $Q$.
+  \begin{enumerate}[(a)]
+    \item The elasticity of demand, $\varepsilon<0$, can be written as: 
+              \[ \varepsilon = \left(P'(Q)\right)^{-1}\frac{P(Q)}{Q} \]
+      Thus, letting $\varepsilon$ remain constant, we can derive:
+      \begin{align*}
+        P(Q)	&= QP'(Q)\varepsilon				\\
+        P'(Q)	&= \left(QP''(Q) + P'(Q)\right)\varepsilon
+      \end{align*}
+      Thus, with $P'(Q)<0$ and $\varepsilon<0$, ${QP''(Q) + P'(Q)>0}$ for all $Q$.
 
-			\item Under Cournot competition, each firm, $i$, solves the following problem:
-                \[
-                    \usmax{q_i}\Pi_i = P(Q)q_i - c(q_i),\quad\quad Q = \sum_{j=1}^N q_j
-                    \]
-                Which yields the following FOC, which is identical for all firms:
-                \[
-                    P(Q) + P'(Q)q_i = c'(q_i)\Rightarrow q_i = \left(P'(Q)\right)^{-1}\left(c'(q_i) - P(Q)\right)
-                    \]
-                Since cost functions are identical by assumption, $q_i=q_j=q$ $\forall i,j$ in equilibrium, so we use the implicit function theorem to solve:\footnote{Due to algebraic errors, I had to redo this several times, spending a long time on it. As a result, many intermediate steps are omitted below.}
-                \begin{align*}
-                    c'(q) - qP'(Nq) &= P(Nq)    \\
-                    \frac{\pl q}{\pl N}\left[c''(q)-P'(Nq)\right] &= \left[P'(Nq) + qP''(Nq)\right]\left(q + N\frac{\pl q}{\pl N}\right)   \\
-                    \frac{\pl q}{\pl N}\left[1-N\frac{P'(Nq) + qP''(Nq)}{c''(q)-P'(Nq)}\right] &= q\left[\frac{P'(Nq) + qP''(Nq)}{c''(q)-P'(Nq)}\right]
-                \end{align*}
-                By assumption (A1), we know $c''(q)-P'(Nq)\geq 0$, and by assumption (A2), we know ${P'(Nq)+qP''(Nq)\leq 0}$. Thus, by the equation above, $\frac{\pl q}{\pl N}\leq 0$. \medskip \\
-                Since demand slopes downward and $Q=Nq$, an increase in $q$ necessarily increases $Q$, decreasing price. Thus, equilibrium price and price per firm quantity are decreasing in $N$.
-		\end{enumerate}
+    \item Under Cournot competition, each firm, $i$, solves the following problem:
+    \[
+      \usmax{q_i}\Pi_i = P(Q)q_i - c(q_i),\quad\quad Q = \sum_{j=1}^N q_j
+    \]
+    Which yields the following FOC, which is identical for all firms:
+    \[
+      P(Q) + P'(Q)q_i = c'(q_i)\Rightarrow q_i = \left(P'(Q)\right)^{-1}\left(c'(q_i) - P(Q)\right)
+    \]
+    Since cost functions are identical by assumption, $q_i=q_j=q$ $\forall i,j$ in equilibrium, so we use the implicit function theorem to solve:\footnote{Due to algebraic errors, I had to redo this several times, spending a long time on it. As a result, many intermediate steps are omitted below.}
+    \begin{align*}
+        c'(q) - qP'(Nq) &= P(Nq)    \\
+        \frac{\pl q}{\pl N}\left[c''(q)-P'(Nq)\right] &= \left[P'(Nq) + qP''(Nq)\right]\left(q + N\frac{\pl q}{\pl N}\right)   \\
+        \frac{\pl q}{\pl N}\left[1-N\frac{P'(Nq) + qP''(Nq)}{c''(q)-P'(Nq)}\right] &= q\left[\frac{P'(Nq) + qP''(Nq)}{c''(q)-P'(Nq)}\right]
+    \end{align*}
+    By assumption (A1), we know $c''(q)-P'(Nq)\geq 0$, and by assumption (A2), we know ${P'(Nq)+qP''(Nq)\leq 0}$. Thus, by the equation above, $\frac{\pl q}{\pl N}\leq 0$. \medskip \\
+    %Since demand slopes downward and $Q=Nq$, an increase in $q$ necessarily increases $Q$, decreasing price. Thus, equilibrium price and price per firm quantity are decreasing in $N$.
+  \end{enumerate}
 
   \item  
   \begin{enumerate}
