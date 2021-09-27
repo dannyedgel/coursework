@@ -149,8 +149,47 @@
                 Since demand slopes downward and $Q=Nq$, an increase in $q$ necessarily increases $Q$, decreasing price. Thus, equilibrium price and price per firm quantity are decreasing in $N$.
 		\end{enumerate}
 
-        \item 
+        \item  
+          \begin{enumerate}
+            \item Each player, $i\in\{1,2\}$ chooses $b_i\in\R_+$ to maximize: \[
+              \pi_i(b_i,b_j) = \begin{cases}
+                V-b_i,&b_i>b_j  \\
+                \frac{1}{2}\left(V-b_i\right),&b_i=b_j \\
+                0,&b_i<b_j
+              \end{cases}
+            \]
+            Since payoffs and valuations are symmetric, $b_i=b_j$ in equilibrium. For all $b_i=b_j<V$, each player has an incentive to raise their bid. Thus, the unique equilibrium is:
+            \begin{align*}
+              &b_1^*=b_2^*=v & \pi_1^*=\pi_2^*=0
+            \end{align*}
 
+            \item In all all-pay auction, player 1's payoff function is: 
+            \[
+              \pi_1(b_1,b_2) = \begin{cases}
+                V-b_1,&b_1>b_2  \\
+                \frac{1}{2}V-b_1,&b_1=b_2 \\
+                -b_1,&b_1<b_2
+              \end{cases}
+            \]
+
+            \item suppose $\exists$ a pure-strategy equilibrium with bids $(b_1^*,b_2^*)$. Since Payoffs and valuations are identical, any pure strategy equilibrium has ${b_1^*=b_2^*=b^*}$. Then, ${\pi^*=\frac{1}{2}V-b}$. Thus, either player could improve their payoff by deviating to ${b_i = b^*+\varepsilon}$ for $\varepsilon>0$. Thus, $b_1=b_2$ cannot be a pure-strategy Nash equilibrium.\footnote{The nonexistence of a $b_1\neq b_2$ equilibrium is trivial.}
+
+            \item A mixed-strategy Nash equilibrium is a pair of distribution functions, $(F_1(b), F_2(b))$, from which each player draws their bid. Since bids must be weakly positive, $F_i(0)=0$. Since payoffs are negative for all ${b>V}$ but zero for a bid of zero, $F_i(V)=1$. Each player $i$ chooses $F_i$ to maximizes expected payoff:\footnote{Using the same logic as in (c), we can rule out any mass points, since such mass points will exist in both players' distributions, and either player could improve their payoffs by shifting the mass to a slightly higher bid.} \[
+              \E{\pi_i(b_i,b_j)} = F_j(b_i)V-b_i
+            \]
+            From the first-order condition of this problem, we can obtain the symmetric equilibrium distribution function:
+            \begin{align*}
+              Vf_j(b_i)  - 1  &= 0                      \\
+              f_j(b_i)        &= \frac{1}{V}            \\
+              F_j(b)          &= \int_0^b\frac{1}{V}dx =\frac{b}{V} 
+            \end{align*}
+            Since payoffs and valuations are constant, ${F_i^*(b)=F_j^*(b)=F^*(b)}$. Thus, the mixed-strategy equilibrium is for each player to submit a uniformly random bid between $0$ and $V$. The seller's expected revenue is: \[
+              R = 2\E{b^*} = 2\int_0^V\left(\frac{1}{V}\right)bdb 
+                = \frac{1}{V}[b^2]_0^V = V
+            \]
+
+            \item If the seller sets some reserve price $R\in(0,V)$, then the lower bound of the equilibrium distribution will be truncated such that $F^*(b)$ is instead be a uniform distribution from $R$ to $V$. Intuitively, this would increase the seller's revenue by increasing the mean of the equilibrium bid distribution.
+          \end{enumerate}
 \end{enumerate}
 
 %%%________________________________________________________________%%%
