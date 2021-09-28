@@ -141,7 +141,12 @@
         \frac{\pl q}{\pl N}\left[1-N\frac{P'(Nq) + qP''(Nq)}{c''(q)-P'(Nq)}\right] &= q\left[\frac{P'(Nq) + qP''(Nq)}{c''(q)-P'(Nq)}\right]
     \end{align*}
     By assumption (A1), we know $c''(q)-P'(Nq)\geq 0$, and by assumption (A2), we know ${P'(Nq)+qP''(Nq)\leq 0}$. Thus, by the equation above, $\frac{\pl q}{\pl N}\leq 0$. \medskip \\
-    %Since demand slopes downward and $Q=Nq$, an increase in $q$ necessarily increases $Q$, decreasing price. Thus, equilibrium price and price per firm quantity are decreasing in $N$.
+    To see that the market price is also decreasing in $N$, we can take a straight-forward derivative without appealing to the implicit function theorem. Consider each function in terms of $Q$, such that ${q=Q/N}$:\begin{align*}
+      P(Q)                    &= c'(Q/N) - \frac{Q}{N}P'(Q)                                             \\
+      \frac{\pl P(Q)}{\pl N}  &= c''(Q/N)\left(-\frac{Q}{N^2}\right) + \left(\frac{Q}{N^2}\right)P'(Q)  \\
+                              &= \frac{Q}{N^2}\left[P'(Q) - c''(q)\right]                               \\
+                              &\leq 0\text{ by assumption (A1)}
+    \end{align*}
   \end{enumerate}
 
   \item  
@@ -312,6 +317,35 @@
       \end{pmatrix}\colvec{2}{p_1}{p_2} &= \colvec{2}{c}{-3c-1} \\
       \colvec{2}{p_1}{p_2}              &= \colvec{2}{\frac{1}{2}c + \frac{1}{2}}{c + \frac{1}{2}}
     \end{align*}
+
+    \item If the monopolist instead sold one good with quality ${s=1}$, they would charge:\[
+      p=\text{arg}\usmax{p}(1-p)(p-c) = \frac{1}{2}c + \frac{1}{2}
+    \]
+    Which is the profit-maximizing price for good one when the monopolist sells both product types.
+
+    \item In the monopoly case, the market is covered for ${[\frac{1}{2}c + \frac{1}{2}, 1]}$.To determine the optimal market coverage, we can solve the social planner's problem, letting $t_i$ represent the minimum $\theta$ for a consumer to be allocated a product with ${s=i}$: \begin{align*}
+      &\usmax{t_1, t_2} \int_{t_1}^{t_2}\theta-cd\theta + \int_{t_2}^12\theta-2cd\theta \\
+      \equiv &\usmax{t_1, t_2} (t_1 + t_2 - 2)c - \frac{1}{2}(t_1^2 + t_2^2) + 1          \\
+      \Rightarrow & t_1^*=t_2^*=c
+    \end{align*}
+    Thus, in the optimal allocation, the mass of consumers from ${\theta=c}$ to 1 consumes the product with ${s=2}$. In the case where only ${s=1}$ is available, the same mass of consumers consumes the product. In the two-product case, the monopolist's allocation is efficient if ${p_1=p_2=c}$: \[
+      \frac{1}{2}(c + 1)  = c + \frac{1}{2}  \Rightarrow c = 0
+    \]
+    In this case, $p_1=p_2=\frac{1}{2}$. Thus, in the two-product case, ${\nexists c\in[0,1/2]}$ such that the monopolist's allocation is optimal. In the one-product case, we need ${p=c}$:\[
+      \frac{1}{2}(c+1) = c  \Rightarrow c=1
+    \]
+    Since $c\leq1/2$, there is also no value of $c$ for which the monopolist's allocation is optimal.
+
+    \item Since demand is exclusively determined at the extensive margin, demand for good 1, given $p_2$, is simply the mass of consumers for whom the utility of consuming good 1 is positive and exceeds that of consuming good 2:\[
+      \theta - p_1 \geq 2\theta - 2p_2  \Rightarrow p_1 \leq \theta \leq 2p_2 - p_1
+    \]
+    Thus, the demand curve for good 1 is ${Q_1(p_1; p_2) = 2(p_2 - p_1)}$.
+
+    \item The profit function for firm 1 is given by:\[
+      \pi_1(p_1, p_2) =  2(p_2-p_1)(p_1 - c)
+    \]
+    This function is maximized at ${p_1(p_2; c)=\frac{1}{2}(p_2 + c)}$. Note that this value yields positive demand for all values of $p_2$'s domain for $c>0$.
+
   \end{enumerate}
 \end{enumerate}
 
