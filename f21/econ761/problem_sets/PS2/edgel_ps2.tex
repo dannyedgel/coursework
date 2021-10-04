@@ -1,0 +1,181 @@
+%%% Econ714: Macroeconomics II
+%%% Spring 2021
+%%% Danny Edgel
+%%%
+% Due on Canvas Friday, April 23rd, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{x\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\newcommand{\usmax}[1]{\underset{#1}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\Mt}{M_{t+1}^t}
+\newcommand{\vhat}{\hat{v}}
+\newcommand{\olp}{\overline{p}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\olq}{\overline{q}}
+\newcommand{\zinf}{_{t=0}^\infty}
+\newcommand{\aneg}{A^{-1}}
+\newcommand{\sneg}{s^{-1}}
+\newcommand{\olk}{\overline{k}}
+\newcommand{\olc}{\overline{c}}
+\newcommand{\olr}{\overline{r}}
+\newcommand{\olpi}{\overline{\pi}}
+\newcommand{\Aneg}{A^{-1}}
+\renewcommand{\sneg}{s^{-1}}
+\newcommand{\dc}[1]{\Delta c_{#1}}
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\suminf}{\sum_{t=0}^\infty}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\sumnk}{\sum_{i=1}^{N_k}}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\Tau}{\mathrm{T}}
+\newcommand{\phat}{\hat{p}}
+\newcommand{\qs}{q^*}
+\newcommand{\pl}{\partial}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]} % expected value
+\newcommand{\Et}[1]{\mathbb{E}_t\left[#1\right]}
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+%%% define function for drawing matrix augmentation lines
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#2 }
+\author{ 	Danny Edgel 					        	      \\ 
+			Econ 761: Industrial Organization Theory	\\
+			Fall 2021						                      \\
+		}
+\maketitle\thispagestyle{empty}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+\begin{itemize}
+    \item[(a)] Using the demand function, (1), we can solve: \[
+    \frac{dQ}{dP}\frac{P}{Q} = -\frac{1}{a_1}\frac{a_0 - a_1Q + \nu}{Q} = 1 - \frac{a_0 + \nu}{a_1Q}
+    \] 
+    \item[(b)] A Cournot equilibrium with homogenous firms is characterized by:\[
+      \frac{dC}{dq} - \frac{Q}{N}\frac{dP}{dQ} = P
+    \]
+    Solving for $Q^*$ and $P^*$ with a fixed $N$ and $F$ yields:\[
+      Q^* = \frac{b_0-a_0 + \eta+\nu}{2b_1-\left(\frac{1}{N}+1\right)a_1},\quad\quad 
+      P^* = a_0 - \frac{b_0 - a_0 + \eta + \nu}{2\frac{b_1}{a_1} - 1/N - 1} + \nu
+    \]
+    Letting $b_1=0$,\[
+      Q^* = \left[\frac{b_0-a_0 + \eta+\nu}{(N+1)a_1}\right]N,\quad\quad 
+      P^* = a_0 + \left[\frac{b_0 - a_0 + \eta + \nu}{1+N}\right]N + \nu
+    \]
+    \item[(c)] N/A %If firms enter until it is no longer profitable, then we can determine the equilibrium number of firms, $N^*$, by setting profit, given $P^*$ and $Q^*$, equal to zero: \begin{align*} 
+    %  P^*Q^* &= F  + (b_0 + b_1Q^* + \eta)Q^*
+    %\end{align*}
+    \item[(d)] Using the values calculated above, we can calculate the Lerner index, $L_I$, and Herfindahl index, $H$, as follows: \begin{align*}
+      L_I &=  -1/\varepsilon = -\left(1 - \frac{a_0 + \nu}{a_1Q^*}\right)^{-1} = \frac{a_1Q^*}{a_0 + \nu - a_1Q^*} \\ &= \left(\frac{b_0-a_0 + \eta+\nu}{a_0 + \nu -(b_0-a_0 + \eta+\nu)\frac{N}{N+1}}\right)\frac{N}{N+1} \\ &= \left(\frac{b_0-a_0 + \eta+\nu}{(2a_0 - b_0 - \eta)N + a_0 + \nu}\right)N \\
+      H &= \sum_{i=1}^N\left(\frac{q^*}{Q^*}\right)^2 = \sum_{i=1}^N\frac{1}{N^2} = \frac{1}{N}
+    \end{align*} 
+    \item[(e)] Equilibrium elasticity is: \[
+      \varepsilon^* = \frac{(b_0 + \eta - 2a_0)N - a_0 - \nu}{(b_0 - a_0 + \eta + \nu)N}
+    \]
+    Thus, we can calculate:\begin{align*}
+      \frac{\pl\varepsilon^*}{\pl F}    &= 0  \\
+      \frac{\pl\varepsilon^*}{\pl \nu}  &= \frac{-(b_0 - a_0 + \eta + \nu)N - [(b_0 + \eta - 2a_0)N - a_0 - \nu]N}{(b_0 - a_0 + \eta + \nu)^2N^2}   \\
+      \frac{\pl\varepsilon^*}{\pl \eta} &= \frac{(b_0 - a_0 + \eta + \nu)N^2- [(b_0 + \eta - 2a_0)N - a_0 - \nu]N}{(b_0 - a_0 + \eta + \nu)^2N^2}
+    \end{align*}
+    \item[(f)]
+    \item[(g)]
+\end{itemize}
+
+\section*{Question 2}
+\begin{itemize}
+    \item[(a)]
+    \item[(b)]
+    \item[(c)]
+    \item[(d)]
+    \item[(e)]
+    \item[(f)]
+\end{itemize}
+
+
+\section*{Question 3}
+\begin{itemize}
+    \item[(a)]
+    \item[(b)]
+    \item[(c)]
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+
+
+
+\end{document}
+
+
+
+
+
+
