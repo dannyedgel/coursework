@@ -3,9 +3,15 @@
 	set 2 for Econ 761
 	
 	Date created:  04 Oct 2021
-	Last modified: 04 Oct 2021
+	Last modified: 05 Oct 2021
 	Author: Danny Edgel
 */
+
+/*
+	Housekeeping
+*/
+clear
+
 
 /*
 	Generate simulated environment
@@ -39,13 +45,14 @@ gen h 	= 0
 */
 
 // Eqm Lerner index for Cournot firms
-gen LernerCN = 
+gen LernerCN = c1*exp(-c0-h)
 
 // Eqm Lerner index for Monopoly
-gen LernerM = {insert formula as function of c0, b0, etc.}
+gen LernerM = c1*exp(-c0-h)
 
 // Herfindahl index for symmetric firms and fixed N
-gen Herf = 1/N
+gen Herf 	= 1/N
+gen lnHerf 	= ln(Herf)
  
 // apply Lerner index based on the conduct of firms in the city
 gen Lerner = collude * LernerM + (1-collude)*LernerCN
@@ -54,3 +61,11 @@ set seed 155133
 replace unif = uniform() - 0.5
 
 gen lnLernerObs = ln(Lerner) + .1*unif
+
+/*
+	Conduct regression analysis 
+*/
+
+// SCP regression
+reg lnLernerObs lnHerf
+test _b[lnHerf] = 1

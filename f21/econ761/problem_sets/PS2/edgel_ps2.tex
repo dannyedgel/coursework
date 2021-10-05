@@ -119,34 +119,77 @@
     \item[(a)] Using the demand function, (1), we can solve: \[
     \frac{dQ}{dP}\frac{P}{Q} = -\frac{1}{a_1}\frac{a_0 - a_1Q + \nu}{Q} = 1 - \frac{a_0 + \nu}{a_1Q}
     \] 
+    Thus, elasticity is increasing in $Q$ and decreasing in $\nu$.
     \item[(b)] A Cournot equilibrium with homogenous firms is characterized by:\[
       \frac{dC}{dq} - \frac{Q}{N}\frac{dP}{dQ} = P
     \]
     Solving for $Q^*$ and $P^*$ with a fixed $N$ and $F$ yields:\[
-      Q^* = \frac{b_0-a_0 + \eta+\nu}{2b_1-\left(\frac{1}{N}+1\right)a_1},\quad\quad 
-      P^* = a_0 - \frac{b_0 - a_0 + \eta + \nu}{2\frac{b_1}{a_1} - 1/N - 1} + \nu
+      Q^* = \left(\frac{a_0-b_0+\nu-\eta}{2(a_1-b_1)}\right)N,\quad\quad 
+      P^* = a_0 - \left(\frac{a_0-b_0+\nu-\eta}{2(a_1-b_1)}\right)a_1N + \nu
     \]
-    Letting $b_1=0$,\[
-      Q^* = \left[\frac{b_0-a_0 + \eta+\nu}{(N+1)a_1}\right]N,\quad\quad 
-      P^* = a_0 + \left[\frac{b_0 - a_0 + \eta + \nu}{1+N}\right]N + \nu
+    \item[(c)] If firms enter until it is no longer profitable, then we can determine the equilibrium number of firms, $N^*$, by setting profit, given $P^*$ and $Q^*$, equal to zero: \begin{align*} 
+      P^*(Q^*/N) &= F  + (b_0 + b_1Q^* + \eta)(Q^*/N) \\
+      N^* &= \frac{2(a_1-b_1)}{a_1 + b_1} - \frac{4F(a_1-b_1)^2}{(a_0-b_0+\nu-\eta)^2(a_1-b_1)}
+    \end{align*}
+    Letting $b_1=0$, the equilibrium value for N reduces to:\[
+      N^* = 2-\frac{4Fa_1}{a_0-b_0+\nu-\eta}
     \]
-    \item[(c)] N/A %If firms enter until it is no longer profitable, then we can determine the equilibrium number of firms, $N^*$, by setting profit, given $P^*$ and $Q^*$, equal to zero: \begin{align*} 
-    %  P^*Q^* &= F  + (b_0 + b_1Q^* + \eta)Q^*
-    %\end{align*}
-    \item[(d)] Using the values calculated above, we can calculate the Lerner index, $L_I$, and Herfindahl index, $H$, as follows: \begin{align*}
-      L_I &=  -1/\varepsilon = -\left(1 - \frac{a_0 + \nu}{a_1Q^*}\right)^{-1} = \frac{a_1Q^*}{a_0 + \nu - a_1Q^*} \\ &= \left(\frac{b_0-a_0 + \eta+\nu}{a_0 + \nu -(b_0-a_0 + \eta+\nu)\frac{N}{N+1}}\right)\frac{N}{N+1} \\ &= \left(\frac{b_0-a_0 + \eta+\nu}{(2a_0 - b_0 - \eta)N + a_0 + \nu}\right)N \\
+    \item[(d)] Using the values calculated above, we can calculate the Lerner index, $L_I$, and Herfindahl index, $H$, as follows (letting ${b_1=0}$ in the final step): \begin{align*}
+      L_I &=  -1/\varepsilon = -\left(1 - \frac{a_0 + \nu}{a_1Q^*}\right)^{-1} = \frac{a_1Q^*}{a_0 + \nu - a_1Q^*} \\ &= \frac{\left(\frac{a_0 -b_0 + \nu - \eta}{2(a_1-b_1)}\right)a_1N}{a_0 + \nu - \left(\frac{a_0 -b_0 + \nu - \eta}{2(a_1-b_1)}\right)a_1N} \\ &= \frac{(a_0-b_0+\nu-\eta)N}{2(a_0+\nu)-(a_0-b_0+\nu-\eta)N} \\
       H &= \sum_{i=1}^N\left(\frac{q^*}{Q^*}\right)^2 = \sum_{i=1}^N\frac{1}{N^2} = \frac{1}{N}
     \end{align*} 
-    \item[(e)] Equilibrium elasticity is: \[
-      \varepsilon^* = \frac{(b_0 + \eta - 2a_0)N - a_0 - \nu}{(b_0 - a_0 + \eta + \nu)N}
+    \item[(e)] Equilibrium elasticity (letting ${b_1=0}$ in the final step) is: \[
+      \varepsilon^* = 1-\frac{2(a_0+\nu)(a_1-b_1)}{(a_0-b_0+\nu-\eta)a_1N}
+      = 1 - \frac{2(a_0+\nu)}{(a_0-b_0+\nu-\eta)N}
     \]
     Thus, we can calculate:\begin{align*}
-      \frac{\pl\varepsilon^*}{\pl F}    &= 0  \\
-      \frac{\pl\varepsilon^*}{\pl \nu}  &= \frac{-(b_0 - a_0 + \eta + \nu)N - [(b_0 + \eta - 2a_0)N - a_0 - \nu]N}{(b_0 - a_0 + \eta + \nu)^2N^2}   \\
-      \frac{\pl\varepsilon^*}{\pl \eta} &= \frac{(b_0 - a_0 + \eta + \nu)N^2- [(b_0 + \eta - 2a_0)N - a_0 - \nu]N}{(b_0 - a_0 + \eta + \nu)^2N^2}
+      \frac{\pl\varepsilon^*}{\pl F}    &= 0                                        \\
+      \frac{\pl\varepsilon^*}{\pl \nu}  &= \frac{2(b_0+\eta)}{(a_0-b_0+\nu-\eta)^2N} \\
+      \frac{\pl\varepsilon^*}{\pl \eta} &= \frac{2(a_0+\nu)}{(a_0-b_0+\nu-\eta)^2N} 
     \end{align*}
-    \item[(f)]
-    \item[(g)]
+    Using the equations from (d), we can calculate $\loge{L_1}$ and $\loge{H}$:\begin{align*}
+      \loge{L_1}  &= \loge{a_0-b_0+\nu-\eta} + \loge{N} - \loge{2(a_0+\nu)-(a_0-b_0+\nu-\eta)N} \\
+      \loge{H}    &= -\loge{N}
+    \end{align*}
+    Thus, neither index changes with $F$, and $\loge{H}$ does not change with any variable other than $N$.
+    \item[(f)] If firms collude and split the profits, the new equilibrium will be determined by: \[
+      \usmax{Q}(a_0-a_1Q+\nu)Q - F - (b_0-b_1Q + \nu)Q
+    \]
+    Which results in the following equilibrium price and quantity:\[
+      Q^* = \frac{b_0-a_0}{2(b_1-a_1)},\quad P^* = a_0 - \left(\frac{b_0-a_0}{b_1-a_1}\right)\frac{a_1}{2} + \nu
+    \]
+    Assuming that the colluding firms split profit equally, we can determine the endogenous number of firms in equilibrium as follows:\begin{align*}
+      0 &= \pi(Q^*/N,P^*)                                    \\
+      FN^2 &= (a_0 - b_0 + \nu - \eta)QN - a_1Q^2N + b_1Q^2 \\
+      N^* &= \frac{a_1Q^2-(a_0-b_0+\nu-\eta)Q\pm\sqrt{[-a_1Q^2+(a_0-b_0+\nu-\eta)Q]^2+4Fb_1Q^2}}{-2F}
+    \end{align*}
+    Letting ${b_1=0}$, this problem simplifies nicely, with $N^*=0$ as one solution and, for the other:\[
+      N^* = \frac{a_0 - b_0 + \nu - \eta - a_1Q^2}{F} 
+          = \frac{a_0 - b_0 + \nu - \eta}{F} - \frac{(b_0-a_0)^2}{4Fa_1}
+    \]
+    \item[(g)] The elasticity of (3) is solved as follows: \begin{align*}
+      P &= e^{c_0 + \xi}Q^{-c_1}  \\
+      \frac{dQ}{dP} &= -\frac{1}{c_1}\left[e^{c_0 + \xi}Q^{-c_1}\right]^{\frac{-1}{c_1}-1}e^{\frac{c_0+\xi}{c_1}} = -\frac{1}{c_1}Q^{1+c_1} \\
+      \frac{P}{Q} &= e^{c_0 + \xi}Q^{c_1-1}     \\
+      \varepsilon &= \frac{dQ}{dP}\frac{P}{Q} = -\frac{1}{c_1}e^{c_0 + \xi}
+    \end{align*}
+    This does not change with $Q$ or $\xi$. Using the same Cournot equilibrium formula from (a), we can solve for the equilbrium under (3):\begin{align*}
+      \frac{dc}{dq} - \frac{Q}{N}\frac{dQ}{dP} &= P \\
+      \frac{c_1}{N} + \frac{Q}{e^{c_0 + \xi}}\left(b_0+\eta-2b_1\frac{Q}{N}\right) &= 1
+    \end{align*}
+    Again letting ${b_1=0}$, we can solve:\[
+      Q^* = e^{\frac{c_0-\xi}{c_1}}\left(\frac{N-c_1}{N(b_0+\eta)}\right)^\frac{1}{c_1}, \quad\quad 
+      P^* = \frac{N(b_0+\eta)}{N-c_1}
+    \]
+    The Lerner index, $L_I$, and Herfindahl index, $H$, for this system are:\begin{align*}
+      &L_I = -1/\varepsilon = c_1e^{-c_0-\xi}, &H = 1/N
+    \end{align*}
+    Equilibrium elasticity does not depend on $F$ or $\eta$, but is is decreasing in $\xi$:\[
+      \frac{\pl\varepsilon^*}{\pl\xi} = -\frac{1}{c_1}e^{c_0 + \xi}
+    \]
+    The Herfindahl index (and its log) are not changing in $F$, $\eta$, or $\xi$, as it is only changing in $N$. However, the log of the Lerner index is decreasing in $\xi$:\[
+      \loge{L_I} = c_1 - c_0 - \xi,\quad \frac{\pl\loge{L_I}}{\pl\xi} = -1
+    \]
 \end{itemize}
 
 \section*{Question 2}
