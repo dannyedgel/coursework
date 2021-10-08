@@ -3,7 +3,7 @@
 	set 2 for Econ 761
 	
 	Date created:  04 Oct 2021
-	Last modified: 06 Oct 2021
+	Last modified: 08 Oct 2021
 	Author: Danny Edgel
 */
 
@@ -13,130 +13,115 @@
 
 clear
 capture file close table1
+capture file close table2
 
 
-// initialize output table
+// initialize output tables
 file open table1 using table1.tex, write replace
 file write table1	///
 	"\begin{tabular}{r|ccccc}" _newline											///
-	_tab " & $\beta_{\loge{H}}$ & se$\left(\beta_{\loge{H}}\right)$"			///
-			"& F-score, $\beta_{\loge{H}}=1$ & "								///
-			"Pr$\left(\beta_{\loge{H}} = 1\right)$ & N \\\hline"
+	_tab "& & & \multicolumn{2}{c}{Test: $\beta_{\loge{H}}=1$} & \\" _newline	///
+	_tab " & $\beta_{\loge{H}}$ & se$\left(\beta_{\loge{H}}\right)$" _newline	///
+			"& \textit{F}-score  & \textit{p}-score & N \\\hline"	 _newline
+			
+file open table2 using table2.tex, write replace
+file write table2	///
+	"\begin{tabular}{r|cc}"	_newline											///
+	_tab "& $\nu\sim U[-1,1]$ & $\eta\sim U[-1,1]$	\\\hline && \\" _newline
 
+
+//______________________________________________________________________________
+
+/*
+	Question 2
+*/
+do ps2_q2.do
+
+//______________________________________________________________________________
+
+/*
+	Question 3
+*/
 
 /*
 	Generate simulated environment
 */
+clear
 set obs 1000				// number of cities
-
-
-// assign city characteristics at random
-
-set seed 543186
-gen unif = uniform()
-
-
-gen N = int(unif*10+1)	// number of firms in the city
-
-// in 500 cities (the first 500, say), firms can collude perfectly when N<=8
-gen collude = (_n <= 500 & N <= 8)
-
 
 // set parameters
 gen F 	= 1
-gen c0 	= 1
-gen c1 	= .9
 gen b0 	= 1
 gen b1 	= 0
-gen z 	= 0
-gen xi 	= 0
-gen a0 	= 3
+gen a0 	= 5
 gen a1 	= 1
-gen nu	= 0
-gen eta = 0
+
+// initialize endogenous variables 
+foreach var in N Lerner Herf lnHerf lnLernerObs Q{
+    g `var' = .
+}
 
 
+set seed 155133
+g unif = uniform() - 0.5
 
-// run twice; first with equation 3, then with equation 1
-foreach eqn in 3 1{
-	
-	// print sample description
-	file write table1 	///
-		_newline _tab "&&&&& \\ \textit{Equation (`eqn')} & & & & & \\"
-	
+// loop through scenarios for (a) and (b)
+forval i = 1/2{
+    
+	if (`i' == 1){
+		set seed 24531
+		gen nu	= runiform(-1, 1)
+		gen eta = 0
+	}
+	else{
+	    set seed 781385
+	    replace nu 	= 0
+		replace eta = runiform(-1, 1)
+	}
+
 	/*
-		Calculate relevant indexes
+		Calculate relevant endogenous variables
 	*/
 	
-	if (`eqn' == 3){
-		// Eqm Lerner index for Cournot firms
-		gen LernerCN`eqn' = c1*exp(-c0-xi)
+	replace N 			= sqrt((1/4) + (((a0 - b0 + nu - eta)^2)/(F*a1))) 
+	replace Q 			= (1/a1)*(a0 - b0 + nu - eta)*N*(N + 1)
+	replace Lerner		= -(a1*Q)/((a0 + nu - a1*Q)*N)
+	replace Herf		= 1 / N 
+	replace lnHerf 		= ln(Herf)
+	replace lnLernerObs = ln(Lerner) + .1*unif
 
-		// Eqm Lerner index for Monopoly
-		gen LernerM`eqn' = c1*exp(-c0-xi)
-	}
-	if (`eqn' == 1){
-		// Eqm Lerner index for Cournot firms
-		gen LernerCN`eqn' = ((a0-b0+nu-eta)*N)/(2*(a0+nu) - (a0-b0+nu-eta)*N)
+	/*
+		Conduct SCP regression and save results
+	*/
 
-		// Eqm Lerner index for Monopoly
-		gen LernerM`eqn' = (a0 - b0) / (a0 + b0 + 2*nu)
-	}
+	reg lnLernerObs lnHerf
 	
-	// Herfindahl index for symmetric firms and fixed N
-	gen Herf`eqn' 	= 1/N
-	gen lnHerf`eqn' = ln(Herf`eqn')
-	 
-	// apply Lerner index based on the conduct of firms in the city
-	gen Lerner`eqn' = collude * LernerM`eqn' + (1-collude)*LernerCN`eqn'
-	 
-	set seed 155133
-	replace unif = uniform() - 0.5
+	// save regression output
+	loc N`i' = e(N)
+	loc b`i' : di %4.3f _b[lnHerf]
+	loc seb`i' : di %5.4f _se[lnHerf]
+	loc a`i' : di %4.3f _b[_cons]
+	loc sea`i' : di %5.4f _se[_cons]
+	loc R`i' : di %4.3f e(r2)
 
-	gen lnLernerObs`eqn' = ln(Lerner`eqn') + .1*unif
-	
-	// generate list of sample descriptions
-	loc samp_descs Cournot Collusion Pooled
-	
-	// run analysis both pooled and separate
-	forval pooled = 0/2{
-		
-		// save sample description
-		loc samp `: word `=`pooled'+1' of `samp_descs''
+}
 
-		//set trace on
-		/*
-			Conduct regression analysis 
-		*/
+/*
+	Print output to table2.tex
+*/ 
 
-		// SCP regression
-		if (`pooled' == 2){
-			reg lnLernerObs`eqn' lnHerf`eqn'
-			loc N = e(N)
-		}
-		else{
-			reg lnLernerObs`eqn' lnHerf`eqn' if collude == `pooled'
-			loc N = e(N)
-		}
-		
-		
-		
-		loc beta : 	di %4.3f _b[lnHerf`eqn']
-		loc se : 	di %4.3f _se[lnHerf`eqn']
-		
-		test _b[lnHerf`eqn'] = 1
-		
-		loc F : di %7.0fc r(F)
-		loc p : di %4.3f r(p)
-		
-		file write table1 	///
-			_newline _tab "`samp' & `beta' & `se' & `F' & `p' & `N' \\"
+file write table2	///
+	_tab "$\alpha$ 	& `a1' 		& `a2' 		\\"	_newline 	///
+	_tab "			& (`sea1')	& (`sea2')	\\"	_newline 	///
+	_tab "&&								\\"	_newline 	///
+	_tab "$\beta$ 	& `b1' 		& `b2' 		\\"	_newline 	///
+	_tab "			& (`seb1')	& (`seb2')	\\"	_newline 	///
+	_tab "&& 								\\"	_newline 	///
+	_tab "$ R^2$	& `R1'		& `R2'		\\" _newline	///
+	_tab "N 		& `N1'		& `N2'		\\" _newline	///
+	_tab "&& \\\hline"							_newline 	///
+	"\end{tabular}"
 
-	} // pool loop
-	
-}	// eqn loop
+file close table2 
 
-
-// finish and close LaTeX table
-file write table1 _newline "\end{tabular}"
-file close table1
+//______________________________________________________________________________
