@@ -1,0 +1,309 @@
+%%% Econ710: Econometrics
+%%% Spring 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Tuesday, March 9th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{color}
+\usepackage{courier}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[shortlabels]{enumitem}
+\usepackage{boondox-cal}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\olz}[1]{\overline{Z}_{#1}}
+%\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\est}[1]{\frac{1}{\uppercase{#1}}\sum_{\lowercase{#1}=1}^{\uppercase{#1}}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}^{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\vhat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\bcls}{\tilde{\beta}_{CLS}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\vt}{\tilde{\varepsilon}}
+\renewcommand{\Pr}[1]{Pr\left(#1\right)}
+\newcommand{\biv}{\bhat^{IV}}
+\newcommand{\xbar}{\overline{X}}
+\newcommand{\ybar}{\overline{Y}}
+\newcommand{\zbar}{\overline{Z}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\esti}{\frac{1}{T_i-1}\sum_{t=1}^{T_i}}
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\title{	Problem Set \#6 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 710: Economic Statistics and Econometrics II	\\
+			Spring 2021											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Discussed and/or compared answers with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
+ \\
+
+%%%________________________________________________________________%%%
+
+\section*{Question 1}
+
+\begin{enumerate}[(i)]
+	\item The direct representation of the sample average is:
+		\[
+			\mu_0 = \frac{1}{n}\sumn \frac{1}{T_i}\sum_{t=1}^{T_i} Y_{it}
+		\]
+		Since $1_i$ contains $T_i$ elements, ${1_i'1_i=T_i}$, and ${1_i'Y_i=\sum_{t=1}^{T_i}Y_i}$. It is clear, then, that
+		\[
+			\E{\hat{\mu}_{OLS}} = \frac{\sumn 1_i'Y_i}{\sumn1_i'1_i}
+		\]
+	
+	
+	\item We can solve for the variance of $\hat{\mu}_{IV}$ as follows:
+		\[
+			Var(\hat{\mu}_{IV})	= Var\left(\frac{\sumn Z_i'Y_i}{\sumn Z_i'1_i}\right) = \frac{\sumn Z_i'Var(Y_i)Z_i}{\left(\sumn Z_i'1_i\right)^2}	
+		\]
+		Where:
+		\begin{align*}
+						Var(Y_i) 	&= Var(\mu_0 + \alpha_i + \varepsilon_{it}) = Var(\alpha_i) + Var(\varepsilon_{it}) + 2Cov(\alpha_i,\varepsilon_{it})	\\
+			\Rightarrow \Omega_i	&= \sigma^2_\alpha1_i1_i' + \sigma^2I_{T_i}
+		\end{align*}
+	
+	\pagebreak
+	\item To determine how we can show that ${Var(\hat{\mu}_{IV}\geq\left(\sumn 1_i'\Omega_i^{-1}1_i\right)^{-1}}$, we simply need to find that the following inequality holds:
+		\[
+			\left(\sumn Z_i'1_i\right)^2 \leq \left(\sumn Z_i'\Omega_iZ_i\right)\left(\sumn 1_i'\Omega_i^{-1}1_i\right)
+		\]
+		Once this inequality is established, it follows that:
+		{\small \[
+			Var(\hat{\mu}_{IV})	= 		\frac{\sumn Z_i'Var(Y_i)Z_i}{\left(\sumn Z_i'1_i\right)^2}
+								\geq 	\frac{\sumn Z_i'Var(Y_i)Z_i}{\left(\sumn Z_i'\Omega_iZ_i\right)\left(\sumn 1_i'\Omega_i^{-1}1_i\right)}
+								= 		\left(\sumn 1_i'\Omega_i^{-1}1_i\right)^{-1}
+		\] }
+		We can establish the inquality using the Cauchy-Schwarz inequality:
+		\[
+			\left(\sumn Z_i'1_i\right)^2 = 		\left(\sumn Z_i'\Omega^{1/2}\Omega^{-1/2}1_i\right)^2  					
+										 \leq 	\left(\sumn Z_i'\Omega_iZ_i\right)\left(\sumn 1_i'\Omega_i^{-1}1_i\right)
+		\]
+		This variance is achieved by ${\overline{Z}_i=\Omega_i^{-1}1_i}$
+		
+	\item If $T_i=T$ for all $i$ (i.e., the panel is balanced), then the GLS estimator weights by the entries of $\Sigma^{-1}$, where:
+		\[
+			\Sigma^{-1} = \frac{1}{\sigma^2}\left(I_T - \frac{\sigma^2_\alpha T}{\sigma^2 + \sigma^2_T}\frac{1_i1_i'}{T}\right)
+		\]
+		Then, the optimal instrument for GLS is:
+		\[
+			\overline{Z}_i	= \Sigma^{-1}1_i = \frac{1_i}{\sigma^2}\left(1 - \frac{\sigma^2_\alpha T}{\sigma^2 + \sigma^2_T}\right)
+							= \frac{1_i}{\sigma^2 + \sigma^2T}
+		\]
+		This instrument cancels out in the estimator for $\mu_0$, yielding the OLS estimator:
+		\[
+			\hat{\mu}_{GLS} = \frac{\sumn \overline{Z}_i'Y_i}{\sumn\overline{Z}_i'1_i} 
+							= \frac{\sumn \frac{1}{\sigma^2 + \sigma^2_T}1_i'Y_i}{\sumn\frac{1}{\sigma^2 + \sigma^2_T}1_i'1_i} 
+							= \frac{\sumn 1_i'Y_i}{\sumn1_i'1_i} = \hat{\mu}_{OLS}
+		\]
+		Thus, if the panel is balanced, OLS and GLS are identical.
+	
+	
+	\item First, note that:
+		\[
+			\overline{Y} = \frac{1}{T_i}\sum{t=1}^{T_i}\mu_0 + \alpha_i + \varepsilon_{it} = \mu_0 + \alpha_i + \frac{1}{T_i}\sum{t=1}^{T_i}\varepsilon_{it}
+		\]
+		And let $\overline{\varepsilon} = \frac{1}{T_i}\sum{t=1}^{T_i}\varepsilon_{it}$. Then,
+		\begin{align*}
+			\E{\hat{\sigma}_i^2} 	&= \frac{1}{T_i-1}\sum_{t=1}^{T_i}\E{(\mu_0 + \alpha_i + \eps_{it}-\mu_0 - \alpha_i - \overline{\eps})^2}	\\
+									&= \frac{1}{T_i-1}\sum_{t=1}^{T_i}\E{(\eps_{it} - \overline{\eps})^2}										\\
+									&= \frac{1}{T_i-1}\sum_{t=1}^{T_i}\E{(\eps_{it} - \overline{\eps})\eps_{it}}								\\
+									&= \frac{1}{T_i-1}\sum_{t=1}^{T_i}\E{\eps_{it}^2} - \esti\E{\eps_{it}\overline{\eps})}						\\
+									&= \frac{1}{T_i-1}\sum_{t=1}^{T_i}\E{\eps_{it}^2} - \frac{1}{T_i(T_i-1)}\sum_{t=1}^{T_i}\E{\eps_{it}^2}
+										- \frac{1}{T_i(T_i-1)}\sum_{t=1}^{T_i}\sum_{s\neq t}^{T_i}\E{\eps_{it}\eps_{is}}						\\
+									&= \frac{1}{T_i-1}\sum_{t=1}^{T_i}\sigma^2 - \frac{1}{T_i(T_i-1)}\sum_{t=1}^{T_i}\sigma^2					\\
+									&= \sigma^2
+		\end{align*}
+	
+	
+	\item From (v) and letting $\mu=\mu_0$, we can derive,
+		{\small \begin{align*}
+			\E{\hat{\sigma}_{\alpha,i}^2} 	
+					&= \E{\esti(Y_{it}-\mu_0)^2-\hat{\sigma}_i^2} = \esti\E{(Y_{it}-\mu_0)^2}-\sigma_i^2										\\
+					&= \esti \E{Y_{it}^2} - 2\mu_0\E{Y_{it}} + \mu_0^2 - \sigma_i^2 															\\
+					&= \esti \E{(\mu_0 + \alpha_i + \eps_{it})^2} - 2\mu_0^2 + \mu_0^2 - \sigma_i^2 											\\
+					&= \E{(\mu_0 + \alpha_i)^2} - \mu_0^2  - \sigma_i^2  + \esti -2\mu_0\E{\eps_{it}}- 2\E{\alpha_i\eps_{it}}+\E{\eps_{it}^2}	\\
+					&= \mu_0^2 + 2\mu_0\E{\alpha_i} + \E{\alpha_i^2} - \mu_0^2 - \sigma_i^2 + \sigma_i^2										\\
+					&= \sigma_\alpha^2
+		\end{align*} }
+		This shows that $\hat{\sigma}_{\alpha,i}^2$ is an unbiased estimator of $\sigma_\alpha^2$ for each $i$. Then ${\est{n}\hat{\sigma}_{\alpha,i}(\hat{\mu}_{OLS})}$ must be an unbiased estimator of $\sigma_\alpha^2$, as well.
+		
+	\pagebreak
+	\item We can use the fact that FGLS and GLS have the same asymptotic variance to construct a variance estimator for FGLS. The asymptotic variance for GLS is:
+		\[
+			V = \left(\sumn 1_i'\Omega_i^{-1}1_i\right)^{-1} = \left(\sumn\frac{T_i}{T_i\sigma^2_\alpha+\sigma^2}\right)^{-1}
+		\]
+		Then, an estimator for the asymptotic variance for FGLS is:
+		\[
+			\hat{V} = \left(\sumn\frac{T_i}{T_i\hat{\sigma}_\alpha^2+\hat{\sigma}^2}\right)^{-1}
+		\]
+	
+	
+\end{enumerate}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 2}
+
+\begin{enumerate}[(i)]
+	\item The asymptotic bias of the fixed effects estimator can be deduced from the probability limit of $\hat{\beta}_{FE}$:
+		{\small \begin{align*}
+			\hat{\beta}_{FE} &\rightarrow_p \beta_0 + \frac{\E{\sum_{t=1}^T(X_{it}-\olx{i})\eps_{it}}}{\E{\sum_{t=1}^T(X_{it}-\olx{i})^2}}	\\
+			\E{\sum_{t=1}^T(X_{it}-\olx{i})\eps_{it}} 	&= \sum_{t=1}^T\E{X_{it}\eps_{it}}-\E{\olx{i}\eps_{it}} 							\\
+														&= -\sum_{t=1}^T\E{\frac{1}{T}\sum_{s=1}^TX_{is}\eps_{it}}							\\
+														&= -\sum_{t=1}^T\E{X_{it+1}\eps_{it}} = -\sum_{t=1}^T\delta\sigma^2_X				\\
+			\Rightarrow \hat{\beta}_{FE} &\rightarrow_p \beta_0 - \frac{\sum_{t=1}^T\delta\sigma^2_X}{\E{\sum_{t=1}^T(X_{it}-\olx{i})^2}}	
+		\end{align*}}
+		The asymptotic bias of the first differences estimator can be similarly derived:
+		{\small \begin{align*}
+			\hat{\beta}_{FD} 
+				&\rightarrow_p \beta_0 + \frac{\E{\sum_{t=2}^T(X_{it}-X_{it-1})(\eps_{it} - \eps_{it-1})}}{\E{\sum_{t=2}^T(X_{it}-X_{it-1})^2}}	\\
+			\E{\sum_{t=2}^T(X_{it}-X_{it-1})(\eps_{it} - \eps_{it-1})}
+				&= \sum_{t=2}^T\E{X_{it}\eps_{it}} - \E{X_{it}\eps_{it-1}} - \E{X_{it-1}\eps_{it}} + \E{X_{it-1}\eps_{it-1}}					\\
+				&= -\sum_{t=2}^T\E{X_{it}\eps_{it-1}} = -\sum_{t=2}^T \delta\sigma^2_X															\\
+			\Rightarrow \hat{\beta}_{FD} &\rightarrow_p \beta_0 - \frac{\sum_{t=2}^T \delta\sigma^2_X}{\E{\sum_{t=2}^T(X_{it}-X_{it-1})^2}}	
+		\end{align*} }
+		
+	\item Yes; if $T=2$, then the bias of these two estimators is identical.
+	
+	
+\end{enumerate}
+
+
+%%%________________________________________________________________%%%
+
+\section*{Question 3}
+The table below presents the results of the simulations.\footnote{See the attached .do file for the code used to generate this table.} As you can see, the pooled OLS estimator of $\beta_0$ is substantially biased upward. An intuitive but less clearly apparent result is that both the fixed effect estimation of $\beta_0$ is generally efficient but much more efficient for larger $n$ and no autocorrelation. However, the FE estimate is still biased upward in all specifications, though the bias decreases in the FE model for larger $n$ (this is not true for OLS).
+\medskip \\
+The coverage results are more muddled. The confidence intervals are more accurate with heteroskedasticity robust SEs when there is no autocorrelation, but the cluster robust SEs provide more accurate confidence intervals in the presence of autocorrelation. The latter result is consistent with theory, since the autocorrelation only occurs within the groups which get clustered in the cluster robust SEs.
+\begin{center}
+	\input{q3.tex}
+\end{center}
+
+
+
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+

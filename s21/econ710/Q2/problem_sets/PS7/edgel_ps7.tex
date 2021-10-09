@@ -1,0 +1,394 @@
+%%% Econ710: Econometrics
+%%% Spring 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Tuesday, March 23rd, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{color}
+\usepackage{courier}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[shortlabels]{enumitem}
+\usepackage{boondox-cal}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\olz}[1]{\overline{Z}_{#1}}
+%\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\est}[1]{\frac{1}{\lowercase{#1}}\sum_{i=1}^{\lowercase{#1}}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}^{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\vhat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\bcls}{\tilde{\beta}_{CLS}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\vt}{\tilde{\varepsilon}}
+\renewcommand{\Pr}[1]{Pr\left(#1\right)}
+\newcommand{\biv}{\bhat^{IV}}
+\newcommand{\xbar}{\overline{X}}
+\newcommand{\ybar}{\overline{Y}}
+\newcommand{\zbar}{\overline{Z}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\esti}{\frac{1}{T_i-1}\sum_{t=1}^{T_i}}
+\newcommand{\oinv}{\Omega^{-1}}
+\newcommand{\olg}{\overline{g}_n}
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\title{	Problem Set \#7 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 710: Economic Statistics and Econometrics II	\\
+			Spring 2021											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Discussed and/or compared answers with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
+
+% Chapter 13 problems: 13.1, 13.2, 13.3, 13.4, 13.11, 13.13, 13.18, 13.19, 13.28
+% Chapter 17 problem: 17.15
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 13.1}
+We can use the moment condition ${\E{Xe}=0}$ to obtain a consistent estimator for $\beta$, which we can then use to obtain a consistent estimator for $e$, which we can combine with the moment condition ${\E{Z\eta}=0}$ to obtain an estimator for $\gamma$:
+\begin{align*}
+								\E{X(Y-X\beta)}	&=	0																\\
+								\beta\E{X'X}	&= \E{Y}															\\
+							\Rightarrow \bhat 	&= \left(\est{n}X_iX_i'\right)^{-1}\est{n}X_iY_i					\\
+	\E{Z\left((Y-X'\bhat)^2-Z'\gamma\right)}	&= 0																\\
+								\gamma\E{Z'Z}	&= \E{Z(Y-X'\bhat)^2}												\\
+						\Rightarrow\hat{\gamma}	&= \left(\est{n}Z_iZ_i'\right)^{-1}Z_i\left(Y_i-X_i\bhat\right)^2
+\end{align*}
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Exercise 13.2}
+The GMM estimator with weight matrix $W$ is:
+\[
+	\bhat = \left(X'ZWZ'X\right)^{-1}\left(X'ZWZ'Y\right)
+\]
+Thus, letting $W=\left(ZZ'\right)^{-1}$, 
+\[
+	\sqrt{n}\left(\bhat-\beta\right) = \left[\left(\frac{1}{n}X'Z\right)\left(\frac{1}{n}Z'Z\right)^{-1}\left(\frac{1}{n}Z'X\right)\right]^{-1}\left[\left(\frac{1}{n}X'Z\right)\left(\frac{1}{n}Z'Z\right)^{-1}\left(\frac{1}{\sqrt{n}}Z'e\right)\right]	
+\]
+Then, let $M=\E{ZZ'}$ and ${Q=\E{ZX'}}$:
+\begin{align*}
+	\sqrt{n}\left(\bhat-\beta\right)	&\rightarrow_d  \left[Q'M^{-1}Q\right]^{-1}Q'M^{-1}\N\left(0,Ze^2Z'\right) = Q^{-1}\N\left(0,M\sigma^2\right)	\\
+	\sqrt{n}\left(\bhat-\beta\right)	&\rightarrow_d   \N\left(0,\sigma^2(Q'M^{-1}Q)^{-1}\right)	
+\end{align*}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 13.3}
+By the weak law of large numbers and the law of iterated expectation, and by recognizing that, since $\tb$ is consistent, ${\tb-\beta\rightarrow_p0}$:
+\begin{align*}
+	\hat{W} &\rightarrow_p 	\E{ZZ'\tilde{e}^2}^{-1} 			= \E{ZZ'(Y-X'\tb)^2}^{-1}							\\
+			&=				\E{ZZ'(X'\beta + e -X'\tb)^2}^{-1} 	= \E{ZZ'(X'(\beta-\tb) + e )^2}^{-1}				\\
+			&=				\E{ZZ'\left(\E{XX'(\beta-\tb)^2|Z} + \E{2X'(\beta-\tb)e|Z} + \E{e^2|Z}\right)}^{-1}
+			&=				\E{ZZ'e^2}^{-1}
+\end{align*}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 13.4}
+
+\begin{itemize}
+	\item[(a)] 
+		\begin{align*}
+			V_0 &= (Q'\oinv Q)^{-1}Q'\oinv\Omega\oinv Q(Q'\oinv Q)^{-1} = Q^{-1}\Omega(Q')^{-1}Q'\oinv QQ^{-1}\Omega(Q')^{-1} 	\\
+				&= Q^{-1}\Omega(Q')^{-1} = \left(Q'\oinv Q\right)^{-1}
+		\end{align*}
+	
+	\item[(b)] In the process of answering (a), we found that ${B=(Q')^{-1}}$. Simply looking at $V$, we can define:
+		\[
+			A = WQ\left(Q'WQ\right)^{-1}
+		\]
+	
+	\item[(c)]
+		\begin{align*}
+			B'\Omega A	&= Q^{-1}\Omega WQ\left(Q'WQ\right)^{-1} = Q^{-1}\Omega WQQ^{-1}W^{-1}(Q')^{-1} = Q^{-1}\Omega (Q')^{-1}	\\
+						&= B'\Omega B
+		\end{align*}
+		Thus, ${B'\Omega(A-B)=0}$. This also implies ${(A-B)'\Omega B=0}$.
+	
+	\item[(d)] First, note that $A\geq B$, so $A-B$ is positive semi-definite. Then,
+		\begin{align*}
+			V	&= A'\Omega A = [B + (A-B)]'\Omega A = B'\Omega A + (A-B)'\Omega A = B'\Omega B  + [A'\Omega(A-B)]'	\\
+				&= V_0 + [(A-B)'\Omega(B + (A-B))] = V_0 + (A-B)'\Omega(A-B)										\\
+				&\geq V_0
+		\end{align*}
+		
+	
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 13.11}
+The model in question is ${Y=X\beta + e}$, where $X$ and $\beta$ are scalars. The efficient GMM estimator is: 
+\[
+	\bhat_{GMM} = \left(X'Z\oinv Z'X\right)^{-1}\left(X'Z\oinv Z'Y\right)
+\]
+First, we must obtain a consistent estimator for $\Omega$. To do so, consider the 2SLS estimator for $\beta$. Since $X$ is also an instrument, 2SLS and OLS are the same. Then,
+\[
+	\bhat_{2SLS} = \frac{\sumn x_iy_i}{\sumn x_i^2}
+\]
+So, letting ${\hat{e}_i = y_i - \bhat_{2SLS}x_i}$, we can calculate:
+\[
+	\hat{\Omega} = \est{n}Z_iZ_i'\hat{e}^2_i
+		= 	\begin{pmatrix} \est{n}x_i^2\hat{e}^2_i & \est{n}x_i^3\hat{e}^2_i \\
+							\est{n}x_i^3\hat{e}^2_i & \est{n}x_i^4\hat{e}^2_i 
+			\end{pmatrix} 
+\]
+Then,
+{\small \begin{align*}
+	\bhat_{GMM} \rightarrow_p	&\left(X(X\text{ }X^2)
+								\frac{1}{\E{x_i^3e_i^2}^2-\E{x_i^2e_i^2}\E{x_i^4e_i^2}}
+								\begin{pmatrix} \E{x_i^4e_i^2} & -\E{x_i^3e_i^2} \\ -\E{x_i^3e_i^2} & \E{x_i^2e_i^2} \end{pmatrix}
+								\colvec{2}{X}{X^2}X\right)^{-1}\left(X'Z\oinv Z'Y\right)	\\
+							=	&\left((X^2\text{ }X^3)
+								\frac{1}{\E{x_i^3e_i^2}^2-\E{x_i^2e_i^2}\E{x_i^4e_i^2}}
+								\colvec{2}{X^2\E{x_i^4e_i^2} -X^3\E{x_i^3e_i^2}}{X^3\E{x_i^2e_i^2}-X^2\E{x_i^3e_i^2} }
+								\right)^{-1}\left(X'Z\oinv Z'Y\right)	\\
+							=	&\left(
+								\frac{X^4\E{x_i^4e_i^2} -2X^5\E{x_i^3e_i^2} + X^6\E{x_i^2e_i^2}}
+								{\E{x_i^3e_i^2}^2-\E{x_i^2e_i^2}\E{x_i^4e_i^2}}
+								\right)^{-1}\left(X'Z\oinv Z'Y\right)	\\
+							=	&\left(
+								\frac{\E{x_i^3e_i^2}^2-\E{x_i^2e_i^2}\E{x_i^4e_i^2}}
+								{X^4\E{x_i^4e_i^2} -2X^5\E{x_i^3e_i^2} + X^6\E{x_i^2e_i^2}}
+								\right)\left(\frac{X^3\E{x_i^4e_i^2} -2X^4\E{x_i^3e_i^2} + X^5\E{x_i^2e_i^2}}
+								{\E{x_i^3e_i^2}^2-\E{x_i^2e_i^2}\E{x_i^4e_i^2}}Y\right)	\\
+							=	&\frac{\E{x_i^4e_i^2} -2X\E{x_i^3e_i^2} + X^2\E{x_i^2e_i^2}}
+								{ X\E{x_i^4e_i^2} -2X^3\E{x_i^3e_i^2} + X^4\E{x_i^2e_i^2} }Y	
+\end{align*} }
+This is not, in general, equal to the OLS and 2SLS estimators for $\beta$. 
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Exercise 13.13}
+
+\begin{itemize}
+	\item[(a)] Since $\Omega$ is positive definite and square, we can define some orthonormal $Q$ and diagonal matrix of eigenvalues $\Lambda$ such that ${\Omega=Q'\Lambda Q}$. Then, we can define ${C=Q\Lambda^{-1/2}}$:
+		\[
+			\Omega = Q'\Lambda Q = Q'\Lambda^{1/2}\Lambda^{1/2}Q = [(Q\Lambda^{-1/2})']^{-1}(Q\Lambda^{-1/2})^{-1} = (C')^{-1}C^{-1}
+		\]
+		Thus, ${\oinv=CC'}$
+	
+	
+	\item[(b)] We can demonstrate a simple equality: {\small $$ n\left(C'\olg(\bhat)\right)'\left(C'\hat{\Omega}C\right)^{-1}C'\olg(\bhat) = n\olg(\bhat)'CC^{-1}\hat{\Omega}^{-1}(C')^{-1}C'\olg(\bhat) = n\olg(\bhat)'\hat{\oinv}\olg(\bhat) = J $$}
+	
+	
+	\item[(c)] Letting ${\olg(\bhat)=\frac{1}{n}Z\hat{e}}$, note that:
+		\begin{align*}
+			\hat{e} &= Y-X\bhat = X\beta + e - X\bhat = (\beta-\bhat)X + e 	\\
+					&= e - X\left(X'Z\hat{\oinv}Z'X\right)^{-1}\left(X'Z\hat{\oinv}Z'e\right)
+		\end{align*}
+		Then, 
+		{\small \begin{align*}
+			C'\olg(\bhat)	&= C'\frac{1}{n}Z'e - C'\frac{1}{n}Z'X\left(X'Z\hat{\oinv}Z'X\right)^{-1}\left(X'Z\hat{\oinv}Z'e\right)	\\
+							&= \left(I_\ell - C'\left(\frac{1}{n}Z'X\right)\left(\left(\frac{1}{n}X'Z\right)\hat{\oinv}\left(\frac{1}{n}Z'X\right)\right)^{-1}\left(\frac{1}{n}X'Z\right)\hat{\oinv}(C')^{-1}\right)C'\frac{1}{n}Z'e	\\
+							&= D_nC'\olg(\beta)
+		\end{align*} }
+	
+	\item[(d)] Recall that ${\Omega= (C')^{-1}C^{-1}}$. By the law of large numbers and the continuous mapping theorem, 
+		{\small $$ D_n	\rightarrow I_\ell - C'\E{Z'X}\left(\E{X'Z}CC'\E{Z'X}\right)^{-1}\E{X'Z}CC'(C')^{-1}
+					=I_\ell - R\left(R'R\right)^{-1}R' $$ }
+	
+	
+	\item[(e)] It is apparent that ${I_\ell - R\left(R'R\right)^{-1}R'=0}$, so we are left to demonstrate that the asymptotic variance of $C'\olg(\beta)$ is $I_\ell$. We can begin by noting, by the central limit theorem,
+		\[
+			\frac{1}{\sqrt{n}}Z'e\rightarrow_d\N(0,\Omega)
+		\]
+		Then,
+		\[
+			\frac{1}{\sqrt{n}}C'Z'e \rightarrow_d C'\N\left(0,(C')^{-1}C^{-1}\right) = \N\left(0,C'(C')^{-1}C^{-1}C\right) = \N(0,I_\ell)
+		\]
+	
+	\item[(f)] Note that $I_\ell - R\left(R'R\right)^{-1}R'$ is idempotent. From our equivalences above (and denoting the asymptotic distribution of $C'\olg(\beta)$ as $u$), we can solve:
+		\begin{align*}
+			J 	&= 				n\left(C'\olg(\bhat)\right)'\left(C'\hat{\Omega}C\right)^{-1}C'\olg(\bhat)														\\
+				&= 				\left(\sqrt{n}C'\olg(\beta)\right)'D_n'\left(C'\hat{\Omega}C\right)^{-1}D_n\sqrt{n}C'\olg(\beta)								\\
+				&\rightarrow_d	u'\left(I_\ell - R\left(R'R\right)^{-1}R'\right)'\left(C'(C')^{-1}C^{-1}C\right)\left(I_\ell - R\left(R'R\right)^{-1}R'\right)u	\\
+				&=				u'\left(I_\ell - R\left(R'R\right)^{-1}R'\right)'\left(I_\ell - R\left(R'R\right)^{-1}R'\right)u								\\
+				&=				u'\left(I_\ell - R\left(R'R\right)^{-1}R'\right)u
+		\end{align*}
+	
+	\item[(g)] The asymptotic distribution of $J$ is chi-squared by dint of the fact that $u$ is normally distributed with variance one and ${I_\ell - R\left(R'R\right)^{-1}R'}$ is a projection matrix. We can solve for the degrees of freedom of the distribution using the trace of the projection matrix:
+		\[
+			tr\left(I_\ell - R\left(R'R\right)^{-1}R'\right) = \ell - tr\left(R'R\left(R'R\right)^{-1}\right) = \ell - tr(I_k) = \ell - k
+		\]
+	
+\end{itemize}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 13.18}
+Since $X$ is exogenous, our instrument for this specification is ${Z=(X,Q)'}$. Then OLS and 2SLS are equivalent, so the variance matrix for 2SLS is:
+\[
+	\Omega = \E{Z_iZ_i'e_i^2} = \begin{pmatrix} \E{X_iX_i'e_i^2} & \E{X_iQ_i'e_i^2} \\ \E{X_iQ_i'e_i^2} & \E{Q_iQ_i'e_i^2} \end{pmatrix} 
+\]
+Let $\hat{\Omega}$ be an efficient estimator of $\Omega$. Then, the efficient GMM estimator of $\beta$ is:
+\[
+	\bhat_{GMM} = \left(X'Z\hat{\Omega}^{-1}Z'X\right)^{-1}X'Z\hat{\Omega}^{-1}Z'Y
+\]
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 13.19}
+Our moment function for this estimator is:
+\[
+	g(\mu) = \colvec{2}{Y-\mu}{X}
+\]
+Efficient GMM uses the optimal weight matrix $\Omega^{-1}$, where
+\[
+	\Omega =	\begin{pmatrix}
+				\sigma^2_Y	& \sigma_{XY}	\\
+				\sigma_{XY}	& \sigma^2_X
+			\end{pmatrix}
+\]
+Then the error function is
+\[
+	J(\mu) = \overline{g}(\mu)'\Omega^{-1}\overline{g}(\mu) = \frac{\sigma_X^2(\ybar-\mu)^2-2\sigma_{XY}\xbar(\ybar-\mu) + \sigma_Y^2X^2}{\sigma_X^2\sigma_Y^2-\sigma^2_{XY}}
+\]
+Taking the first-order condition of this function gives us the optimal estimate for $\mu$:
+\begin{align*}
+	J'(\mu)		&= \frac{2\sigma_{XY}\xbar - 2\sigma_X^2(\ybar-\mu)}{\sigma_X^2\sigma_Y^2-\sigma^2_{XY}} = 0	\\
+	\ybar-\mu	&= \frac{\sigma_{XY}\xbar}{\sigma^2_X}															\\
+	\hat{\mu}	&= \ybar - \frac{\sigma_{XY}\xbar}{\sigma^2_X}
+\end{align*}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 13.28}
+
+The table below displays the results of both 2SLS and GMM estimations of the model, with the $J$ statistic for the GMM estimations reported at the bottom of the table.\footnote{See the attached .do file to see how it was generated. That file also includes the code for exercise 17.15.} Whether or not the results change ``meaningfully" depends on what you consider meaningful, I guess. The model fit does not change when approximated to the nearest hundreth, and the coefficient of interest changes only slightly, with no discenable change in standard errors.
+\begin{center}
+	\input{q13_28.tex}
+\end{center}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 17.15}
+The table below displays the output for both (a) and (b). The results differ because $K_t$ is too close to a random walk, as evidenced by the coefficient on $K_{t-1}$ being near 1. Thus, the lagged values of $K$ are too weak for a reliable Arellano-Bond estimate. The weak instrument problem is attenuated by the Blundell-Bond estimator, which explains the difference in estimates.
+\begin{center}
+	\input{q17_15.tex}
+\end{center}
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
