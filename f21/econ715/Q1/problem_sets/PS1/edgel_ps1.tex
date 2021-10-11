@@ -78,7 +78,8 @@
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
 \newcommand{\that}{\hat{\theta}_n}
 \newcommand{\ttilde}{\tilde{\theta}_n}
-\newcommand{\ghat}{\hat{\gamma}}
+\newcommand{\ghat}{\hat{\gamma}_n}
+\newcommand{\gtilde}{\tilde{\gamma}_n}
 
 \newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
 \renewcommand{\exp}[1]{\E\left[#1\right]}
@@ -100,6 +101,22 @@
         \ifnum\colveccount>0
                 \\
                 \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+\newcount\rowveccount
+\newcommand*\rowvec[1]{
+        \global\rowveccount#1
+        \begin{pmatrix}
+        \rowvecnext
+}
+\def\rowvecnext#1{
+        #1
+        \global\advance\rowveccount-1
+        \ifnum\rowveccount>0
+                &
+                \expandafter\rowvecnext
         \else
                 \end{pmatrix}
         \fi
@@ -142,21 +159,43 @@
 \section*{Question 2}
 
 \begin{enumerate}[(a)]
-    \item Letting $\tilde{\theta}$ be some value between $\theta_0$ and $\hat{\theta}$, the mean-value expansion of the first-order condition of the problem, at $\hat{\theta}$, is:\[
-        \frac{\partial\hat{Q}(\that)}{\partial\theta} = \frac{\partial \hat{Q}(\theta_0)}{\partial\theta} + \est{n}\frac{\partial^2g(W_i,\ttilde,\ghat)}{\partial\theta\partial\theta'}(\that - \theta_0)
-    \]
-    Denote ${B_n = \est{n}\frac{\partial^2g(W_i,\ttilde,\ghat)}{\partial\theta\partial\theta'}}$, where: \[
+    \item Letting $\tilde{\theta}$ be some value between $\theta_0$ and $\hat{\theta}$, the mean-value expansion of the first-order condition of the problem, at $\hat{\theta}$, is:\begin{align*}
+        \frac{\partial\hat{Q}(\that)}{\partial\theta} &= \est{n}\frac{\partial g(W_i, \that, \ghat)}{\partial\theta}    \\
+        &= \est{n}\frac{\partial g(W_i, \theta_0, \ghat)}{\partial\theta} + \est{n}\frac{\partial^2g(W_i,\ttilde,\ghat)}{\partial\theta\partial\theta'}(\that - \theta_0)
+    \end{align*}
+    Note that ${\ghat\rightarrow_p\gamma_0}$, and since $\ghat$ was acquired via a sample independent of $\{W_i\}$, ${Cov(\ghat,\that)=0}$. Then: \begin{align*}
+        &\sqrt{n}\frac{\partial \hat{Q}(\theta_0)}{\partial\theta}  = \frac{1}{\sqrt{n}}\sumn\frac{\partial g(W_i, \theta_0, \ghat)}{\partial\theta}\rightarrow_d \N\left(0, \Omega_0\right) \\ &\text{Where }\Omega_0 = \E{\frac{\partial g(W_i,\theta_0,\gamma_0)}{\partial\theta}\frac{\partial g(W_i,\theta_0,\gamma_0)}{\partial\theta'}}
+    \end{align*}
+    Denote ${B_n = \est{n}\frac{\partial^2g(W_i,\ttilde,\ghat)}{\partial\theta\partial\theta'}}$, where, since the conditions for ULLN are satisfied: \[
         B_n\rightarrow_p B_0 = \frac{\partial^2g(W_i,\theta_0,\gamma_0)}{\partial\theta\partial\theta'}
     \]
-    Then: \begin{align*}
-        &\sqrt{n}\frac{\partial \hat{Q}(\theta_0)}{\partial\theta}  = \frac{1}{\sqrt{n}}\frac{\partial g(W_i, \theta_0, \ghat)}{\partial\theta}\rightarrow_d \N\left(0, \Omega_0\right) \\ &\text{Where }\Omega_0 = \E{\frac{\partial g(W_i,\theta_0,\gamma_0)}{\partial\theta}\frac{\partial g(W_i,\theta_0,\gamma_0)}{\partial\theta'}}
+    Thus, \begin{align*}
+        \sqrt{n}\frac{\partial\hat{Q}(\that)}{\partial\theta} &= \sqrt{n}\frac{\partial \hat{Q}(\theta_0)}{\partial\theta} + \est{n}\frac{\partial^2g(W_i,\ttilde,\ghat)}{\partial\theta\partial\theta'}\sqrt{n}(\that - \theta_0) = 0  \\
+        \sqrt{n}(\that - \theta_0) &= -\hat{B}_n^{-1}\sqrt{n}\frac{\partial \hat{Q}(\theta_0)}{\partial\theta} \rightarrow_d \N\left(0,B_0^{-1}\Omega_0B_0^{-1}\right)
     \end{align*}
-    Thus, since the conditions for ULLN are satisfied, {\small \[
-        \sqrt{n}\frac{\partial\hat{Q}(\that)}{\partial\theta} = \sqrt{n}\frac{\partial \hat{Q}(\theta_0)}{\partial\theta} + \est{n}\frac{\partial^2g(W_i,\ttilde,\ghat)}{\partial\theta\partial\theta'}\sqrt{n}(\that - \theta_0)
-        \rightarrow_d \N\left(0,\Omega_0\right)
-    \] }
-    Simplifying, this yields: \[
-        \sqrt{n}(\that - \theta_0) \rightarrow_d \N\left(0, B_0^{-1}\Omega_0B_0^{-1}\right)
+    Where $B_0$ and $\Omega_0$ are known and given above.
+
+    \item First, the additional conditions necessary to derive the asymptotic distribution of ${\sqrt{n}(\that-\theta_0)}$ are the necessary assumptions for ULLN, which are the assumptions given in (f) and (g) for $g$, but instead for $m$. \medskip \\ 
+    Since $\ghat$ and $\that$ were retrieved from the same sample, we can no longer assume that their asymptotic covariance is zero and therefore must account for the asymptotic variance of $\that$ in the asumptotic variance of $\that$. Since $m$ does not depend on $\theta$, we can rewrite $\Sigma_\gamma$ as ${A_0^{-1}\Omega^\gamma_0A_0^{-1}}$, where:\[
+        A_0 = \E{\frac{\partial^2m(W_i,\gamma_0)}{\partial\gamma\partial\gamma'}},\quad\quad 
+        \Omega^\gamma_0 = \E{\frac{\partial m(W_i,\gamma_0)}{\partial\gamma}\frac{\partial m(W_i,\gamma_0)}{\partial\gamma'}}
+    \]
+    Now, the Taylor expansion from (a) becomes:\[
+        \frac{\partial\hat{Q}(\that)}{\partial\theta} = 
+        \est{n}\frac{\partial g(W_i, \theta_0, \gamma_0)}{\partial\theta} + 
+        \est{n}\colvec{2}{\frac{\partial^2g(W_i,\ttilde,\gamma_0)}{\partial\theta\partial\theta'}}{\frac{\partial^2g(W_i,\theta_0,\gtilde)}{\partial\theta\partial\gamma'}}'\colvec{2}{\that - \theta_0}{\ghat-\gamma_0}
+    \]
+    Thus, we can write:\[
+        \sqrt{n}\colvec{2}{\that - \theta_0}{\ghat-\gamma_0}
+            = -C_n^{-1}\frac{1}{\sqrt{n}}\sumn\frac{\partial g(W_i, \theta_0, \gamma_0)}{\partial\theta}
+    \]
+    Where:\[
+        C_n = \est{n}\colvec{2}{\frac{\partial^2g(W_i,\ttilde,\gamma_0)}{\partial\theta\partial\theta'}}{\frac{\partial^2g(W_i,\theta_0,\gtilde)}{\partial\theta\partial\gamma'}}' \rightarrow_p
+        C_0 = \E{\colvec{2}{\frac{\partial^2g(W_i,\theta_0,\gamma_0)}{\partial\theta\partial\theta'}}{\frac{\partial^2g(W_i,\theta_0,\gamma_0)}{\partial\theta\partial\gamma'}}'}
+    \]
+    Then, by the Central Limit Theorem, \[
+        \sqrt{n}\colvec{2}{\that - \theta_0}{\ghat-\gamma_0}\rightarrow_d
+        \N\left(0, C_0^{-1}\colvec{2}{\Omega_0^\theta}{\Omega_0^\gamma}(C_0^{-1})'\right)
     \]
 \end{enumerate}
 

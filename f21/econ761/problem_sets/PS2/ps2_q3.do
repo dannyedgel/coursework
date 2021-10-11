@@ -38,9 +38,9 @@ forval i = 1/2{
 		Calculate relevant endogenous variables
 	*/
 	
-	replace N 			= ((a0 - b0 + nu - eta)/sqrt(F*a1)) - 1
-	replace Q 			= (1/a1)*(a0 - b0 + nu - eta)*(N/(N+1))
-	replace Lerner		= (a0 - b0 + nu - eta)/(a0 + nu + (b0 + eta)*N) 	
+	replace N 			= sqrt((1/4) + (((a0 - b0 + nu - eta)^2)/(F*a1))) 
+	replace Q 			= (1/a1)*(a0 - b0 + nu - eta)*N*(N + 1)
+	replace Lerner		= -(a1*Q)/((a0 + nu - a1*Q)*N)
 	replace Herf		= 1 / N 
 	replace lnHerf 		= ln(Herf)
 	replace lnLernerObs = ln(Lerner) + .1*unif
