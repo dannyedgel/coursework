@@ -44,10 +44,10 @@ foreach eqn in 3 1{
 	
 	if (`eqn' == 3){
 		// Eqm Lerner index for Cournot firms
-		gen LernerCN`eqn' = (c1/N)*exp(-c0-xi)
+		gen LernerCN`eqn' = c1 / N
 
 		// Eqm Lerner index for Monopoly
-		gen LernerM`eqn' = (c1/N)*exp(-c0-xi)
+		gen LernerM`eqn' = c1 / N
 	}
 	if (`eqn' == 1){
 		

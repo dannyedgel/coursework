@@ -120,6 +120,7 @@
     \frac{dQ}{dP}\frac{P}{Q} = -\frac{1}{a_1}\frac{a_0 - a_1Q + \nu}{Q} = 1 - \frac{a_0 + \nu}{a_1Q}
     \] 
     Thus, elasticity is increasing in $Q$ and decreasing in $\nu$.
+
     \item[(b)] In a Cournot equilibrium, each firm solves:\[
       \usmax{q_i}\left(a_0 - a_1\sum{i=1}^Nq_i + \nu\right)q_i - F - (b_0+\eta)q_i
     \]
@@ -145,11 +146,13 @@
     Since $N$ must be positive, this equation yields: \[
       N^* = \frac{a_0 - b_0 + \nu - \eta}{\sqrt{Fa_1}} - 1
     \]
+
     \item[(d)] Using the values calculated above, we can calculate the Lerner index, $L_I$, and Herfindahl index, $H$, as follows (letting ${b_1=0}$ in the final step): \begin{align*} 
       H &= \sum_{i=1}^N\left(\frac{q^*}{Q^*}\right)^2 = \sum_{i=1}^N\frac{1}{N^2} = \frac{1}{N} \\
       L_I &=  -HHI/\varepsilon = -\frac{1}{N}\left(1 - \frac{a_0 + \nu}{a_1Q^*}\right)^{-1} =  -\frac{1}{N}\left(\frac{a_1Q^*}{a_0 + \nu - a_1Q^*}\right) \\ &= \frac{a_0-b_0+\nu-\eta}{(a_0 + \nu)(N+1) - \left(a_0-b_0+\nu-\eta\right)N} \\
       &= \frac{a_0-b_0+\nu-\eta}{a_0 + \nu + (b_0 + \eta)N}
     \end{align*} 
+
     \item[(e)] Equilibrium elasticity is:\[
       \varepsilon^* = -\frac{a_0 + \nu + (b_0 + \eta)N}{(a_0-b_0+\nu-\eta)N}
     \]
@@ -163,6 +166,7 @@
       \loge{L_1}  &= \loge{a_0 + \nu + (b_0 + \eta)N} - \loge{a_0-b_0+\nu-\eta} - \loge{N}
     \end{align*}
     Thus, neither index changes with $F$, and $\loge{H}$ does not change with any variable other than $N$.
+
     \item[(f)] If firms collude and split the profits, the new equilibrium will be determined by: \[
       \usmax{Q}(a_0-a_1Q+\nu)Q - F - (b_0-b_1Q + \nu)Q
     \]
@@ -184,13 +188,11 @@
     While the new Lerner index, $L_I$, under collusion is (letting ${b1=0}$ in the final step):\[
       L_I = \frac{a_1Q^*}{(a_0 + \nu - a_1Q^*)N} = \frac{a_1\frac{b_0-a_0}{2(b_1-a_1)}}{\left(a_0 + \nu - a_1\frac{b_0-a_0}{2(b_1-a_1)}\right)N} = \frac{a_0- b_0}{(a_0 + b_0 + 2\nu)N}
     \]
+
     \item[(g)] The elasticity of (3) is solved as follows: \begin{align*}
-      P &= e^{c_0 + \xi}Q^{-c_1}  \\
-      \frac{dQ}{dP} &= -\frac{1}{c_1}\left[e^{c_0 + \xi}Q^{-c_1}\right]^{\frac{-1}{c_1}-1}e^{\frac{c_0+\xi}{c_1}} = -\frac{1}{c_1}Q^{1+c_1} \\
-      \frac{P}{Q} &= e^{c_0 + \xi}Q^{c_1-1}     \\
-      \varepsilon &= \frac{dQ}{dP}\frac{P}{Q} = -\frac{1}{c_1}e^{c_0 + \xi}
+      \varepsilon &= \frac{d\loge{Q}}{d\loge{P}}= -\frac{1}{c_1}
     \end{align*}
-    This does not change with $Q$ and is decreasing in $\xi$. Using the same Cournot equilibrium formula from (a), we can solve for the equilbrium under (3):\begin{align*}
+    This does not change with $Q$ or $\xi$. Using the same Cournot equilibrium formula from (a), we can solve for the equilbrium under (3):\begin{align*}
       \frac{dc}{dq} - \frac{Q}{N}\frac{dQ}{dP} &= P \\
       \frac{c_1}{N} + \frac{Q}{e^{c_0 + \xi}}\left(b_0+\eta-2b_1\frac{Q}{N}\right) &= 1
     \end{align*}
@@ -199,15 +201,11 @@
       P^* = \frac{N(b_0+\eta)}{N-c_1}
     \]
     The Lerner index, $L_I$, and Herfindahl index, $H$, for this system are:\begin{align*}
-      &H = 1/N, &L_I = -H/\varepsilon = \frac{c_1}{N}e^{-c_0-\xi}
+      &H = 1/N, &L_I = -H/\varepsilon = \frac{c_1}{N}
     \end{align*}
-    Equilibrium elasticity does not depend on $F$ or $\eta$, but is is decreasing in $\xi$:\[
-      \frac{\pl\varepsilon^*}{\pl\xi} = -\frac{1}{c_1}e^{c_0 + \xi}
-    \]
-    The Herfindahl index (and its log) are not changing in $F$, $\eta$, or $\xi$, as it is only changing in $N$. However, the log of the Lerner index is decreasing in $\xi$:\[
-      \loge{L_I} = c_1 - c_0 - \xi,\quad \frac{\pl\loge{L_I}}{\pl\xi} = -1
-    \]
+    Equilibrium elasticity does not depend on $F$, $\eta$, or $\xi$. The Herfindahl index (and its log) are not changing in $F$, $\eta$, or $\xi$, as it is only changing in $N$. 
 \end{itemize}
+
 \pagebreak 
 \section*{Question 2}
 The table below displays the results from the requested analyses.
@@ -219,7 +217,7 @@ Before interpreting the coefficients, I will first display the significance of $
   \loge{-H/\varepsilon} &= \alpha + \beta\loge{H} + e \\
   \loge{-1/\varepsilon} &= \alpha + (\beta-1)\loge{H} + e 
 \end{align*}
-Thus, ${\beta=1}$ is interpratively equivalent to a null result for a regression of markups on the Herfindahl index.
+Thus, ${\beta=1}$ is interpratively equivalent to a null result for a regression of markups on the Herfindahl index. \textbf{Note: The below was written when I had different (erroneous) results, which were due to an algebraic error. This is still the interpretation I would have for results that I think I am supposed to get. I do not understand why I get the results that I do, and I do not have any meaningful interpretation for them. The same is true for problem 3.}
 
 Using equation (3), we reject the hypothesis that ${\beta=1}$ in the collusion subsample, but we cannot reject this hypothesis in the Cournot or pooled samples. Thus, the results imply that markups are invariant in competition for Cournot and the pooled sample, but vary positively with competition in the collusion subsample. This is intuitive, since adding a firm to the market in the collusion scenario does not change aggregate profits, but each firm produces less, increasing firm-level profit margins. The results from the Cournot subsample are intuitive, since (3) is a constant elasticity demand function, so markups do not vary with $N$ (or, as a result, with $H$).
 
