@@ -1,0 +1,314 @@
+%%% Econ710: Econometrics
+%%% Spring 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Tuesday, March 30th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{color}
+\usepackage{courier}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[shortlabels]{enumitem}
+\usepackage{boondox-cal}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\olz}[1]{\overline{Z}_{#1}}
+%\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\est}[1]{\frac{1}{\lowercase{#1}}\sum_{i=1}^{\lowercase{#1}}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}^{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\ehat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\bcls}{\tilde{\beta}_{CLS}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\vt}{\tilde{\varepsilon}}
+\renewcommand{\Pr}[1]{Pr\left(#1\right)}
+\newcommand{\biv}{\bhat^{IV}}
+\newcommand{\xbar}{\overline{X}}
+\newcommand{\ybar}{\overline{Y}}
+\newcommand{\zbar}{\overline{Z}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\esti}{\frac{1}{T_i-1}\sum_{t=1}^{T_i}}
+\newcommand{\oinv}{\Omega^{-1}}
+\newcommand{\olg}{\overline{g}_n}
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\title{	Problem Set \#8 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 710: Economic Statistics and Econometrics II	\\
+			Spring 2021											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Discussed and/or compared answers with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
+
+%Chapter 18 (Diff in Diff):
+%Exercises 18.2, 18.4, 18.5
+
+%Chapter 17 from Introduction to Econometrics (Density Estimation):
+%Exercises 17.1, 17.3, 17.4
+
+%Chapter 19 (Nonparametric Regression):
+%19.3, 19.4, 19.9, 19.11
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 18.2}
+\begin{enumerate}[(a)]
+
+	\item Since there are four observations with four possible outcomes, each outcome is determined in this model. Let $i$ and $t$ each take on values of 0 and 1, with ${State_1=1}$ and ${Time_1=1}$. Then we can remove time and state fixed effects from the model by taking averages across the state variable:
+		\[
+			Y_{it}-\ybar_i = \theta(D_{it} - \overline{D}_i) + \eps_{it} - \overline{\varepsilon}_i
+		\]
+		Then this model can be estimated with OLS, where
+		\[
+			\hat{\theta} = \frac{\sum_{i=0}^1\sum_{t=0}^1(Y_{it}-\ybar_i)(D_{it}-\overline{D}_i)}{\sum_{i=0}^1\sum_{t=0}^1(D_{it}-\overline{D}_i)^2}
+		\]
+		
+	\item Recall how our $Time$ and $State$ are defined. The sample has only four observations, with ${\{it\}\in\left\{\{00\},\{10\},\{01\},\{11\}\right\}}$. Then,
+		\[
+			D_{0t} = State_0Time_t = 0Time_t = 0 \text{ }\forall t
+		\]
+		Furthermore,
+		\begin{align*}
+			\sum_{t=0}^1(D_{1t}-\overline{D}_i)^2 	&= \sum_{t=0}^1 \left(State_1Time_t - \frac{1}{2}\sum_{t=0}^1State_1Time_t\right)^2 	\\
+													&= \left(1*0 - \frac{1}{2}\right)^2 + \left(1*1 - \frac{1}{2}\right)^2 = \frac{1}{2}
+		\end{align*}
+		Thus, our estimate for $\hat{\theta}$ simplifies to:
+		\[
+			\hat{\theta} = \frac{(Y_{10}-\ybar_1)\left(-\frac{1}{2}\right) + (Y_{11}-\ybar_1)\left(\frac{1}{2}\right)}{\frac{1}{2}} = Y_{11}-Y_{10}
+		\]
+		
+	\item No. This is a single difference estimator.
+	
+	\item $\hat{\theta}$ would be an appropriate estimator of the treatment effect if there is no omitted variable, such as a time trend, causing a change in $Y_{1t}$ from ${t=0}$ to ${t=1}$.
+		
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 18.4}
+If $N_2$ interaction dummies are included, then no observation will be used as the omitted group in the fixed effects estimation, leading to multicollinearity. The regression will fail because the independent variable matrix will not be invertible. This is also the reason that only $N_1-1$ interaction dummy variables are included in the regression test for equal control effects.
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 18.5}
+
+\begin{enumerate}[(a)]
+	\item The table below displays how the economist would calculate a difference in difference estimate for this data, with her point estimate in bold.
+		\begin{center}
+			\begin{tabular}{r|cc|c}
+						& Wisconsin	& Minnesota & Difference	\\\hline 
+			Before		& 15.23		& 16.42		& -1.19			\\
+			After		& 16.72		& 18.10		& -1.38			\\\hline 
+			Difference 	& 1.49		& 1.68		& \textbf{-0.19}
+			\end{tabular}
+		\end{center}
+		Thus, her point estimate is -0.19.
+	
+	\item Since the economist does not add any fixed effects, her point estimate of the difference-in-difference is the same, and $\beta$ is the value for Minnesota in the ``After" period. Thus, ${\bhat=18.10}$.
+	
+	\item $\alpha+\gamma$ represents the value for Wisconsin in the ``Before" period, while $\alpha$ represents the value for Madison in the before period. Thus, $\gamma$ represents the difference between the two: ${\hat{\gamma}=-1.19}$.
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Exercise 17.1}
+
+$$ \hat{f}(x) = \frac{1}{nh}\sum_{i=1}^n K\left(\frac{x-X_i}{h}\right) $$
+
+\begin{enumerate}[(a)]
+	\item 
+		\begin{align*}
+			\E{X^*}	&= \int x\hat{f}(x)dx = \int\frac{x}{nh}\sum_{i}^nK\left(\frac{x-X_i}{h}\right)dx					\\
+					&= \int\left(\frac{X_i+uh}{n}\right)\sum_{i}^nK(u)du 												\\
+					&= \frac{1}{n}\sum_{i}^nX_i\int K(u)du + \int\left(\frac{1}{n}\right)\sum_{i}^nhuK(u)du		\\
+					&= \olx{n}
+		\end{align*}
+	
+	\item 
+		\begin{align*}
+			Var(X^*)	&= \E{(X^*)^2} - \E{X^*}^2 = \E{(X^*)^2} - \olx{n}^2										\\
+			\E{(X^*)^2}	&= \int\frac{x^2}{nh}\sum_{i}^nK\left(\frac{x-X_i}{h}\right)dx								\\
+						&= \frac{1}{n}\sum_{i}^n\int(X_i+uh)^2K(u)du												\\
+						&= \frac{1}{n}\sum_{i}^nX_i^2 + 2\frac{1}{n}\sum_{i}^nX_ih\int uK(u)du + h^2\int u^2K(u)du	\\
+						&= \frac{1}{n}\sum_{i}^nX_i^2+ h^2															\\
+   \Rightarrow Var(X^*) &= \frac{1}{n}\sum_{i}^nX_i^2 - \olx{n}^2+ h^2	 = \hat{\sigma}^2 + h^2
+		\end{align*}
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 17.3}
+(17.11) provides the following optimal bandwidth equation (and definitions for secondary values):
+\begin{align*}
+	h_0		&= \left(\frac{R_K}{R(f'')}\right)^{1/5}n^{-1/5} 	\\
+	R_K 	&= \int K(u)^2du									\\
+	R(f'') 	&= \int\left(f''(x)\right)^2dx
+\end{align*}
+Uniform density on $[0,1]$ has the pdf $f(x)=1$, which results in ${R(f'')=0}$ and an optimal bandwidth approaching positive infinity. $h_0$ is derived as the bandwidth that optimally trades off the variance gains of having a higher bandwidth against the increased bias of doing so. On a uniform density, there is no bias from increasing bandwidth, so this formula recommends minimizing variance by using the entire range of $X$ as a single bin.
+
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 17.4}
+The bandwidth itself will not change because it is given as a percentile value of the range of $X$. However, the variance of the distribution in the second estimation is a substantially smaller number, so a lower bandwidth will be necessary to obtain an optimal trade-off between variance and bias. Using the same bandwidth for each estimation will lead to a large bias in the estimation that uses millions of dollars.
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 19.3}
+
+The local linear estimator, as implied by its name, estimates the relationship between $X$ and $Y$ as linear at each point. Thus, the local linear estimator of an increasing and convex relationship is biased upward (positive bias), and the local linear estimator of an increaseing and concave relationship is biased downward (negative bias).
+
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 19.4}
+The asymptotic bias of Nadaraya-Watson is $h^2B_{nw}(x)$, where $$ B_{nw}(x) = \frac{1}{2}m''(x) + f(x)^{-1}f'(x)m'(x) $$ Thus, in this case,
+\begin{align*}
+	B_{nw}(x) &= \frac{f'(x)\beta}{f(x)}
+\end{align*}
+Where $f(x)$ is the marginal density of $x$. Since $f(x)>0$ for all $x$, when ${\beta>0}$, this bias is positive when the density function for $x$ is increasing and negative when it is decreasing. When $\beta<0$, the opposite is true. This makes intuitive sense, because when the density function is increasing, most of the observations of $x$ are to the right of a given point, which influences the N-W estimator more.
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 19.9}
+The graphs for the Nadaraya-Watson and local-linear estimators are displayed below. They show some evidence of a non-linear relationship between $I$ and $Q$, but they roughly show a linear relationship between $I$ and $\loge{Q}$.
+\begin{center}
+	\includegraphics[width=0.9\textwidth]{fig19_9a.png}
+	\includegraphics[width=0.9\textwidth]{fig19_9b.png}
+\end{center}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 19.11}
+The graphs for the Nadaraya-Watson and local-linear estimators for the growth rate on its lag are displayed below. They do not inspire confidence in a nonlinear relationship between the two variables. the relationship appears almost perfectly linear toward the middle of $Y_{t-1}$'s distribution, where the confidence intervals are the tightest. The linearity only collapses in values of $Y_{t-1}$ where the estimate is the weakest.
+\begin{center}
+	\includegraphics[width=0.9\textwidth]{fig19_11b.png}
+	\includegraphics[width=0.9\textwidth]{fig19_11c.png}
+\end{center}
+
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+

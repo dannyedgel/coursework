@@ -50,11 +50,9 @@ foreach eqn in 3 1{
 		gen LernerM`eqn' = (c1/N)*exp(-c0-xi)
 	}
 	if (`eqn' == 1){
-	    
-	    gen Q = (1/a1)*(a0 - b0 + nu - eta)*N*(N + 1)
 		
 		// Eqm Lerner index for Cournot firms
-		gen LernerCN`eqn' = -(1/N)*((a1*Q)/(a0 + nu - (a1*Q)))
+		gen LernerCN`eqn' = (a0 - b0 + nu - eta)/(a0 + nu + (b0 + eta)*N)
 
 		// Eqm Lerner index for Monopoly
 		gen LernerM`eqn' = (a0 - b0) / ((a0 + b0 + 2*nu)*N)

@@ -3,7 +3,7 @@
 	set 2 for Econ 761
 	
 	Date created:  04 Oct 2021
-	Last modified: 08 Oct 2021
+	Last modified: 09 Oct 2021
 	Author: Danny Edgel
 */
 
