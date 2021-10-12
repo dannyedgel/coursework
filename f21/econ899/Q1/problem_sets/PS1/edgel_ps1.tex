@@ -109,9 +109,6 @@
 		}
 \maketitle\thispagestyle{empty}
 
-%%%________________________________________________________________%%%
-
-\noindent\textit{Produced in Collaboration with []}
 
 %%%________________________________________________________________%%%
 
@@ -126,18 +123,25 @@
 	\[
 		V(K,Z) = \usmax{K'}\left\{\loge{ZK^\theta + (1-\delta)K - K'} + \beta\E{V(K', Z)|Z}\right\}
 	\]
+	I did not complete the programming exercise in Fortran, but I completed it in Julia, both parallelized and not (see edgel\_ps1.jl, edgel\_growth\_model.jl, edgel\_ps1\_unparrallel.jl, and edgel\_growth\_model\_unparrallel.jl). For the timing comparison, I asked Michell Vald\'{e}z Bobes for his Fortran times. The timing comparisons are provided below, for unparallelized code, code that parallelizes the state space loop, and code that parallelizes the capital state space loop.
+	\begin{center}
+		\begin{tabular}{r|ccc}
+					& Unparallelized	& Parallelized, $Z$	& Parallelized, $K$	\\\hline
+			Julia		& 13.63		& 15.38		& 14.02		\\
+			Fortran 	& 15.35		& 4.71		& \textit{N/A}
+		\end{tabular}
+	\end{center}
 	
 	% Plot the value frunction over K for each state Z. Is it increasing? Is it concave?
-	\item 
+	\item The value function for each state, $Z$, is plotted below. For each state, the value function is clearly both increasing and concave.
 	\begin{center}
 		\includegraphics[scale=.55]{02_Value_Functions.png}
 	\end{center}
 	
 	% Is the decision rule increasing in K and Z? Is saving increasing in K and Z?
-	\item 
+	\item The policy function for each state is displayed below, and the decision rule is clearly increasing in both $K$ and $Z$, as is saving.
 	\begin{center}
 		\includegraphics[scale=.55]{02_Policy_Functions.png}
-		\includegraphics[scale=.55]{02_Policy_Functions_Changes.png}
 	\end{center}
 	
 	% Compare speed savings from parallel computing!
