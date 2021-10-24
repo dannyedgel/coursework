@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1635041856 "c:/Users/edgel/Google Drive/UW-Madison/f21/econ761/problem_sets/PS3/edgel_ps3.tex" "edgel_ps3.pdf" "edgel_ps3" 1635041856
+["pdflatex"] 1635109036 "c:/Users/edgel/Google Drive/UW-Madison/f21/econ761/problem_sets/PS3/edgel_ps3.tex" "edgel_ps3.pdf" "edgel_ps3" 1635109036
   "C:/Users/edgel/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1599080950 10020123 3e2dc77d4efb475be5486f3da0414a90 ""
   "C:/Users/edgel/AppData/Local/MiKTeX/pdftex/config/pdftex.map" 1632700133 83207 ca18a60652535353e116de83df006478 ""
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1233955448 1120 1e8878807317373affa7f7bba4cf2f6a ""
@@ -42,6 +42,7 @@
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1247596667 35752 024fb6c41858982481f6968b5fc26508 ""
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1247596667 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb" 1247596666 32362 bc3f3eec7ab7d65fe700963d4017d32c ""
+  "C:/Users/edgel/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1247596667 32762 7fee39e011c23b3589931effd97b9702 ""
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-pdf.mkii" 1580393758 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/amsfonts.sty" 1358201372 5949 3f3fd50a8cc94c3d4cbf4fc66cd3df1c ""
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/amssymb.sty" 1358201372 13829 94730e64147574077f8ecfea9bb69af4 ""
@@ -70,11 +71,11 @@
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/tex/latex/tools/array.sty" 1580648484 12560 ce3f59ceae9d9a27bfe037d6bf1d903c ""
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/tex/latex/tools/bm.sty" 1580648484 12671 ace2aac118748ea10d1717448ecafbed ""
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1463135581 57049 34128738f682d033422ca125f82e5d62 ""
-  "c:/Users/edgel/Google Drive/UW-Madison/f21/econ761/problem_sets/PS3/edgel_ps3.tex" 1635041853 3369 11636c96da71138bca6c80eeda5112b4 ""
-  "edgel_ps3.aux" 1635041856 34 3985256e7290058c681f74d7a3565a19 "pdflatex"
-  "edgel_ps3.tex" 1635041853 3369 11636c96da71138bca6c80eeda5112b4 ""
-  "table1.tex" 1635041765 186 cc7f292df34e51745132b272ba277382 ""
+  "c:/Users/edgel/Google Drive/UW-Madison/f21/econ761/problem_sets/PS3/edgel_ps3.tex" 1635109026 3423 3f1572e09fee720080f664a42509480a ""
+  "edgel_ps3.aux" 1635109036 34 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "edgel_ps3.tex" 1635109026 3423 3f1572e09fee720080f664a42509480a ""
+  "table1.tex" 1635107710 279 eda57c00f3948ad18325a1c7789ec6cc ""
   (generated)
-  "edgel_ps3.aux"
   "edgel_ps3.log"
   "edgel_ps3.pdf"
+  "edgel_ps3.aux"
