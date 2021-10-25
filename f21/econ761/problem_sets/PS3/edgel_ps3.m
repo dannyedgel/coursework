@@ -49,7 +49,7 @@ est_fe  = ols(S, X, 1);
 est_iv = regressIV(S, X(:, 1), [], Z, 1);
 
 % IV with brand FE
-est_iv_fe = regressIV(S, X(:, 1), X(:, 2:end), Z, 1);
+est_iv_fe = regressIV(S, X(:, 1), X(:, 3:end), Z, 1);
 
 
 % Print results
