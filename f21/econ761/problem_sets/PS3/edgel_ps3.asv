@@ -37,7 +37,7 @@ for i = 1:length(uq_cq)
 end
 
 fbr_id    = floor(id/100000);
-firm_id   = floor(id/1000);
+firm_id   = floor(fbr_id/1000);
 uq_firms  = unique(firm_id);
 yqcity    = id - fbr_id * 100000;
 uq_yqcity = unique(yqcity);
@@ -85,48 +85,38 @@ markups = struct();
 names = {'est_ols', 'est_fe', 'est_iv', 'est_iv_fe'};
 alphas = [est_ols.b(1), est_fe.b(1), est_iv.b(1), est_iv_fe.b(1)];
 
-OmegaStar = zeros(length(fbr_id - firm_id*1000));
+%OmegaStar = zeros(length();
+
+% generate JxJ matrix where each entry =1 if j and k are owned by the same
+% firm and =0 otherwith
+uq_brands  = unique(fbr_id - firm_id*1000);
+uq_fbr     = unique(fbr_id);
+uq_firm_id = unique(firm_id);
+br_id      = fbr_id(i) - firm_id(i)*1000;
+dat        = [floor(uq_fbr/1000), uq_fbr - floor(uq_fbr/1000)*1000];
+
+index = 1:length(uq_brands);
+OmegaStar = getOmegaStar(dat, br_id);
+
+% generate matrices with repeated share vectors for easy computing in-loop
+s_rows = repmat(s_jt, 1, length(s_jt)); s_cols = s_rows';
+p = full(x1(:, 1));
 
 for i = 1:length(alphas)
    markups.(names{i}).alpha = alphas(i);
-   markups.(names{i}).mu = zeros(length(id));
-   mu_ndx = 1; % pointer for current index; update each loop
    
-   for c = 1:length(unique(yqcity))
-       dat = [id(yqcity == uq_yqcity(c)), ...
-           firm_id(yqcity == uq_yqcity(c)), ...
-           fbr_id(yqcity == uq_yqcity(c)), ...
-           full(x1(yqcity == uq_yqcity(c), 1)), ...
-           s_jt(yqcity == uq_yqcity(c))];
-       
-       dat = sortrows(dat, 4); % sort brands by price
-       sbrands = 1:size(dat, 1);
-       
-       for j = 1:length(unique(dat(:, 2)))
-           brands = sbrands(dat(:, 2) == uq_firms(j));
-           
-
-           % for first brand, if second brand isn't adjacent, use isolated
-           % brand markup
-           if brands(1) ~= brands(2) - 1
-               markups.(names{i}).mu(1) = ((1-s_jt)*(-alphas(i))).^(-1);
-           end
-
-           % loop through brands, calculating markups and estimating
-           % multi-product markups where necessary
-           for k = 2:length(brands)
-               if       brands(k) == brands(k-1) + 1; start_k = k - 1;
-               elseif   brands(k) ~= brands(k+1) - 1
-                   markups.(names{i}).mu(k) = ((1-s_jt)*(-alphas(i))).^(-1);
-               end
-
-           end % k loop
-       end % j loop
-   end % c loop
+   % generate a JxJ matrix of cross-price elasticities for current alpha
+   H = (-alphas(i)*(s_rows.*s_cols)).*ones(size(OmegaStar));
+   H = H - diag(diag(H)) + diag(s_jt.*(1-s_jt)*(alphas(i)));
    
-   markups{end + 1} 
-   mc{end + 1}      = full(x1(:, 1)) - markups{end};
-   margins{end + 1} = full(x1(:, 1)) ./ mc{end} - 1;
+   Omega = OmegaStar.*H;
+   
+   % calculate markups according to Lecture 9, slide 23:
+   markups.(names{i}).mu = Omega\s_jt;
+   
+   % back out marginal costs and margins
+   markups.(names{i}).mc        = p - markups.(names{i}).mu;
+   markups.(names{i}).margins   = p ./ markups.(names{i}).mc - 1;
 end
 
 
@@ -145,19 +135,56 @@ table = ['\\begin{tabular}{r|cccc}\n', ...
 
 file = fopen('table2.tex', 'w');
 fprintf(file, table, ...
-    mean(markups{1}), mean(markups{2}), mean(markups{3}), ...
-        mean(markups{4}),  ...
-    var(markups{1}), var(markups{2}), var(markups{3}), var(markups{4}), ...
-    mean(mc{1}), mean(mc{2}), mean(mc{3}), mean(mc{4}),  ...
-    var(mc{1}), var(mc{2}), var(mc{3}), var(mc{4}), ...
-    mean(margins{1}), mean(margins{2}), mean(margins{3}), ...
-        mean(margins{4}),  ...
-    var(margins{1}), var(margins{2}), var(margins{3}), var(margins{4}) ...
+    mean(markups.(names{1}).mu), mean(markups.(names{2}).mu), ...
+        mean(markups.(names{3}).mu), mean(markups.(names{4}).mu),  ...
+    var(markups.(names{1}).mu), var(markups.(names{2}).mu), ...
+        var(markups.(names{3}).mu), var(markups.(names{4}).mu), ...
+    mean(markups.(names{1}).mc), mean(markups.(names{2}).mc), ...
+        mean(markups.(names{3}).mc), mean(markups.(names{4}).mc),  ...
+    var(markups.(names{1}).mc), var(markups.(names{2}).mc), ...
+        var(markups.(names{3}).mc), var(markups.(names{4}).mc), ...    
+    mean(markups.(names{1}).margins), mean(markups.(names{2}).margins), ...
+        mean(markups.(names{3}).margins), ...
+        mean(markups.(names{4}).margins),  ...
+    var(markups.(names{1}).margins), var(markups.(names{2}).margins), ...
+        var(markups.(names{3}).margins), ...
+        var(markups.(names{4}).margins) ...
     );
 fclose(file);
 
 
 %% Simulate post-merger equilibrium
+
+% prepare results struct
+mergeNames = {'PostNabisco', 'GMQuaker'}; mergeType = {[3, 6], [2, 4]};
+mergers.None = markups; mergers.None.OmegaStar = OmegaStar;
+mergers.None.Omega = Omega;
+
+% generate new ownership structures for each merger scenario
+for m = 1:length(mergeNames)
+    mergers.(mergeNames{m}) = markups;
+    
+    % make merger adjustment in ownership matrix
+    dat(dat(:, 1) == mergeType{m}(2), 1) = mergeType{m}(1);
+    OmegaStar = getOmegaStar(dat, br_id);
+
+    % calculate mu and price for each alpha estimate
+    for i = 1:length(alphas)
+       H = (-alphas(i)*(s_rows.*s_cols)).*ones(size(OmegaStar));
+       H = H - diag(diag(H)) + diag(s_jt.*(1-s_jt)*(alphas(i)));
+
+       Omega = OmegaStar.*H;
+
+       % calculate markups according to Lecture 9, slide 23:
+       markups.(names{i}).mu = Omega\s_jt;
+
+       % back out marginal costs and margins
+       markups.(names{i}).mc        = p - markups.(names{i}).mu;
+       markups.(names{i}).margins   = p ./ markups.(names{i}).mc - 1;
+    end
+    
+    mergers.
+end
 
 
 

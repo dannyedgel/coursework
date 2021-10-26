@@ -120,16 +120,22 @@ The table below displays the estimates for the coefficient on price, $\alpha$, f
 \begin{center}
         \input{table1.tex}
 \end{center}
-I follow Berry (1994) in estimating the markup for firm $j$ as \[ 
+I calculate the multi-product Bertrand-Nash markups, $\mu\in\R^{j\times t}$, as\[ 
+        \mu = \Omega^{-1}s
         \mu_j = \frac{s_j}{\pl s_j / \pl\delta_j} = \frac{1}{(1-s_j)\alpha}
 \]
-Where ${\delta_j = x_j\beta - \alpha p_j + \xi_j}$. Thus, by decomposing price into marginal cost and markup, we can also back out firm $j$'s marginal cost, $c_j$, and calculate its margin, $m_j$: \[
+Where ${s}$ is the vector of market shares for each brand in each quarter and city, and \begin{align*}
+        \Omega = \Omega^*\odot H,\quad &H_{ij} = \frac{\pl s_j}{p_j}    \\
+        &\Omega^*_{ij} =  \begin{cases} 1, & i\text{ and }j\text{ are owned by the same firm} \\ 0, &\text{otherwise} \end{cases}
+\end{align*}
+Thus, by decomposing price into marginal cost and markup, we can also back out firm $j$'s marginal cost, $c_j$, and calculate its margin, $m_j$: \[
         c_j = p_j - \mu_j,\quad m_j = \frac{p_j}{c_j} - 1
 \]
 Using each $\hat{\alpha}$ from the table above, the mean, median, and standard deviation of markups, margins, and implied marginal costs under each specification are given in the table below.
 \begin{center}
         \input{table2.tex}
 \end{center}
+With the pre-merger marginal cost and $\alpha$ estimates, we can simulate any merger by simply changing $\Omega^*$ according to the new ownership structure and re-estimating $\mu$, which we can then use to calculate prices.
 
 %%%________________________________________________________________%%%
 
