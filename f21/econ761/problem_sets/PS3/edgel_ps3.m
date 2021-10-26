@@ -36,6 +36,11 @@ for i = 1:length(uq_cq)
     S(new_i, 1) = log(s_jt(old_i)) - log(s_jt(norm_i));
 end
 
+fbr_id    = floor(id/100000);
+firm_id   = floor(id/1000);
+uq_firms  = unique(firm_id);
+yqcity    = id - fbr_id * 100000;
+uq_yqcity = unique(yqcity);
 
 %% Estimate specifications
 
@@ -50,6 +55,7 @@ est_iv = regressIV(S, X(:, 1), [], Z, 1);
 
 % IV with brand FE
 est_iv_fe = regressIV(S, X(:, 1), X(:, 3:end), Z, 1);
+
 
 
 % Print results
@@ -75,12 +81,51 @@ fclose(file);
 
 
 %% Compute markups
-
+markups = struct();
+names = {'est_ols', 'est_fe', 'est_iv', 'est_iv_fe'};
 alphas = [est_ols.b(1), est_fe.b(1), est_iv.b(1), est_iv_fe.b(1)];
-markups = {}; mc = {}; margins = {};
+
+%OmegaStar = zeros(length(unique(fbr_id - firm_id*1000)));
+OmegaStar = zeros(length(id));
 
 for i = 1:length(alphas)
-   markups{end + 1} =  ((1-s_jt)*(-alphas(i))).^(-1);
+   markups.(names{i}).alpha = alphas(i);
+   markups.(names{i}).mu = zeros(length(id));
+   mu_ndx = 1; % pointer for current index; update each loop
+   
+   for c = 1:length(unique(yqcity))
+       dat = [id(yqcity == uq_yqcity(c)), ...
+           firm_id(yqcity == uq_yqcity(c)), ...
+           fbr_id(yqcity == uq_yqcity(c)), ...
+           full(x1(yqcity == uq_yqcity(c), 1)), ...
+           s_jt(yqcity == uq_yqcity(c))];
+       
+       dat = sortrows(dat, 4); % sort brands by price
+       sbrands = 1:size(dat, 1);
+       
+       for j = 1:length(unique(dat(:, 2)))
+           brands = sbrands(dat(:, 2) == uq_firms(j));
+           
+
+           % for first brand, if second brand isn't adjacent, use isolated
+           % brand markup
+           if brands(1) ~= brands(2) - 1
+               markups.(names{i}).mu(1) = ((1-s_jt)*(-alphas(i))).^(-1);
+           end
+
+           % loop through brands, calculating markups and estimating
+           % multi-product markups where necessary
+           for k = 2:length(brands)
+               if       brands(k) == brands(k-1) + 1; start_k = k - 1;
+               elseif   brands(k) ~= brands(k+1) - 1
+                   markups.(names{i}).mu(k) = ((1-s_jt)*(-alphas(i))).^(-1);
+               end
+
+           end % k loop
+       end % j loop
+   end % c loop
+   
+   markups{end + 1} 
    mc{end + 1}      = full(x1(:, 1)) - markups{end};
    margins{end + 1} = full(x1(:, 1)) ./ mc{end} - 1;
 end

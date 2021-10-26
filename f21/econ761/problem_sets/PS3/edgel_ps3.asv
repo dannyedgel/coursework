@@ -21,20 +21,26 @@ addpath('functions')
 norm_id = floor(id(1)/100000);
 new_id  = id((floor(id/100000)~=norm_id));
 cq      = (id - (floor(id/100000)*100000));
+uq_cq   = unique(cq);
 new_cq  = (new_id - (floor(new_id/100000)*100000));
 X = full([x1(floor(id/100000) ~= norm_id, 1), ...
     x1(floor(id/100000) ~= norm_id, 3:end)]);
 Z = iv(floor(id/100000) ~= norm_id, 2:end);
 S = zeros(size(X, 1), 1);
 
-for i = 1:length(unique(cq))
-    new_i   = new_cq == cq(i);
-    old_i   = cq == cq(i) & floor(id/100000) ~= norm_id;
-    norm_i  = cq == cq(i) & floor(id/100000) == norm_id;
+for i = 1:length(uq_cq)
+    new_i   = new_cq == uq_cq(i);
+    old_i   = cq == uq_cq(i) & floor(id/100000) ~= norm_id;
+    norm_i  = cq == uq_cq(i) & floor(id/100000) == norm_id;
     X(new_i, 1) = X(new_i, 1) - x1(norm_i, 1);
     S(new_i, 1) = log(s_jt(old_i)) - log(s_jt(norm_i));
 end
 
+fbr_id    = floor(id/100000);
+firm_id   = floor(id/1000);
+uq_firms  = unique(firm_id);
+yqcity    = id - fbr_id * 100000;
+uq_yqcity = unique(yqcity);
 
 %% Estimate specifications
 
@@ -48,7 +54,8 @@ est_fe  = ols(S, X, 1);
 est_iv = regressIV(S, X(:, 1), [], Z, 1);
 
 % IV with brand FE
-est_iv_fe = regressIV(S, X(:, 1), X(:, 2:end), Z, 1);
+est_iv_fe = regressIV(S, X(:, 1), X(:, 3:end), Z, 1);
+
 
 
 % Print results
@@ -74,12 +81,52 @@ fclose(file);
 
 
 %% Compute markups
-
+markups = struct();
+names = {'est_ols', 'est_fe', 'est_iv', 'est_iv_fe'};
 alphas = [est_ols.b(1), est_fe.b(1), est_iv.b(1), est_iv_fe.b(1)];
-markups = {};
+
+OmegaStar = zeros(length(fbr_id - firm_id*1000));
 
 for i = 1:length(alphas)
-   markups{end + 1} =  ((1-s_jt)*(-alphas(i))).^(-1);
+   markups.(names{i}).alpha = alphas(i);
+   markups.(names{i}).mu = zeros(length(id));
+   mu_ndx = 1; % pointer for current index; update each loop
+   
+   for c = 1:length(unique(yqcity))
+       dat = [id(yqcity == uq_yqcity(c)), ...
+           firm_id(yqcity == uq_yqcity(c)), ...
+           fbr_id(yqcity == uq_yqcity(c)), ...
+           full(x1(yqcity == uq_yqcity(c), 1)), ...
+           s_jt(yqcity == uq_yqcity(c))];
+       
+       dat = sortrows(dat, 4); % sort brands by price
+       sbrands = 1:size(dat, 1);
+       
+       for j = 1:length(unique(dat(:, 2)))
+           brands = sbrands(dat(:, 2) == uq_firms(j));
+           
+
+           % for first brand, if second brand isn't adjacent, use isolated
+           % brand markup
+           if brands(1) ~= brands(2) - 1
+               markups.(names{i}).mu(1) = ((1-s_jt)*(-alphas(i))).^(-1);
+           end
+
+           % loop through brands, calculating markups and estimating
+           % multi-product markups where necessary
+           for k = 2:length(brands)
+               if       brands(k) == brands(k-1) + 1; start_k = k - 1;
+               elseif   brands(k) ~= brands(k+1) - 1
+                   markups.(names{i}).mu(k) = ((1-s_jt)*(-alphas(i))).^(-1);
+               end
+
+           end % k loop
+       end % j loop
+   end % c loop
+   
+   markups{end + 1} 
+   mc{end + 1}      = full(x1(:, 1)) - markups{end};
+   margins{end + 1} = full(x1(:, 1)) ./ mc{end} - 1;
 end
 
 
@@ -88,11 +135,11 @@ table = ['\\begin{tabular}{r|cccc}\n', ...
     ' & (1) & (2) & (3) & (4) \\\\\\hline &&&& \\\\ \n', ...
     '\\E{\\mu_{jt}} & %4.3f & %4.3f  & %4.3f  & %4.3f \\\\ \n', ...
     'Var(\\mu_{jt})& %4.3f & %4.3f & %4.3f & %4.3f \\\\\n &&&&\\\\ \n', ...
-    '\\E{\\_{jt}} & %4.3f & %4.3f  & %4.3f  & %4.3f \\\\ \n', ...
-    'Var(\\mu_{jt})& %4.3f & %4.3f & %4.3f & %4.3f \\\\\n &&&&\\\\ \n', ...
-    '\\E{\\mu_{jt}} & %4.3f & %4.3f  & %4.3f  & %4.3f \\\\ \n', ...
-    'Var(\\mu_{jt})& %4.3f & %4.3f & %4.3f & %4.3f \\\\\n &&&&\\\\ \n', ...
-    '\\hline \n', ...
+    '\\E{c_{jt}} & %4.3f & %4.3f  & %4.3f  & %4.3f \\\\ \n', ...
+    'Var(c_{jt})& %4.3f & %4.3f & %4.3f & %4.3f \\\\\n &&&&\\\\ \n', ...
+    '\\E{m_{jt}} & %4.3f & %4.3f  & %4.3f  & %4.3f \\\\ \n', ...
+    'Var(m_{jt})& %4.3f & %4.3f & %4.3f & %4.3f \\\\\n', ...
+    '&&&&\\\\\\hline \n', ...
     '\\end{tabular}' ...
     ];
 
@@ -100,7 +147,12 @@ file = fopen('table2.tex', 'w');
 fprintf(file, table, ...
     mean(markups{1}), mean(markups{2}), mean(markups{3}), ...
         mean(markups{4}),  ...
-    var(markups{1}), var(markups{2}), var(markups{3}), var(markups{4}) ...
+    var(markups{1}), var(markups{2}), var(markups{3}), var(markups{4}), ...
+    mean(mc{1}), mean(mc{2}), mean(mc{3}), mean(mc{4}),  ...
+    var(mc{1}), var(mc{2}), var(mc{3}), var(mc{4}), ...
+    mean(margins{1}), mean(margins{2}), mean(margins{3}), ...
+        mean(margins{4}),  ...
+    var(margins{1}), var(margins{2}), var(margins{3}), var(margins{4}) ...
     );
 fclose(file);
 
