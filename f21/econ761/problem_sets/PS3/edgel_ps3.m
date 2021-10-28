@@ -3,7 +3,7 @@
     for Econ 761
 
     Date created:  23 Oct 2021
-    Last modified: 24 Oct 2021
+    Last modified: 28 Oct 2021
     Author: Danny Edgel
 %}
 clear; clc
@@ -16,31 +16,38 @@ addpath('functions')
 
 
 %% Prepare data for MNL estimation
-
-% normalize by first brand
+N       = length(id);
 norm_id = floor(id(1)/100000);
-new_id  = id((floor(id/100000)~=norm_id));
 cq      = (id - (floor(id/100000)*100000));
 uq_cq   = unique(cq);
-new_cq  = (new_id - (floor(new_id/100000)*100000));
-X = full([x1(floor(id/100000) ~= norm_id, 1), ...
-    x1(floor(id/100000) ~= norm_id, 3:end)]);
-Z = iv(floor(id/100000) ~= norm_id, 2:end);
-S = zeros(size(X, 1), 1);
-
-for i = 1:length(uq_cq)
-    new_i   = new_cq == uq_cq(i);
-    old_i   = cq == uq_cq(i) & floor(id/100000) ~= norm_id;
-    norm_i  = cq == uq_cq(i) & floor(id/100000) == norm_id;
-    X(new_i, 1) = X(new_i, 1) - x1(norm_i, 1);
-    S(new_i, 1) = log(s_jt(old_i)) - log(s_jt(norm_i));
-end
 
 fbr_id    = floor(id/100000);
 firm_id   = floor(fbr_id/1000);
 uq_firms  = unique(firm_id);
 yqcity    = id - fbr_id * 100000;
 uq_yqcity = unique(yqcity);
+
+uq_brands  = unique(fbr_id - firm_id*1000);
+uq_fbr     = unique(fbr_id);
+uq_firm_id = unique(firm_id);
+br_id      = fbr_id - firm_id*1000;
+
+cid = floor(cq/1000); cdid = ones(length(cid), 1);
+for i = 2:N; if cid(i) ~= cid(i-1); cdid(i) = cdid(i-1)+1; 
+    else; cdid(i) = cdid(i-1); end; end
+
+% normalize by "outside option"--the market share not captured by in-sample
+% firms (note: this code taken from Nevo)
+cdindex = [length(uq_fbr):length(uq_fbr):length(uq_fbr)*length(uq_cq)]';
+temp = cumsum(s_jt);
+sum1 = temp(cdindex,:);
+sum1(2:size(sum1,1),:) = diff(sum1);
+outshr = 1.0 - sum1(cdid,:);
+
+
+X = full(x1);
+Z = [iv, X(:, 2:end)];
+S = log(s_jt) - log(outshr);
 
 %% Estimate specifications
 
@@ -71,10 +78,6 @@ alphas = [est.ols.b(1), est.fe.b(1), est.iv.b(1), est.iv_fe.b(1)];
 
 % generate JxJ matrix where each entry =1 if j and k are owned by the same
 % firm and =0 otherwith
-uq_brands  = unique(fbr_id - firm_id*1000);
-uq_fbr     = unique(fbr_id);
-uq_firm_id = unique(firm_id);
-br_id      = fbr_id - firm_id*1000;
 dat        = [floor(uq_fbr/1000), uq_fbr - floor(uq_fbr/1000)*1000];
 
 index = 1:length(uq_brands);
@@ -150,6 +153,13 @@ end
 printTable3(mergers, names, mergeNames);
 
 %% Estimate mixed logit model
+
+
+
+
+
+
+
 
 
 

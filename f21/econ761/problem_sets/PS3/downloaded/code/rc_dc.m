@@ -9,8 +9,10 @@
 global invA ns x1 x2 s_jt IV vfull dfull theta1 theti thetj cdid cdindex
 
 % load data. see description in readme.txt
-load ps2
-load iv
+load('data/ps2.mat'); load('data/iv.mat')
+addpath('downloaded/code')
+addpath('functions')
+
 IV = [iv(:,2:21) x1(:,2:25)];
 clear iv
 
