@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1635283556 "c:/Users/edgel/Google Drive/UW-Madison/f21/econ761/problem_sets/PS3/edgel_ps3.tex" "edgel_ps3.pdf" "edgel_ps3" 1635283556
+["pdflatex"] 1635435789 "c:/Users/edgel/Google Drive/UW-Madison/f21/econ761/problem_sets/PS3/edgel_ps3.tex" "edgel_ps3.pdf" "edgel_ps3" 1635435790
   "C:/Users/edgel/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1616290502 10020124 08de9b33c40eaa847a830d3d748b2032 ""
   "C:/Users/edgel/AppData/Local/MiKTeX/pdftex/config/pdftex.map" 1634661126 83207 ca18a60652535353e116de83df006478 ""
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1233955448 1120 1e8878807317373affa7f7bba4cf2f6a ""
@@ -76,11 +76,12 @@
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/tex/latex/tools/array.sty" 1580648484 12560 ce3f59ceae9d9a27bfe037d6bf1d903c ""
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/tex/latex/tools/bm.sty" 1580648484 12671 ace2aac118748ea10d1717448ecafbed ""
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1463135581 57049 34128738f682d033422ca125f82e5d62 ""
-  "c:/Users/edgel/Google Drive/UW-Madison/f21/econ761/problem_sets/PS3/edgel_ps3.tex" 1635283554 4493 ceca254d2f405da19b1b2c62014d9143 ""
-  "edgel_ps3.aux" 1635283556 34 3985256e7290058c681f74d7a3565a19 "pdflatex"
-  "edgel_ps3.tex" 1635283554 4493 ceca254d2f405da19b1b2c62014d9143 ""
-  "table1.tex" 1635282298 310 bf6ec1cdc3fd656404ce4c28f8c42bf2 ""
-  "table2.tex" 1635282303 405 b0c5a6974788d74b17479114f84e82b7 ""
+  "c:/Users/edgel/Google Drive/UW-Madison/f21/econ761/problem_sets/PS3/edgel_ps3.tex" 1635435789 6288 e52459eb727d94bbd7332c8321ffbd97 ""
+  "edgel_ps3.aux" 1635435790 105 01dd06dbcc5e09f093b02a9bf6c1a0dd "pdflatex"
+  "edgel_ps3.tex" 1635435789 6288 e52459eb727d94bbd7332c8321ffbd97 ""
+  "table1.tex" 1635434743 312 54756f495ed5e98e1ec156bcb2358062 ""
+  "table2.tex" 1635434747 571 63f7637f2b954b40ee8a4a94abf2017f ""
+  "table3.tex" 1635434920 692 d1b7eadaf58abadcafa5d3847a0b7ac9 ""
   (generated)
   "edgel_ps3.aux"
   "edgel_ps3.pdf"

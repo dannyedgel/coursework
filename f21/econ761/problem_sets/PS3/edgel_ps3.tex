@@ -59,6 +59,8 @@
 \newcommand{\red}[1]{{\color{red}#1}}
 \newcommand{\Tau}{\mathrm{T}}
 \newcommand{\phat}{\hat{p}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
 \newcommand{\qs}{q^*}
 \newcommand{\pl}{\partial}
 
@@ -135,7 +137,22 @@ Using each $\hat{\alpha}$ from the table above, the mean, median, and standard d
 \begin{center}
         \input{table2.tex}
 \end{center}
-With the pre-merger marginal cost and $\alpha$ estimates, we can simulate any merger by simply changing $\Omega^*$ according to the new ownership structure and re-estimating $\mu$, which we can then use to calculate prices.
+With the pre-merger marginal cost and $\alpha$ estimates, we have $J\times C\times T$ equations and as many unknowns for the post-merger equilibrium using the Bertrand-Nash equilibrium conditions. Following Nevo (2000), the new price vector, $p$, solves \[ 
+        p = \hat{mc} + \Omega_{m}^{-1}s(p)
+\]
+Where $\Omega_m$ is the post-merger $\Omega$ matrix. 
+However, the solution does not have a closed form. Instead, we can simulate any merger by:
+\begin{enumerate}
+        \item Changing $\Omega^*$ according to the new ownership structure
+        \item Using the pre-merger price vector, $p_0$, and its associated shares, $s_0$, as an initial guess for the equilibirum
+        \item Updating prices using the equilibrium condition and estimated values $\hat{mc}$ and $\ahat$ with the post-merger ownership matrix, $\Omega^*_{post}$ to calculate ${p_1 = \hat{mc} + \Omega^{-1}s_0}$
+        \item If $||p_1-p_0||$ is greater than some negligible tolerance value, updating shares and $\Omega$ according to $p_1$ and repeating until convergence to $p$'s fixed point
+\end{enumerate}
+The results for post-merger prices and shares are displayed in the table below.
+\begin{center}
+        \input{table3.tex}
+\end{center}
+The problem with this analysis is that we assume that any heterogeneity in consumer preferences and price sensitivity is independent, identically distributed, and orthogonal to utility. These assumptions are dibious and likely result in unrealistic estimations of counter-factuals. We can remedy these issues with a random coefficients model that interacts consumer demographics with prices and product characteristics, which will capture the observable heterogeneity in consumer preferences and price sensitivity.
 
 %%%________________________________________________________________%%%
 

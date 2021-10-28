@@ -114,6 +114,8 @@ OUTPUT edgel_ps3.pdf
 INPUT C:\Users\edgel\AppData\Local\MiKTeX\pdftex\config\pdftex.map
 INPUT table2.tex
 INPUT table2.tex
+INPUT table3.tex
+INPUT table3.tex
 INPUT edgel_ps3.aux
 INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx12.pfb
 INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx12.pfb

@@ -2,10 +2,10 @@ function f=bert_eq(p,expall_i,alpha_i, mc_hat1, own_dum)
 % This function computes the FOC of a Nash-Bertrand equilibrium.
 % When equal to zero the FOC is satisfied.
 % inputs:  	p--price(over which we will preform a search);
-%					expall_i--all the other components of demand, which will not be allowed to vary;
-%					alpha_i --individual price coeff;
-%					mc_hat1 -- marginal costs;
-%					own_dum -- ownership structure
+%			expall_i--all the other components of demand, which will not be allowed to vary;
+%			alpha_i --individual price coeff;
+%			mc_hat1 -- marginal costs;
+%			own_dum -- ownership structure
 
 global ns
 
