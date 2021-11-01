@@ -1,0 +1,292 @@
+disp(horz)
+    mean       sigma      income   income^2    age    child
+disp('  ')
+  
+for i=1:size(theta2w,1)
+     disp(vert(i,:))
+     disp([mcoef(i) theta2w(i,:)])
+     disp([semcoef(i) se2w(i,:)])
+end
+constant  
+   -2.3142    0.3772    3.0888         0    1.1859         0
+
+    0.2456    0.1224    1.0071         0    1.0099         0
+
+price     
+  -32.4299    1.8480   16.5980   -0.6591         0   11.6245
+
+    4.8255    0.9779  104.5450    5.4565         0    5.1367
+
+sugar     
+    0.1174   -0.0025   -0.1928         0    0.0297         0
+
+    0.2456    0.0115    0.0400         0    0.0337         0
+
+mushy     
+    0.2707    0.0810    1.4684         0   -1.5143         0
+
+    0.0121    0.1976    0.6760         0    1.0954         0
+
+
+disp(output)
+       iterations: 1
+        funcCount: 5
+         stepsize: 0.0011
+     lssteplength: 1.2464e-04
+    firstorderopt: 7.8474
+        algorithm: 'quasi-newton'
+          message: '↵Local minimum possible.↵↵fminunc stopped because the size of the current step is less than↵the value of the step size tolerance.↵↵<stopping criteria details>↵↵Optimization stopped because the norm of the current step, 9.975062e-04, is↵less than options.StepTolerance = 1.000000e-02.↵↵'
+
+disp(['GMM objective:  ' num2str(fval)])
+GMM objective:  14.9985
+disp(['MD R-squared:  ' num2str(Rsq)])
+MD R-squared:  0.39526
+disp(['MD weighted R-squared:  ' num2str(Rsq_G)])
+MD weighted R-squared:  0.076858
+disp(['run time (minutes):  ' num2str(comp_t)])
+{Unrecognized function or variable 'comp_t'.
+} 
+edgel_ps3
+Estimates: 
+
+  b1:  -30.036
+   (0.216) 
+
+
+ R-squared: -0.318  
+ adjR-squared: -0.318 
+
+Estimates: 
+
+  b1:  -27.988
+   (0.918) 
+
+  b2:  -2.030
+   (0.116) 
+
+  b3:  0.255
+   (0.142) 
+
+  b4:  -0.283
+   (0.133) 
+
+  b5:  -1.303
+   (0.127) 
+
+  b6:  1.795
+   (0.179) 
+
+  b7:  -0.307
+   (0.145) 
+
+  b8:  -0.276
+   (0.144) 
+
+  b9:  -1.251
+   (0.144) 
+
+  b10:  -0.721
+   (0.149) 
+
+  b11:  -0.245
+   (0.139) 
+
+  b12:  -0.328
+   (0.135) 
+
+  b13:  -2.356
+   (0.128) 
+
+  b14:  0.110
+   (0.152) 
+
+  b15:  -0.330
+   (0.141) 
+
+  b16:  0.010
+   (0.155) 
+
+  b17:  1.455
+   (0.187) 
+
+  b18:  -1.333
+   (0.145) 
+
+  b19:  -1.249
+   (0.146) 
+
+  b20:  -0.349
+   (0.143) 
+
+  b21:  0.651
+   (0.158) 
+
+  b22:  0.499
+   (0.167) 
+
+  b23:  -1.601
+   (0.129) 
+
+  b24:  -0.700
+   (0.130) 
+
+  b25:  0.023
+   (0.155) 
+
+
+ R-squared: 0.465  
+ adjR-squared: 0.459 
+
+[Warning: Matrix is close to singular or badly scaled. Results may be inaccurate. RCOND =  1.554515e-27.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mpower>integerMpower', 'C:\Program Files\MATLAB\R2020a\toolbox\matlab\ops\mpower.m', 80)" style="font-weight:bold">mpower>integerMpower</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2020a\toolbox\matlab\ops\mpower.m',80,0)">line 80</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mpower', 'C:\Program Files\MATLAB\R2020a\toolbox\matlab\ops\mpower.m', 49)" style="font-weight:bold"> ^ </a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2020a\toolbox\matlab\ops\mpower.m',49,0)">line 49</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('regressIV', 'C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\downloaded\code\regressIV.m', 18)" style="font-weight:bold">regressIV</a> (<a href="matlab: opentoline('C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\downloaded\code\regressIV.m',18,0)">line 18</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('edgel_ps3', 'C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\edgel_ps3.m', 62)" style="font-weight:bold">edgel_ps3</a> (<a href="matlab: opentoline('C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\edgel_ps3.m',62,0)">line 62</a>)
+] 
+Estimates: 
+
+  b1:  -30.07061845
+   (0.21580177) 
+
+
+ R-squared: -0.318  
+ adjR-squared: -0.318 
+
+[Warning: Matrix is close to singular or badly scaled. Results may be inaccurate. RCOND =  1.554515e-27.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mpower>integerMpower', 'C:\Program Files\MATLAB\R2020a\toolbox\matlab\ops\mpower.m', 80)" style="font-weight:bold">mpower>integerMpower</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2020a\toolbox\matlab\ops\mpower.m',80,0)">line 80</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mpower', 'C:\Program Files\MATLAB\R2020a\toolbox\matlab\ops\mpower.m', 49)" style="font-weight:bold"> ^ </a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2020a\toolbox\matlab\ops\mpower.m',49,0)">line 49</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('regressIV', 'C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\downloaded\code\regressIV.m', 18)" style="font-weight:bold">regressIV</a> (<a href="matlab: opentoline('C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\downloaded\code\regressIV.m',18,0)">line 18</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('edgel_ps3', 'C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\edgel_ps3.m', 65)" style="font-weight:bold">edgel_ps3</a> (<a href="matlab: opentoline('C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\edgel_ps3.m',65,0)">line 65</a>)
+] 
+Estimates: 
+
+  b1:  -39.60256360
+   (0.74348745) 
+
+  b2:  1.66445629
+   (0.12969372) 
+
+  b3:  0.97984466
+   (0.12336251) 
+
+  b4:  -0.13463708
+   (0.11950625) 
+
+  b5:  3.77426233
+   (0.15728108) 
+
+  b6:  1.15046549
+   (0.13184808) 
+
+  b7:  1.16700486
+   (0.13122172) 
+
+  b8:  0.19705814
+   (0.13143091) 
+
+  b9:  0.80452264
+   (0.13497298) 
+
+  b10:  1.12175850
+   (0.12780606) 
+
+  b11:  0.96609195
+   (0.12468166) 
+
+  b12:  -1.18035594
+   (0.11978867) 
+
+  b13:  1.67595753
+   (0.13685361) 
+
+  b14:  1.06833091
+   (0.12920608) 
+
+  b15:  1.62979492
+   (0.13940257) 
+
+  b16:  3.54397174
+   (0.16297488) 
+
+  b17:  0.13606606
+   (0.13240507) 
+
+  b18:  0.23064846
+   (0.13286265) 
+
+  b19:  1.09070389
+   (0.13105725) 
+
+  b20:  2.31635372
+   (0.14161910) 
+
+  b21:  2.29509695
+   (0.14799158) 
+
+  b22:  -0.40097948
+   (0.12076275) 
+
+  b23:  0.51223198
+   (0.12126115) 
+
+  b24:  1.64351459
+   (0.13944393) 
+
+
+ R-squared: 0.391  
+ adjR-squared: 0.385 
+
+[Warning: The value of local variables may have been changed to match the globals.  Future versions of
+MATLAB will require that you declare a variable to be global before you use that variable.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('edgel_ps3', 'C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\edgel_ps3.m', 161)" style="font-weight:bold">edgel_ps3</a> (<a href="matlab: opentoline('C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\edgel_ps3.m',161,0)">line 161</a>)] 
+[Warning: The value of local variables may have been changed to match the globals.  Future versions of
+MATLAB will require that you declare a variable to be global before you use that variable.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('edgel_ps3', 'C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\edgel_ps3.m', 161)" style="font-weight:bold">edgel_ps3</a> (<a href="matlab: opentoline('C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\edgel_ps3.m',161,0)">line 161</a>)] 
+[Warning: The value of local variables may have been changed to match the globals.  Future versions of
+MATLAB will require that you declare a variable to be global before you use that variable.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('edgel_ps3', 'C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\edgel_ps3.m', 161)" style="font-weight:bold">edgel_ps3</a> (<a href="matlab: opentoline('C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\edgel_ps3.m',161,0)">line 161</a>)] 
+[Warning: Matrix is close to singular or badly scaled. Results may be inaccurate. RCOND =  1.554515e-27.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('edgel_ps3', 'C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\edgel_ps3.m', 186)" style="font-weight:bold">edgel_ps3</a> (<a href="matlab: opentoline('C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\edgel_ps3.m',186,0)">line 186</a>)
+] 
+[Warning: Matrix is close to singular or badly scaled. Results may be inaccurate. RCOND =  1.554515e-27.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('edgel_ps3', 'C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\edgel_ps3.m', 190)" style="font-weight:bold">edgel_ps3</a> (<a href="matlab: opentoline('C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS3\edgel_ps3.m',190,0)">line 190</a>)] 
+
+<a href = "matlab: helpview('optim','local_min_possible','CSHelpWindow');">Local minimum possible</a>.
+
+fminunc stopped because the <a href = "matlab: helpview('optim','norm_current_step','CSHelpWindow');">size of the current step</a> is less than
+the value of the <a href = "matlab: helpview('optim','step_size_tol','CSHelpWindow');">step size tolerance</a>.
+
+<<a href = "matlab: createExitMsg({'optimlib:sfminbx:Exit2basic','fminunc'},{'optimlib:sfminbx:Exit2detailed','9.975062e-04','1.000000e-02'},true,true);;">stopping criteria details</a>>
+    mean       sigma      income   income^2    age    child
+  
+constant  
+   -2.3142    0.3772    3.0888         0    1.1859         0
+
+    0.2456    0.1224    1.0071         0    1.0099         0
+
+price     
+  -32.4299    1.8480   16.5980   -0.6591         0   11.6245
+
+    4.8255    0.9779  104.5450    5.4565         0    5.1367
+
+sugar     
+    0.1174   -0.0025   -0.1928         0    0.0297         0
+
+    0.2456    0.0115    0.0400         0    0.0337         0
+
+mushy     
+    0.2707    0.0810    1.4684         0   -1.5143         0
+
+    0.0121    0.1976    0.6760         0    1.0954         0
+
+       iterations: 1
+        funcCount: 5
+         stepsize: 0.0011
+     lssteplength: 1.2464e-04
+    firstorderopt: 7.8474
+        algorithm: 'quasi-newton'
+          message: '↵Local minimum possible.↵↵fminunc stopped because the size of the current step is less than↵the value of the step size tolerance.↵↵<stopping criteria details>↵↵Optimization stopped because the norm of the current step, 9.975062e-04, is↵less than options.StepTolerance = 1.000000e-02.↵↵'
+
+GMM objective:  14.9985
+MD R-squared:  0.39526
+MD weighted R-squared:  0.076858

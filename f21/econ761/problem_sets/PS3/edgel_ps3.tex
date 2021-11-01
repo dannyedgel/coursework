@@ -16,6 +16,7 @@
 \usepackage{amssymb}
 \usepackage{array}
 \usepackage{bm}
+\usepackage{bbm}
 \usepackage{changepage}
 \usepackage{centernot}
 \usepackage{graphicx}
@@ -46,6 +47,7 @@
 \newcommand{\aneg}{A^{-1}}
 \newcommand{\sneg}{s^{-1}}
 \newcommand{\olk}{\overline{k}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
 \newcommand{\olc}{\overline{c}}
 \newcommand{\olr}{\overline{r}}
 \newcommand{\olpi}{\overline{\pi}}
@@ -153,6 +155,9 @@ The results for post-merger prices and shares are displayed in the table below.
         \input{table3.tex}
 \end{center}
 The problem with this analysis is that we assume that any heterogeneity in consumer preferences and price sensitivity is independent, identically distributed, and orthogonal to utility. These assumptions are dibious and likely result in unrealistic estimations of counter-factuals. We can remedy these issues with a random coefficients model that interacts consumer demographics with prices and product characteristics, which will capture the observable heterogeneity in consumer preferences and price sensitivity.
+\begin{center}  
+        \input{table4.tex}
+\end{center}
 
 %%%________________________________________________________________%%%
 

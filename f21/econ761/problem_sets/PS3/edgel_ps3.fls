@@ -24,6 +24,8 @@ INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\tex\latex\tools\array.sty
 INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\tex\latex\tools\array.sty
 INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\tex\latex\tools\bm.sty
 INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\tex\latex\tools\bm.sty
+INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\tex\latex\bbm\bbm.sty
+INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\tex\latex\bbm\bbm.sty
 INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\tex\latex\changepage\changepage.sty
 INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\tex\latex\changepage\changepage.sty
 INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\tex\latex\oberdiek\centernot.sty
@@ -116,7 +118,16 @@ INPUT table2.tex
 INPUT table2.tex
 INPUT table3.tex
 INPUT table3.tex
+INPUT table4.tex
+INPUT table4.tex
+INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\tex\latex\bbm\ubbm.fd
+INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\tex\latex\bbm\ubbm.fd
+INPUT C:\Users\edgel\AppData\Local\MiKTeX\fonts\tfm\public\bbm\bbm10.tfm
+INPUT C:\Users\edgel\AppData\Local\MiKTeX\fonts\tfm\public\bbm\bbm7.tfm
+INPUT C:\Users\edgel\AppData\Local\MiKTeX\fonts\tfm\public\bbm\bbm5.tfm
 INPUT edgel_ps3.aux
+INPUT C:\Users\edgel\AppData\Local\MiKTeX\fonts\pk\ljfour\public\bbm\dpi600\bbm10.pk
+INPUT C:\Users\edgel\AppData\Local\MiKTeX\fonts\pk\ljfour\public\bbm\dpi600\bbm10.pk
 INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx12.pfb
 INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx12.pfb
 INPUT C:\Users\edgel\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmex10.pfb

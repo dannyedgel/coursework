@@ -4,7 +4,7 @@ function f = jacob(mval,theta2)
 % Written by Aviv Nevo, May 1998.
 
 global ns theti thetj cdid cdindex
-load ps2
+load('data/ps2')
 theta2w = full(sparse(theti,thetj,theta2));
 
 expmu = exp(mufunc(x2,theta2w));

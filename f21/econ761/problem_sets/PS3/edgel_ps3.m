@@ -3,7 +3,7 @@
     for Econ 761
 
     Date created:  23 Oct 2021
-    Last modified: 28 Oct 2021
+    Last modified: 31 Oct 2021
     Author: Danny Edgel
 %}
 clear; clc
@@ -13,6 +13,8 @@ load('data/ps2.mat'); load('data/iv.mat')
 
 addpath('downloaded/code')
 addpath('functions')
+
+global invA ns x1 x2 s_jt IV vfull dfull theta1 theti thetj cdid cdindex
 
 
 %% Prepare data for MNL estimation
@@ -32,17 +34,19 @@ uq_fbr     = unique(fbr_id);
 uq_firm_id = unique(firm_id);
 br_id      = fbr_id - firm_id*1000;
 
+nbr = length(uq_fbr); ncq = length(uq_cq);
+
 cid = floor(cq/1000); cdid = ones(length(cid), 1);
 for i = 2:N; if cid(i) ~= cid(i-1); cdid(i) = cdid(i-1)+1; 
     else; cdid(i) = cdid(i-1); end; end
 
 % normalize by "outside option"--the market share not captured by in-sample
 % firms (note: this code taken from Nevo)
-cdindex = [length(uq_fbr):length(uq_fbr):length(uq_fbr)*length(uq_cq)]';
 temp = cumsum(s_jt);
+cdindex = (nbr:nbr:nbr*ncq)';
 sum1 = temp(cdindex,:);
 sum1(2:size(sum1,1),:) = diff(sum1);
-outshr = 1.0 - sum1(cdid,:);
+outshr = 1.0 - sum1(ones(length(floor(cq/1000)), 1),:);
 
 
 X = full(x1);
@@ -88,6 +92,7 @@ s_rows = repmat(s_jt, 1, length(s_jt)); s_cols = s_rows';
 p = full(x1(:, 1));
 
 for i = 1:length(alphas)
+   markups.(names{i})       = est.(names{i});
    markups.(names{i}).alpha = alphas(i);
    
    % generate a JxJ matrix of cross-price elasticities for current alpha
@@ -154,12 +159,68 @@ printTable3(mergers, names, mergeNames);
 
 %% Estimate mixed logit model
 
+% Use Nevo's BLP code, with some edits to adapt it to my syntax and for
+% efficiency
+
+ns = 20;       % number of simulated "individuals" per market % 
+IV = Z;
+
+% input starting values for non-linear variable coefficients
+theta2w=    [0.3772    3.0888         0    1.1859         0;
+             1.8480   16.5980    -.6590         0   11.6245;
+            -0.0035   -0.1925         0    0.0296         0;
+             0.0810    1.4684         0   -1.5143         0];
+    
+% create a vector of the non-zero elements in the above matrix, and the %
+% corresponding row and column indices. this facilitates passing values % 
+% to the functions below. %
+[theti, thetj, theta2]=find(theta2w);
 
 
+horz=['    mean       sigma      income   income^2    age    child'];
+vert=['constant  ';
+      'price     ';
+          'sugar     ';
+          'mushy     '];
 
+% create weight matrix
+A       = Z'*Z;
+invA    = inv(A);
 
+% Logit results and save the mean utility as initial values for the search below
 
+mid = x1'*Z*(A\Z');
+t = ((mid*x1)\mid)*S;        % IV of log shares on X1 using IV as instruments
+mvalold = x1*t;              % Fitted log shares
+oldt2 = zeros(size(theta2)); % Zero out old theta2
+mvalold = exp(mvalold);      % Compute shares
 
+save mvalold mvalold oldt2
+clear mid y outshr t oldt2 mvalold temp sum1
+
+vfull = v(cdid,:);
+dfull = demogr(cdid,:);
+
+options = optimset('GradObj','on','TolFun',0.1,'TolX',0.01);
+
+% the following line computes the estimates using a Quasi-Newton method % 
+% with an *analytic* gradient %
+[theta2,fval,exitflag,output] = fminunc('gmmobjg',theta2,options);
+
+% computing the s.e.
+vcov = var_cov(theta2);
+se = sqrt(diag(vcov));
+
+theta2w = full(sparse(theti,thetj,theta2));
+t = size(se,1) - size(theta2,1);
+se2w = full(sparse(theti,thetj,se(t+1:size(se,1))));
+
+% print results
+preMerger.vcov = vcov; preMerger.theta1 = theta1; preMerger.x2 = x2;
+preMerger.se = se; preMerger.theta2w = theta2w; preMerger.fval = fval;
+preMerger.se2w = se2w;
+
+printTable4(preMerger);
 
 
 

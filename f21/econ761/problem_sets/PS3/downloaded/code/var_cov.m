@@ -6,7 +6,7 @@ function f = var_cov(theta2)
 global invA IV
 
 load mvalold
-load ps2
+load('data/ps2')
 load gmmresid
 
 N = size(x1,1);
