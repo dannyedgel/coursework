@@ -3,7 +3,7 @@
     for Econ 761
 
     Date created:  23 Oct 2021
-    Last modified: 31 Oct 2021
+    Last modified: 02 Nov 2021
     Author: Danny Edgel
 %}
 clear; clc
@@ -13,6 +13,15 @@ load('data/ps2.mat'); load('data/iv.mat')
 
 addpath('downloaded/code')
 addpath('functions')
+
+% write v to .csv for use in Python code
+fid  = fopen('data/v.csv', 'w');
+names = {}; str = '';
+for c = 1:size(v, 2); names{end+1} = ['sh', string(c)]; 
+    str = [str, '%s']; end
+fprintf(fid, [str, '\n'], names{:});
+
+writematrix(v, 'data/v.csv');
 
 global invA ns x1 x2 s_jt IV vfull dfull theta1 theti thetj cdid cdindex
 
@@ -223,5 +232,96 @@ preMerger.se2w = se2w;
 printTable4(preMerger);
 
 
+%% Compute markups using random coefficients demand specification
+
+% calculate individual purchase probabilities
+purprob = ind_sh(exp(meanval(theta2)), exp(mufunc(x2,theta2w)));
+
+% calculate alpha_i for each "individual"
+alphavec = [theta1(1), theta2w(2, :)]';
+alpha_i = zeros(ncq, 20);
+
+for i = 1:20
+    iind           = i:20:(60 + i);
+    alpha_i(:, i)  = [ones(ncq, 1), v(:, 20 + i), demogr(:, iind)]* ...
+                        alphavec;
+end
+
+% calculate markups by market, because these matrices are just not working
+% out for me
+mu = zeros(N, 1);
+for k = 1:ncq
+    
+    mkt_index = ((k-1)*nbr+1):(k*nbr);
+    ai = alpha_i(k, :); shar_i = purprob(mkt_index, :);
+    
+    % calculate the omega matrix for the current city
+    OmegaStar = getOmegaStar(dat, br_id);
+    OmegaStar = OmegaStar(mkt_index, mkt_index);
+    H         = -(repmat(ai, nbr, 1).*shar_i)*shar_i';
+    H         = H - diag(diag(H)) + ...
+                  diag(diag(((repmat(ai, nbr, 1).*shar_i)*(1-shar_i'))));
+    
+    Omega = OmegaStar.*(H / ns);
+    
+    % calculate markups
+    mu(mkt_index) = Omega\s_jt(mkt_index);
+end
+
+% print output
+printTable5(mu, p);
+
+
+%% Simulate merger using random coefficients specification
+
+
+% prepare results struct
+mergeNames = {'PostNabisco', 'GMQuaker'}; mergeType = {[3, 6], [2, 4]};
+mergers.None.blp.mu = mu; mergers.None.blp.OmegaStar = OmegaStar;
+mergers.None.blp.Omega = Omega; mergers.None.blp.mc = p - mu;
+
+% generate new ownership structures for each merger scenario
+for m = 1:length(mergeNames)
+    
+    % make merger adjustment in ownership matrix
+    x = dat;
+    x(dat(:, 1) == mergeType{m}(2), 1) = mergeType{m}(1);
+    
+    mergers.(mergeNames{m}).blp.mu = zeros(N, 1);
+    mergers.(mergeNames{m}).blp.p = zeros(N, 1);
+    mergers.(mergeNames{m}).blp.margins = zeros(N, 1);
+    mergers.(mergeNames{m}).blp.Omega = zeros(N, N);
+    mergers.(mergeNames{m}).blp.s = zeros(N, 1);
+
+    for k = 1:ncq
+        
+        mkt_index = ((k-1)*nbr+1):(k*nbr);
+        ai = alpha_i(k, :); shar_i = purprob(mkt_index, :);
+    
+        % calculate the omega matrix for the current city
+        OmegaStar = getOmegaStar(dat, br_id);
+        OmegaStar = OmegaStar(mkt_index, mkt_index);
+        H         = -(repmat(ai, nbr, 1).*shar_i)*shar_i';
+        H         = H - diag(diag(H)) + ...
+                      diag(diag(((repmat(ai, nbr, 1).*shar_i)*(1-shar_i'))));
+
+       [p, s, Omega] = FixedPoint(OmegaStar, H, ...
+           mergers.(mergeNames{m}).blp.mc, p, s_jt, alphas(i));
+
+
+       % calculate markups, margins, etc:
+       mergers.(mergeNames{m}).blp.mu = ...
+           p - mergers.(mergeNames{m}).(names{i}).mc;
+       mergers.(mergeNames{m}).blp.p = p;
+       mergers.(mergeNames{m}).blp.margins = ...
+           mergers.(mergeNames{m}).blp.p ./ ...
+           mergers.(mergeNames{m}).blp.mc - 1;
+       mergers.(mergeNames{m}).blp.Omega(mkt_index, mkt_index) = Omega;
+       mergers.(mergeNames{m}).blp.s = s;
+    end
+end
+
+% Print results
+printTable3(mergers, names, mergeNames);
 
 
