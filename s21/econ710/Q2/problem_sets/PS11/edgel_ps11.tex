@@ -1,0 +1,332 @@
+%%% Econ710: Econometrics
+%%% Spring 2020
+%%% Danny Edgel
+%%%
+% Due on Canvas Tuesday, April 20th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{color}
+\usepackage{courier}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[shortlabels]{enumitem}
+\usepackage{boondox-cal}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\olz}[1]{\overline{Z}_{#1}}
+%\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\est}[1]{\frac{1}{\lowercase{#1}}\sum_{i=1}^{\lowercase{#1}}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}^{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\ehat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\bcls}{\tilde{\beta}_{CLS}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\vt}{\tilde{\varepsilon}}
+\renewcommand{\Pr}[1]{Pr\left(#1\right)}
+\newcommand{\biv}{\bhat^{IV}}
+\newcommand{\xbar}{\overline{X}}
+\newcommand{\ybar}{\overline{Y}}
+\newcommand{\zbar}{\overline{Z}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\esti}{\frac{1}{T_i-1}\sum_{t=1}^{T_i}}
+\newcommand{\oinv}{\Omega^{-1}}
+\newcommand{\olg}{\overline{g}_n}
+\newcommand{\e}[1]{\text{exp}\left(#1\right)}
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{for,end,break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},    
+}
+
+\title{	Problem Set \#11 }
+\author{ 	Danny Edgel 										\\ 
+			Econ 710: Economic Statistics and Econometrics II	\\
+			Spring 2021											\\
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent\textit{Discussed and/or compared answers with Sarah Bass, Emily Case, Katherine Kwok, Michael Nattinger, and Alex Von Hafften}
+
+% Chapter 25: 25.1, 25.3, 25.9, 25.12, 25.14, 25.15, 25.17
+% Chapter 26: 26.1, 26.3, 26.7, 26.8
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 25.1}
+The slope coefficients represent the difference in log odds between the two dependent variable outcomes generated by the independent variables. Thus, the slope coefficients will have the same absolute values in each specification, but different signs.
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 25.3}
+Recall that ${P(x)=P[Y=1|X=x]}$, where ${Y\in\{0,1\}}$. Then, when we have the model:
+\[
+	Y = P(X) + e
+\]
+It must be the case that $e$ is bounded by 0 and 1, where:
+\[
+	e =	\begin{cases}
+			1-P(x),	&Y = 1	\\
+			P(x),	&Y = 0
+		\end{cases}
+\]
+Where $Y=1$ with probability $P(x)$ and ${Y=0}$ with probability ${1-P(x)}$. Now, we can find the conditional variance of $e$:
+\begin{align*}
+				Var(e|X)	&= \E{e^2|X} - \E{e|X}^2 = \E{e^2|X}		\\
+				e^2 		&= Y^2 - 2YP(x) + P(x)^2					\\
+				\E{e^2|X}	&= \E{Y^2|X} - 2\E{Y|X}P(x) + P(x)^2		\\
+				\E{Y|X}		&= P(x)										\\
+				\E{Y^2|X}	&= (1)P(x) + (0)(1-P(x)) = P(x)				\\
+	\Rightarrow Var(e|X)	&= P(x) - P(x)^2 = P(x)\left(1-P(x)\right)
+\end{align*}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 25.9}
+The logit log-likelihood function is:
+\[
+	\ell_n(\beta) = \sumn\loge{\Lambda\left(Z_i'\beta\right)}
+\]
+Where $$ Z_i = \begin{cases} X_i, &X_i Y = 1 \\ -X_i, &Y=0\end{cases} $$ Which yields the following first-order condition:
+\begin{align*}
+																		\frac{d\ell_n(\beta)}{d\beta}	&= 0	\\
+	\sumn\left[\frac{Z_i\Lambda(Z_i'\beta)\left(1-\Lambda(Z_i'\beta)\right)}{\Lambda(Z_i'\beta)}\right]	&= 0	\\
+												\sumn\left[Z_i\left(1-\Lambda(Z_i'\beta)\right)\right]	&= 0	
+\end{align*}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 25.12}
+A nonlinear leat squares (NLLS) estimator is derived by finding the parameter $\beta$ that solves:
+\[
+	\usmin{\beta}\frac{1}{n}\sumn \left(Y_i-m(X_i|\beta)\right)^2
+\]
+Where ${m(X_i|\beta)}$ is the expectation of $Y$ with respect to $X$. Let ${\lambda(x)=\phi(x)/\Phi(x)}$. Then, in a probit model,
+\begin{align*}
+	\E{Y_i|X_i=x}	&= \E{Y_i|X_i=x,Y_i^*\geq 0}Pr\left(Y_i^*\geq 0|X_i=x\right)												\\
+					&= \left(x'\beta + \E{e_i|X_i=x,Y_i^*\geq 0}\right)Pr\left(x'\beta+e_i\geq0\right)							\\
+					&= \left(x'\beta + \sigma\lambda\left(\frac{x'\beta}{\sigma}\right)\right)Pr\left(e_i\geq-x'\beta\right)	\\
+					&= \left(x'\beta + \sigma\lambda\left(\frac{x'\beta}{\sigma}\right)\right)\Phi\left(x'\beta\right)
+\end{align*}
+Then, the probit estimator is the solution to:
+\[
+	\usmin{\beta,\sigma}\frac{1}{n}\sumn \left(Y_i-\left(x'\beta + \sigma\lambda\left(\frac{x'\beta}{\sigma}\right)\right)\Phi\left(x'\beta\right)\right)^2
+\]
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 25.14}
+
+\begin{enumerate}
+	\item In this case, the response probability is given as the probability that $Y$ is not censored (i.e., equal to 0):
+		\begin{align*}
+			Pr(Y>0)	&= Pr(Y^*>0) = Pr(m(X) + e>0) = Pr(e>-m(X))	\\
+					&= 1 - \Phi\left(-m(X)\right)
+		\end{align*}
+		Where $\Phi(\cdot)$ is the mean zero normal CDF with a standard deviation equal to $\sigma^2(X)$.
+	
+	\item No. $\sigma^2(X)$ is not known, so we can only identify $m(X)/\sigma^2(X)$.
+	
+	\item Following from (b), we can identify a scaled version of $m(X)$ by estimating a model that assumes that errors are normally distributed with variance 1.
+	
+	\item No, becuase this model, which assumes heteroskedastic errors, uses the same identification as a model that assumes homoskedastic errors. In any case, we interpret the coefficients as of the model as if they have been scaled by the model's variance.
+	
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Exercise 25.15}
+The results of the probit estimation are displayed below, with coefficients reported in the first column and average marginal effects reported in the second column for interpretation. The AME column provides the average change in probability of union membership caused by a change in the independent variable. This suggests that each year of age adds .042\% to the odds that an individual belongs to a union, while the likelihood that Hispanic individuals to belong to a union is 1.58\% lower, on average, than that of non-Black and non-Hispanic individuals (i.e. the omitted group). Finally, more educated men are less likely to belong in a union, likely reflecting lower unionization rates for white-collar jobs.
+
+\begin{center}
+	\input{table_25_15.tex}
+\end{center}
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Exercise 25.17}
+The graph below displays the results of the estimation.\footnote{See the attached do file for the code that generated the graph.} I chose to estimate the probability of marriage with a probit model that includes linear splines at the ages of 25, 30, 35, 50, 50, and 60. These dates were chosen based on intuition and anecdotal experience. However, compared to the empirical proportions shown in the chart below, they match the data well. There is a large increase in the chare of women with college degrees hwo are married from age 20 to age 30, but the relationship levels off from 30 to 40, then reverses from 40 onward.
+\begin{center}
+	\includegraphics[width=\textwidth]{fig_25_17.png}
+\end{center}
+This result differs so substantially from the one displayed in figure 25.1 that I tested my exact code, but flipping the subsetting line from female to male just to make sure that there was not a critical error in my estimation. Sure enough, the result for men was similar to figure 25.1. The main difference is the reversal of the age-marriage relationship that begins around age 40, which does not exist for men but exists for women.
+
+%%%________________________________________________________________%%%
+\pagebreak
+\section*{Exercise 26.1}
+The model in question is:
+\[
+	P_j(x) = \frac{\e{x'\beta_j}}{\sum_{\ell=1}^J\e{x'\beta_\ell}}
+\]
+The statement $0\leq P_j(x) \leq 1$ is trivially clear by the fact that $P_j(x)$ is a fraction where the denominator is a sum of a weakly positive series that includes the numerator. Similarly, we can show that ${\sum_{j=1}^J P_j(x)=1}$ as follows:
+\[
+	\sum_{j=1}^J P_j(x)=\sum_{j=1}^J \frac{\e{x'\beta_j}}{\sum_{\ell=1}^J\e{x'\beta_\ell}}
+		= \frac{\sum_{j=1}^J \e{x'\beta_j}}{\sum_{\ell=1}^J\e{x'\beta_\ell}} = 1
+\]
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 26.3}
+\begin{align*}
+	\frac{\partial}{\partial x} P_j(x) &= \frac{\partial}{\partial x} \frac{\e{x'\beta_j}}{\sum_{\ell=1}^J\e{x'\beta_\ell}}					\\
+		&= \beta_j\left(\frac{\e{x'\beta_j}}{\sum_{\ell=1}^J\e{x'\beta_\ell}}\right) 
+			+ \sum_{\ell=1}^J\left(-\beta_\ell\e{x'\beta_\ell}\frac{\e{x'\beta_j}}{\left(\sum_{\ell=1}^J\e{x'\beta_\ell}\right)^2}\right)	\\
+		&= \beta_jP_j(x) - \sum_{\ell=1}^J\beta_\ell\left(\frac{\e{x'\beta_\ell}}{\sum_{\ell=1}^J\e{x'\beta_\ell}}\right)
+			\left(\frac{\e{x'\beta_j}}{\sum_{\ell=1}^J\e{x'\beta_\ell}}\right)																\\
+		&= \beta_jP_j(x) - \sum_{\ell=1}^J\beta_\ell P_\ell(x)P_j(x) = P_j(x)\left(\beta_j-\sum_{\ell=1}^J\beta_\ell P_\ell(x)\right)
+\end{align*}
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 26.7}
+The marginal effect of the conditional logit model is:
+\[
+	\delta_{j\ell}(w,x) =\frac{\partial}{\partial x_\ell}P_j(w,x) 
+		= 	\begin{cases}
+				\gamma P_j(w,x)\left(1-P_j(w,x)\right), & \ell=j 	\\
+				-\gamma P_j(w,x)P\ell(w,x),				&\ell\neq j
+			\end{cases}
+\]
+Then, the average marginal effect is:
+\[
+	AME_{j\ell} = \E{\delta_{j\ell}(W,X)}
+\]
+Which can be estimated as:
+\[
+	\widehat{AME}_{j\ell} = \begin{cases}
+								\hat{\gamma}  \sumn \hat{P}_j(w,x)\left(1-\hat{P}_j(w,x)\right), 	& \ell=j 	\\
+								-\hat{\gamma} \sumn \hat{P}_j(w,x)\hat{P}\ell(w,x),					&\ell\neq j
+							\end{cases}
+\]
+
+
+
+%%%________________________________________________________________%%%
+
+\section*{Exercise 26.8}
+From equation (26.1), we have:
+\[
+	P_j(x) = \frac{\e{x'\beta_j}}{\sum_{\ell=1}^J\e{x'\beta_\ell}}
+\]
+Then, we can solve:
+\[
+	\frac{P_j(W,X|\theta)}{P_\ell(W,X|\theta)}	
+		= \frac{\frac{\e{W'\beta_j + X'_j\gamma}}{\sum_{k=1}^J\e{W'\beta_k + X'_k\gamma}}}{\frac{\e{W'\beta_\ell + X'_\ell\gamma}}{\sum_{k=1}^J\e{W'\beta_k + X'_k\gamma}}}
+		= \frac{\e{W'\beta_j + X'_j\gamma}}{\e{W'\beta_\ell + X'_\ell\gamma}}
+\]
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+

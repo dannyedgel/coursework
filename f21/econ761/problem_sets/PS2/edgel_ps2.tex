@@ -122,7 +122,7 @@
     Thus, elasticity is increasing in $Q$ and decreasing in $\nu$.
 
     \item[(b)] In a Cournot equilibrium, each firm solves:\[
-      \usmax{q_i}\left(a_0 - a_1\sum_{i=1}^Nq_i + \nu\right)q_i - F - (b_0+\eta)q_i
+      \usmax{q_i}\left(a_0 - a_1\sum{i=1}^Nq_i + \nu\right)q_i - F - (b_0+\eta)q_i
     \]
     The resulting best response function is:\[
       q_i = \frac{a_0-b_0+\nu-\eta-a_1\sum_{j\neq i}q_j}{2a_1}
@@ -168,25 +168,25 @@
     Thus, neither index changes with $F$, and $\loge{H}$ does not change with any variable other than $N$.
 
     \item[(f)] If firms collude and split the profits, the new equilibrium will be determined by: \[
-      \usmax{Q}(a_0-a_1Q+\nu)Q - F - (b_0-b_1Q + \eta)Q
+      \usmax{Q}(a_0-a_1Q+\nu)Q - F - (b_0-b_1Q + \nu)Q
     \]
     Which results in the following equilibrium price and quantity:\[
-      Q^* = \frac{a_0 - b_0 + \nu - \eta}{2a_1},\quad P^* = \frac{a_0 +
-       b_0 + \nu + \eta}{2}
+      Q^* = \frac{b_0-a_0}{2(b_1-a_1)},\quad P^* = a_0 - \left(\frac{b_0-a_0}{b_1-a_1}\right)\frac{a_1}{2} + \nu
     \]
-    Assuming that the colluding firms split profit equally, we can determine the endogenous number of firms in equilibrium as follows, where ${\Gamma=a_0-b_0+\nu-eta}$:\begin{align*}
+    Assuming that the colluding firms split profit equally, we can determine the endogenous number of firms in equilibrium as follows:\begin{align*}
       0 &= \pi(Q^*/N,P^*)                                    \\
-      \frac{1}{2}\left(\Gamma+2b_0 + 2\eta\right)\left(\frac{1}{2a_1}\Gamma\right)\frac{1}{N} &= (b_0 + \eta)\frac{\Gamma}{2a_1N} + F                \\
-      N &= \frac{\Gamma^2}{4a_1F}
+      FN^2 &= (a_0 - b_0 + \nu - \eta)QN - a_1Q^2N + b_1Q^2 \\
+      N^* &= \frac{a_1Q^2-(a_0-b_0+\nu-\eta)Q\pm\sqrt{[-a_1Q^2+(a_0-b_0+\nu-\eta)Q]^2+4Fb_1Q^2}}{-2F}
     \end{align*}
-    Re-substituting for $\Gamma$ and simplifying, this yields:\[
-      N^* = \frac{(a_0-b_0+\nu-\eta)^2}{4a_1F}
+    Letting ${b_1=0}$, this problem simplifies nicely, with $N^*=0$ as one solution and, for the other:\[
+      N^* = \frac{a_0 - b_0 + \nu - \eta - a_1Q^2}{F} 
+          = \frac{a_0 - b_0 + \nu - \eta}{F} - \frac{(b_0-a_0)^2}{4Fa_1}
     \]
     The new Herfindahl index, $H$, is simply the reciprocal of $N^*$:\[
-      H = \frac{4a_1F}{(a_0-b_0+\nu-\eta)^2}
+      H = \frac{F}{a_0-b_0+\nu-\eta - \frac{(b_0-a_0)^2}{4a_1}}
     \]
-    While the new Lerner index, $L_I$, under collusion is:\[
-      L_I = \frac{a_1Q^*}{(a_0 + \nu - a_1Q^*)N} = \left(\frac{1}{N}\right)\frac{\frac{1}{2}\Gamma}{a_0+\nu-\frac{1}{2}\Gamma} = \frac{a_0-b_0+\nu-\eta}{(a_0 + b_0 + \nu + \eta)N} 
+    While the new Lerner index, $L_I$, under collusion is (letting ${b1=0}$ in the final step):\[
+      L_I = \frac{a_1Q^*}{(a_0 + \nu - a_1Q^*)N} = \frac{a_1\frac{b_0-a_0}{2(b_1-a_1)}}{\left(a_0 + \nu - a_1\frac{b_0-a_0}{2(b_1-a_1)}\right)N} = \frac{a_0- b_0}{(a_0 + b_0 + 2\nu)N}
     \]
 
     \item[(g)] The elasticity of (3) is solved as follows: \begin{align*}
@@ -217,15 +217,15 @@ Before interpreting the coefficients, I will first display the significance of $
   \loge{-H/\varepsilon} &= \alpha + \beta\loge{H} + e \\
   \loge{-1/\varepsilon} &= \alpha + (\beta-1)\loge{H} + e 
 \end{align*}
-Thus, ${\beta=1}$ is interpratively equivalent to a null result for a regression of markups on the Herfindahl index.
+Thus, ${\beta=1}$ is interpratively equivalent to a null result for a regression of markups on the Herfindahl index. \textbf{Note: The below was written when I had different (erroneous) results, which were due to an algebraic error. This is still the interpretation I would have for results that I think I am supposed to get. I do not understand why I get the results that I do, and I do not have any meaningful interpretation for them. The same is true for problem 3.}
 
-Using equation (3), we cannot reject this hypothesis in any sample. Thus, the results imply that markups are invariant in competition. This is intuitive, since (3) is a constant elasticity demand function, so markups do not vary with $N$ (or, for that matter, anything else).
+Using equation (3), we reject the hypothesis that ${\beta=1}$ in the collusion subsample, but we cannot reject this hypothesis in the Cournot or pooled samples. Thus, the results imply that markups are invariant in competition for Cournot and the pooled sample, but vary positively with competition in the collusion subsample. This is intuitive, since adding a firm to the market in the collusion scenario does not change aggregate profits, but each firm produces less, increasing firm-level profit margins. The results from the Cournot subsample are intuitive, since (3) is a constant elasticity demand function, so markups do not vary with $N$ (or, as a result, with $H$).
 
-Using equation (1), we reject the hypothesis that ${\beta=1}$ in all samples, but much more strongly in the sample of regulated cities. These results suggest that markups increase as competition increases in all samples, but the relationship is stronger in the regulated cities. This is counter-intuitive, as one would expect that linear demand results in markups decreasing as competition increases and the price decreases (while marginal costs remain constant). However, as I showed in 1(a), equation (1) gets less elastic as aggregate quantity increases. Since we only calculate the Lerner index and firms are homogenous, the ``markup'' we observe in this analysis does not account for the decrease in firm-level demand that occurs when the number of firms increases. Instead, the collusion in the unregulated sample appears as a weakened relationship between markups and market concentration, which is due to aggregate prices and quantities being constant in the cities where firms collude.
+Using equation (1), we reject the hypothesis that ${\beta=1}$ in all samples, but for different reasons. In the collusion subsample, ${\beta<1}$ (as with equation(3)), while ${\beta>1}$ in the other two samples. These results suggest that markups decrease as competition increases under Cournot competition, but that markups increase as competition increases under collusion.
 
-The results from each demand function differ because, as I mentioned in interpreting the results for equation (3), elasticity (and thus markups) is constant for that demand function. Using the linear demand from (1), markups depend on aggregate quantity, so increased competition (and its resulting impact on aggregate quantity) influences markups.
+The results from each demand function differ because, as I mentioned in interpreting the results for equation (3), markups are constant for that demand function. Using the linear demand from (1), markups depend on aggregate quantity, so increased competition decreases firm-level markups. The results for collusion do not differ because, regardless of the demand function, colluding firms set the monopoly price and quantity and split profits equally across colluding firms. Thus, per-firm quantity decreases as the number of firms increases, but the price stays constant, resulting in a positive realtionship between markups and the number of firms.
 
-Yes, we can learn something positive from this analysis, but only if we believe (1) is the true demand function. If we suspected collusion in markets 1-250, for example, we could run this regression on the subsample of 1-250, then again for the remaining cities and test the hypothesis that $\beta$ from the 1-250 sample is less than or equal to $\beta$ from the 251-1000 sample. A rejection of this hypothesis would be evidence of collusion, as it would show a weaker relationship between markups and market structure in cities 1-250.
+Yes, we can learn something positive from this analysis. If we suspected collusion in markets 1-250, for example, we could run this regression on the subsample of 1-250 and test the hypothesis that ${\beta\geq1}$. A rejection of this hypothesis would be evidence of collusion.
 
 
 \section*{Question 3}
@@ -233,13 +233,7 @@ The results from each regression are displayed in the table below.
 \begin{center}
   \input{table2.tex}
 \end{center}
-As you can see above, letting ${\eta=0}$ and $\nu$ vary results in an SCP regression with zero predictive power, while letting $\eta$ vary results in a highly predictive regression. This is predictable by the equilibrium value of $N^*$ and the derived formulas for $H$ and $L_I$ that were found in (c), (d), (e), and (f) of question 1. Consider the simplified specification from question 2, using the parameterized solutions from question 1:{\small \begin{align*}
-  \loge{-1/\varepsilon} &= \alpha + (\beta-1)\loge{H} + e \\
-  \loge{a_0 - b_0 + \nu - \eta} + \loge{N} - \loge{a_0 + \nu + (b_0 + \eta)N}  
-    &= \alpha - (\beta-1)\loge{N} + e 
-\end{align*} }
-All variance comes from only $\nu$ or $\eta$ and the only explanatory variable on the righthand side is $N$. Thus, in order for the model to expain the variance in the dependent variable, there must be variance that depends on an interaction between $N$ and $\eta$ or $\nu$. This is true for $\eta$, but not for $\nu$.
-
+Again appealing to the simplified specification I derived in question 2, ${\beta>2}$ suggests that markups decrease as the market becomes more competitive. The results from each regression suggests that this is true. However, Markups appear to be higher and depend more strongly on the competitiveness of the market when $\eta$ is variable than when $\nu$ is. Since $\nu$ shifts maximum willingness to pay but $\eta$ shifts marginal costs, this difference is intuitive: in 1(e), we showed that equilibrium elasticity is increasing in $\nu$ and decreasing (symmetrically) in $\eta$, and higher elasticity equates to lower markups.
 
 %%%________________________________________________________________%%%
 

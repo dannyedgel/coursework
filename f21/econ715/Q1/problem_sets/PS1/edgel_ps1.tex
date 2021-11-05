@@ -78,11 +78,7 @@
 \DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
 \newcommand{\that}{\hat{\theta}_n}
 \newcommand{\ttilde}{\tilde{\theta}_n}
-\newcommand{\ghat}{\hat{\gamma}_n}
-\newcommand{\gtilde}{\tilde{\gamma}_n}
-\newcommand{\chat}{\hat{c}}
-\newcommand{\Qhat}{\hat{Q}_n(\beta)}
-\renewcommand{\lim}[1]{\underset{#1}{\text{lim }}}
+\newcommand{\ghat}{\hat{\gamma}}
 
 \newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
 \renewcommand{\exp}[1]{\E\left[#1\right]}
@@ -104,22 +100,6 @@
         \ifnum\colveccount>0
                 \\
                 \expandafter\colvecnext
-        \else
-                \end{pmatrix}
-        \fi
-}
-\newcount\rowveccount
-\newcommand*\rowvec[1]{
-        \global\rowveccount#1
-        \begin{pmatrix}
-        \rowvecnext
-}
-\def\rowvecnext#1{
-        #1
-        \global\advance\rowveccount-1
-        \ifnum\rowveccount>0
-                &
-                \expandafter\rowvecnext
         \else
                 \end{pmatrix}
         \fi
@@ -146,7 +126,7 @@
 
 \title{	Problem Set \#1 }
 \author{ 	Danny Edgel 					\\ 
-			Econ 715: Econometric Methods	\\
+			Econ 715: Econometrics Methods	\\
 			Fall 2021						
 		}
 \maketitle\thispagestyle{empty}
@@ -155,106 +135,28 @@
 \section*{Question 1}
 
 \begin{enumerate}[(a)]
-    \item We can begin by simplifying the minimization problem:\begin{align*}
-        \chat   &= \text{arg}\usmin{c\in\R}\E{\rho_\tau(Y-c)}                                   \\
-                &=\text{arg}\usmin{c\in\R}\E{\left[\tau-\one{Y<c}\right](Y-c)}                  \\
-                &= \text{arg}\usmin{c\in\R}\tau\E{Y} - \E{Y\one{Y<c}} + c\E{\one{Y<c}} - \tau c 
-    \end{align*}
-    Where:\begin{align*}
-        \E{Y}           &= \int_0^\infty f_{Y^*}(x)xdx  \\
-        \E{Y\one{Y<c}}  &= \begin{cases}
-            \int_0^c f_{Y^*}(x)xdx,    &c>0        \\
-            0,                         &c\leq 0
-        \end{cases} \\
-        \E{\one{Y<c}}  &= \begin{cases}
-            \int_0^c f_{Y^*}(x)dx,    &c>0        \\
-            0,                        &c\leq 0
-        \end{cases}  
-    \end{align*}
-    First, consider the case when ${Pr(Y\leq 0)\leq\tau}$. Then, the expected value of the $\tau$th quantile of $Y$ is 0. ${\chat=0}$ is the unique solution in these cases, covering the ${c\leq 0}$ case.
-    
-    We can write the problem for ${c\geq 0}$ as:{\small \[
-        \chat_+ = \text{arg}\usmin{c\geq 0}(\tau-1)\int_0^c f_{Y^*}(x)xdx + \tau\int_c^\infty f_{Y^*}(x)xdx + c\left[F_{Y^*}(c) - F_{Y^*}(0) - \tau\right]
-    \] }
-    Where ${F_{Y^*}(\cdot)}$ is the CDF of $Y^*$. Thus, we can solve for $\chat_+$ using first order conditions: \begin{align*}
-        (\tau-1)cf_{Y^*}(c) - \tau cf_{Y^*}(c) + F_{Y^*}(c) + cf_{Y^*}(c)  &= F_{Y^*}(0) + \tau\\
-        F_{Y^*}(c) &= F_{Y^*}(0) + \tau   \\
-        \chat_+ &= F_{Y^*}^{-1}\left(F_{Y^*}(0) + \tau\right)
-    \end{align*} 
-    Where, since $f_{Y^*}$ is positive everywhere, $F_{Y^*}$ is strictly increasing, ensuring a unique solution.
-
-    \item To establish the uniform convergence of $\Qhat$, we must show that the following conditions on ${g(X_i, \beta) = \rho_\tau\left(Y_i - X_i'\beta\one{X_i'\beta\geq 0}\right)}$ are met: 
-        \begin{enumerate}[(i)]
-            \item At any $\beta\in B$, $g(X_i,\beta)$ is continuous in $\beta$ at ${\beta=\beta_0}$ with probability one. \medskip \\
-            At any $X_i$, $X_i'\beta<0$ or ${X_i\beta\geq 0}$. In the former case, $g$ is clearly continuous in $\beta$ at any $\beta$, since $g$ is not a funciton of $\beta$. If ${X_i\beta\geq 0}$, then:\[
-                g(X_i, \beta) = \left(\tau - \one{Y_i < X_i'\beta}\right)(Y_i - X_i'\beta)
-            \]
-            The function ${Y_i-X_i'\beta}$ is clearly continuous in $\beta$, but the existence of the indicator function that depends on $\beta$ presents a potential discontinuity. However, this function is continuous, since\[
-                \lim{Y_i-X_i'\beta\rightarrow 0^-}g(X_i,\beta) = \lim{Y_i-X_i'\beta\rightarrow 0^+}g(X_i,\beta) = 0
-            \]
-            Similarly, as ${X_i'\beta\rightarrow 0^+}$, the ${X_i'\beta\geq0}$ case of $g(X_i,\beta)$ approaches the ${X_i'\beta<0}$ case. Thus, $g(X_i,\beta)$ is continuous in $\beta$ at $\beta=\beta_0$ with probability one.
-            
-            \item ${|g(X_i,\beta)|\leq G(X_i)}$ $\forall \beta\in B$ for some dominating function $G(X_i)$\begin{align*}
-                |g(X_i,\beta)|  &\leq |Y_i-X_i'\beta\one{X_i'\beta\geq 0}|\leq |Y_i-X_i'\beta|                     \\
-                                &= |(X_i'\beta_0 + \varepsilon_i)\one{\varepsilon_i\geq -X_i'\beta_0} - X_i'\beta| \\
-                                &\leq |X_i'(\beta_0-\beta) + \varepsilon_i| \leq |X_i'(\beta_0-\beta)| + |\varepsilon_i|    \\
-                                &\leq |\varepsilon_i| + c||X_i|| = G(X_i)
-            \end{align*}
-            For some $c\in\R_+$.
-            
-            \item $\E{G(X_i)}<\infty$\textemdash This is true so long as ${\E{|\varepsilon_i|}<\infty}$ and ${\E{||X_i||}<\infty}$
-            
-            \item $B$ is compact\textemdash Since $B$ is a subset of a compact space, $B$ is compact.
-        \end{enumerate}
-        The limiting criterion function is simply $E{g(X,\beta)}$:\[
-            Q(\beta) = \E{\left(\tau - \one{Y<X'\beta\one{X'\beta\geq0}}\right)\left(Y - X'\beta\one{X'\beta}\right)}
-        \]
-    \item The distribution of $Y^*$ is given by $F_{\eps|X}(Y-X'\beta_0)$. Thus, this problem is functionally identical to the problem in (a), where ${c=X_i'\beta}$ and ${X_i'\beta\geq 0}$ for $\tau\geq F(0)$ and $c=0$ (i.e., $\beta=0$) otherwise. Thus, ${\chat = F^{-1}(F(0) + \tau)}$ is attained by ${\E{Y_i - X_i'\beta} = 0}$, which is true if ${\beta = \beta_0}$
-    
-    \item If ${\E{XX'\one{X'\beta_0>0}}}$ has full rank, then the solution to ${\E{Y_i - X_i'\beta} = 0}$ is unique, as well, ensuring that the criterion-minimizing value of $\beta$ is unique, at $\beta_0$.\footnote{I understand that the last couple of answers are not sufficient. It is simply not feasible for me to rigorously complete this problem set under my time and priority constraints.}
+    \item 
 \end{enumerate}
 
 %%%________________________________________________________________%%%
 \section*{Question 2}
 
 \begin{enumerate}[(a)]
-    \item Letting $\tilde{\theta}$ be some value between $\theta_0$ and $\hat{\theta}$, the mean-value expansion of the first-order condition of the problem, at $\hat{\theta}$, is:\begin{align*}
-        \frac{\partial\hat{Q}(\that)}{\partial\theta} &= \est{n}\frac{\partial g(W_i, \that, \ghat)}{\partial\theta}    \\
-        &= \est{n}\frac{\partial g(W_i, \theta_0, \ghat)}{\partial\theta} + \est{n}\frac{\partial^2g(W_i,\ttilde,\ghat)}{\partial\theta\partial\theta'}(\that - \theta_0)
-    \end{align*}
-    Note that ${\ghat\rightarrow_p\gamma_0}$, and since $\ghat$ was acquired via a sample independent of $\{W_i\}$, ${Cov(\ghat,\that)=0}$. Then: \begin{align*}
-        &\sqrt{n}\frac{\partial \hat{Q}(\theta_0)}{\partial\theta}  = \frac{1}{\sqrt{n}}\sumn\frac{\partial g(W_i, \theta_0, \ghat)}{\partial\theta}\rightarrow_d \N\left(0, \Omega_0\right) \\ &\text{Where }\Omega_0 = \E{\frac{\partial g(W_i,\theta_0,\gamma_0)}{\partial\theta}\frac{\partial g(W_i,\theta_0,\gamma_0)}{\partial\theta'}}
-    \end{align*}
-    Denote ${B_n = \est{n}\frac{\partial^2g(W_i,\ttilde,\ghat)}{\partial\theta\partial\theta'}}$, where, since the conditions for ULLN are satisfied: \[
+    \item Letting $\tilde{\theta}$ be some value between $\theta_0$ and $\hat{\theta}$, the mean-value expansion of the first-order condition of the problem, at $\hat{\theta}$, is:\[
+        \frac{\partial\hat{Q}(\that)}{\partial\theta} = \frac{\partial \hat{Q}(\theta_0)}{\partial\theta} + \est{n}\frac{\partial^2g(W_i,\ttilde,\ghat)}{\partial\theta\partial\theta'}(\that - \theta_0)
+    \]
+    Denote ${B_n = \est{n}\frac{\partial^2g(W_i,\ttilde,\ghat)}{\partial\theta\partial\theta'}}$, where: \[
         B_n\rightarrow_p B_0 = \frac{\partial^2g(W_i,\theta_0,\gamma_0)}{\partial\theta\partial\theta'}
     \]
-    Thus, \begin{align*}
-        \sqrt{n}\frac{\partial\hat{Q}(\that)}{\partial\theta} &= \sqrt{n}\frac{\partial \hat{Q}(\theta_0)}{\partial\theta} + \est{n}\frac{\partial^2g(W_i,\ttilde,\ghat)}{\partial\theta\partial\theta'}\sqrt{n}(\that - \theta_0) = 0  \\
-        \sqrt{n}(\that - \theta_0) &= -\hat{B}_n^{-1}\sqrt{n}\frac{\partial \hat{Q}(\theta_0)}{\partial\theta} \rightarrow_d \N\left(0,B_0^{-1}\Omega_0B_0^{-1}\right)
+    Then: \begin{align*}
+        &\sqrt{n}\frac{\partial \hat{Q}(\theta_0)}{\partial\theta}  = \frac{1}{\sqrt{n}}\frac{\partial g(W_i, \theta_0, \ghat)}{\partial\theta}\rightarrow_d \N\left(0, \Omega_0\right) \\ &\text{Where }\Omega_0 = \E{\frac{\partial g(W_i,\theta_0,\gamma_0)}{\partial\theta}\frac{\partial g(W_i,\theta_0,\gamma_0)}{\partial\theta'}}
     \end{align*}
-    Where $B_0$ and $\Omega_0$ are known and given above.
-
-    \item First, the additional conditions necessary to derive the asymptotic distribution of ${\sqrt{n}(\that-\theta_0)}$ are the necessary assumptions for ULLN, which are the assumptions given in (f) and (g) for $g$, but instead for $m$. \medskip \\ 
-    Since $\ghat$ and $\that$ were retrieved from the same sample, we can no longer assume that their asymptotic covariance is zero and therefore must account for the asymptotic variance of $\that$ in the asumptotic variance of $\that$. Since $m$ does not depend on $\theta$, we can rewrite $\Sigma_\gamma$ as ${A_0^{-1}\Omega^\gamma_0A_0^{-1}}$, where:\[
-        A_0 = \E{\frac{\partial^2m(W_i,\gamma_0)}{\partial\gamma\partial\gamma'}},\quad\quad 
-        \Omega^\gamma_0 = \E{\frac{\partial m(W_i,\gamma_0)}{\partial\gamma}\frac{\partial m(W_i,\gamma_0)}{\partial\gamma'}}
-    \]
-    Now, the Taylor expansion from (a) becomes:\[
-        \frac{\partial\hat{Q}(\that)}{\partial\theta} = 
-        \est{n}\frac{\partial g(W_i, \theta_0, \gamma_0)}{\partial\theta} + 
-        \est{n}\colvec{2}{\frac{\partial^2g(W_i,\ttilde,\gamma_0)}{\partial\theta\partial\theta'}}{\frac{\partial^2g(W_i,\theta_0,\gtilde)}{\partial\theta\partial\gamma'}}'\colvec{2}{\that - \theta_0}{\ghat-\gamma_0}
-    \]
-    Thus, we can write:\[
-        \sqrt{n}\colvec{2}{\that - \theta_0}{\ghat-\gamma_0}
-            = -C_n^{-1}\frac{1}{\sqrt{n}}\sumn\frac{\partial g(W_i, \theta_0, \gamma_0)}{\partial\theta}
-    \]
-    Where:\[
-        C_n = \est{n}\colvec{2}{\frac{\partial^2g(W_i,\ttilde,\gamma_0)}{\partial\theta\partial\theta'}}{\frac{\partial^2g(W_i,\theta_0,\gtilde)}{\partial\theta\partial\gamma'}}' \rightarrow_p
-        C_0 = \E{\colvec{2}{\frac{\partial^2g(W_i,\theta_0,\gamma_0)}{\partial\theta\partial\theta'}}{\frac{\partial^2g(W_i,\theta_0,\gamma_0)}{\partial\theta\partial\gamma'}}'}
-    \]
-    Then, by the Central Limit Theorem, \[
-        \sqrt{n}\colvec{2}{\that - \theta_0}{\ghat-\gamma_0}\rightarrow_d
-        \N\left(0, C_0^{-1}\colvec{2}{\Omega_0^\theta}{\Omega_0^\gamma}(C_0^{-1})'\right)
+    Thus, since the conditions for ULLN are satisfied, {\small \[
+        \sqrt{n}\frac{\partial\hat{Q}(\that)}{\partial\theta} = \sqrt{n}\frac{\partial \hat{Q}(\theta_0)}{\partial\theta} + \est{n}\frac{\partial^2g(W_i,\ttilde,\ghat)}{\partial\theta\partial\theta'}\sqrt{n}(\that - \theta_0)
+        \rightarrow_d \N\left(0,\Omega_0\right)
+    \] }
+    Simplifying, this yields: \[
+        \sqrt{n}(\that - \theta_0) \rightarrow_d \N\left(0, B_0^{-1}\Omega_0B_0^{-1}\right)
     \]
 \end{enumerate}
 

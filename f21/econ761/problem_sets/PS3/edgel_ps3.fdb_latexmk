@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1635881723 "c:/Users/edgel/Google Drive/UW-Madison/f21/econ761/problem_sets/PS3/edgel_ps3.tex" "edgel_ps3.pdf" "edgel_ps3" 1635881725
+["pdflatex"] 1635730072 "c:/Users/edgel/Google Drive/UW-Madison/f21/econ761/problem_sets/PS3/edgel_ps3.tex" "edgel_ps3.pdf" "edgel_ps3" 1635730073
   "C:/Users/edgel/AppData/Local/MiKTeX/fonts/pk/ljfour/public/bbm/dpi600/bbm10.pk" 1602193014 6984 e4c218b086f3f2da9293f3823328a322 ""
   "C:/Users/edgel/AppData/Local/MiKTeX/fonts/tfm/public/bbm/bbm10.tfm" 1602193011 560 39fd35b5e4a6aca3672660cc548ba860 ""
   "C:/Users/edgel/AppData/Local/MiKTeX/fonts/tfm/public/bbm/bbm5.tfm" 1602193013 556 9c04e2d7f25768427a52589d484d3199 ""
@@ -82,17 +82,14 @@
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/tex/latex/tools/array.sty" 1580648484 12560 ce3f59ceae9d9a27bfe037d6bf1d903c ""
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/tex/latex/tools/bm.sty" 1580648484 12671 ace2aac118748ea10d1717448ecafbed ""
   "C:/Users/edgel/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1463135581 57049 34128738f682d033422ca125f82e5d62 ""
-  "c:/Users/edgel/Google Drive/UW-Madison/f21/econ761/problem_sets/PS3/edgel_ps3.tex" 1635881717 7376 cd61b7bb543341b3ff973c020b8180e4 ""
-  "edgel_ps3.aux" 1635881724 196 d977c29f8bed81efac82841b06e63de2 "pdflatex"
-  "edgel_ps3.tex" 1635881717 7376 cd61b7bb543341b3ff973c020b8180e4 ""
-  "figure1.png" 1635880424 37809 437d21a609fbe5e29fabadfa6b8a4421 ""
+  "c:/Users/edgel/Google Drive/UW-Madison/f21/econ761/problem_sets/PS3/edgel_ps3.tex" 1635730070 6413 f83bbd8b0868bb56cc9a23a27537ee01 ""
+  "edgel_ps3.aux" 1635730073 105 01dd06dbcc5e09f093b02a9bf6c1a0dd "pdflatex"
+  "edgel_ps3.tex" 1635730070 6413 f83bbd8b0868bb56cc9a23a27537ee01 ""
   "table1.tex" 1635714195 316 79c1159094838083fcbeb0fe3a144a01 ""
   "table2.tex" 1635714201 563 328995c3c145693db26ad82dbeaad783 ""
   "table3.tex" 1635714216 685 772a917fc4101d5c5f0ed1636a508025 ""
   "table4.tex" 1635729877 800 90cfef8c94849669ab358f82464d439b ""
-  "table5.tex" 1635803717 176 ccd2d10fd9e18ed5aaca39b194800861 ""
-  "table6.tex" 1635881621 179 c8dff1909edbba39bae82af79001a55a ""
   (generated)
-  "edgel_ps3.pdf"
   "edgel_ps3.aux"
   "edgel_ps3.log"
+  "edgel_ps3.pdf"

@@ -1,0 +1,212 @@
+%%% Econ715: Econometric Methods
+%%% Spring 2021
+%%% Danny Edgel
+%%%
+% Due on Canvas Wednesday, November 10th, 11:59pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{color}
+\usepackage{courier}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[shortlabels]{enumitem}
+\usepackage{boondox-cal}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\olz}[1]{\overline{Z}_{#1}}
+%\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\est}[1]{\frac{1}{\lowercase{#1}}\sum_{i=1}^{\lowercase{#1}}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}^{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\ehat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\bcls}{\tilde{\beta}_{CLS}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\vt}{\tilde{\varepsilon}}
+\renewcommand{\Pr}[1]{Pr\left(#1\right)}
+\newcommand{\biv}{\bhat^{IV}}
+\newcommand{\xbar}{\overline{X}}
+\newcommand{\ybar}{\overline{Y}}
+\newcommand{\zbar}{\overline{Z}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\esti}{\frac{1}{T_i-1}\sum_{t=1}^{T_i}}
+\newcommand{\oinv}{\Omega^{-1}}
+\newcommand{\olg}{\overline{g}_n}
+\newcommand{\e}[1]{\text{exp}\left(#1\right)}
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+\newcommand{\that}{\hat{\theta}_n}
+\newcommand{\tshat}{\hat{\theta}^*_n}
+\newcommand{\ttilde}{\tilde{\theta}_n}
+\newcommand{\ghat}{\hat{\gamma}_n}
+\newcommand{\gtilde}{\tilde{\gamma}_n}
+\newcommand{\chat}{\hat{c}}
+\newcommand{\Qhat}{\hat{Q}_n(\beta)}
+\renewcommand{\lim}[1]{\underset{#1}{\text{lim }}}
+\newcommand{\xs}{X^*}
+\newcommand{\olxs}{\overline{X}^*}
+\newcommand{\pinv}{\Phi^{-1}}
+\newcommand{\tchat}{\that^\dagger}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
+\newcommand{\Es}[1]{\mathbb{E}^*\left[#1\right]}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+\newcount\rowveccount
+\newcommand*\rowvec[1]{
+        \global\rowveccount#1
+        \begin{pmatrix}
+        \rowvecnext
+}
+\def\rowvecnext#1{
+        #1
+        \global\advance\rowveccount-1
+        \ifnum\rowveccount>0
+                &
+                \expandafter\rowvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+
+\title{	Problem Set \#2 }
+\author{ 	Danny Edgel 					\\ 
+			Econ 715: Econometric Methods	\\
+			Fall 2021						
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+\section*{Question 1}
+
+\begin{enumerate}[(a)]
+    \item To determine ${\Pr{\sumn(\xs_i-\olxs_i)^2=0|\{W_i\}}}$, we need only find \linebreak $\Pr{\sumn\xs_i-\olxs_i=0|\{W_i\}}$. Since ${X_i\in\{0, 1\}}$, ${X_i^*\in\{0, 1\}}$, so:\[
+        \Pr{\xs_i-\olxs_i=0|\{W_i\}} = \Pr{\xs_i=\xs_j \forall i,j|\{W_i\}}
+    \] Where ${Pr(X^*_i=X_j^*)\geq\frac{1}{2}}$ ${\forall i,j}$. Then, \[
+        \Pr{\xs_i=\xs_j \forall i,j|\{W_i\}} = \left(\frac{1}{2}\right)^n
+    \]
+    Where, for finite $n$, $2^{-n}>0$.
+
+    \item If the conditions for the Lindeberg CLT are satisfied, then $\tshat$ converges to the same distribution as $\that$. Thus, we must show that\[
+        \text{sup}\est{n}|X_i(s)|^{2+\delta}<\infty
+    \]
+    For some $\delta>0$. By the domain of $X$, this is necessarily satisfied.
+
+    \item Since $\pinv(\cdot)$ is a constant,\begin{align*}
+        \frac{F^{-1}_{\sqrt{n}(\tshat-\that)|\left\{W_i\right\}}\left(0.75|\{W_i\}\right)-F^{-1}_{\sqrt{n}(\tshat-\that)|\left\{W_i\right\}}\left(0.25|\{W_i\}\right)}{\pinv(0.75) - \pinv(0.25)} \rightarrow_p \\
+        \frac{F^{-1}_{\N(0,\sigma_u^2/\sigma_X^2)}\left(0.75\right)-F^{-1}_{\N(0,\sigma_u^2/\sigma_X^2)}\left(0.25\right)}{\pinv(0.75) - \pinv(0.25)}
+    \end{align*}
+    Thus, \begin{align*}
+        v_n^{iqr} \rightarrow_{a.s.} \frac{\frac{\sigma_u}{\sigma_X}\left(\pinv(0.75)-\pinv(0.25)\right)}{\pinv(0.75)-\pinv(0.25)} = \sigma_u/\sigma_X
+    \end{align*}
+
+    \item First, we can solve for ${Var(\tchat|\{W_i\})}$:\begin{align*}
+        \E{\tchat|\{W_i\}} &= \that + \frac{\sumn(X_i - \olx{n})\hat{u}_i}{\sumn(X_i - \olx{n})^2}\E{\eps_i|\{W_i\}} \\
+                    &= \that + \frac{\sumn(X_i - \olx{n})\hat{u}_i}{\sumn(X_i - \olx{n})^2}  \\
+        \E{\tchat|\{W_i\}}^2 &=  \that^2 + 2\that\frac{\sumn(X_i - \olx{n})\hat{u}_i}{\sumn(X_i - \olx{n})^2} + \left(\frac{\sumn(X_i - \olx{n})\hat{u}_i}{\sumn(X_i - \olx{n})^2}\right)^2    \\
+        (\tchat)^2 &= \that^2 + 2\that\frac{\sumn(X_i - \olx{n})\hat{u}_i\eps_i}{\sumn(X_i - \olx{n})^2} + \left(\frac{\sumn(X_i - \olx{n})\hat{u}_i\eps_i}{\sumn(X_i - \olx{n})^2}\right)^2   \\
+        Var(\tchat|\{W_i\}) &= \E{(\tchat)^2|\{W_i\}} - \E{\tchat|\{W_i\}}^2 \\
+            &= \left(\frac{\sumn(X_i - \olx{n})\hat{u}_i}{\sumn(X_i - \olx{n})^2}\right)^2\E{\eps_i^2|\{W_i\}}    \\
+            &= \left(\frac{\sumn(X_i - \olx{n})\hat{u}_i}{\sumn(X_i - \olx{n})^2}\right)^2
+    \end{align*}
+    By the law of large numbers, this converges to its unconditional expectation. By assumption,\[
+        \left(\frac{\sumn(X_i - \olx{n})\hat{u}_i}{\sumn(X_i - \olx{n})^2}\right)^2 \rightarrow_{a.s.} \frac{\E{(X-\E{X})^2}}{\E{(X-\E{X})^2}^4}\E{u^2} = \sigma_u^2/\sigma_X^2
+    \]
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+

@@ -55,7 +55,7 @@ foreach eqn in 3 1{
 		gen LernerCN`eqn' = (a0 - b0 + nu - eta)/(a0 + nu + (b0 + eta)*N)
 
 		// Eqm Lerner index for Monopoly
-		gen LernerM`eqn' = (a0 - b0 + nu - eta) / ((a0 + b0 + nu + eta)*N)
+		gen LernerM`eqn' = (a0 - b0) / ((a0 + b0 + 2*nu)*N)
 	}
 	
 	// Herfindahl index for symmetric firms and fixed N
@@ -71,7 +71,7 @@ foreach eqn in 3 1{
 	gen lnLernerObs`eqn' = ln(Lerner`eqn') + .1*unif
 	
 	// generate list of sample descriptions
-	loc samp_descs Regulated Unregulated Pooled
+	loc samp_descs Cournot Collusion Pooled
 	
 	// run analysis both pooled and separate
 	forval pooled = 0/2{
@@ -90,8 +90,7 @@ foreach eqn in 3 1{
 			loc N = e(N)
 		}
 		else{
-			if (`pooled' == 0) 	reg lnLernerObs`eqn' lnHerf`eqn' if _n >  500
-			else				reg lnLernerObs`eqn' lnHerf`eqn' if _n <= 500
+			reg lnLernerObs`eqn' lnHerf`eqn' if collude == `pooled'
 			loc N = e(N)
 		}
 		
