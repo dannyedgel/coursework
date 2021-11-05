@@ -191,8 +191,58 @@
             &= \left(\frac{\sumn(X_i - \olx{n})\hat{u}_i}{\sumn(X_i - \olx{n})^2}\right)^2
     \end{align*}
     By the law of large numbers, this converges to its unconditional expectation. By assumption,\[
-        \left(\frac{\sumn(X_i - \olx{n})\hat{u}_i}{\sumn(X_i - \olx{n})^2}\right)^2 \rightarrow_{a.s.} \frac{\E{(X-\E{X})^2}}{\E{(X-\E{X})^2}^4}\E{u^2} = \sigma_u^2/\sigma_X^2
+        \left(\frac{\sumn(X_i - \olx{n})\hat{u}_i}{\sumn(X_i - \olx{n})^2}\right)^2 \rightarrow_{a.s.} \frac{\E{(X-\E{X})^2}}{\E{(X-\E{X})^2}^2}\E{u^2} = \sigma_u^2/\sigma_X^2
     \]
+
+    \item The results of the simulation are below. See edgel\_ps2.jl and functions.jl for the code that generates them.
+        \begin{center}
+            \input{table1.tex}
+        \end{center}
+\end{enumerate}
+\pagebreak
+%%%________________________________________________________________%%%
+\section*{Question 2}
+
+\begin{enumerate}[(a)]
+    \item The inequalities for this data generating process are:\begin{align*}
+        [g(0, 0) - g(1, 0)](-1)         &\geq 0 \\
+        [g(0, 0) - g(1, 1)](-1 -\theta) &\geq 0 \\
+        [g(0, 0) - g(0, 1)](- \theta)   &\geq 0 \\
+        [g(1, 0) - g(0, 0)]             &\geq 0 \\
+        [g(1, 0) - g(0, 1)](1 - \theta) &\geq 0 \\
+        [g(1, 0) - g(1, 1)](- \theta)   &\geq 0 \\
+        [g(1, 1) - g(1, 0)](\theta)     &\geq 0 \\
+        [g(1, 1) - g(0, 0)](1 + \theta) &\geq 0 \\
+        [g(1, 1) - g(0, 1)]             &\geq 0 \\
+        [g(0, 1) - g(0, 0)](\theta)     &\geq 0 \\
+        [g(0, 1) - g(1, 1)](-1)         &\geq 0 
+    \end{align*}
+    Note that the trivial inequalities ($0\geq 0$) are excluded. The unique set of inequalities, then, is:\begin{align}
+        [g(0, 1) - g(0, 0)]\theta       &\geq 0 \\
+        [g(1, 0) - g(0, 0)]             &\geq 0 \\
+        [g(1, 1) - g(0, 0)](1 + \theta) &\geq 0 \\
+        [g(1, 0) - g(0, 1)](1 - \theta) &\geq 0 \\
+        [g(1, 1) - g(1, 0)]\theta       &\geq 0 \\
+        [g(1, 1) - g(0, 1)]             &\geq 0 
+    \end{align}
+    Note that this set of inequalities holds for all values of $\theta$. 
+
+    \item %First, note that all inequalities hold for all$\theta\geq0$.Then, suppose $\theta\leq0$. If $\theta\in[-1, 0]$, all inequalities hold. :\begin{align*}
+     %   g(0, 1) \geq g(0, 0) &\Rightarrow g(1, 1) \geq g(0, 0)  \\
+     %   \therefore \theta &\geq -1                              
+    %\end{align*}
+    
+    %If $\theta=1$, then $\theta$ is no longer identified by inequality (5). Since (5) is the only nontrivial inequality that compares $(0, 1)$ and $(1, 0)$, This model cannot identify the relative ordering of these two outcomes.
+    
+    
+    %then the set of inequalities becomes:\begin{align*}
+    %    g(1, 0) &\geq g(0, 0)   \\
+    %    g(1, 1) &\geq g(0, 0)   \\
+    %    g(0, 1) &\geq g(0, 0)   \\
+    %    g(1, 1) &\geq g(1, 0)   \\
+    %    g(1, 1) &\geq g(0, 1)   
+    %\end{align*}
+
 \end{enumerate}
 
 %%%________________________________________________________________%%%
