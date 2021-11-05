@@ -217,32 +217,26 @@
         [g(0, 1) - g(0, 0)](\theta)     &\geq 0 \\
         [g(0, 1) - g(1, 1)](-1)         &\geq 0 
     \end{align*}
-    Note that the trivial inequalities ($0\geq 0$) are excluded. The unique set of inequalities, then, is:\begin{align}
-        [g(0, 1) - g(0, 0)]\theta       &\geq 0 \\
-        [g(1, 0) - g(0, 0)]             &\geq 0 \\
-        [g(1, 1) - g(0, 0)](1 + \theta) &\geq 0 \\
-        [g(1, 0) - g(0, 1)](1 - \theta) &\geq 0 \\
-        [g(1, 1) - g(1, 0)]\theta       &\geq 0 \\
-        [g(1, 1) - g(0, 1)]             &\geq 0 
+    Note that the trivial inequalities ($0\geq 0$) are excluded. The unique set of inequalities, letting $g(x_1, x_2) = F(x_1 + \theta x_2)$, is:\begin{align}
+        [F(\theta) - F(0)]\theta            &\geq 0 \\
+        [F(1) - F(0)]                       &\geq 0 \\
+        [F(1+\theta) - F(0)](1 + \theta)    &\geq 0 \\
+        [F(1) - F(\theta)](1 - \theta)      &\geq 0 \\
+        [F(1+\theta) - F(1)]\theta          &\geq 0 \\
+        [F(1+\theta) - F(\theta)]           &\geq 0 
     \end{align}
     Note that this set of inequalities holds for all values of $\theta$. 
 
-    \item %First, note that all inequalities hold for all$\theta\geq0$.Then, suppose $\theta\leq0$. If $\theta\in[-1, 0]$, all inequalities hold. :\begin{align*}
-     %   g(0, 1) \geq g(0, 0) &\Rightarrow g(1, 1) \geq g(0, 0)  \\
-     %   \therefore \theta &\geq -1                              
-    %\end{align*}
-    
-    %If $\theta=1$, then $\theta$ is no longer identified by inequality (5). Since (5) is the only nontrivial inequality that compares $(0, 1)$ and $(1, 0)$, This model cannot identify the relative ordering of these two outcomes.
-    
-    
-    %then the set of inequalities becomes:\begin{align*}
-    %    g(1, 0) &\geq g(0, 0)   \\
-    %    g(1, 1) &\geq g(0, 0)   \\
-    %    g(0, 1) &\geq g(0, 0)   \\
-    %    g(1, 1) &\geq g(1, 0)   \\
-    %    g(1, 1) &\geq g(0, 1)   
-    %\end{align*}
+    \item If $\theta=1$, then\begin{align*}
+        g(1, 0) &= g(0, 1) = F(1)  \\
+        g(0, 0) &= F(0)            \\
+        g(1, 1) &= F(2)
+    \end{align*}
+    Thus, the only useful moment inequalities for identification yield:\[
+        \hat{\Theta}_n = \left\{\theta: \theta\geq0\right\}
+    \]
 
+    \item In this case, any variation in $Y$ is due entirely to variation in $\varepsilon$. Then, for each $(x_1, x_2)$, $Var(Y) = Var(\varepsilon)$ and $\E{Y|(x_1, x_2)} = F(x_1 + \theta x_2)$. Thus, the standard error of $\that$ is $\frac{1}{n}\widehat{Var(Y)}$, where $\widehat{Var(Y)}$ is asymptotically normal.
 \end{enumerate}
 
 %%%________________________________________________________________%%%
