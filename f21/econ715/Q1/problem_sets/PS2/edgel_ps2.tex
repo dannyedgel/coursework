@@ -191,7 +191,53 @@
             &= \left(\frac{\sumn(X_i - \olx{n})\hat{u}_i}{\sumn(X_i - \olx{n})^2}\right)^2
     \end{align*}
     By the law of large numbers, this converges to its unconditional expectation. By assumption,\[
-        \left(\frac{\sumn(X_i - \olx{n})\hat{u}_i}{\sumn(X_i - \olx{n})^2}\right)^2 \rightarrow_{a.s.} \frac{\E{(X-\E{X})^2}}{\E{(X-\E{X})^2}^4}\E{u^2} = \sigma_u^2/\sigma_X^2
+        \left(\frac{\sumn(X_i - \olx{n})\hat{u}_i}{\sumn(X_i - \olx{n})^2}\right)^2 \rightarrow_{a.s.} \frac{\E{(X-\E{X})^2}}{\E{(X-\E{X})^2}^2}\E{u^2} = \sigma_u^2/\sigma_X^2
+    \]
+
+    \item The results of the simulation are below. See edgel\_ps2.jl and functions.jl for the code that generates them.
+        \begin{center}
+            \input{table1.tex}
+        \end{center}
+\end{enumerate}
+\pagebreak
+%%%________________________________________________________________%%%
+\section*{Question 2}
+
+\begin{enumerate}[(a)]
+    \item The inequalities for this data generating process are:\begin{align*}
+        [g(0, 0) - g(1, 0)](-1)         &\geq 0 \\
+        [g(0, 0) - g(1, 1)](-1 -\theta) &\geq 0 \\
+        [g(0, 0) - g(0, 1)](- \theta)   &\geq 0 \\
+        [g(1, 0) - g(0, 0)]             &\geq 0 \\
+        [g(1, 0) - g(0, 1)](1 - \theta) &\geq 0 \\
+        [g(1, 0) - g(1, 1)](- \theta)   &\geq 0 \\
+        [g(1, 1) - g(1, 0)](\theta)     &\geq 0 \\
+        [g(1, 1) - g(0, 0)](1 + \theta) &\geq 0 \\
+        [g(1, 1) - g(0, 1)]             &\geq 0 \\
+        [g(0, 1) - g(0, 0)](\theta)     &\geq 0 \\
+        [g(0, 1) - g(1, 1)](-1)         &\geq 0 
+    \end{align*}
+    Note that the trivial inequalities ($0\geq 0$) are excluded. The unique set of inequalities, letting $g(x_1, x_2) = F(x_1 + \theta x_2)$, is:\begin{align}
+        [F(\theta) - F(0)]\theta            &\geq 0 \\
+        [F(1) - F(0)]                       &\geq 0 \\
+        [F(1+\theta) - F(0)](1 + \theta)    &\geq 0 \\
+        [F(1) - F(\theta)](1 - \theta)      &\geq 0 \\
+        [F(1+\theta) - F(1)]\theta          &\geq 0 \\
+        [F(1+\theta) - F(\theta)]           &\geq 0 
+    \end{align}
+    Note that this set of inequalities holds for all values of $\theta$. 
+
+    \item If $\theta=1$, then\begin{align*}
+        g(1, 0) &= g(0, 1) = F(1)  \\
+        g(0, 0) &= F(0)            \\
+        g(1, 1) &= F(2)
+    \end{align*}
+    Thus, the only useful moment inequalities for identification yield:\[
+        \hat{\Theta}_n = \left\{\theta: \theta\geq0\right\}
+    \]
+
+    \item In this case, any variation in $Y$ is due entirely to variation in $\varepsilon$. Then, for each $(x_1, x_2)$, $Var(Y) = Var(\varepsilon)$ and $\E{Y|(x_1, x_2)} = F(x_1 + \theta x_2)$. Thus, the standard error of $\that$ is $\frac{1}{n}\widehat{Var(Y)}$, where $\widehat{Var(Y)}$ is asymptotically normal. Then, letting $c^*_\alpha$ be the critical value of the normal distribution for $\alpha$, the confidence interval for $\alpha$ is:\[
+        \left[F_\varepsilon^{-1}\left(\est{n}Y(0,1)\right) - c^*_\alpha\widehat{Var(Y)}, F_\varepsilon^{-1}\left(\est{n}Y(0,1)\right) + c^*_\alpha\widehat{Var(Y)}\right]
     \]
 \end{enumerate}
 
