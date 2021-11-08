@@ -280,7 +280,7 @@
     Thus, firm 2 always has an incentive to set $p_2$ at least as low as $p_{1R}$. Now, we can solve for the equilibrium by calculating each firm's best response function. In order to do so, we must first solve for the marginal consumer at each set of prices, $(p_{1L}, p_R)$. Let $x\in[0,1]$ be the marginal consumer's location on the product space:\[
       1-x - p_{1L} = x - p_R\quad\Rightarrow\quad x= \frac{1}{2}\left(1-p_{1L}+p_R\right)
     \]
-    Next, we consider each firm's payoff function. Let us consider firm 1's payoff function without considering firm 2's strategic incentives:\footnote{Note that the following does not account for regions of the price space that result in some consumers having negative utility from consumption. The problem does not specify a reservation utility, so I have assumed no reservation utility, i.e. that consumers will consume \textit{something} regardless of the minimum price.}\[
+    Next, we consider each firm's payoff function. Let us consider firm 1's payoff function without considering firm 2's strategic incentives:\[
       \pi_1(p_{1L}, p_{1R}, p_2) = \begin{cases}
         \frac{p_1}{2}\left(1-p_{1L}+p_R\right) + \frac{p_2}{2}\left(1+p_{1L}-p_R\right) &, p_{1R}<p_2     \\
         \frac{p_1}{2}\left(1-p_{1L}+p_R\right)                                          &, p_{1R}\geq p_2
@@ -346,21 +346,6 @@
     \]
     This function is maximized at ${p_1(p_2; c)=\frac{1}{2}(p_2 + c)}$. Note that this value yields positive demand for all values of $p_2$'s domain for $c>0$.
 
-    \item Given $p_1$, firm 2's best response function is:\[
-      p_2(p_1) = \text{arg}\usmax{p_2} \left[\frac{1}{2}+ p_2- (2p_2 - p_1)\right](p_2 - 2c) = \frac{1}{4} + \frac{1}{2}p_1 + c
-    \]
-    Plugging firm one's best response function into firm 2's, we get the following equilibrium:\[
-      p_1^* = \frac{1}{6}(1 + 8c),\quad p_2^* = \frac{1}{3}(1 + 5c)
-    \]
-    To determine whether these firms can coexist, we may test the bounds of $c$ to determine whether each firm has positive demand:
-    \begin{center}
-      \begin{tabular}{r|cc}
-        &         $p_1$ & $p_2$ \\\hline 
-        $c=0$   & 1/6   & 1/3   \\
-        $c=1/2$ & 5/6   & 7/6    
-      \end{tabular}
-    \end{center}
-    At the upper extreme of possible values for $c$, firm 2's optimal price is not profitable. This is unsurprising, since at ${c=1/2}$, firm 2 can only break even with ${p_2=1}$, which results in zero demand. Thus, for all but the highest value of $c$, these firms can coexist.
   \end{enumerate}
 \end{enumerate}
 

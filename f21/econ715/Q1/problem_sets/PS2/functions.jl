@@ -3,7 +3,8 @@
 ==#
 
 # Declare packages
-using Distributions, Distributed, SharedArrays, StatsBase
+using Distributions, StatsBase, LinearAlgebra, 
+        Statistics, Parameters
 
 # Define the parameters of the data generation process
 @with_kw mutable struct DGP
@@ -24,69 +25,84 @@ end # simulation
 function Initialize(n::Int64; s::Int64 = 1)
     param = DGP()
     # generate simulated data
-    S = Array{Float64}(n, 2, s)
-    S[:, 2, :] = rand(Bernoulli(param.p), (n, s))                            # X
-    S[:, 1, :] = param.β + param.θ.*sim[:, 2, :] + rand(Normal(), (n, s))    # Y
+    S = zeros(n, 2, s)
+    S[:, 2, :] = rand(Bernoulli(param.p), (n, s))                          # X
+    S[:, 1, :] = param.β .+ param.θ.*S[:, 2, :] .+ rand(Normal(), (n, s))    # Y
     sim   = Simulation(S, s, n)
 
     return param, sim
 end # initialize
 
 # Function that computes θₙ given Y and X
-function OLS(Y, X; modify = false)
+function OLS(Y, X; modify = false, returnβ = false)
+    X = [ones(length(X), 1) X] # add intercept to X
+    β = (X'*X) \ (X'*Y)
+
     if modify
-        return maximum(0.01, sum((X .- mean(X)).*Y)/sum((X .- mean(X))^2))
+        β[2] = maximum([0.01 β[2]])
+    end
+
+    if returnβ
+        return [β[1]; β[2]]
     else
-        return sum((X .- mean(X)).*Y)/sum((X .- mean(X))^2)
+        return β[2]
     end
 end # OLS
 
 # Function that computes heteroskedasticity-robust asymptotic SE 
-function AsympSE(Y, X, param::DGP)
-    uhat = Y - param.β - param.θ.*X
+function AsympSE(Y, X)
+    uhat = Y - [ones(length(X), 1) X]*OLS(Y, X; returnβ = true)
     return sqrt((sum((X .- mean(X)).^2)^(-2))*sum(((X .- mean(X)).^2).*(uhat.^2)))
 end # Asymptotic SE 
 
 # Function that computes bootstrap standard errors
-function BootstrapSE(Y, X; B::Int64 = 1000)
+function BootstrapSE(Y, X; B::Int64 = 1000, modify = false)
 
     # generate bootstrap samples of Y and X
     Ys, Xs = Y[rand(1:length(Y), (length(Y), B))], X[rand(1:length(Y), (length(Y), B))]
 
     # initialize vector of θhats
-    @everywhere Θhat = SharedArray(B)
+    Θhat = zeros(B)
 
     # generate vector of θhats
-    @async @distributed for b = 1:B
-        Θhat[b] = OLS(Ys[:, b], X[:, b])
+    for b = 1:B
+        Θhat[b] = OLS(Ys[:, b], Xs[:, b]; modify = modify)
     end
+    Θhat = filter(!isnan, Θhat)
+    B    = length(Θhat)
 
     # return SE and IQR SE
-    return (B - 1)^{-1}*sum((θhat .- mean(θhat).^2)), iqr(θhat) / (quantile(Normal(), .75) - quantile(Normal(), .25))
+    return ((B-1)^(-1))*sum((Θhat .- mean(Θhat)).^2), iqr(Θhat) / (quantile(Normal(), .75) - quantile(Normal(), .25))
     
 end # Bootstrap SE
 
 # Function that computes score bootstrap standard errors
-function ScoreBootstrap(Y, X; B::Int64 = 1000, Binomial = false)
-    #== 
-    TODO: use notes on score bootstrap to complete below
-    # generate bootstrap samples of Y and X
-    Ys, Xs = Y[rand(1:length(Y), (length(Y), B))], X[rand(1:length(Y), (length(Y), B))]
+function ScoreBootstrap(Y, X; B::Int64 = 1000, binomial = false)
 
-    # initialize vector of θhats
-    @everywhere Θhat = SharedArray(B)
-
-    # generate vector of θhats
-    @async @distributed for b = 1:B
-        Θhat[b] = OLS(Ys[:, b], X[:, b])
+    # generate vector of random shocks
+    if binomial
+        ε = 2*rand(Binomial(), (length(Y), B))
+    else
+        ε = rand(Normal(1, 1), (length(Y), B))
     end
 
-    # return SE and IQR SE
-    return (B - 1)^{-1}*sum((θhat .- mean(θhat).^2)), iqr(θhat) / (quantile(Normal(), .75) - quantile(Normal(), .25))
-    ==#
+    # initialize vector of θcrosses
+    θcross, β = zeros(B), OLS(Y, X; returnβ = true)
+    uhat      = Y - [ones(length(X), 1) X]*β
+
+    # generate vector of θcrosses
+    for b = 1:B
+        θcross[b] = β[2] + sum((X .- mean(X)).*uhat.*ε[:, b])/sum((X .- mean(X)).^2)
+    end
+
+    # return SE
+    return ((B-1)^(-1))*sum((θcross .- mean(θcross)).^2)
+
+    # sqrt((length(Y)^(-1))*(sum((X .- mean(X)).*uhat)/sum((X .- mean(X)).^2))^2)
+
 end # Score Bootstrap
 
-# Function that computes convergence rate
-function ConvergenceRate(θhat, θ, se)
-
+# Function that outputs mean, sd, and coverage rate
+function seStats(θhat, se, param::DGP)
+    return mean(filter(!isnan,se)), std(filter(!isnan,se)), sum((param.θ .>= (θhat .- 1.96.*se)) .& (param.θ .<= (θhat .+ 1.96.*se)))/length(filter(!isnan,se))
 end # Convergence rate
