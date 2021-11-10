@@ -126,6 +126,14 @@
             \footnotesize{Standard errors in parentheses; both specifications include an unreported intercept.}
         \end{center}
     The biggest weakness of this model is that it does not account for the timing of entry between each firm and the fact that each firm is choosing to enter strategically, based on whether and when the other firm enters. Specifically, these decisions are not modeled as simultaneous equations, even though they fundamentally are. Furthermore, this omits key profit determinants, such as household income and the number of small firms prior to entry.\footnote{The author's data do include such variables, but without a common identifier betwwen data78.out and XMat.out, we cannot merge the two files.}
+
+    \item Yes, distance to Benton County, Arkansas can be used as an instrument for WalMart's entry. Since WalMart was founded in Benton County, WalMart is more likely to expand to nearby counties, \textit{ceteris paribus}, since it has more information about those markets than is captured by observable covariates, and it pays a lower fixed cost for adapting its supply chain to service those markets. Table 2 below displays the results of the maximum likelihoodIV probit regression (column 2) and the probit regression for Walmart, including the log distance to Benton county as a covariate (column 1).
+    \begin{center}
+        \textbf{Table 2} \\ \medskip
+        \input{table2.tex} \\ \smallskip
+        \footnotesize{Standard errors in parentheses; both specifications include an unreported intercept.}
+    \end{center}
+    As you can see, the magnitude of the coefficient on Walmart's presence in a county is substantially higher in KMart's entry model than in the model without instrumental variables. This suggests that the misspecification from failing to account for simultaneous entry decisions biases this coefficient toward zero.
 \end{enumerate}
 
 \end{document}

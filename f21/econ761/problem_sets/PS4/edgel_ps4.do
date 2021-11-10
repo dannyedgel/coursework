@@ -1,6 +1,14 @@
-
+/*
+	This file conducts all of the analysis necessary for question 2 of problem
+	set 4 for Econ 761
+	
+	Date created:  09 Nov 2021
+	Last modified: 10 Nov 2021
+	Author: Danny Edgel
+*/
 
 capture file close table1
+capture file close table2
 
 
 cd "C:\Users\edgel\Google Drive\UW-Madison\f21\econ761\problem_sets\PS4\"
@@ -48,7 +56,7 @@ forval i = 1/`: word count `X''{
 	loc s`=`i'+1'_wm : di %4.3f _se[`: word `i' of `X'']
 }
 loc r2_wm : di %4.3f e(r2_p)
-loc ll_wm : di %7.0f e(ll_0)
+loc ll_wm : di %7.0f e(ll)
 loc N_wm : di %7.0fc e(N)
 
 
@@ -62,7 +70,7 @@ forval i = 1/`: word count `X''{
 	loc s`=`i'+1'_km : di %4.3f _se[`: word `i' of `X'']
 }
 loc r2_km : di %4.3f e(r2_p)
-loc ll_km : di %7.0f e(ll_0)
+loc ll_km : di %7.0f e(ll)
 loc N_km : di %7.0fc e(N)
 
 
@@ -71,10 +79,11 @@ loc i = 1
 file open table1 using table1.tex, write replace
 file write table1	///
 	"\begin{tabular}{rcc}"										_newline	///
+	_tab "& (1) &  (2) \\\hline && \\"							_newline 	///
 	_tab "& $\one{WalMart}$ & $\one{KMart}$ \\\hline && \\"		_newline 	///
 	_tab "$\one{KMart}$ & `b`i'_wm' &             \\"			_newline 	///
 	_tab "              & (`s`i'_wm') &             \\"			_newline 	///
-	_tab "$\one{WalMart}$ &         & `s`i'_km'   \\"			_newline 	///
+	_tab "$\one{WalMart}$ &         & `b`i'_km'   \\"			_newline 	///
 	_tab "   			  &         & (`s`i++'_km') \\"			_newline 	///
 	_tab "\% Urban & `b`i'_wm' & `b`i'_km'   \\"				_newline 	///
 	_tab " 		   & (`s`i'_wm') & (`s`i++'_km') \\"			_newline 	///
@@ -100,8 +109,57 @@ file close table1
 
 
 // probit for K-Mart entry, including instrumented Wal-Mart entry
-ivprobit d_kmart `X' (d_walmart = ldist)
+ivprobit d_kmart `X' (d_walmart = ldist), mle
+
+loc b1_km : di %4.3f _b[d_walmart]
+loc s1_km : di %4.3f _se[d_walmart]
+forval i = 1/`: word count `X''{
+	loc b`=`i'+1'_km : di %4.3f _b[`: word `i' of `X'']
+	loc s`=`i'+1'_km : di %4.3f _se[`: word `i' of `X'']
+}
+loc r2_km : di %4.3f e(r2_p)
+loc ll_km : di %7.0f e(ll)
+loc N_km : di %7.0fc e(N)
 
 // Also include WalMart regression? Same as Q1, but include distance to Benton
 // county?
+probit d_walmart 	d_kmart ldist  `X'
 
+loc b1_wm : di %4.3f _b[d_kmart]
+loc s1_wm : di %4.3f _se[d_kmart]
+loc b2_wm : di %4.3f _b[ldist]
+loc s2_wm : di %4.3f _se[ldist]
+forval i = 1/`: word count `X''{
+	loc b`=`i'+2'_wm : di %4.3f _b[`: word `i' of `X'']
+	loc s`=`i'+2'_wm : di %4.3f _se[`: word `i' of `X'']
+}
+loc ll_wm : di %7.0f e(ll)
+loc N_wm : di %7.0fc e(N)
+
+// output table 2
+loc i = 1
+file open table2 using table2.tex, write replace
+file write table2	///
+	"\begin{tabular}{rcc}"										_newline	///
+	_tab "& (1) &  (2) \\\hline && \\"							_newline 	///
+	_tab "& $\one{WalMart}$ & $\one{KMart}$ \\\hline && \\"		_newline 	///
+	_tab "$\one{KMart}$ & `b`i'_wm' &             \\"			_newline 	///
+	_tab "              & (`s`i'_wm') &             \\"			_newline 	///
+	_tab "$\loge{Dist}$ & `b2_wm' &             	\\"			_newline 	///
+	_tab "              & (`s2_wm') &             \\"			_newline 	///
+	_tab "$\one{WalMart}$ &         & `b`i'_km'   \\"			_newline 	///
+	_tab "   			  &         & (`s`i++'_km') \\"			_newline 	///
+	_tab "\% Urban & `b`i'_wm' & `b`i'_km'   \\"				_newline 	///
+	_tab " 		   & (`s`i'_wm') & (`s`i++'_km') \\"			_newline 	///
+	_tab "$\loge{Population}$ & `b`i'_wm' & `b`i'_km' \\"		_newline 	///
+	_tab " 					  & (`s`i'_wm') & (`s`i++'_km') \\"	_newline 	///
+	_tab "$\one{Midwest}$ & `b`i'_wm' & `b`i'_km' \\"			_newline 	///
+	_tab " 				  & (`s`i'_wm') & (`s`i++'_km') \\"		_newline 	///
+	_tab "$\one{South}$ & `b`i'_wm' & `b`i'_km' \\"				_newline 	///
+	_tab " 			    & (`s`i'_wm') & (`s`i++'_km') \\ && \\"	_newline 	///
+	_tab "Pseudo $ R^2$ & `r2_wm' & - \\"					_newline	///
+	_tab "Log-likelihood & `ll_wm' & `ll_km' \\"				_newline	///
+	_tab "Obs.				& `N_wm' & `N_km' \\"				_newline	///
+	_tab "&& \\\hline"											_newline	///
+	"\end{tabular}"
+file close table2
