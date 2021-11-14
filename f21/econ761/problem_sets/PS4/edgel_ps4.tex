@@ -123,17 +123,36 @@
         \begin{center}
             \textbf{Table 1} \\ \medskip
             \input{table1.tex} \\ \smallskip
-            \footnotesize{Standard errors in parentheses; both specifications include an unreported intercept.}
+            \footnotesize{Standard errors in parentheses; both specifications include an unreported intercept}
         \end{center}
     The biggest weakness of this model is that it does not account for the timing of entry between each firm and the fact that each firm is choosing to enter strategically, based on whether and when the other firm enters. Specifically, these decisions are not modeled as simultaneous equations, even though they fundamentally are. Furthermore, this omits key profit determinants, such as household income and the number of small firms prior to entry.\footnote{The author's data do include such variables, but without a common identifier betwwen data78.out and XMat.out, we cannot merge the two files.}
 
-    \item Yes, distance to Benton County, Arkansas can be used as an instrument for WalMart's entry. Since WalMart was founded in Benton County, WalMart is more likely to expand to nearby counties, \textit{ceteris paribus}, since it has more information about those markets than is captured by observable covariates, and it pays a lower fixed cost for adapting its supply chain to service those markets. Table 2 below displays the results of the maximum likelihoodIV probit regression (column 2) and the probit regression for Walmart, including the log distance to Benton county as a covariate (column 1).
+    \item Yes, distance to Benton County, Arkansas can be used as an instrument for WalMart's entry. Since WalMart was founded in Benton County, WalMart is more likely to expand to nearby counties, \textit{ceteris paribus}, since it has more information about those markets than is captured by observable covariates, and it pays a lower fixed cost for adapting its supply chain to service those markets. Furthermore, WalMart's preponderence in Benton County and its environs implies that, in such counties, it likely entered prior to KMart, thus enabling the coefficient on WalMart's existence in a county to accurately reflect the causal effect of WalMart's entry on KMart's entry. % \\ \smallskip 
+    
+    %Table 2 below displays the results of the maximum likelihoodIV probit regression (column 2) and the probit regression for Walmart, including the log distance to Benton county as a covariate (column 1).
+    %\begin{center}
+    %    \textbf{Table 2} \\ \medskip
+    %    \input{table2.tex} \\ \smallskip
+    %    \footnotesize{Standard errors in parentheses; both specifications include an unreported intercept.}
+    %\end{center}
+    %As you can see, the magnitude of the coefficient on Walmart's presence in a county is substantially higher in KMart's entry model than in the model without instrumental variables. This suggests that the misspecification from failing to account for simultaneous entry decisions biases this coefficient toward zero.
+
+    \item The results for each ordered probit estimation are in table 2 below.
     \begin{center}
         \textbf{Table 2} \\ \medskip
-        \input{table2.tex} \\ \smallskip
-        \footnotesize{Standard errors in parentheses; both specifications include an unreported intercept.}
+        \input{table2.tex} \\ \smallskip 
+        \footnotesize{Standard errors in parentheses}
     \end{center}
-    As you can see, the magnitude of the coefficient on Walmart's presence in a county is substantially higher in KMart's entry model than in the model without instrumental variables. This suggests that the misspecification from failing to account for simultaneous entry decisions biases this coefficient toward zero.
+    The main limitation of this model is that it treats all firms as homogenous. The profit shock for WalMart entering a market with just a KMart is the same as WalMart entering the same market with just a small local business, which is treated the same as a small local business entering the same market with a pre-existing WalMart (in the case of the total players specification). In reality, WalMart in 2021 is still one of the world's largest firms, while KMart is two bankrupcies deep into its decline. These firms are clearly not homogenous.
+
+    \item In the Bertrand-Nash equilibrium of the entry game, each firm $i$ enters if:\[
+      x_{im}\beta_i + \Delta_iy_{-i} + \varepsilon_i\geq 0
+    \]
+    Where $y_{-i}$ equals one if the competing firm enters market $m$. In equlibrium, firm $i$'s belief that the other firm enters $m$ is consistent. Thus, following Bajari et al. (2012), the first stage predicts entry probability with probit as in (b), and the second stage uses the results from the first stage in the place of the entry dummy from the first stage. The results are diplayed in table III below. 
+    \begin{center}
+      \input{table3.tex}
+    \end{center}
+    The second stage regression clearly dominates the first stage regression in terms of fit and the economic and statistical significance of the coefficient of interest, particularly for K-Mart's regression. These results suggest that the two firms engage(d) in strategic entry to a much greater extent than a naive probit regression would suggest.
 \end{enumerate}
 
 \end{document}
