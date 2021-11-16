@@ -148,11 +148,13 @@
     \item In the Bertrand-Nash equilibrium of the entry game, each firm $i$ enters if:\[
       x_{im}\beta_i + \Delta_iy_{-i} + \varepsilon_i\geq 0
     \]
-    Where $y_{-i}$ equals one if the competing firm enters market $m$. In equlibrium, firm $i$'s belief that the other firm enters $m$ is consistent. Thus, following Bajari et al. (2012), the first stage predicts entry probability with probit as in (b), and the second stage uses the results from the first stage in the place of the entry dummy from the first stage. The results are diplayed in table III below. 
+    Where $y_{-i}$ equals one if the competing firm enters market $m$. In equlibrium, firm $i$'s belief that the other firm enters $m$ is consistent. Thus, following Bajari et al. (2012), the first stage predicts entry probability with probit as in (b), and the second stage uses the results from the first stage in the place of the entry dummy from the first stage. The point estimates for each stage are diplayed in table III below. 
     \begin{center}
       \input{table3.tex}
     \end{center}
-    The second stage regression clearly dominates the first stage regression in terms of fit and the economic and statistical significance of the coefficient of interest, particularly for K-Mart's regression. These results suggest that the two firms engage(d) in strategic entry to a much greater extent than a naive probit regression would suggest.
+    The second stage regression clearly dominates the first stage regression in terms of fit and the economic significance of the coefficient of interest, particularly for K-Mart's regression. These results suggest that the two firms engage(d) in strategic entry to a much greater extent than a naive probit regression would suggest. \\
+    
+    To calculate the variance-covariance matrix for the set of coefficients (and thus the standard errors), we would use the 2SLS or GMM matrix, treating entry as an endogenous variable.
 \end{enumerate}
 
 \end{document}
