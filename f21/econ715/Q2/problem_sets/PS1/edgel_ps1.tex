@@ -1,0 +1,230 @@
+%%% Econ715: Econometric Methods
+%%% Spring 2021
+%%% Danny Edgel
+%%%
+% Due on Canvas Wednesday, December 3rd, 6:00pm Central Time
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{color}
+\usepackage{courier}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[shortlabels]{enumitem}
+\usepackage{boondox-cal}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\olz}[1]{\overline{Z}_{#1}}
+%\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\est}[1]{\frac{1}{\lowercase{#1}}\sum_{i=1}^{\lowercase{#1}}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}^{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\ehat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\bcls}{\tilde{\beta}_{CLS}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\vt}{\tilde{\varepsilon}}
+\renewcommand{\Pr}[1]{Pr\left(#1\right)}
+\newcommand{\biv}{\bhat^{IV}}
+\newcommand{\xbar}{\overline{X}}
+\newcommand{\ybar}{\overline{Y}}
+\newcommand{\zbar}{\overline{Z}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\esti}{\frac{1}{T_i-1}\sum_{t=1}^{T_i}}
+\newcommand{\oinv}{\Omega^{-1}}
+\newcommand{\olg}{\overline{g}_n}
+\newcommand{\e}[1]{\text{exp}\left(#1\right)}
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+\newcommand{\that}{\hat{\theta}_n}
+\newcommand{\tshat}{\hat{\theta}^*_n}
+\newcommand{\ttilde}{\tilde{\theta}_n}
+\newcommand{\ghat}{\hat{\gamma}_n}
+\newcommand{\gtilde}{\tilde{\gamma}_n}
+\newcommand{\chat}{\hat{c}}
+\newcommand{\Qhat}{\hat{Q}_n(\beta)}
+\renewcommand{\lim}[1]{\underset{#1}{\text{lim }}}
+\newcommand{\xs}{X^*}
+\newcommand{\olxs}{\overline{X}^*}
+\newcommand{\pinv}{\Phi^{-1}}
+\newcommand{\tchat}{\that^\dagger}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
+\newcommand{\Es}[1]{\mathbb{E}^*\left[#1\right]}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+\newcount\rowveccount
+\newcommand*\rowvec[1]{
+        \global\rowveccount#1
+        \begin{pmatrix}
+        \rowvecnext
+}
+\def\rowvecnext#1{
+        #1
+        \global\advance\rowveccount-1
+        \ifnum\rowveccount>0
+                &
+                \expandafter\rowvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+
+\title{	Problem Set \#1b }
+\author{ 	Danny Edgel 					\\ 
+			Econ 715: Econometric Methods	\\
+			Fall 2021						
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+\section*{Question 1}
+
+\begin{enumerate}[(a)]
+    \item The attached file, functions.jl, includes all functions used in this problem set, including an OLS function. edgel\_ps1.tex includes the code the executes the commands for the problem set. Using these files, the coefficient for education is derived as \input{1a.tex}.
+
+    \item The education coefficients for the .5 and .75 quantiles are below. \[
+        \input{1b.tex}
+    \]
+
+    \item The bootstrap SE of $\bhat_1^{.75}$ for 100 simulations is \input{1c.tex}.
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+\section*{Question 2}
+
+The moment function for GMM is:\[
+        m(y, x; \beta) = x\left[\one{y\leq x'\beta}(1-\tau) - \one{y>x'\beta}\tau\right] = x\left[\one{y\leq x'\beta} - \tau\right]
+    \]
+The attached code estimates $\bhat^{.5}$ and $\bhat^{.75}$ using this GMM moment condition. \medskip \\
+The asymptotic variance-covatiance matrix is $\left(\Gamma'\Omega^{-1}\Gamma\right)^{-1}$, where, assuming correct specification: \begin{align*}
+    \Omega &= \E{X_iX_i'}\tau(1-\tau)               \\
+    \Gamma &= \E{X_iX_i'}f_{\varepsilon_i|X_i}(0)
+\end{align*}
+The estimated coefficient and standard error for $\bhat^{.75}$ are below. \[
+        \input{2e.tex}
+\]
+Note that the estimated standard error is unrealistically high. This is true for the standard error of all coefficients in this model. While it is possible that I simply made a coding error that I cannot find, I believe that this is due to the use of a fitted normal distribution for the estimate of the conditional distribution of the residuals at zero. The value is above .7, which is very high. This value would likely be much lower under a different estimation method.
+
+%%%________________________________________________________________%%%
+\section*{Question 3}
+
+\begin{enumerate}[(a)]
+    \item 
+
+    \item 
+
+    \item 
+
+    \item 
+
+    \item 
+
+    \item 
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+\section*{Question 4}
+
+\begin{enumerate}[(a)]
+    \item 
+
+    \item 
+
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
