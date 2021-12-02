@@ -3,12 +3,12 @@
     set 1 of the second quarter of Econ 715
 
     Date created:  18 Nov 2021
-    Last modified: 29 Nov 2021
+    Last modified: 02 Dec 2021
     Author: Danny Edgel
 ==#
 
 
-using Printf, DataFrames, StatFiles, Optim, Distributions
+using Printf, DataFrames, StatFiles, Optim, Distributions, Parameters
 
 # load functions
 include("functions.jl")
@@ -61,7 +61,7 @@ se = QBootstap(Y, X, β; B = 10);
 # write bootstrap SE of education coefficient to .tex file
 fname = "./econ715/Q2/problem_sets/PS1/1c.tex";
 open(fname, "w") do io
-    str = @sprintf "%1.8f" se[2]
+    str = @sprintf "%1.6f" se[2]
     write(io, str)
 end;
 
@@ -71,8 +71,8 @@ end;
 
 ## run quantile regression for .5 and .75 quantiles using 
 ## GMM with the identity matrix
-β₁, V₁ = QGMM(Y, X, 0.5);
-β₂, V₂ = QGMM(Y, X, 0.75);
+β₁, V₁ = QGMM(Y, X; τ = 0.5);
+β₂, V₂ = QGMM(Y, X; τ = 0.75);
 
 # write education coefficient and SE for τ=.75 to .tex file
 fname = "./econ715/Q2/problem_sets/PS1/2e.tex";
@@ -86,13 +86,43 @@ end;
         Question 3
 ==#
 
-# generate array of data for each unique education-experience pair
-uqX = unique(X, dims = 1)
-CellDat = Array{Any}(size(uqX, 1)); α = zeros(size(uqX, 1), 1);
-V = zeros(size(uqX, 1), 1);
-for i = 1:size(uqX, 1)
-    CellDat[i] = Y[X==uqX[i], :]
-    α[i], V[i] = QGMM(CellDat[i], ones(size(CellDat[i])),
-                        0.75, intercept = false)
+# obtain FGLS β and V estimates from FGLS() for τ=.75
+β, V = FGLS(Y, X; τ = 0.75)
+
+# write SE of education coefficient for τ=.75 to .tex file
+fname = "./econ715/Q2/problem_sets/PS1/3f.tex";
+open(fname, "w") do io
+    str = @sprintf "%.3e" sqrt(V[2, 2])
+    write(io, str)
 end;
-nCells = size(uqX, 1)
+
+
+
+#==
+        Question 4
+==#
+
+## (a) simulate CIs for a single subsample
+CIa = SimCI(Y, X; J = 1);
+
+# write latex table of results
+fname = "./econ715/Q2/problem_sets/PS1/4a.tex";
+open(fname, "w") do io
+    write(io, "\\begin{tabular}{rcc}\n")
+    write(io, "Model & 95\\% C.I. & Contains \$\\bhat_1^{.75}\$? \\\\\\hline && \\\\ \n")
+
+    @unpack QBoot, GMM, FGLS = CIa
+
+    isIn = (a, b) -> (a >= b[1] && a <= b[2]) ? "yes" : "no"
+
+    str1 = @sprintf "Quantile Reg. & [%1.3f, %1.3f] & %s \\\\ \n" QBoot[1] QBoot[2] isIn(β₂[2], QBoot)
+    str2 = @sprintf "GMM & [%1.3f, %1.3f] & %s \\\\ \n" GMM[1] GMM[2] isIn(β₂[2], GMM)
+    str3 = @sprintf "FGLS & [%1.3f, %1.3f] & %s \\\\ \n" FGLS[1] FGLS[2] isIn(β₂[2], FGLS)
+
+    write(io, str1)
+    write(io, str2)
+    write(io, str3)
+    write(io, "\\end{tabular}")
+end;
+
+

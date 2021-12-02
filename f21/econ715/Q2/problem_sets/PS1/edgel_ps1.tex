@@ -181,33 +181,23 @@ The asymptotic variance-covatiance matrix is $\left(\Gamma'\Omega^{-1}\Gamma\rig
     \Omega &= \E{X_iX_i'}\tau(1-\tau)               \\
     \Gamma &= \E{X_iX_i'}f_{\varepsilon_i|X_i}(0)
 \end{align*}
-The estimated coefficient and standard error for $\bhat^{.75}$ are below. \[
+The estimated coefficient and standard error for $\bhat_1^{.75}$ are below. \[
         \input{2e.tex}
 \]
 Note that the estimated standard error is unrealistically high. This is true for the standard error of all coefficients in this model. While it is possible that I simply made a coding error that I cannot find, I believe that this is due to the use of a fitted normal distribution for the estimate of the conditional distribution of the residuals at zero. The value is above .7, which is very high. This value would likely be much lower under a different estimation method.
 
 %%%________________________________________________________________%%%
 \section*{Question 3}
-
-\begin{enumerate}[(a)]
-    \item 
-
-    \item 
-
-    \item 
-
-    \item 
-
-    \item 
-
-    \item 
-\end{enumerate}
+The function FGLS() conducts all of the required steps for this question. The resulting standard error for $\bhat^{.75}$ is \input{3f.tex}.
 
 %%%________________________________________________________________%%%
 \section*{Question 4}
 
 \begin{enumerate}[(a)]
-    \item 
+    \item The results from 1 simulation are below.
+        \begin{center}
+            \input{4a.tex}
+        \end{center}
 
     \item 
 
