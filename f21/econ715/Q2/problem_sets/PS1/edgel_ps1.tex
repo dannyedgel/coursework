@@ -188,7 +188,7 @@ Note that the estimated standard error is unrealistically high. This is true for
 
 %%%________________________________________________________________%%%
 \section*{Question 3}
-The function FGLS() conducts all of the required steps for this question. The resulting standard error for $\bhat^{.75}$ is \input{3f.tex}.
+The function FGLS() conducts all of the required steps for this question. The resulting standard error for $\bhat^{.75}$ is \input{3f.tex}. This standard error is clearly a departure from those of the other methods. This is likely due to a coding error that I cannot find.
 
 %%%________________________________________________________________%%%
 \section*{Question 4}
@@ -197,9 +197,13 @@ The function FGLS() conducts all of the required steps for this question. The re
     \item The results from 1 simulation are below.
         \begin{center}
             \input{4a.tex}
-        \end{center}
+        \end{center} 
 
-    \item 
+    \item The results for $J=10$\footnote{I understand that this is far from ``large''. I underestimated the amount of time each simulation takes and wasted the time I set aside for comupatation on waiting for 1000 iterations, which would not have finished before the deadline.} simulations are in the table below. 
+        \begin{center}
+                \input{4b.tex}
+        \end{center}
+        Note that the bootstrap and FGLS standard errors perform very poorly. The FGLS errors suffer from the unknown error mentioned in Question 3, and the bootstrap errors are likely due to the use of a small number of bootstrap samples (10). I chose this due to time constraints: The quantile regression code takes a long time to run, and I did not parallelize the bootstrap loop (again, due to time constraints).
 
 \end{enumerate}
 

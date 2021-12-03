@@ -178,10 +178,13 @@ function SimCI(Y, X; τ = 0.75, n = 400, J = 1000, intercept = true)
     # initialize array of confidence intervals for each estimation method
     SampleCIs = CI(zeros(J, 2), zeros(J, 2), zeros(J, 2))
 
+    # function that outputs a zero SE if the variance is zero
+    SE = (a) -> (a < 0) ? 0 : sqrt(a)
+
     # calculate CIs for each estimation method
     β, V = OLS(Y, X, intercept = false) # starting value for β
     for j = 1:J
-    
+        println("j = $j of $J")
         # Quantile regression with bootstrap
         βQ = optimize(b -> QuantCriterion(Ys[:, j], Xs[:, j, :], b, τ; intercept = false), β, LBFGS()).minimizer
         QBstr = QBootstap(Ys[:, j], Xs[:, j, :], β; B = 10, τ = τ, intercept = false)
@@ -190,14 +193,30 @@ function SimCI(Y, X; τ = 0.75, n = 400, J = 1000, intercept = true)
         SampleCIs.QBoot[j, 2] = QBstr[2] - βQ[2]
     
         # GMM 
-        βG, VG = QGMM(Ys[:, j], Xs[:, j, :]; τ = τ, intercept = false)
-        SampleCIs.GMM[j, 1] = βG[2] - sqrt(VG[2, 2])
-        SampleCIs.GMM[j, 2] = sqrt(VG[2, 2]) + βG[2]
+        βG, VG = try
+            QGMM(Ys[:, j], Xs[:, j, :]; τ = τ, intercept = false)
+        catch e
+            if isa(e, LAPACKException)
+                zeros(size(Xs, 2), 1), zeros(size(Xs, 2), size(Xs, 2))
+            end
+        end
+    
+    
+    
+        SampleCIs.GMM[j, 1] = βG[2] - SE(VG[2, 2])
+        SampleCIs.GMM[j, 2] = SE(VG[2, 2]) + βG[2]
     
         # FGLS
-        βF, VF = FGLS(Ys[:, j], Xs[:, j, :]; τ = τ, intercept = false)
-        SampleCIs.FGLS[j, 1] = βF[2] - sqrt(VF[2, 2])
-        SampleCIs.FGLS[j, 2] = sqrt(VF[2, 2]) + βF[2]
+        βF, VF = try
+            FGLS(Ys[:, j], Xs[:, j, :]; τ = τ, intercept = false)
+        catch e
+            if isa(e, LAPACKException)
+                zeros(size(Xs, 2), 1), zeros(size(Xs, 2), size(Xs, 2))
+            end
+        end
+    
+        SampleCIs.FGLS[j, 1] = βF[2] - SE(VF[2, 2])
+        SampleCIs.FGLS[j, 2] = SE(VF[2, 2]) + βF[2]
     
     end
 

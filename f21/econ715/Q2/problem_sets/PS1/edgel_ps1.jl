@@ -3,7 +3,7 @@
     set 1 of the second quarter of Econ 715
 
     Date created:  18 Nov 2021
-    Last modified: 02 Dec 2021
+    Last modified: 03 Dec 2021
     Author: Danny Edgel
 ==#
 
@@ -126,3 +126,31 @@ open(fname, "w") do io
 end;
 
 
+## (b) simulate CIs for a large number of subsamples
+CIb = SimCI(Y, X; J = 10);
+
+@unpack QBoot, GMM = CIb
+GLS = CIb.FGLS
+Names    = ["Quantile Reg.", "GMM", "FGLS"]
+CI_array = [QBoot, GMM, GLS]
+Shares   = Array{Float64, 1}([0.0, 0.0, 0.0])
+
+# remove rows where SE = 0
+for i = 1:length(CI_array)
+    CI_array[i] = CI_array[i][(CI_array[i][:, 1].!=CI_array[i][:, 2]), :]
+    Shares[i] = 100*sum((CI_array[i][:, 2] .>= β₂[2]) .& (CI_array[i][:, 1] .<= β₂[2])) / size(CI_array[i], 1)
+end;
+
+# write latex table of results
+fname = "./econ715/Q2/problem_sets/PS1/4b.tex";
+open(fname, "w") do io
+    write(io, "\\begin{tabular}{rc}\n")
+    write(io, "Model & 95\\% Containing \$\\bhat_1^{.75}\$ \\\\\\hline & \\\\ \n")
+
+    for i = 1:length(Shares)
+        str = @sprintf "%s & %1.1f \\\\ \n" Names[i] Shares[i]
+        write(io, str)
+    end;
+
+    write(io, "\\end{tabular}")
+end;
