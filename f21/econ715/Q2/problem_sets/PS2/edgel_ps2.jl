@@ -51,21 +51,13 @@ subset = (X[:, 1] .== 12) .| (X[:, 1] .== 16);
 # generate treatment treatment variable
 T = X[subset, 1] .== 16;
 
-# run OLS on the treatment interacted with experience to obstain the CATE
-B = [T (X[subset, 2] .* T) (X[subset, 3] .* T) X[subset, 2] X[subset, 3]]
-βₜ, Vₜ = OLS(Y[subset], B);
-
-# for each value of experience, calculate CATE
-Xlevels = sort(unique(X[subset, 2]))
-CATE = βₜ[2] .+ βₜ[3] * Xlevels + βₜ[4] *(Xlevels^2);
-
-# calculate SE of each CATE 
-seCATE = sqrt.(Vₜ[2, 2] .+ Vₜ[3, 3] * (Xlevels .^ 2) .+ 2 * Xlevels * Vₜ[2, 3])
+βₓ, Vₓ = CATE(Y[subset], X[subset, 2:end], T; SE = true);
 
 # 2a: plot CATE against experience, including 95% c.i.
-plot(Xlevels, CATE, lab = "Point Estimate")
-plot!(Xlevels, CATE .+ 1.96 * seCATE,
-        fillrange = CATE .- 1.96 * seCATE,
+Xlevels = sort(unique(X[subset, 2], dims = 1));
+plot(Xlevels, βₓ, lab = "Point Estimate")
+plot!(Xlevels, βₓ .+ 1.96 * Vₓ,
+        fillrange = βₓ .- 1.96 * Vₓ,
         fillalpha = 0.35,
         lw = 0,
         fillcolor = :grey,
@@ -79,7 +71,7 @@ savefig("econ715/Q2/problem_sets/PS2/fig1.png")
 # 2b: estimate ATE
 τ = 0;
 for i ∈ 1:length(Xlevels)
-        τ += (sum(X[subset, 2] .== Xlevels[i]) / sum(subset)) * CATE[i]
+        τ += (sum(X[subset, 2] .== Xlevels[i]) / sum(subset)) * βₓ[i]
 end
 
 # write ATE to .tex file
@@ -88,3 +80,25 @@ open(fname, "w") do io
         str = @sprintf "%1.3f" τ
         write(io, str)
 end;
+
+
+#==
+        Question 3
+==#
+
+# calculate ATE for a single sample of n = 400
+τₓ, τ = simCATE(Y[subset], X[subset, 2:end], T; B = 1, n = 400);
+
+# write sample ATE to .tex file
+fname = "./econ715/Q2/problem_sets/PS2/3.tex";
+open(fname, "w") do io
+        str = @sprintf "%1.3f" τ[1]
+        write(io, str)
+end;
+
+# repeat for B = 500
+τₓ, τ = simCATE(Y[subset], X[subset, 2:end], T; B = 500, n = 400);
+
+# plot a histogram of ATE estimates
+histogram(τ, legend = nothing, normalize = :probability)
+savefig("econ715/Q2/problem_sets/PS2/fig2.png")
