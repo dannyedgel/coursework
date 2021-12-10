@@ -86,11 +86,33 @@ end;
         Question 3
 ==#
 
+# calculate naive ATE for a single sample of n = 400
+τ = simATE(Y[subset], T; B = 1, n = 400);
+
+# write sample ATE to .tex file
+fname = "./econ715/Q2/problem_sets/PS2/3.tex";
+open(fname, "w") do io
+        str = @sprintf "%1.3f" τ[1]
+        write(io, str)
+end;
+
+# repeat for B = 500
+τ = simATE(Y[subset], T; B = 500, n = 400);
+
+# plot a histogram of ATE estimates
+histogram(τ, legend = nothing, normalize = :probability)
+savefig("econ715/Q2/problem_sets/PS2/fig2.png")
+
+
+#==
+        Question 4
+==#
+
 # calculate ATE for a single sample of n = 400
 τₓ, τ = simCATE(Y[subset], X[subset, 2:end], T; B = 1, n = 400);
 
 # write sample ATE to .tex file
-fname = "./econ715/Q2/problem_sets/PS2/3.tex";
+fname = "./econ715/Q2/problem_sets/PS2/4.tex";
 open(fname, "w") do io
         str = @sprintf "%1.3f" τ[1]
         write(io, str)
@@ -101,4 +123,4 @@ end;
 
 # plot a histogram of ATE estimates
 histogram(τ, legend = nothing, normalize = :probability)
-savefig("econ715/Q2/problem_sets/PS2/fig2.png")
+savefig("econ715/Q2/problem_sets/PS2/fig3.png")

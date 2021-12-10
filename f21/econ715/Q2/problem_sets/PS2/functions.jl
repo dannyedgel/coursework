@@ -64,6 +64,38 @@ function CATE(Y, X, T; SE = false)
 end # CATE function
 
 
+# function that calculates the naive ATE for subsamples of the data, B times 
+function simATE(Y, T; B = 500, n = 400, SE = false)
+    # sample n observations without replacement, B times
+    S = Array{Int64}(zeros(n, B));
+    for i = 1:B; S[:, i] = sample(1:length(Y), n, replace = false); end
+
+    # initalize array to hold ATEs (and, optionally, SEs)
+    if (SE)
+        τ = Array{Float64}(zeros(B, 1));
+        V = Array{Float64}(zeros(B, 1));
+    else
+        τ = Array{Float64}(zeros(B, 1));
+    end
+
+    # loop through simulations, calculating ATE and SE
+    for i = 1:B
+        # run OLS on the subsample
+        βᵢ, Vᵢ = OLS(Y[S[:, i]], T[S[:, i]])
+
+        # calculate ATE and SE
+        if (SE)
+            τ[i], V[i] = βᵢ[2], sqrt(Vᵢ[2, 2])
+        else
+            τ[i] = βᵢ[2]
+        end
+    end
+
+    # return results
+    if (SE); return τ, V; else; return τ; end
+
+end # simATE function
+
 # function that calculates the CATE for subsamples of the data, B times
 function simCATE(Y, X, T; B = 500, n = 400, SE = false)
     # sample n observations without replacement, B times

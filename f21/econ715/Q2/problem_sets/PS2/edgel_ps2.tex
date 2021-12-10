@@ -170,10 +170,17 @@ Which is plotted below, along with a 95\% confidence interval.
 \begin{center}
     \includegraphics[scale=.55]{fig1.png}
 \end{center}
-Using the sample shares of years of experience, the average treatment effect (ATE) is estimated as \input{2b.tex}. Using a single sample of 400 observations, the ATE is estimated as \input{3.tex}. A histogram of ATE estimates from 500 samples of 400 observations is shown below.\footnote{All samples were taken without replacement.}
+Using the sample shares of years of experience, the average treatment effect (ATE) is estimated as \input{2b.tex}. 
+
+Using a single sample of 400 observations, the naive ATE is estimated as \input{3.tex}. A histogram of ATE estimates from 500 samples of 400 observations is shown below.\footnote{All samples were taken without replacement.}
 \begin{center}
     \includegraphics[scale=.55]{fig2.png}
 \end{center}
+Repeating this process, but calculating the CATE and averaging over all years of experience, the ATE is estimated as \input{4.tex}, and the new histogram is:
+\begin{center}
+    \includegraphics[scale=.55]{fig3.png}
+\end{center}
+The estimate from question 1 (from OLS) falls far below the lower tail of each set of estimates. The CATE estimate from question 2b, however, falls in the modal bin of each histogram.
 
 
 
