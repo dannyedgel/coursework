@@ -3,7 +3,7 @@
     set 2 of the second quarter of Econ 715
 
     Date created:  07 Dec 2021
-    Last modified: 09 Dec 2021
+    Last modified: 10 Dec 2021
     Author: Danny Edgel
 ==#
 
@@ -11,7 +11,8 @@
 using Printf, DataFrames, StatFiles, Optim, Distributions, Parameters, Plots
 
 # load functions
-include("functions.jl")
+include("functions.jl");
+include("logit.jl");
 
 # Load 2009 CPS from Bruce's website
 df = DataFrame(StatFiles.load("econ715/Q2/problem_sets/PS2/data/cps09mar.dta"))
@@ -124,3 +125,25 @@ end;
 # plot a histogram of ATE estimates
 histogram(τ, legend = nothing, normalize = :probability)
 savefig("econ715/Q2/problem_sets/PS2/fig3.png")
+
+
+#==
+        Question 5
+==#
+
+# estimate a propensity score for the treatment using logit 
+τ = simPS(Y[subset], X[subset, 2:3], T; n = 400, B = 1);
+
+# write sample ATE to .tex file
+fname = "./econ715/Q2/problem_sets/PS2/5.tex";
+open(fname, "w") do io
+        str = @sprintf "%1.3f" τ[1]
+        write(io, str)
+end;
+
+# repeat for B = 500
+τ = simPS(Y[subset], X[subset, 2:3], T; n = 400, B = 500);
+
+# plot a histogram of ATE estimates
+histogram(τ, legend = nothing, normalize = :probability)
+savefig("econ715/Q2/problem_sets/PS2/fig4.png")

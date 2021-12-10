@@ -180,7 +180,15 @@ Repeating this process, but calculating the CATE and averaging over all years of
 \begin{center}
     \includegraphics[scale=.55]{fig3.png}
 \end{center}
-The estimate from question 1 (from OLS) falls far below the lower tail of each set of estimates. The CATE estimate from question 2b, however, falls in the modal bin of each histogram.
+The estimate from question 1 (from OLS) falls far below the lower tail of each set of estimates. The CATE estimate from question 2b, however, falls in or near the modal bin of each histogram.
+
+Using a propensity score as requested, the ATE estimate is \input{5.tex}, and the histogram for 500 simulations is below. As you can see, the estimates vary much more than they do using the other two methods. However, the OLS estimate is still well below the minimum estimate, and estimate from 2(b) is above the median (and the modal bin).
+\begin{center}
+    \includegraphics[scale=.55]{fig4.png}
+\end{center}
+The three methods above yield different results with similar means. I would prefer the first method, which estimates the CATE for each experience level, then averages across experience. I prefer this method because it has the lowest variance and is the most theoretically robust, since the first figure (from question 1) shows that the treatment effect does, indeed, vary with experience.
+
+When we draw samples of 400 for each of the problems above, we should use the same samples for each problem (through obviously not for each simulation) to control for variation in estimates that is due exclusively to sampling, which is not particularly interesting variation for comparing estimation methods.
 
 
 
