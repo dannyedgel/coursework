@@ -3,12 +3,10 @@
 	quarter of Econ 717
 	
 	Date created:  10 Feb 2022
-	Last modified: 12 Feb 2022
+	Last modified: 13 Feb 2022
 	Author: Danny Edgel (edgel@wisc.edu)
 */
 capture log c
-capture file close table2
-capture file close table3
 
 /*
 	Housekeeping
@@ -35,6 +33,13 @@ loc opts "tex(frag) nor noobs noas"
 
 // save epsilon (for use in 7c and 8)
 loc eps = 1e-5
+
+// save list of files in a local macro; open all files in write mode 
+loc files table2 table3 table4 q9a q9b
+foreach f in `files'{
+	capture file close `f'
+	file open `f' using `f'.tex, write replace
+}
 		
 /*
 	Problems
@@ -144,6 +149,11 @@ forval i = 2/4{
 
 reg taken_new `X' ca*
 predict q8a, xb
+loc q9a = e(ll) // save log-likelilood for use in (9)
+
+// write the R^2 to q9a.tex for interpreting the result from (9)
+qui sigdig e(r2)
+file write q9a "`=r(value)'"
 
 replace Client_Age = Client_Age + `eps'
 forval i = 2/4{
@@ -155,6 +165,19 @@ replace `meanvar' = (q8b - q8a)/`eps'
 sum `meanvar'
 qui sigdig r(mean)
 loc q8 = r(value)
+	
+replace Client_Age = Client_Age - `eps'
+forval i = 2/4{
+	replace ca`i' = Client_Age^`i'
+}
+	
+// 9) Calculate the LRI for the new LPM and output it to a tex file
+qui reg taken_new
+sigdig `=1 - (`q9a'/`=e(ll)')'
+
+file write q9b "`=r(value)'"
+
+
 	
 /*
 	Finishing up
@@ -171,7 +194,6 @@ forval i = 1/3{
 }
 
 
-file open table2 using table2.tex, write replace
 file write table2	///
 	"\begin{tabular}{rccc}"							_newline ///
 	_tab "& LPM & Logit & Probit \\\hline"			_newline ///
@@ -186,7 +208,6 @@ file write table2	///
 	_tab "Max & `max1' & `max2' & `max3'"			_newline ///
 	"\end{tabular}"
 	
-file open table3 using table3.tex, write replace
 file write table3	///
 	"\begin{tabular}{rcccc}"										_newline ///
 	_tab "& LPM & Logit & Probit & Quartic LPM \\\hline"			_newline ///
@@ -199,5 +220,7 @@ file write table3	///
 	
 // close the log and save tables 2 and 3
 log c
-file close table2
-file close table3
+
+foreach f in `files'{
+	file close `f'
+}
