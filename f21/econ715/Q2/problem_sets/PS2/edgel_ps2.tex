@@ -161,10 +161,10 @@
 \noindent The attached file, functions.jl, includes all functions used in this problem set, including an OLS function. edgel\_ps2.tex includes the code the executes the commands for the problem set. Using these files, the coefficient for education is derived as \input{1.tex}.
 
 To obtain a conditional average treatment effect (CATE) for increasing education from 12 years to 16 years, I first subset the data to only include the observations with education equal to either 12 or 16 years. Then, I generated binary variable ${T_i = \one{edu_i = 16}}$ and ran OLS on the following specification:\[
-    Y_i = \beta_0 + \beta_1T_i + \beta_2T_iX_i + \beta_3X_i^2 + \beta_4X_i + \beta_5X_i^2 \eps_i
+    Y_i = \beta_0 + \beta_1T_i + \beta_2T_iX_i + \beta_3T_iX_i^2 + \beta_4X_i + \beta_5X_i^2 \eps_i
 \]
 Where $X_i$ is years of experience. Then, the CATE for each year of experience is given by:\[
-    \tau(X) = \beta_1 + \beta_2X + \beta_4X^2
+    \tau(X) = \beta_1 + \beta_2X + \beta_3X^2
 \]
 Which is plotted below, along with a 95\% confidence interval.
 \begin{center}

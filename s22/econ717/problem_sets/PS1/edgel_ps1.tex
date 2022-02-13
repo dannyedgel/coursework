@@ -1,8 +1,8 @@
-%%% Econ715: Econometric Methods
-%%% Spring 2021
+%%% Econ717: Applied Econometrics
+%%% Spring 2022
 %%% Danny Edgel
 %%%
-% Due on Canvas Wednesday, December 3rd, 6:00pm Central Time
+% Due on Canvas Wednesday, February 16th, 11:00 AM
 %%%
 
 %%%
@@ -149,69 +149,31 @@
 
 \begin{document}
 
-
-\title{	Problem Set \#1b }
-\author{ 	Danny Edgel 					\\ 
-			Econ 715: Econometric Methods	\\
-			Fall 2021						
+\title{	Problem Set \#1 }
+\author{ 	Danny Edgel 			\\ 
+		Econ 717: Applied Econometrics	\\
+		Spring 2022						
 		}
 \maketitle\thispagestyle{empty}
 
 %%%________________________________________________________________%%%
-\section*{Question 1}
 
-\begin{enumerate}[(a)]
-    \item The attached file, functions.jl, includes all functions used in this problem set, including an OLS function. edgel\_ps1.tex includes the code the executes the commands for the problem set. Using these files, the coefficient for education is derived as \input{1a.tex}.
+\noindent The attached file, edgel\_ps1\_log.log, includes all console output for this problem set. The coefficients and standard errors of all requested regressions are reported in table 1 below. The label at the top of each column corresponds to the question for which the regression was run (e.g., ``Q2'' corresponds to the regression from question 2). For Question 6, which requests two regressions, the columns are labeled with the name of the specification.
 
-    \item The education coefficients for the .5 and .75 quantiles are below. \[
-        \input{1b.tex}
-    \]
+The weights used in the variance-weighted least squares (VWLS) are the standard error of the OLS estimation. 
 
-    \item The bootstrap SE of $\bhat_1^{.75}$ for 100 simulations is \input{1c.tex}.
-\end{enumerate}
-
-%%%________________________________________________________________%%%
-\section*{Question 2}
-
-The moment function for GMM is:\[
-        m(y, x; \beta) = x\left[\one{y\leq x'\beta}(1-\tau) - \one{y>x'\beta}\tau\right] = x\left[\one{y\leq x'\beta} - \tau\right]
-    \]
-The attached code estimates $\bhat^{.5}$ and $\bhat^{.75}$ using this GMM moment condition. \medskip \\
-The asymptotic variance-covatiance matrix is $\left(\Gamma'\Omega^{-1}\Gamma\right)^{-1}$, where, assuming correct specification: \begin{align*}
-    \Omega &= \E{X_iX_i'}\tau(1-\tau)               \\
-    \Gamma &= \E{X_iX_i'}f_{\varepsilon_i|X_i}(0)
-\end{align*}
-The estimated coefficient and standard error for $\bhat_1^{.75}$ are below. \[
-        \input{2e.tex}
-\]
-Note that the estimated standard error is unrealistically high. This is true for the standard error of all coefficients in this model. While it is possible that I simply made a coding error that I cannot find, I believe that this is due to the use of a fitted normal distribution for the estimate of the conditional distribution of the residuals at zero. The value is above .7, which is very high. This value would likely be much lower under a different estimation method.
-
-%%%________________________________________________________________%%%
-\section*{Question 3}
-The function FGLS() conducts all of the required steps for this question. The resulting standard error for $\bhat^{.75}$ is \input{3f.tex}. This standard error is clearly a departure from those of the other methods. This is likely due to a coding error that I cannot find.
-
-%%%________________________________________________________________%%%
-\section*{Question 4}
-
-\begin{enumerate}[(a)]
-    \item The results from 1 simulation are below.
-        \begin{center}
-            \input{4a.tex}
-        \end{center} 
-
-    \item The results for $J=10$\footnote{I understand that this is far from ``large''. I underestimated the amount of time each simulation takes and wasted the time I set aside for comupatation on waiting for 1000 iterations, which would not have finished before the deadline.} simulations are in the table below. 
-        \begin{center}
-                \input{4b.tex}
-        \end{center}
-        Note that the bootstrap and FGLS standard errors perform very poorly. The FGLS errors suffer from the unknown error mentioned in Question 3, and the bootstrap errors are likely due to the use of a small number of bootstrap samples (10). I chose this due to time constraints: The quantile regression code takes a long time to run, and I did not parallelize the bootstrap loop (again, due to time constraints).
-
-\end{enumerate}
-
-%%%________________________________________________________________%%%
-
-
-
-
+\begin{center}
+        \textbf{Table 1: Regression Results} \\
+        \input{table1.tex}
+\end{center}
+\begin{center}
+        \textbf{Table 2: Predicted Probabilities} \\
+        \input{table2.tex}
+\end{center}
+\begin{center}
+        \textbf{Table 3: Mean Partial Effects} \\
+        \input{table3.tex}
+\end{center}
 
 \end{document}
 
