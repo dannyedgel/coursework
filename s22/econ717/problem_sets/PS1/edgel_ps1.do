@@ -37,7 +37,7 @@ loc opts "tex(frag) nor noobs noas"
 loc eps = 1e-5
 
 // save list of files in a local macro; open all files in write mode 
-loc files table2 table3 table4 q9a q9b q13 q14 table6
+loc files table2 table3 table4 q9 q10 q13 q14 table6
 foreach f in `files'{
 	capture file close `f'
 	file open `f' using `f'.tex, write replace
@@ -98,6 +98,7 @@ foreach m in Logit Probit{
 	predict pred_`=lower("`m'")', pr
 	predict xb_`=lower("`m'")', xb
 	loc beta_`=lower("`m'")' = _b[Client_Age]
+	if ("`m'" == "Probit") loc q9a = e(ll) // save log-likelihood for use in q9
 }
 
 
@@ -154,11 +155,9 @@ forval i = 2/4{
 
 reg taken_new `X' ca*
 predict pred_lpmq, xb
-loc q9a = e(ll) // save log-likelilood for use in (9)
 
 // write the R^2 to q9a.tex for interpreting the result from (9)
 qui sigdig e(r2)
-file write q9a "$`=r(value)'$"
 
 replace Client_Age = Client_Age + `eps'
 forval i = 2/4{
@@ -177,16 +176,17 @@ forval i = 2/4{
 }
 	
 // 9) Calculate the LRI for the new LPM and output it to a tex file
-qui reg taken_new
+qui probit taken_new
 sigdig `=1 - (`q9a'/`=e(ll)')'
 
-file write q9b "$`=r(value)'$"
+file write q9 "$`=r(value)'$"
 
 // 10) calculate correct prediction rates for the each model, using both
 // 		a 50% threshold and the population rate
 
 qui sum taken_new
 loc pop_mean = r(mean)
+file write q10 "`: di %4.3f `pop_mean''"
 foreach m in lpm lpmq logit probit{
     qui count if 	(pred_`m' >= 0.5 & taken_new == 1) | 		///
 					(pred_`m' < 0.5  & taken_new == 0)
@@ -202,7 +202,6 @@ foreach m in lpm lpmq logit probit{
 // 11) Repeat (10) using a model that only includes some of the sample, but
 //     tests on the rest of the sample
 qui count if imidlineid >= 1400
-loc N = r(N)
 foreach m in lpm lpmq logit probit{
     
 	qui{
@@ -215,14 +214,14 @@ foreach m in lpm lpmq logit probit{
 	}
 	
     qui count if   ((pred >= 0.5 & taken_new == 1) | 		///
-					(pred < 0.5  & taken_new == 0)) & imidlineid >= 1400
+					(pred < 0.5  & taken_new == 0))
 					
-    loc q11_50_`m' : di %4.3f r(N)/`N'
+    loc q11_50_`m' : di %4.3f r(N)/_N
 	
     qui count if   ((pred >= `pop_mean' & taken_new == 1) | ///
-					(pred < `pop_mean'  & taken_new == 0)) & imidlineid >= 1400
+					(pred < `pop_mean'  & taken_new == 0))
 					
-    loc q11_sm_`m' : di %4.3f r(N)/`N'
+    loc q11_sm_`m' : di %4.3f r(N)/_N
 	
 	drop pred
 }
@@ -305,8 +304,8 @@ outreg2 using table5.tex, append `opts' ctitle("HetProbit";"lnsigma")
 */
 
 // format the predicted probabilities and write them to table2.tex
-loc models lpm logit probit
-forval i = 1/3{
+loc models lpm lpmq logit probit
+forval i = 1/4{
 	di _newline "Predicted probabilities for `: word `i' of `models'':"
 	sum pred_`: word `i' of `models'', d
 	foreach x in mean sd min p5 p25 p50 p75 p95 max{
@@ -316,17 +315,17 @@ forval i = 1/3{
 
 
 file write table2	///
-	"\begin{tabular}{rccc}"							_newline ///
-	_tab "& LPM & Logit & Probit \\\hline"			_newline ///
-	_tab "Mean & `mean1' & `mean2' & `mean3' \\"	_newline ///
-	_tab "Std. Dev. & `sd1' & `sd2' & `sd3' \\"		_newline ///
-	_tab "Min & `min1' & `min2' & `min3' \\"		_newline ///
-	_tab "p5 & `p51' & `p52' & `p53' \\"			_newline ///
-	_tab "p25 & `p251' & `p252' & `p253' \\"		_newline /// 
-	_tab "Median & `p501' & `p502' & `p503' \\"		_newline ///
-	_tab "p75 & `p751' & `p752' & `p753' \\"		_newline ///
-	_tab "p95 & `p951' & `p952' & `p953' \\"		_newline ///
-	_tab "Max & `max1' & `max2' & `max3'"			_newline ///
+	"\begin{tabular}{rcccc}"								_newline ///
+	_tab "& LPM & Quartic LPM & Logit & Probit \\\hline"	_newline ///
+	_tab "Mean & `mean1' & `mean2' & `mean3' & `mean4' \\"	_newline ///
+	_tab "Std. Dev. & `sd1' & `sd2' & `sd3' & `sd4' \\"		_newline ///
+	_tab "Min & `min1' & `min2' & `min3' & `min4' \\"		_newline ///
+	_tab "p5 & `p51' & `p52' & `p53' & `p54' \\"			_newline ///
+	_tab "p25 & `p251' & `p252' & `p253' & `p254' \\"		_newline /// 
+	_tab "Median & `p501' & `p502' & `p503' & `p504' \\"	_newline ///
+	_tab "p75 & `p751' & `p752' & `p753' & `p754' \\"		_newline ///
+	_tab "p95 & `p951' & `p952' & `p953' & `p954' \\"		_newline ///
+	_tab "Max & `max1' & `max2' & `max3' & `max4'"			_newline ///
 	"\end{tabular}"
 	
 file write table3	///

@@ -158,40 +158,62 @@
 
 %%%________________________________________________________________%%%
 
-\noindent The attached file, edgel\_ps1\_log.log, includes all console output for this problem set. The coefficients and standard errors of all requested regressions are reported in table 1 below. The label at the top of each column corresponds to the question for which the regression was run (e.g., ``Q2'' corresponds to the regression from question 2). For Question 6, which requests two regressions, the columns are labeled with the name of the specification.
+\noindent The attached file, edgel\_ps1\_log.log, includes all console output for this problem set. The coefficients and standard errors of all requested regressions are reported in table 1 below. The label at the top of each column corresponds to the question for which the regression was run (e.g., ``Q2'' corresponds to the regression from question 2). For Question 6, which requests two regressions, the columns are labeled with the name of the specification. 
+\begin{center}
+        \textbf{Table 1: Regression Results} \\\medskip
+{\small
+        \input{table1.tex}
+}
+\end{center}
 
-The weights used in the variance-weighted least squares (VWLS) are the standard error of the OLS estimation. 
+The coefficients for the linear probability model (LPM) with OLS standard errors, displayed in column one, suggest that the treatment is not a statistically significant determinant of loan take-up, nor is the coefficient of any other covariate. However, there are many issues with this specification. Client age and education, for example, should be modeled either as saturated variables or in buckets, as it is highly unlikely that there is a single, constant marginal effect for one year of age or education, and in the data, neither of these variables are continuous.\footnote{Granted, one could argue that age and education are continuous in the data generating process.}
 
+In comparing the first two specifications (for questions two and three), we are obviously only interested in the standard errors, as the coefficients are exactly equal. Surprisingly, the robust standard errors are smaller for every coefficient other than the household income coefficient. This is evidence against meaningful heteroskedasticity in the data generating process (DGP).
 
-\input{q9a.tex} \input{q9b.tex}  
+Table 2 displays summary statistics for the predicted probabilities of every model used in this assignment. As you can see, all predicted probabilities for the LPM lie between 0 and 1. In face, the summary statistics of the (non-quartic) LPM align closely with those of the probit model.
+\begin{center}
+        \textbf{Table 2: Predicted Probabilities} \\\medskip
+        \input{table2.tex}
+\end{center}
 
-The method of using sample take-up rates to determine prediction accuracy is better for assessing phenomena that occur in very small numbers. However, it suffers from endogeneity. For example, if the dependent variable is whether a person commutes by bike and an independent variable is the miles of bike paths in the city, then  % THINK ABOUT THIS EXAMPLE MORE--WHAT WOULD BE BAD ABOUT THAT, EXACTLY?
+Column three of Table 2 displays the results of the variance-weighted least squares regression.\footnote{The weights used in the variance-weighted least squares (VWLS) are the standard error of the OLS estimation.} By and large, the coefficients for this specification do not meaninfully differ from those of the OLS LPM, with the notable exception of the coefficient for client age, which changes sign. However, the standard errors differ substantially, across all covariates. Namely, they get much smaller, resulting in every coefficient being statistically significant.
+
+Columns four and five of Table 1 display the results of the logit and probit regressions, respectively. The coefficient estimates for these specifications are nothing like the coefficients for the LPM specifications, nor should they be. The coefficients of an LPM are estimates of a constant marginal effect of the covariate on the probability of the dependent variable. The coefficient of a generalized linear model (GLM) such as logit or probit represents the constant marginal effect of the covariate on the model's latent scoring variable.\footnote{In the case of the logit model, a variable's coefficient measures the (constant) marginal effect of that variable on the log odds ratio of the dependent variable being equal to one, relative to being equal to 0.}
+
+Table 3 displays the mean partial effect of client age on the probability of loan uptake in each of the four (including the quartic LPM) specifications. In the LPM, this represents the increase in probability of loan uptake caused by a one-year increase in client age. For the GLM models, this represents the average observed increase in the probability of loan uptake caused by a one-year increase in client age.
+\begin{center}
+        \textbf{Table 3: Mean Partial Effects} \\\medskip
+        \input{table3.tex}
+\end{center}
+
+The mean partial derivative estimates for LPM and logit are very similar, but the probit estimates are much higher. The four methods of calculating the probit estimates are very similar, though the numerical estimate is a bit higher than the rest. The numeric estimate of the mean partial derivative for the quartic LPM is similar to the estimate for the probit model, though, as Table 2 shows, the predicted probabilities of the quartic LPM model are much more wildly distributed than those of the other three models.
+
+Calculating the LRI for the probit model by hand yields a value of \input{q9.tex}. In practice, this is generally viewed as as a measure of what share of the variance in loan uptake probability is explained by the model. Technically speaking, this value is simply the ratio of the log-likelihood of a probit model with just an intercept to that of our probit model, subtracted from one. Since this value is bounded by zero, at the bottom, at one, at the top (asymptotically), this very low value suggests that our model does a poor job of explaining the variation in loan uptake.
+
+Table 4 displays the correct prediction rate for for each of the models, using both $\hat{p}=\input{q10.tex}$ (the sample take-up rate) and 0.5 as the threshold for predicting loan take-up. The first two columns display the rates for each model using all observations to estimate the model, whereas the last two columns display the rates for the model that was estimates with only $imidlineid<1400$.
+\begin{center}
+        \textbf{Table 4: Prediction Rates} \\\medskip
+        \input{table4.tex}
+\end{center}
+As the table shows, prediction rates vary little across the four models, particularly using 0.5 as a threshold, and the out-of-sample prediction rate is similar to the in-sample rate for each model. The slight decrease in prediction rates for out-of-sample predictions is consistent with expectations. The model is much more accurate if you use 0.5 as a threshold for determining predictability.\footnote{In this example, this is because, if the DGP results in rates on either extreme, a model that assigns a probability of 0 or 1 to all observations can appear to have an extremely high prediction rate. A threshold that is equal to the population mean requires the model to predict better than randomization.} The method of using sample take-up rates to determine prediction accuracy is better for assessing phenomena that occur at a rate that is very different from 50\%. I personally prefer this measure, though think that, in settings such as this with subpopulations that have clear and observable differences in take-up rates (such as Muslim borrowers), prediction rates should be estimated within sub-populations.
+
+Table 5 displays the results of the baseline probit from question six (in column one) and the results of a probit estimation that includes an interaction between the dummy variables for whether a potential borrow is Muslim and/or married.
+\begin{center}
+        \textbf{Table 5: Probit Model Comparison} \\\medskip
+{\footnotesize
+        \input{table5.tex}
+}
+\end{center}
 
 The mean finite difference for the interaction term is \input{q13.tex}. The marginal effect for each case (e.g., Muslim but not married, married and Muslim), using a model with and without an interaction term, is displayed in Table 6.
 
 \begin{center}
-        \textbf{Table 1: Regression Results} \\
-        \input{table1.tex}
-\end{center}
-\begin{center}
-        \textbf{Table 2: Predicted Probabilities} \\
-        \input{table2.tex}
-\end{center}
-\begin{center}
-        \textbf{Table 3: Mean Partial Effects} \\
-        \input{table3.tex}
-\end{center}
-\begin{center}
-        \textbf{Table 4: Prediction Rates} \\
-        \input{table4.tex}
-\end{center}
-\begin{center}
-        \textbf{Table 5: Probit Model Comparison} \\
-        \input{table5.tex}
-\end{center}
-\begin{center}
-        \textbf{Table 6: Mean finite differences} \\
+        \textbf{Table 6: Mean finite differences} \\\medskip
         \input{table6.tex}
+\end{center}
+\begin{center}
+        \textbf{Table 7: Regression of squared errors on covariates} \\\medskip
+        \input{table7.tex}
 \end{center}
 
 \end{document}
