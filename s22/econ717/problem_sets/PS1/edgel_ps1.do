@@ -37,11 +37,14 @@ loc opts "tex(frag) nor noobs noas"
 loc eps = 1e-5
 
 // save list of files in a local macro; open all files in write mode 
-loc files table2 table3 table4 q9a q9b
+loc files table2 table3 table4 q9a q9b q13 q14 table6
 foreach f in `files'{
 	capture file close `f'
 	file open `f' using `f'.tex, write replace
 }
+
+// declare temporary variables
+tempvar meanvar meanvar2
 		
 /*
 	Problems
@@ -67,6 +70,7 @@ outreg2 using table1.tex, replace 	/// output estimates of coefficients and SEs
 				
 qui sigdig _b[Client_Age]
 loc q7_lpm = r(value) // save for table 3
+predict e_lpm, resid  // save for q15
 
 // 3) Repeat the LPM estimation with robust SEs
 reg taken_new `X', robust
@@ -104,7 +108,6 @@ foreach m in Logit Probit{
 
 // logit: simply calculate the derivative of the distribution function for each
 // obs, multiplied by the coefficient for Client_Age, then take the mean
-	tempvar meanvar
 	g `meanvar' = `beta_logit'*(exp(xb_logit)/((1 + exp(xb_logit))^2))
 	sum `meanvar'
 	qui sigdig r(mean)
@@ -120,7 +123,7 @@ foreach m in Logit Probit{
 	loc q7a = r(value)
 
 	// 7b) calculate "by hand"
-	replace `meanvar' = `beta_probit'*normal(xb_probit)
+	replace `meanvar' = `beta_probit'*normalden(xb_probit)
 	sum `meanvar'
 	qui sigdig r(mean)
 	loc q7b = r(value)
@@ -155,7 +158,7 @@ loc q9a = e(ll) // save log-likelilood for use in (9)
 
 // write the R^2 to q9a.tex for interpreting the result from (9)
 qui sigdig e(r2)
-file write q9a "`=r(value)'"
+file write q9a "$`=r(value)'$"
 
 replace Client_Age = Client_Age + `eps'
 forval i = 2/4{
@@ -177,7 +180,7 @@ forval i = 2/4{
 qui reg taken_new
 sigdig `=1 - (`q9a'/`=e(ll)')'
 
-file write q9b "`=r(value)'"
+file write q9b "$`=r(value)'$"
 
 // 10) calculate correct prediction rates for the each model, using both
 // 		a 50% threshold and the population rate
@@ -228,10 +231,74 @@ foreach m in lpm lpmq logit probit{
 // 12) Re-estimate probit model with an interaction between married and Muslim
 // (also re-estimate the baseline probit, for comparison)
 qui probit taken_new `X2' i.Client_Married i.muslim
-outreg2 using table5.tex, replace `opts' addstat("LRI", `e(r2_p)') ctitle(" ")
+outreg2 using table5.tex, replace `opts' addstat("LRI", `e(r2_p)') 	///
+	ctitle("Baseline")
 
-probit taken_new `X2' 1.Client_Married#1.muslim
-outreg2 using table5.tex, append `opts' addstat("LRI", `e(r2_p)') ctitle(" ")
+probit taken_new `X2' 1.Client_Married##1.muslim
+outreg2 using table5.tex, append `opts' addstat("LRI", `e(r2_p)') 	///
+	ctitle("Interaction Effect")
+
+// 13) Calculate the mean finite difference for Client_Married and muslim, for 
+//     both the model with the interaction term and the one without
+
+// first calculate each variable's XB for all but the vars of interest
+replace `meanvar' = _b[_cons]
+foreach ivar in `X2'{
+    replace `meanvar' = `meanvar' + _b[`ivar']*`ivar'
+}
+g `meanvar2' = `meanvar'
+
+// now calculate the interaction effect
+replace `meanvar' = 	///
+	normal(`meanvar' + _b[1.Client_Married] + _b[1.muslim] + 					///
+	_b[1.Client_Married#1.muslim]) - normal(`meanvar' + _b[1.muslim]) - 		///
+	normal(`meanvar' + _b[1.Client_Married]) + normal(`meanvar')
+	
+qui sum `meanvar' 
+loc interaction = r(mean)
+file write q13 "$`: di %4.3f `interaction''$"
+file write q14 "$`: di %5.4f `r(sd)''"
+
+// now calculate the effects for each case
+foreach v in Client_Married muslim{
+	replace `meanvar' = normal(`meanvar2' + _b[1.`v']) - normal(`meanvar2')
+	qui sum `meanvar'    
+	loc `v'_eff = r(mean)
+}
+
+loc q13i_10 : di %4.3f `Client_Married_eff'
+loc q13i_01 : di %4.3f `muslim_eff'
+loc q13i_11 : di %4.3f `Client_Married_eff' + `muslim_eff' + `interaction'
+
+// repeat for the model without interaction effects
+qui probit taken_new `X2' i.Client_Married i.muslim
+replace `meanvar2' = _b[_cons]
+foreach ivar in `X2'{
+    replace `meanvar2' = `meanvar2' + _b[`ivar']*`ivar'
+}
+foreach v in Client_Married muslim{
+	replace `meanvar' = normal(`meanvar2' + _b[1.`v']) - normal(`meanvar2')
+	qui sum `meanvar'    
+	loc `v'_eff = r(mean)
+}
+
+loc q13n_10 : di %4.3f `Client_Married_eff'
+loc q13n_01 : di %4.3f `muslim_eff'
+loc q13n_11 : di %4.3f `Client_Married_eff' + `muslim_eff'
+
+
+// 15) regress the squared residuals from the LPM on its covariance to determine
+//  if there is any evidence of heteroskedasticity
+g e2_lpm = e_lpm^2
+reg e2_lpm `X'
+outreg2 using table7.tex, replace `opts' ctitle(" ")
+
+
+// 16) run a probit regression, allowing for heteroskedasticity in age and educ
+	
+hetprob taken_new `X2' i.Client_Married i.muslim, 	///
+	het(Client_Age Client_Education)
+outreg2 using table5.tex, append `opts' ctitle("HetProbit";"lnsigma")
 	
 /*
 	Finishing up
@@ -274,9 +341,9 @@ file write table3	///
 	
 file write table4	///
 	"\begin{tabular}{rcccc}"										_newline ///
-	_tab " 			  & \multicolumn{2}{c}{In-Sample} 		"				 ///
+	_tab 			" & \multicolumn{2}{c}{In-Sample} 		"				 ///
 					" & \multicolumn{2}{c}{Out-of-Sample} \\"		_newline ///
-	_tab "  		  & $\geq0.5$ 		& $\geq\hat{p}$     "				 ///
+	_tab 			" & $\geq0.5$ 		& $\geq\hat{p}$     "				 ///
 					" & $\geq0.5$ 		& $\geq\hat{p}$\\\hline"	_newline ///
 	_tab "LPM 		  & `q10_50_lpm'    & `q10_sm_lpm'"						 ///
 					" & `q11_50_lpm'    & `q11_sm_lpm' \\"			_newline ///
@@ -286,6 +353,16 @@ file write table4	///
 					" & `q11_50_logit'  & `q11_sm_logit'  \\"		_newline ///
 	_tab "Probit 	  & `q10_50_probit' & `q10_sm_probit'"					 ///
 					" & `q11_50_probit' & `q11_sm_probit' \\"		_newline ///
+	"\end{tabular}"
+
+file write table6 	///
+	"\begin{tabular}{cc|cc}"										_newline ///
+	_tab "&&\multicolumn{2}{c}{\small{Mean Finite Difference}} \\"	_newline ///
+	_tab "$\one{Client\_Age}$ & $\one{Muslim}$"								 ///
+		 "& w/o interaction & w/ interaction \\\hline"				_newline ///
+	_tab "1 & 0 & `q13n_10' & `q13i_10' \\"							_newline ///
+	_tab "0 & 1 & `q13n_01' & `q13i_01' \\"							_newline ///
+	_tab "1 & 1 & `q13n_11' & `q13i_11' \\"							_newline ///
 	"\end{tabular}"
 	
 	
