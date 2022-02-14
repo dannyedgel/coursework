@@ -2,7 +2,7 @@
 %%% Spring 2021
 %%% Danny Edgel
 %%%
-% Due on Canvas Thursday, December 16th, midnight Central Time
+% Due on Canvas Wednesday, December 3rd, 6:00pm Central Time
 %%%
 
 %%%
@@ -149,7 +149,8 @@
 
 \begin{document}
 
-\title{	Problem Set \#2b }
+
+\title{	Problem Set \#1b }
 \author{ 	Danny Edgel 					\\ 
 			Econ 715: Econometric Methods	\\
 			Fall 2021						
@@ -157,38 +158,58 @@
 \maketitle\thispagestyle{empty}
 
 %%%________________________________________________________________%%%
+\section*{Question 1}
 
-\noindent The attached file, functions.jl, includes all functions used in this problem set, including an OLS function. edgel\_ps2.tex includes the code the executes the commands for the problem set. Using these files, the coefficient for education is derived as \input{1.tex}.
+\begin{enumerate}[(a)]
+    \item The attached file, functions.jl, includes all functions used in this problem set, including an OLS function. edgel\_ps1.tex includes the code the executes the commands for the problem set. Using these files, the coefficient for education is derived as \input{1a.tex}.
 
-To obtain a conditional average treatment effect (CATE) for increasing education from 12 years to 16 years, I first subset the data to only include the observations with education equal to either 12 or 16 years. Then, I generated binary variable ${T_i = \one{edu_i = 16}}$ and ran OLS on the following specification:\[
-    Y_i = \beta_0 + \beta_1T_i + \beta_2T_iX_i + \beta_3X_i^2 + \beta_4X_i + \beta_5X_i^2 \eps_i
+    \item The education coefficients for the .5 and .75 quantiles are below. \[
+        \input{1b.tex}
+    \]
+
+    \item The bootstrap SE of $\bhat_1^{.75}$ for 100 simulations is \input{1c.tex}.
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+\section*{Question 2}
+
+The moment function for GMM is:\[
+        m(y, x; \beta) = x\left[\one{y\leq x'\beta}(1-\tau) - \one{y>x'\beta}\tau\right] = x\left[\one{y\leq x'\beta} - \tau\right]
+    \]
+The attached code estimates $\bhat^{.5}$ and $\bhat^{.75}$ using this GMM moment condition. \medskip \\
+The asymptotic variance-covatiance matrix is $\left(\Gamma'\Omega^{-1}\Gamma\right)^{-1}$, where, assuming correct specification: \begin{align*}
+    \Omega &= \E{X_iX_i'}\tau(1-\tau)               \\
+    \Gamma &= \E{X_iX_i'}f_{\varepsilon_i|X_i}(0)
+\end{align*}
+The estimated coefficient and standard error for $\bhat_1^{.75}$ are below. \[
+        \input{2e.tex}
 \]
-Where $X_i$ is years of experience. Then, the CATE for each year of experience is given by:\[
-    \tau(X) = \beta_1 + \beta_2X + \beta_4X^2
-\]
-Which is plotted below, along with a 95\% confidence interval.
-\begin{center}
-    \includegraphics[scale=.55]{fig1.png}
-\end{center}
-Using the sample shares of years of experience, the average treatment effect (ATE) is estimated as \input{2b.tex}. 
+Note that the estimated standard error is unrealistically high. This is true for the standard error of all coefficients in this model. While it is possible that I simply made a coding error that I cannot find, I believe that this is due to the use of a fitted normal distribution for the estimate of the conditional distribution of the residuals at zero. The value is above .7, which is very high. This value would likely be much lower under a different estimation method.
 
-Using a single sample of 400 observations, the naive ATE is estimated as \input{3.tex}. A histogram of ATE estimates from 500 samples of 400 observations is shown below.\footnote{All samples were taken without replacement.}
-\begin{center}
-    \includegraphics[scale=.55]{fig2.png}
-\end{center}
-Repeating this process, but calculating the CATE and averaging over all years of experience, the ATE is estimated as \input{4.tex}, and the new histogram is:
-\begin{center}
-    \includegraphics[scale=.55]{fig3.png}
-\end{center}
-The estimate from question 1 (from OLS) falls far below the lower tail of each set of estimates. The CATE estimate from question 2b, however, falls in or near the modal bin of each histogram.
+%%%________________________________________________________________%%%
+\section*{Question 3}
+The function FGLS() conducts all of the required steps for this question. The resulting standard error for $\bhat^{.75}$ is \input{3f.tex}. This standard error is clearly a departure from those of the other methods. This is likely due to a coding error that I cannot find.
 
-Using a propensity score as requested, the ATE estimate is \input{5.tex}, and the histogram for 500 simulations is below. As you can see, the estimates vary much more than they do using the other two methods. However, the OLS estimate is still well below the minimum estimate, and estimate from 2(b) is above the median (and the modal bin).
-\begin{center}
-    \includegraphics[scale=.55]{fig4.png}
-\end{center}
-The three methods above yield different results with similar means. I would prefer the first method, which estimates the CATE for each experience level, then averages across experience. I prefer this method because it has the lowest variance and is the most theoretically robust, since the first figure (from question 1) shows that the treatment effect does, indeed, vary with experience.
+%%%________________________________________________________________%%%
+\section*{Question 4}
 
-When we draw samples of 400 for each of the problems above, we should use the same samples for each problem (through obviously not for each simulation) to control for variation in estimates that is due exclusively to sampling, which is not particularly interesting variation for comparing estimation methods.
+\begin{enumerate}[(a)]
+    \item The results from 1 simulation are below.
+        \begin{center}
+            \input{4a.tex}
+        \end{center} 
+
+    \item The results for $J=10$\footnote{I understand that this is far from ``large''. I underestimated the amount of time each simulation takes and wasted the time I set aside for comupatation on waiting for 1000 iterations, which would not have finished before the deadline.} simulations are in the table below. 
+        \begin{center}
+                \input{4b.tex}
+        \end{center}
+        Note that the bootstrap and FGLS standard errors perform very poorly. The FGLS errors suffer from the unknown error mentioned in Question 3, and the bootstrap errors are likely due to the use of a small number of bootstrap samples (10). I chose this due to time constraints: The quantile regression code takes a long time to run, and I did not parallelize the bootstrap loop (again, due to time constraints).
+
+\end{enumerate}
+
+%%%________________________________________________________________%%%
+
+
 
 
 

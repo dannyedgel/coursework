@@ -3,7 +3,7 @@
 	quarter of Econ 717
 	
 	Date created:  10 Feb 2022
-	Last modified: 13 Feb 2022
+	Last modified: 14 Feb 2022
 	Author: Danny Edgel (edgel@wisc.edu)
 */
 capture log c
@@ -25,8 +25,10 @@ adopath + "C:\Users\edgel\Google Drive\Code\Stata\functions"
 use Field+et+al+%282010%29+Analysis+Sample, clear
 
 // save the set of independent variables in a local macro
+// also save a set that omits "married" and "muslim"
 loc X	Treated Client_Age Client_Married Client_Education HH_Income muslim 	///
 		Hindu_SC_Kat
+loc X2	Treated Client_Age Client_Education HH_Income Hindu_SC_Kat
 
 // save outreg options
 loc opts "tex(frag) nor noobs noas"
@@ -148,7 +150,7 @@ forval i = 2/4{
 }
 
 reg taken_new `X' ca*
-predict q8a, xb
+predict pred_lpmq, xb
 loc q9a = e(ll) // save log-likelilood for use in (9)
 
 // write the R^2 to q9a.tex for interpreting the result from (9)
@@ -161,7 +163,7 @@ forval i = 2/4{
 }
 predict q8b, xb
 
-replace `meanvar' = (q8b - q8a)/`eps'
+replace `meanvar' = (q8b - pred_lpmq)/`eps'
 sum `meanvar'
 qui sigdig r(mean)
 loc q8 = r(value)
@@ -177,7 +179,59 @@ sigdig `=1 - (`q9a'/`=e(ll)')'
 
 file write q9b "`=r(value)'"
 
+// 10) calculate correct prediction rates for the each model, using both
+// 		a 50% threshold and the population rate
 
+qui sum taken_new
+loc pop_mean = r(mean)
+foreach m in lpm lpmq logit probit{
+    qui count if 	(pred_`m' >= 0.5 & taken_new == 1) | 		///
+					(pred_`m' < 0.5  & taken_new == 0)
+					
+    loc q10_50_`m' : di %4.3f r(N)/_N
+	
+    qui count if 	(pred_`m' >= `pop_mean' & taken_new == 1) | ///
+					(pred_`m' < `pop_mean'  & taken_new == 0)
+					
+    loc q10_sm_`m' : di %4.3f r(N)/_N
+}
+
+// 11) Repeat (10) using a model that only includes some of the sample, but
+//     tests on the rest of the sample
+qui count if imidlineid >= 1400
+loc N = r(N)
+foreach m in lpm lpmq logit probit{
+    
+	qui{
+		if 		("`m'" == "lpm")  	reg taken_new `X'		if imidlineid < 1400
+		else if ("`m'" == "lpmq") 	reg taken_new `X' ca*	if imidlineid < 1400
+		else						`m' taken_new `X'		if imidlineid < 1400
+		
+		if (strpos("`m'", "lpm") > 0) 	predict pred, xb 
+		else							predict pred, pr
+	}
+	
+    qui count if   ((pred >= 0.5 & taken_new == 1) | 		///
+					(pred < 0.5  & taken_new == 0)) & imidlineid >= 1400
+					
+    loc q11_50_`m' : di %4.3f r(N)/`N'
+	
+    qui count if   ((pred >= `pop_mean' & taken_new == 1) | ///
+					(pred < `pop_mean'  & taken_new == 0)) & imidlineid >= 1400
+					
+    loc q11_sm_`m' : di %4.3f r(N)/`N'
+	
+	drop pred
+}
+	
+
+// 12) Re-estimate probit model with an interaction between married and Muslim
+// (also re-estimate the baseline probit, for comparison)
+qui probit taken_new `X2' i.Client_Married i.muslim
+outreg2 using table5.tex, replace `opts' addstat("LRI", `e(r2_p)') ctitle(" ")
+
+probit taken_new `X2' 1.Client_Married#1.muslim
+outreg2 using table5.tex, append `opts' addstat("LRI", `e(r2_p)') ctitle(" ")
 	
 /*
 	Finishing up
@@ -217,6 +271,23 @@ file write table3	///
 	_tab "7c) & - & - & `q7c' & `q8' \\"							_newline ///
 	_tab "7d) & - & - & `q7d' & - \\"								_newline /// 
 	"\end{tabular}"
+	
+file write table4	///
+	"\begin{tabular}{rcccc}"										_newline ///
+	_tab " 			  & \multicolumn{2}{c}{In-Sample} 		"				 ///
+					" & \multicolumn{2}{c}{Out-of-Sample} \\"		_newline ///
+	_tab "  		  & $\geq0.5$ 		& $\geq\hat{p}$     "				 ///
+					" & $\geq0.5$ 		& $\geq\hat{p}$\\\hline"	_newline ///
+	_tab "LPM 		  & `q10_50_lpm'    & `q10_sm_lpm'"						 ///
+					" & `q11_50_lpm'    & `q11_sm_lpm' \\"			_newline ///
+	_tab "Quartic LPM & `q10_50_lpmq'   & `q10_sm_lpmq'"		 			 ///
+					" & `q11_50_lpmq'   & `q11_sm_lpmq'   \\"		_newline ///
+	_tab "Logit 	  & `q10_50_logit'  & `q10_sm_logit'"			 		 ///
+					" & `q11_50_logit'  & `q11_sm_logit'  \\"		_newline ///
+	_tab "Probit 	  & `q10_50_probit' & `q10_sm_probit'"					 ///
+					" & `q11_50_probit' & `q11_sm_probit' \\"		_newline ///
+	"\end{tabular}"
+	
 	
 // close the log and save tables 2 and 3
 log c

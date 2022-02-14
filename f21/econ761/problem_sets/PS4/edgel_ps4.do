@@ -3,7 +3,7 @@
 	set 4 for Econ 761
 	
 	Date created:  09 Nov 2021
-	Last modified: 14 Nov 2021
+	Last modified: 16 Nov 2021
 	Author: Danny Edgel
 */
 
@@ -290,26 +290,15 @@ file write table3	///
 	_tab "& $\one{WalMart}$ & $\one{KMart}$ " 								///
 			"& $\one{WalMart}$ & $\one{KMart}$\\\hline && \\"	_newline 	///
 	_tab "$\Delta_i$ & `b`i'_wm' & `b`i'_km' &" 							///
-				"`b`i'_wm2' & `b`i'_km2'           \\"			_newline 	///
-	_tab "           & (`s`i'_wm') & (`s`i'_km') &" 						///
-					"(`s`i'_wm2') & (`s`i++'_km2')   \\"		_newline 	///
+				"`b`i'_wm2' & `b`i++'_km2'           \\"		_newline 	///
 	_tab "$\loge{Dist}$ & `b2_wm' &  & `b2_wm2' &    	\\"		_newline 	///
-	_tab "              & (`s2_wm') &  & (`s2_wm2') &   \\"		_newline 	///
-	_tab "\% Urban & `b`i'_wm' & `b`i'_km' & `b`i'_wm2' & `b`i'_km2'  \\"	///		
-																_newline 	///
-	_tab " & (`s`i'_wm') & (`s`i'_km') & (`s`i'_wm') & (`s`i++'_km') \\"	///
+	_tab "\% Urban & `b`i'_wm' & `b`i'_km' & `b`i'_wm2' & `b`i++'_km2'  \\"	///		
 																_newline 	///
 	_tab "$\loge{Population}$ & `b`i'_wm' & `b`i'_km' &" 					///
-								"`b`i'_wm2' & `b`i'_km2' \\"	_newline 	///
-	_tab " & (`s`i'_wm') & (`s`i'_km') & (`s`i'_wm2') & (`s`i++'_km2') \\"	///
+								"`b`i'_wm2' & `b`i++'_km2' \\"	_newline 	///
+	_tab "$\one{Midwest}$ &`b`i'_wm'&`b`i'_km'&`b`i'_wm2' &`b`i++'_km2' \\"	///
 																_newline 	///
-	_tab "$\one{Midwest}$ &`b`i'_wm' &`b`i'_km' &`b`i'_wm2' &`b`i'_km2' \\"	///
-																_newline 	///
-	_tab "& (`s`i'_wm') & (`s`i'_km') &(`s`i'_wm2') &(`s`i++'_km2') \\"		///
-																_newline 	///
-	_tab "$\one{South}$ & `b`i'_wm' &`b`i'_km' &`b`i'_wm2' & `b`i'_km2' \\"	///
-																_newline 	///
-	_tab "&(`s`i'_wm') &(`s`i'_km') &(`s`i'_wm2')& (`s`i++'_km2') \\ && \\"	///
+	_tab "$\one{South}$ & `b`i'_wm'&`b`i'_km' &`b`i'_wm2' &`b`i++'_km2' \\"	///
 																_newline 	///
 	_tab "Log-likelihood & `ll_wm' & `ll_km' & `ll_wm2' & `ll_km2' \\"		///
 																_newline	///

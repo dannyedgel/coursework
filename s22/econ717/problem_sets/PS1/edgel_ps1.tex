@@ -163,7 +163,9 @@
 The weights used in the variance-weighted least squares (VWLS) are the standard error of the OLS estimation. 
 
 
-\input{q9a.tex} \input{q9b.tex}
+\input{q9a.tex} \input{q9b.tex}  
+
+The method of using sample take-up rates to determine prediction accuracy is better for assessing phenomena that occur in very small numbers. However, it suffers from endogeneity. For example, if the dependent variable is whether a person commutes by bike and an independent variable is the miles of bike paths in the city, then  % THINK ABOUT THIS EXAMPLE MORE--WHAT WOULD BE BAD ABOUT THAT, EXACTLY?
 
 \begin{center}
         \textbf{Table 1: Regression Results} \\
@@ -176,6 +178,14 @@ The weights used in the variance-weighted least squares (VWLS) are the standard 
 \begin{center}
         \textbf{Table 3: Mean Partial Effects} \\
         \input{table3.tex}
+\end{center}
+\begin{center}
+        \textbf{Table 4: Prediction Rates} \\
+        \input{table4.tex}
+\end{center}
+\begin{center}
+        \textbf{Table 5: Probit Model Comparison} \\
+        \input{table5.tex}
 \end{center}
 
 \end{document}
