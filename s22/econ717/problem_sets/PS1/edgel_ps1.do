@@ -3,7 +3,7 @@
 	quarter of Econ 717
 	
 	Date created:  10 Feb 2022
-	Last modified: 14 Feb 2022
+	Last modified: 15 Feb 2022
 	Author: Danny Edgel (edgel@wisc.edu)
 */
 capture log c
@@ -37,7 +37,7 @@ loc opts "tex(frag) nor noobs noas"
 loc eps = 1e-5
 
 // save list of files in a local macro; open all files in write mode 
-loc files table2 table3 table4 q9 q10 q13 q14 table6
+loc files table2 table3 table4 q9 q10 q13 q14 q14a table6
 foreach f in `files'{
 	capture file close `f'
 	file open `f' using `f'.tex, write replace
@@ -256,7 +256,8 @@ replace `meanvar' = 	///
 qui sum `meanvar' 
 loc interaction = r(mean)
 file write q13 "$`: di %4.3f `interaction''$"
-file write q14 "$`: di %5.4f `r(sd)''"
+file write q14 "$`: di %5.4f r(sd)'$, or "	///
+				"$`: di %3.1f abs(100*(r(sd)/r(mean)))'$\% of the mean"
 
 // now calculate the effects for each case
 foreach v in Client_Married muslim{
@@ -285,6 +286,11 @@ loc q13n_10 : di %4.3f `Client_Married_eff'
 loc q13n_01 : di %4.3f `muslim_eff'
 loc q13n_11 : di %4.3f `Client_Married_eff' + `muslim_eff'
 
+
+// 14) count number of married Muslims in the sample to illustrate why the SD
+//     is so low 
+qui count if Client_Married == 1 & muslim == 1
+file write q14a "`=r(N)', or $`: di %3.1f 100*(r(N)/_N)'$\% of the sample."
 
 // 15) regress the squared residuals from the LPM on its covariance to determine
 //  if there is any evidence of heteroskedasticity
@@ -357,7 +363,7 @@ file write table4	///
 file write table6 	///
 	"\begin{tabular}{cc|cc}"										_newline ///
 	_tab "&&\multicolumn{2}{c}{\small{Mean Finite Difference}} \\"	_newline ///
-	_tab "$\one{Client\_Age}$ & $\one{Muslim}$"								 ///
+	_tab "$\one{Client\_Married}$ & $\one{Muslim}$"							 ///
 		 "& w/o interaction & w/ interaction \\\hline"				_newline ///
 	_tab "1 & 0 & `q13n_10' & `q13i_10' \\"							_newline ///
 	_tab "0 & 1 & `q13n_01' & `q13i_01' \\"							_newline ///
@@ -365,7 +371,7 @@ file write table6 	///
 	"\end{tabular}"
 	
 	
-// close the log and save tables 2 and 3
+// close the log and save tables
 log c
 
 foreach f in `files'{

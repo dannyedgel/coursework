@@ -197,7 +197,7 @@ Table 4 displays the correct prediction rate for for each of the models, using b
 \end{center}
 As the table shows, prediction rates vary little across the four models, particularly using 0.5 as a threshold, and the out-of-sample prediction rate is similar to the in-sample rate for each model. The slight decrease in prediction rates for out-of-sample predictions is consistent with expectations. The model is much more accurate if you use 0.5 as a threshold for determining predictability.\footnote{In this example, this is because, if the DGP results in rates on either extreme, a model that assigns a probability of 0 or 1 to all observations can appear to have an extremely high prediction rate. A threshold that is equal to the population mean requires the model to predict better than randomization.} The method of using sample take-up rates to determine prediction accuracy is better for assessing phenomena that occur at a rate that is very different from 50\%. I personally prefer this measure, though think that, in settings such as this with subpopulations that have clear and observable differences in take-up rates (such as Muslim borrowers), prediction rates should be estimated within sub-populations.
 
-Table 5 displays the results of the baseline probit from question six (in column one) and the results of a probit estimation that includes an interaction between the dummy variables for whether a potential borrow is Muslim and/or married.
+Table 5 displays the results of the baseline probit from question six (in column one) and the results of a probit estimation that includes an interaction between the dummy variables for whether a potential borrow is Muslim and/or married. The LRI increases slightly when the interaction term is included, but the model remains poorly-fitted, and the change in the magnitude and statistical significance of coefficients (other than those that are interacted) is minimal. Futhermore, the interaction term itself is not significant, nor do the coefficients of the relevant dummy variables become significant. All of this suggests that the interaction term is not likely a critical determinant of loan take-up.
 \begin{center}
         \textbf{Table 5: Probit Model Comparison} \\\medskip
 {\footnotesize
@@ -205,16 +205,21 @@ Table 5 displays the results of the baseline probit from question six (in column
 }
 \end{center}
 
-The mean finite difference for the interaction term is \input{q13.tex}. The marginal effect for each case (e.g., Muslim but not married, married and Muslim), using a model with and without an interaction term, is displayed in Table 6.
-
+The mean finite difference for the interaction term is \input{q13.tex}. The marginal effect for each case (e.g., Muslim but not married, married and Muslim), using a model with and without an interaction term, is displayed in Table 6. Including an interaction term results in Muslim potential borrowers being more likely to take out a loan, \textit{ceteris paribus}, than non-Muslim potential borrowers. This further supports suggests that either the model is mis-specified or the sample is not representative of the population, since usury is more taboo among Muslim communities than others in the United States. However, the model without the interaction term does result in the expected effect, with unmarried Muslims being less likely to borrow than unmarried non-Muslims, and married Muslims being more likely to borrow than unmarried Muslims.
 \begin{center}
         \textbf{Table 6: Mean finite differences} \\\medskip
         \input{table6.tex}
 \end{center}
+
+The standard deviation of the interaction effect between the married and Muslim dummies is \input{q14.tex}, which is not especially low, considering the small number of married Muslims in the sample\textemdash\input{q14a.tex}
+
+Table 7 displays the results of regressing the squared residuals of the (non-quartic) LPM on the covariates of the LPM. The only statistically significant coefficient is the one for client age, suggesting that there is some heteroskedasticity in the client age variable (likely due to misspecification), but not in any other variable.
+\pagebreak
 \begin{center}
         \textbf{Table 7: Regression of squared errors on covariates} \\\medskip
         \input{table7.tex}
 \end{center}
+Columns three and four of Table 5 display the coefficients from the heteroskedasticity robust probit model and the heteroskedasticity parameters for client age and education, respectively. The coefficients on treatment and client age differ substantially from those in the baseline model,\footnote{Given our results from the heteroskedasticity analysis in the last question, the result for client age is unsurprising}, but the other coefficients do not differ much. However, neither of the heteroskedasticity parameters are statistically significant. Taken as a whole, this is weak evidence in favor of heteroskedasticity that would likely be strengthened in a larger sample.
 
 \end{document}
 
