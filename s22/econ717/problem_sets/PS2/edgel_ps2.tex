@@ -1,0 +1,184 @@
+%%% Econ717: Applied Econometrics
+%%% Spring 2022
+%%% Danny Edgel
+%%%
+% Due on Canvas Wednesday, March 9th, 11:00 AM
+%%%
+
+%%%
+%							PREAMBLE
+%%%
+
+\documentclass{article}
+
+%%% declare packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{changepage}
+\usepackage{centernot}
+\usepackage{color}
+\usepackage{courier}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage[shortlabels]{enumitem}
+\usepackage{boondox-cal}
+\usepackage{fancyhdr}
+	\fancyhf{} % sets both header and footer to nothing
+	\renewcommand{\headrulewidth}{0pt}
+    \rfoot{Edgel, \thepage}
+    \pagestyle{fancy}
+	
+%%% define shortcuts for set notation
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\union}{\bigcup}
+\newcommand{\intersect}{\bigcap}
+\newcommand{\lmt}{\underset{x\rightarrow\infty}{\text{lim }}}
+\newcommand{\neglmt}{\underset{n\rightarrow-\infty}{\text{lim }}}
+\newcommand{\zerolmt}{\underset{x\rightarrow 0}{\text{lim }}}
+\newcommand{\usmax}{\underset{1\leq k \leq n}{\text{max }}}
+\newcommand{\usmin}[1]{\underset{#1}{\text{min }}}
+\newcommand{\intinf}{\int_{-\infty}^{\infty}}
+\newcommand{\olx}[1]{\overline{X}_{#1}}
+\newcommand{\oly}[1]{\overline{Y}_{#1}}
+\newcommand{\olz}[1]{\overline{Z}_{#1}}
+%\newcommand{\est}[1]{\frac{1}{#1}\sum_{i=1}^{#1}}
+\newcommand{\est}[1]{\frac{1}{\lowercase{#1}}\sum_{i=1}^{\lowercase{#1}}}
+\newcommand{\sumn}{\sum_{i=1}^{n}}
+\newcommand{\loge}[1]{\text{log}\left(#1\right)}
+\renewcommand{\tilde}[1]{\widetilde{#1}}
+\newcommand{\tb}{\tilde{\beta}}
+\renewcommand{\Pr}[1]{\text{Pr}\left(#1\right)}
+\newcommand{\bols}{\hat{\beta}^{OLS}}
+\newcommand{\bhat}{\hat{\beta}}
+\newcommand{\ahat}{\hat{\alpha}}
+\newcommand{\ehat}{\hat{\varepsilon}}
+\newcommand{\vols}{\hat{\varepsilon}_{OLS}}
+\newcommand{\one}[1]{\mathbbm{1}\left\{#1\right\}}
+\newcommand{\tr}[1]{\text{tr}\left(#1\right)}
+\newcommand{\pfrac}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\bcls}{\tilde{\beta}_{CLS}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\vt}{\tilde{\varepsilon}}
+\renewcommand{\Pr}[1]{Pr\left(#1\right)}
+\newcommand{\biv}{\bhat^{IV}}
+\newcommand{\xbar}{\overline{X}}
+\newcommand{\ybar}{\overline{Y}}
+\newcommand{\zbar}{\overline{Z}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\esti}{\frac{1}{T_i-1}\sum_{t=1}^{T_i}}
+\newcommand{\oinv}{\Omega^{-1}}
+\newcommand{\olg}{\overline{g}_n}
+\newcommand{\e}[1]{\text{exp}\left(#1\right)}
+\DeclareRobustCommand{\bbone}{\text{\usefont{U}{bbold}{m}{n}1}}
+\newcommand{\that}{\hat{\theta}_n}
+\newcommand{\tshat}{\hat{\theta}^*_n}
+\newcommand{\ttilde}{\tilde{\theta}_n}
+\newcommand{\ghat}{\hat{\gamma}_n}
+\newcommand{\gtilde}{\tilde{\gamma}_n}
+\newcommand{\chat}{\hat{c}}
+\newcommand{\Qhat}{\hat{Q}_n(\beta)}
+\renewcommand{\lim}[1]{\underset{#1}{\text{lim }}}
+\newcommand{\xs}{X^*}
+\newcommand{\olxs}{\overline{X}^*}
+\newcommand{\pinv}{\Phi^{-1}}
+\newcommand{\tchat}{\that^\dagger}
+
+\newcommand{\E}[1]{\mathbb{E}\left[#1\right]}% expected value
+\newcommand{\Es}[1]{\mathbb{E}^*\left[#1\right]}% expected value
+\renewcommand{\exp}[1]{\E\left[#1\right]}
+
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
+
+
+%%% define column vector command (from Michael Nattinger)
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+\newcount\rowveccount
+\newcommand*\rowvec[1]{
+        \global\rowveccount#1
+        \begin{pmatrix}
+        \rowvecnext
+}
+\def\rowvecnext#1{
+        #1
+        \global\advance\rowveccount-1
+        \ifnum\rowveccount>0
+                &
+                \expandafter\rowvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+\makeatletter
+\let\amsmath@bigm\bigm
+
+\renewcommand{\bigm}[1]{%
+  \ifcsname fenced@\string#1\endcsname
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {\expandafter\amsmath@bigm\csname fenced@\string#1\endcsname}%
+  {\amsmath@bigm#1}%
+}
+
+
+%________________________________________________________________%
+
+\begin{document}
+
+\title{	Problem Set \#2 }
+\author{ 	Danny Edgel 			\\ 
+		Econ 717: Applied Econometrics	\\
+		Spring 2022						
+		}
+\maketitle\thispagestyle{empty}
+
+%%%________________________________________________________________%%%
+
+\noindent The attached file, edgel\_ps2\_log.log, includes all console output for this problem set.  
+
+\begin{center}
+        \input{table1.tex}
+\end{center} 
+
+\begin{center}
+        \input{table2.tex}
+\end{center}
+
+\begin{center}
+        \includegraphics[scale=.75]{q5.png}
+\end{center}
+
+\input{q6a.tex} \input{q6b.tex} \input{q7a.tex} \input{q7b.tex} \input{q8.tex}
+
+\begin{center}
+        \input{table3.tex}
+\end{center}
+
+
+
+
+\end{document}
