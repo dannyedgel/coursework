@@ -158,27 +158,38 @@
 
 %%%________________________________________________________________%%%
 
-\noindent The attached file, edgel\_ps2\_log.log, includes all console output for this problem set.  
-
+\noindent The attached file, edgel\_ps2\_log.log, includes all console output for this problem set. Table 1, below, displays the results of the regression that determines the average treatment on the treated (ATT) using the exerimental group. Despite the fact that the treatment is, by design, uncorrelated with all coviates, we may still want to include the covariates in the regression in order to account for the selection of would-be treatment-receivers across the covariates, since the dependent variable still depends on the covariates. Excluding these covariates would result in a consistent but inefficient estimate of the ATT.
+\pagebreak
 \begin{center}
+        \textbf{Table 1: Experimental impact regresison results} \\
         \input{table1.tex}
 \end{center} 
 
+\noindent Table 2 displays the distributional statistics of the two propensity score estimates, and Figure 1 displays their histograms. The ``completely determined'' observations in the probit estimation are the result of one or more observations having no variation in a given set of covariate and outcome values. For example, if the regression were run on three dummy variables, and the third variable only equaled 1 for observations that were also equal in the other two dummies and were also treated, then the model would recognize them as ``completely determined'' at $p=1$.
 \begin{center}
+        \textbf{Table 2: Summary statistics of propensity scores by sample group} \\
         \input{table2.tex}
 \end{center}
-
+\noindent As you can see, the untreated propensity scores for the untreated observations are far more bunched near zero than the treated observations, over three quarters of which are above 0.10 for both the rich and coarse scores. Meanwhile, over 95\% of the untreated observations have both rich and coarse propensity scores below 0.07. This stark difference in distributions is noticeable, as well, in the histogram of each propensity score, which are displayed in Figure 1.
 \begin{center}
+        \textbf{Figure 1: Histogram of propensity scores} \\
         \includegraphics[scale=.75]{q5.png}
 \end{center}
+\noindent What this suggests is that a propensity score analysis would not be appropriate for this sample. Any such analysis will rely heavily on the small number of treated observations with extremely low propensity scores, and any treatment effect is likely to be statistically insignificant, due to most of the treated sample going unused for lack of a comparable control.
 
-\input{q6a.tex} \input{q6b.tex} \input{q7a.tex} \input{q7b.tex} \input{q8.tex}
+The non-experimental bias estimates using both estimated propensity scores and nearest-neighbor matching without replacement are not reported in any tables, but can be seen in the log file. \input{q6a.tex}\input{q6b.tex}\input{q7a.tex}\input{q7b.tex} Allowing comparison group observations to be reused substantially reduces bias in this context. This is due to the reality observed in the distribution statistics and plot, that there are only a handful of control observations with propensity scores above 0.10, where most of the treatment observations are. Thus, far fewer treatment observations are required to match with observations far from them on the propensity score axis in order to match when replacement is used.
 
+\input{q8.tex}All remaining non-experimental bias estimates calculcated for this problem set are displayed in Table 3. The nearest-neighbor result with replacement for the rich propensity score estimate is included at the top for comparison.
+\pagebreak
 \begin{center}
+        \textbf{Table 3: Average treatment effect on the treated and estimated bias by estimation method, using the rich propensity score estimate} \\
         \input{table3.tex}
 \end{center}
+\noindent Using a Gaussian kernel with \textit{any} bandwidth results in the same ATT estimate (to the first decimal place) as the nearest-neighbor result with replacement. This is also likely due to the fact that the common support condition results in some 90\% of the treatment observations all being matched to a single control observation regardless of bandwitch, even when using a Gaussian kernel.
 
+Using local linear matching, however, increasing the bandwidth meaningfully reduces the bias, ultimately changing the sign of the ATT at a bandwidth of 2.0, making it consistent with the true ATT, which does not occur with any other estimator we consider.
 
+Estimating a simple linear regression on the control variables for the rich propensity score results in an ATT of -1936.9, which is less biased than the local linear estimate with a bandwidth at or below 0.2, but more biased than the nearest-neighbor estimate with replacement or the Gaussian kernel matching estimator. Calculating the ATT using the difference between the actual and predicted income in 1978 (based on a regression that uses only untreated observations on the rich score covariates) results in a slightly more biased ATT of -1941.8. These estimates differ due to correlation between the treatment selection and the covariates. However, the difference between the two is not statistically significant, since the standard error of the coefficient on the treatment variable is 341.3.
 
-
+The ATT estimate using unscaled inverse propensity weighting (IPW) is -1887.1, which is more biased than the nearest-neighbor and Guassian kernel matching estimators, but the scaled IPW estimate is -1640.8, which is less biased than any other estimator from this problem set other than the local linear estimate with a bandwidth of 2.0. This is likely due to the large scale of the dependent variable, which should have been scaled or estimated in logs in the first place.
 \end{document}

@@ -3,7 +3,7 @@
 	quarter of Econ 717
 	
 	Date created:  25 Feb 2022
-	Last modified: 03 Mar 2022
+	Last modified: 08 Mar 2022
 	Author: Danny Edgel (edgel@wisc.edu)
 */
 capture log c
@@ -130,12 +130,20 @@ foreach s in a b{
 	qui count if _support == 0
 	
 	// output dropped obs and ATT
-	if (r(N) == 1) 	loc x "is"
-	else			loc x "are"
+	if (r(N) == 1) {
+		loc x "is"
+		loc y "observation"
+	}
+	else{
+		loc x "are"
+		loc y "observations"
+	}
 	
-	file write q6`s' "Using pscore`s', `=r(N)' observation, or "			///
-			"$`: di %3.1f `=100*r(N)/_N''$\%, `x' dropped, and the average"	///
-			" treatment on the treated is $`att6'$."
+	if (r(N) == 0) 	loc z ", or $`: di %3.1f `=100*r(N)/_N''$\%, "
+	else			loc z ""
+	
+	file write q6`s' "Using pscore`s', `=r(N)' `y' `z'`x' dropped, and the " ///
+						"average  treatment on the treated is $`att6'$."
 
 	drop _*
 }
@@ -155,12 +163,21 @@ foreach s in a b{
 	qui count if _support == 0
 	
 	// output dropped obs and ATT
-	if (r(N) == 1) 	loc x "is"
-	else			loc x "are"
+	if (r(N) == 1) {
+		loc x "is"
+		loc y "observation"
+	}
+	else{
+		loc x "are"
+		loc y "observations"
+	}
 	
-	file write q7`s' "Using pscore`s', `=r(N)' observation, or "			///
-			"$`: di %3.1f `=100*r(N)/_N''$\%, `x' dropped, and the average"	///
-			" treatment on the treated is $`att7'$."
+	if (r(N) == 0) 	loc z ", or $`: di %3.2f `=100*r(N)/_N''$\%, "
+	else			loc z ""
+	
+	file write q7`s' "Using pscore`s' with replacement, `=r(N)' `y' `z'`x'"	///
+					"dropped, and the average  treatment on the treated"	///
+					"is $`att7'$."
 
 	drop _pscore _treated _support _re78 _id _n1 _nn _pdif
 	ren _weight _weight`s'
@@ -265,11 +282,11 @@ loc q13_b1   : di %7.1fc 100*(`q13_att1' - `att')/`att'
 
 
 file write table2	///
-	"\begin{tabular}{rcccccc}"										_newline ///
-	_tab "&\multicolumn{2}{c}{CPS Untreated} "								 ///
-			"&&\multicolumn{2}{c}{Experimental Control} \\"			_newline ///
-	_tab "& $ pscorea$ & $ pscoreb$ && $ pscorea$"							 ///
-			" & $ pscoreb$ \\\cline{2-3}\cline{5-6}"				_newline
+	"\begin{tabular}{rcccccc}"							_newline ///
+	_tab "&\multicolumn{2}{c}{CPS Untreated} "					 ///
+			"&&\multicolumn{2}{c}{Treated} \\"			_newline ///
+	_tab "& $ pscorea$ & $ pscoreb$ && $ pscorea$"				 ///
+			" & $ pscoreb$ \\\cline{2-3}\cline{5-6}"	_newline
 	
 foreach x in Mean Min p5 p25 p50 p75 p95 Max{
 	loc tex "`x'"
