@@ -3,7 +3,7 @@
 	quarter of Econ 717
 	
 	Date created:  14 Mar 2022
-	Last modified: 15 Mar 2022
+	Last modified: 16 Mar 2022
 	Author: Danny Edgel (edgel@wisc.edu)
 */
 capture log c
@@ -27,7 +27,7 @@ loc X1	age2 educ black hisp married nodegree
 loc X2	`X1' re74 re75
 
 // save outreg options
-loc opts "tex(frag) nor noobs noas"
+loc opts "tex(frag) nor noobs noas nocon"
 
 
 // save list of files in a local macro; open all files in write mode 
@@ -57,39 +57,45 @@ foreach f in `files'{
 // 3) obtain a naive estimate of the ATT with a simple reg on the treatment
 
 	reg rate18_20ht mlda21, robust
-	// outreg2 using table1.tex, replace `opts' addtext(Year FE, No, State FE, No)
+	outreg2 using table1.tex, replace `opts' ctitle(Q3)	///
+		addtext(Year FE, No, State FE, No, Cluster, No) keep(mlda21)
 
 	
 // 4) repeat (3) by separately adding state and year FE's
 
 	reg rate18_20ht mlda21 i.year, robust
-	// outreg2 using table1.tex, append `opts' addtext(Year FE, Yes, State FE, No)	///
-	//	drop(i.year)
+	outreg2 using table1.tex, append `opts' keep(mlda21) ctitle(Q4a)	///
+		addtext(Year FE, Yes, State FE, No, Cluster, No)
+		
 
 	reg rate18_20ht mlda21 i.state, robust
-	// outreg2 using table1.tex, append `opts' addtext(Year FE, No, State FE, Yes)	///
-	//	drop(i.state)
+	outreg2 using table1.tex, append `opts' keep(mlda21) ctitle(Q4b)	///
+		addtext(Year FE, No, State FE, Yes, Cluster, No)
+		
 
 	
 // 5) repeat (3) including *both* state and year FE
 
 	reg rate18_20ht mlda21 i.state i.year, robust cl(state)
-	// outreg2 using table1.tex, append `opts' addtext(Year FE, Yes, State FE, Yes)	///
-	//	drop(i.state i.year)
+	outreg2 using table1.tex, append `opts' keep(mlda21) ctitle(Q5)	///
+		addtext(Year FE, Yes, State FE, Yes, Cluster, Yes)
+		
 
 
 // 6) repeat (5) without clustering by state
 
 	reg rate18_20ht mlda21 i.state i.year, robust
-	// outreg2 using table1.tex, append `opts' addtext(Year FE, Yes, State FE, Yes)	///
-	//	drop(i.state i.year)
+	outreg2 using table1.tex, append `opts' keep(mlda21) ctitle(Q6)	///
+		addtext(Year FE, Yes, State FE, Yes, Cluster, No)
+		
 
 
 // 7) repeat (5) but omit post-1990 data
 
 	reg rate18_20ht mlda21 i.state i.year if year <= 1990, robust cl(state)
-	// outreg2 using table1.tex, append `opts' addtext(Year FE, Yes, State FE, Yes)	///
-	//	drop(i.state i.year)
+	outreg2 using table1.tex, append `opts' keep(mlda21) ctitle(Q7)	///
+		addtext(Year FE, Yes, State FE, Yes, Cluster, Yes)
+		
 	/*
 		NOTE: MLDA = 21 for all states after 1987, so the change in results
 			is due to Goodman-Bacon's example
@@ -101,22 +107,53 @@ foreach f in `files'{
 	g placebo82 = (mldayr == 1987 & year >= 1982) 
 
 	// identify states that always have mlda = 21
-	egen min_mlda = min(mlda)
+	egen min_mlda = min(mlda), by(state)
 	
 	// run regression with placebo on states that switch in 1987 and the 
 	// always 21 states
 	reg rate18_20ht placebo82 i.state i.year 	///
 		if min_mlda == 21 | mldayr == 1987, robust cl(state)
-	// outreg2 using table1.tex, append `opts' 	///
-	//	addtext(Year FE, Yes, State FE, Yes) drop(i.state i.year)
+	outreg2 using table1.tex, append `opts' ctitle(Q8)	sortvar(mlda21)	///
+		addtext(Year FE, Yes, State FE, Yes, Cluster, Yes) keep(placebo82)
 	
 	
 // 9) run DiD on voluntary switch states with always-takers as a control
 
-	reg rate18_20ht mlda21 i.state i.year 	///
-		if inlist(state, 21, 23) == 1 | min_mlda == 21, robust cl(state)
+	reg rate18_20ht mlda21 i.state i.year if state == 21 | min_mlda == 21,	///
+		robust cl(state)
+		
+	outreg2 using table2.tex, replace `opts' ctitle(MD Only) sortvar(mlda21)	///
+		addtext(Year FE, Yes, State FE, Yes, Cluster, Yes) keep(mlda21)
 
+	reg rate18_20ht mlda21 i.state i.year if state == 23 | min_mlda == 21,	///
+		robust cl(state)
+		
+	outreg2 using table2.tex, append `opts' ctitle(MI Only) sortvar(mlda21)	///
+		addtext(Year FE, Yes, State FE, Yes, Cluster, Yes) keep(mlda21)
 
+// 10) repeat (9) with separate dummies for two post-treatment periods
+
+	// generate separate treatment indicators
+	bys state mlda (year): 	///
+		g mlda21_14 = (year - year[1] <= 3 & mlda == 21 & min_mlda == 18)
+	bys state mlda (year): 	///
+		g mlda_later = (year - year[1] > 3 & mlda == 21 & min_mlda == 18)
+
+	
+	// run analysis
+	reg rate18_20ht mlda21_14 mlda_later i.state i.year 	///
+		if state == 21 | min_mlda == 21, robust cl(state)
+		
+	outreg2 using table2.tex, append `opts' ctitle(MD Only) sortvar(mlda21)	///
+		addtext(Year FE, Yes, State FE, Yes, Cluster, Yes) 	///
+		keep(mlda21_14 mlda_later)
+
+	reg rate18_20ht mlda21_14 mlda_later i.state i.year 	///
+		if state == 23 | min_mlda == 21, robust cl(state)
+		
+	outreg2 using table2.tex, append `opts' ctitle(MI Only) sortvar(mlda21)	///
+		addtext(Year FE, Yes, State FE, Yes, Cluster, Yes) 	///
+		keep(mlda21_14 mlda_later)
 
 
 /*
