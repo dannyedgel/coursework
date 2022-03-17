@@ -3,7 +3,7 @@
 	quarter of Econ 717
 	
 	Date created:  14 Mar 2022
-	Last modified: 16 Mar 2022
+	Last modified: 17 Mar 2022
 	Author: Danny Edgel (edgel@wisc.edu)
 */
 capture log c
@@ -21,17 +21,12 @@ adopath + "C:\Users\edgel\Google Drive\Code\Stata\functions"
 // open data set
 use "Economics 717 Miron and Tetelbaum Data", clear
 
-// save the set of independent variables in a local macro
-// also save a set that omits "married" and "muslim"
-loc X1	age2 educ black hisp married nodegree
-loc X2	`X1' re74 re75
-
 // save outreg options
 loc opts "tex(frag) nor noobs noas nocon"
 
 
 // save list of files in a local macro; open all files in write mode 
-loc files 
+loc files table3
 foreach f in `files'{
 	capture file close `f'
 	file open `f' using `f'.tex, write replace
@@ -156,6 +151,88 @@ foreach f in `files'{
 		keep(mlda21_14 mlda_later)
 
 
+// Bonus question 1
+
+	// perform Goodman-Bacon decomposition
+	bacondecomp rate18_20ht mlda21, ddetail nograph cl(state) robust
+				
+	// save results from decomposition and load them
+	foreach x in b V dd wt sumdd{
+		mat `x' = e(`x')
+	}
+	mat dat = J(`=colsof(dd)', 2, .)
+	mat rown dat = `: coln dd'
+	mat coln dat = dd wt
+	forval r = 1/`=colsof(dd)'{
+		mat dat[`r', 1] = dd[1, `r']
+		mat dat[`r', 2] = wt[1, `r']
+	}
+	
+	clear
+	svmat dat, n(col)
+	g category = ""
+	forval i = 1/`=colsof(dd)'{
+		replace category = "`: word `i' of `: coln dd''" if _n == `i'
+	}
+	g b = `=b[1,1]'
+	g se = sqrt(`=V[1,1]')
+	
+	// generate comparison groups from category variable
+	g first = substr(category, 1, strpos(category, "_") - 1)
+	g last  = substr(category, strpos(category, "_") + 1, .)
+	
+	g 		group = "Treated vs. Always 21" 	if last == "Always"
+	//replace group = "Timing"		if last != "Always"
+	
+	destring first, g(fyear) force
+	destring last, g(lyear) force
+	
+	replace group = "Pre vs. Post" if fyear < lyear & !missing(lyear)
+	replace group = "Post vs. Pre" if fyear > lyear & !missing(lyear)
+	
+	// plot the estimates
+	loc note "Dashed lines indicate the 95% confidence interval"
+	loc note "`note' for the TWFEDD estimate"
+	tw	///
+		scatter dd wt if group == "Treated vs. Always 21", m(t)	||	///
+		scatter dd wt if group == "Pre vs. Post", m(oh)			||	///
+		scatter dd wt if group == "Post vs. Pre", m(x)				///
+			graphregion(color(white)) ylab(-15(5)15, angle(horizontal))		///
+			xlab(0(0.1)0.6) title("2x2 DiD Estimates vs. TWFEDD Weight")	///
+			xtitle("Weight") ytitle("") note("`note'")				///
+			yline(`=b[1]', lc(red)) yline(0, lw(thin) lc(black))	///
+			yline(`=b[1] + 1.96*se[1]', lp(dash) lc(red) lw(vthin))	///
+			yline(`=b[1] - 1.96*se[1]', lp(dash) lc(red) lw(vthin))	///
+			text(`=b[1] + se[1]' 0.3 								///
+				"TWFEDD Estimate = `=round(b[1], .01)'", 			///
+				color(red) size(small))								///
+			leg(lab(1 "Treated vs. Always 21") lab(2 "Pre vs. Post") 	///
+				nobox r(1) lab(3 "Post vs. Pre") region(color(white)))
+				
+	graph export figure1.png, replace
+	
+	// write a table of each DD estimate by group with its weight
+	egen grpwt = sum(wt), by(group)
+	g dd_weighted = dd*(wt/grpwt)
+	collapse (mean) dd (sum) dd_weighted wt, by(group)
+	
+	file write table3	///
+		"\begin{tabular}{r|ccc}"									_newline ///
+			_tab " &\multicolumn{2}{c}{$\hat{\beta}^{2x2}$} & \\"	_newline ///
+			_tab " & Simple Avg & Weighted Avg & TWFEDD Weight"				 /// 
+					"\\\hline &&\\" _newline
+	
+	qui count
+	forval i = 1/`=r(N)'{
+		file write table3 _tab "`=group[`i']' & $`: di %3.2f dd[`i']'$"	///
+								"& $`: di %3.2f dd_weighted[`i']'$" 	///
+								"& $`: di %4.3f wt[`i']'$ \\" _newline
+	}
+	
+	file write table3 "\end{tabular}"
+	
+		
+		
 /*
 	Finishing up
 */

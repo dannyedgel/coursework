@@ -158,12 +158,41 @@
 
 %%%________________________________________________________________%%%
 
+\noindent The attached file, edgel\_ps2\_log.log, includes all console output for this problem set. Table 1, below, displays the results of the regressions for questions 3 through 8. I would not take the results of the regressions in columns 1-3 seriously because the treatment dummy coefficient only represents the average treatment on the treated under the assumption that the dependent variable does not systematically vary, other than by the minimum drinking age, by state (column 2), by year (column 3), or by either (column 1). This assumption is clearly violated. Consider, for example, traffic fatalities in Wisconsin compared to Utah. Wisconsin has notoriously high rates of alcohol consumption and instances of intoxicated driving. Utah, meanwhile, has the lowest rates of alcohol consumption on account of a majority of the population adhering to a religion that prohibits it. Regardless of drinking age, the dependent variable is going to be higher in Wisconsin than in Utah. A similar story can be told for year fixed effects (consider, e.g., what happened to traffic fatalities in 2020).
 \begin{center}
-        \input{table1.tex}
+        \textbf{Table 1: Regression results for questions 3 through 8}
+        {\small\input{table1.tex}}
+\end{center}
+\noindent Columns 5 and 6 display the ATT estimates with standard errors both clustered by state and not, respectively. The point estimate suggests that, under the assumptions of the two-way fixed effects difference in differences (TWFEDD) specification, raising the minimum drinking age to 21 \textit{increases} the rate of traffic fatalities among drivers aged 18 to 20, by about 5-6 deaths per 100,000 per year. 
+
+When the standard errors are not clustered by state, the standard error of the coefficient estimate for $mlda21$ shrinks substantially. This is because not clustering by state assumes that prediction errors are independent of the state, which is obviously not true. While state fixed effects control for systematic differences in in-sample averages across states and year fixed effects control for systematic differences in in-sample averages across years, there is still serial correlation from year-to-year within states, due to changes in demographics, attitudes, and so on. Ignoring this correlation results in an erroneously smaller estimate of the standard error for the coefficient estimate for $mlda21$. 
+
+When data after 1990 is omitted (column 6), the coefficient on the treatment dummy shrinks to under a fifth of its value when the full sample is used, and it becomes even less statistically significant. This suggests that much of the estimated treatment effect comes from observations from after all states have been treated, rather than the treatment year and the first couple of years following the final treatment. This throws further doubt on hypothesis that the treatment effect is actually positive. 
+
+Column 8 displays the result of the pre-program test. The coefficient on the placebo treatment is large and positive but not statistically significantly different from zero at conventional levels, though it is much closer to being statistically different from zero than the coeffecient on the actual treatment dummy in column 4. This suggests taht there are underlying differences between the treated states and the always-treated states that are unrelated to the treatment. Namely, the treated states have systematically higher traffic fatalities among 18-to-20-year-olds, which may confound the estimated treatment effect. 
+
+Table 2, below, displays the results of the regressions for questions 9 and 10, for which the DiD analysis separately includes only the ``voluntary'' treatment states of Maryland and Michigan, with the always-treated states as the control group. Columns 1 and 2 show that the estimated treatment effect on maryland is positive and statistically significant, while the estimated treatment effect for Michigan is negative and not statistically significant at conventional levels. This suggests that the treatment effect, if these results are to be believed, is indeed distinctive across states.
+
+\pagebreak
+\begin{center}
+        \textbf{Table 2: DiD Regression results for Maryland and Michigan}
+        \input{table2.tex}
+\end{center}
+\noindent Columns 3 and 4 report the results of splitting the treatment dummy between early and late periods. The later-period treatment effect is positive and statistically significant for Maryland, while the early-period treatment effect is negative and statistically significant for Michigan (with the other treatment effects not being statistically significant). These results generally cast doubt on the results of this methodology. If this methodology is to be believed, however, it suggests that the treatment effect weakens or reverses (i.e., by increasing late-adolescent traffic fatalities) over time, which is plausible.
+
+Figure 1, below, summarizes the results of the Goodman-Bacon decomposition, with the individual 2-by-2 DiD treatment effect estimates plotted against the weight that the two-way fixed effects difference in differences (TWFEDD) specification assigns to them in calculating the TWFEDD estimate. Table 3 displays the estimated treatment effects by comparison group using both simple and weighted averages. Both the figure and table show that the TWFEDD estimate is driven almost entirely by comparisons between the treated states and the always-treated states, for all but one of which the treatment is positive. Comparisons between treated states yield negative estimates, particularly when post-treatment treated states are used as a control for newly-treated states.
+
+Taken as a whole, these results suggest that there is not clear evidence in favor of either hypothesis, that raising the minimum drinking age to 21 had either a postitive or negative effect on traffic fatalities for adult teenagers and 20-year-olds. The strongest conclusion one could make is that there is a negative treatment effect that fades over time.
+
+\pagebreak
+\begin{center}
+        \textbf{Figure 1: Goodman-Bacon decomposition resutls}
+        \includegraphics[scale=.4]{figure1.png}
 \end{center}
 
 \begin{center}
-        \input{table2.tex}
+        \textbf{Table 3: Estimated treatment effects by comparison groups from the Goodman-Bacon decomposition}
+        \input{table3.tex}
 \end{center}
 
 \end{document}
