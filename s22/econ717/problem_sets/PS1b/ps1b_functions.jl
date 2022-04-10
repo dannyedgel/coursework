@@ -25,7 +25,10 @@ using Parameters, Random, DataFrames, Distributions
 end # Primitives struct 
 
 ### Define a function that generates data, given primitives
-function SimulateData(θ, N)
+function SimulateData(θ::Vector{Float64}, N::Int64; seed::Int64=115)
+
+    # set seed for reproducibility
+    Random.seed!(seed)
 
     # unpack relevant primitives from θ
     π₁, π₂, μ₁, μ₂, σ₁, σ₂, ρ = θ
@@ -58,9 +61,13 @@ end # Initialize()
 
 ### Define the objective function for finding a parameter
 ### vector that results in p% of agents choosing 1
-function OccChoiceObj(θ::Array{Float64, 1}; p::Float64 = 0.6, N::Int64 = 1000)
+function OccChoiceObj(θ::Vector{Float64}; p::Float64 = 0.6, N::Int64 = 1000)
 
     # return the squard difference between p and p̂
     return (p - mean(SimulateData(θ, N).j .== 1))^2
 
 end # OccChoiceObj()
+
+### Define the GMM objective function for finding a parameter
+function GMMObjFun()
+end
