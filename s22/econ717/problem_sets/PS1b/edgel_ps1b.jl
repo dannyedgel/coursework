@@ -26,7 +26,7 @@ include("./ps1b_functions.jl")
 prim, θ = Initialize()
 
 # define bounds for search
-θ_lb = [0, 0, -Inf, -Inf, 0, 0, 0]
+θ_lb = [0, 0, 0, 0, 0, 0, 0]
 θ_ub = [Inf, Inf, Inf, Inf, Inf, Inf, 0.99]
 
 
@@ -38,7 +38,14 @@ prim, θ = Initialize()
 ## e) Estimate μ₁ and ρ from the simulated data, holding other params
 ##   fixed at their "true" values
 
+# define secondary objective function that holds other parameters fixed
+obj = x -> SMMObjFun([θ₀[1], θ₀[2], x[1], θ₀[4], θ₀[5], θ₀[6], x[2]])
 
+# derive the parameter estimate
+x̂ = Optim.optimize(obj, [0, 0], [Inf, .99], [.5, .5], Fminbox()).minimizer
+
+
+## f) Create some figures that show that x̂ identifies the true parameters
 
 
 #==

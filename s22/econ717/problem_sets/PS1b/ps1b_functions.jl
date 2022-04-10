@@ -5,7 +5,7 @@
 
 
 # load dependencies
-using Parameters, Random, DataFrames, Distributions
+using Parameters, Random, DataFrames, Distributions, LinearAlgebra
 
 ## Define the structure that contains "true" model parameters
 @with_kw mutable struct Primitives
@@ -35,8 +35,8 @@ function SimulateData(θ::Vector{Float64}, N::Int64; seed::Int64=115)
     Σ = [σ₁^2 ρ*σ₁*σ₂; ρ*σ₁*σ₂ σ₂^2]
 
     # generate an array of N simulated agents
-    ε = rand(Distributions.MvNormal([μ₁; μ₂], Σ), N)'
-    w₁, w₂ = π₁.*ε[:, 1], π₂.*ε[:, 2]
+    ε = rand(Distributions.MvNormal([0, 0], Σ), N)'
+    w₁, w₂ = π₁.*(μ₁ .+ ε[:, 1]), π₂.*(μ₂ .+ ε[:, 2])
 
     # return DataFrame of observed results 
     return DataFrame(i=1:N, j=1 .+ 1*(w₁ .< w₂), 
@@ -68,6 +68,32 @@ function OccChoiceObj(θ::Vector{Float64}; p::Float64 = 0.6, N::Int64 = 1000)
 
 end # OccChoiceObj()
 
-### Define the GMM objective function for finding a parameter
-function GMMObjFun()
+### Define the SMM objective function for finding a parameter
+function SMMObjFun(θ::Vector{Float64}, data::DataFrame; N::Int64 = 1000,
+    W::Array{Float64, 2} = Matrix(I, length(θ), length(θ)))
+
+    # simulate data
+    sim = SimulateData(θ, N)
+
+    # calculate simulated moments
+    gθ = [
+        mean(sim.j .== 1),
+        mean(sim.W[sim.j .== 0]),
+        mean(sim.W[sim.j .== 1]),
+        var(sim.W[sim.j .== 0]),
+        var(sim.W[sim.j .== 1])
+    ]
+
+    # calculate observed moments
+    ĝ = [
+        mean(data.j .== 1),
+        mean(data.W[data.j .== 0]),
+        mean(data.W[data.j .== 1]),
+        var(data.W[data.j .== 0]),
+        var(data.W[data.j .== 1])
+    ]
+    
+
+    # return the objective function
+    return (gθ - ĝ)'*W*(gθ - ĝ)
 end
