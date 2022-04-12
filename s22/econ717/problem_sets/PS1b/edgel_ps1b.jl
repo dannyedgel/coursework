@@ -31,18 +31,39 @@ prim, θ = Initialize()
 
 
 # beginning with θ, perform a grid search over the parameter
-# space to find θ such that ~60% of simulated agents choose 1
+# space (parameter-by-parameter) to find θ such that ~60% of 
+# simulated agents choose 1
 
-θ₀ = Optim.optimize(OccChoiceObj, θ_lb, θ_ub, θ, Fminbox()).minimizer
+θ₀ = θ
+
+replFn = (x, i, θ) -> [j≠i ? θ[j] : x for j in 1:length(θ)]
+
+for i∈3:(length(θ) - 1)
+    ygrid = [OccChoiceObj(replFn(x, i, θ₀)) for x in 0.1:0.1:50]
+    θ₀[i] = (0.1:0.1:50)[findmin(ygrid)[2]]
+end
+
+ygrid = [OccChoiceObj(replFn(x, length(θ₀), θ₀)) for x in 0.001:0.001:.999]
+θ₀[length(θ₀)] = (0.001:0.001:.999)[findmin(ygrid)[2]]
+
+OccChoiceObj(θ₀)
+mean(SimulateData(θ₀, 1000).j .== 1)
+
+
 
 ## e) Estimate μ₁ and ρ from the simulated data, holding other params
 ##   fixed at their "true" values
 
+# generate a data set with the true parameters
+dat = SimulateData(θ₀, 1000)
+
+SMMObjFun(θ, dat)
+
 # define secondary objective function that holds other parameters fixed
-obj = x -> SMMObjFun([θ₀[1], θ₀[2], x[1], θ₀[4], θ₀[5], θ₀[6], x[2]])
+obj = x -> SMMObjFun([θ₀[1], θ₀[2], x[1], θ₀[4], θ₀[5], θ₀[6], x[2]], dat)
 
 # derive the parameter estimate
-x̂ = Optim.optimize(obj, [0, 0], [Inf, .99], [.5, .5], Fminbox()).minimizer
+x̂ = Optim.optimize(obj, [0.01, 0.0], [Inf, .99], [.5, .5], Fminbox()).minimizer
 
 
 ## f) Create some figures that show that x̂ identifies the true parameters

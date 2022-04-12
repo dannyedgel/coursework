@@ -5,7 +5,7 @@
 
 
 # load dependencies
-using Parameters, Random, DataFrames, Distributions, LinearAlgebra
+using Parameters, Random, DataFrames, Distributions, LinearAlgebra, StatsBase
 
 ## Define the structure that contains "true" model parameters
 @with_kw mutable struct Primitives
@@ -70,29 +70,33 @@ end # OccChoiceObj()
 
 ### Define the SMM objective function for finding a parameter
 function SMMObjFun(θ::Vector{Float64}, data::DataFrame; N::Int64 = 1000,
-    W::Array{Float64, 2} = Matrix(I, length(θ), length(θ)))
+    W::Matrix{Float64} = 1.0*Matrix(I, length(θ), length(θ)))
 
     # simulate data
     sim = SimulateData(θ, N)
+    #W = 1.0*Matrix(I, length(θ), length(θ))
 
     # calculate simulated moments
     gθ = [
         mean(sim.j .== 1),
-        mean(sim.W[sim.j .== 0]),
         mean(sim.W[sim.j .== 1]),
-        var(sim.W[sim.j .== 0]),
-        var(sim.W[sim.j .== 1])
+        mean(sim.W[sim.j .== 2]),
+        var(sim.W[sim.j .== 1]),
+        var(sim.W[sim.j .== 2]),
+        skewness(sim.W[sim.j .== 1]),
+        skewness(sim.W[sim.j .== 2])
     ]
 
     # calculate observed moments
     ĝ = [
         mean(data.j .== 1),
-        mean(data.W[data.j .== 0]),
         mean(data.W[data.j .== 1]),
-        var(data.W[data.j .== 0]),
-        var(data.W[data.j .== 1])
+        mean(data.W[data.j .== 2]),
+        var(data.W[data.j .== 1]),
+        var(data.W[data.j .== 2]),
+        skewness(data.W[data.j .== 1]),
+        skewness(data.W[data.j .== 2])
     ]
-    
 
     # return the objective function
     return (gθ - ĝ)'*W*(gθ - ĝ)
