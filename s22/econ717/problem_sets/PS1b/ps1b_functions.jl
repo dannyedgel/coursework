@@ -25,7 +25,8 @@ using Parameters, Random, DataFrames, Distributions, LinearAlgebra, StatsBase
 end # Primitives struct 
 
 ### Define a function that generates data, given primitives
-function SimulateData(θ::Vector{Float64}, N::Int64; seed::Int64=115)
+function SimulateData(θ::Vector{Float64}, N::Int64; seed::Int64=115,
+    w̲::Float64=-Inf)
 
     # set seed for reproducibility
     Random.seed!(seed)
@@ -36,7 +37,7 @@ function SimulateData(θ::Vector{Float64}, N::Int64; seed::Int64=115)
 
     # generate an array of N simulated agents
     ε = rand(Distributions.MvNormal([0, 0], Σ), N)'
-    w₁, w₂ = π₁.*(μ₁ .+ ε[:, 1]), π₂.*(μ₂ .+ ε[:, 2])
+    w₁, w₂ = max.(π₁.*(μ₁ .+ ε[:, 1]), w̲), π₂.*(μ₂ .+ ε[:, 2])
 
     # return DataFrame of observed results 
     return DataFrame(i=1:N, j=1 .+ 1*(w₁ .< w₂), 
@@ -61,20 +62,24 @@ end # Initialize()
 
 ### Define the objective function for finding a parameter
 ### vector that results in p% of agents choosing 1
-function OccChoiceObj(θ::Vector{Float64}; p::Float64 = 0.6, N::Int64 = 1000)
+function OccChoiceObj(θ::Vector{Float64}; p::Float64 = 0.6, 
+    N::Int64 = 1000, w̲::Float64 = -Inf)
 
     # return the squard difference between p and p̂
-    return (p - mean(SimulateData(θ, N).j .== 1))^2
+    return (p - mean(SimulateData(θ, N; w̲ = w̲).j .== 1))^2
 
 end # OccChoiceObj()
 
 ### Define the SMM objective function for finding a parameter
-function SMMObjFun(θ::Vector{Float64}, data::DataFrame; N::Int64 = 1000,
-    W::Matrix{Float64} = 1.0*Matrix(I, length(θ), length(θ)))
+function SMMObjFun(θ::Vector{Float64}, data::DataFrame; 
+    N::Int64 = 1000, k::Int64 = length(θ),
+    W::Matrix{Float64} = 1.0*Matrix(I, k, k))
+
+    # impose boundary conditions on k 
+    @assert (k > 0 & k ≤ length(θ)) "k must be a positive integer no greater than the length of the parameter vector"
 
     # simulate data
     sim = SimulateData(θ, N)
-    #W = 1.0*Matrix(I, length(θ), length(θ))
 
     # calculate simulated moments
     gθ = [
@@ -97,6 +102,9 @@ function SMMObjFun(θ::Vector{Float64}, data::DataFrame; N::Int64 = 1000,
         skewness(data.W[data.j .== 1]),
         skewness(data.W[data.j .== 2])
     ]
+
+    # subset to the first k moments
+    gθ, ĝ = gθ[1:k], ĝ[1:k]
 
     # return the objective function
     return (gθ - ĝ)'*W*(gθ - ĝ)
