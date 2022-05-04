@@ -32,7 +32,7 @@ res = OLS(dat[:, 1], dat[:, 2])
 push!(M, "OLS")
 push!(β, res[1])
 push!(V, res[2])
-push!(F, 0)
+push!(F, Inf)
 
 ## c) test each instrument, calculating the correlation coefficient
 corr = cor(dat[:, 2:end])
@@ -66,7 +66,7 @@ res = OLS(dat[:, 1], dat[:, 2])
 push!(M, "OLS")
 push!(β, res[1])
 push!(V, res[2])
-push!(F, 0)
+push!(F, Inf)
 
 for x in collect(combinations(3:size(dat, 2)))
     res = TwoSLS(dat[:, 1], dat[:, 2], dat[:, x], Ftest=true)
@@ -90,13 +90,15 @@ for i in 1:k
         @sprintf "%s & %2.2f & %2.2f & %6.1f & " M[i] β[i][1] β[i][2] F[i]
     ])
     str = join([str
-        @sprintf "%2.2f & %2.2f & %6.1f \\\\" β[i+k][1] β[i+k][2] F[i+k]
+        @sprintf "%2.2f & %2.2f & %6.1f \\\\
+        " β[i+k][1] β[i+k][2] F[i+k]
     ])
     str = join([str
         @sprintf " & (%2.2f) & (%2.2f) &  & " sqrt(V[i][1, 1]) sqrt(V[i][2, 2])
     ])
     str = join([str
-        @sprintf "(%2.2f) & (%2.2f) &  \\\\ \\\\" sqrt(V[i+k][1, 1]) sqrt(V[i+k][2, 2])
+        @sprintf "(%2.2f) & (%2.2f) &  \\\\ \\\\
+        " sqrt(V[i+k][1, 1]) sqrt(V[i+k][2, 2])
     ])
 end
 str = join([str

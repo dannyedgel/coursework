@@ -164,7 +164,23 @@
 \begin{enumerate}[1)]
     \item 
     \begin{enumerate}[a)]
-            \item 
+            \item $ATE = \E{Y_1 - Y_0} = \E{1 + 0.5A - A} = 1-0.5\E{A} = 0.75$
+            \item $Pr(D=1) = \E{\one{A>0.5}} = 0.5$
+            \item \begin{align*}
+                \text{min}\left\{1 - 0.5A\right\} &= 0.5 \text{ at }A=1 \\
+                \text{max}\left\{1 - 0.5A\right\} &= 1   \text{ at }A=0
+                \end{align*}
+            \item If $A\sim\N(0,1)$, $A$ would have support on the real line and would thus be unbounded, so the treatment effect would have a minimum at negative infinity and a maximum at positive infinity.
+            \item \begin{align*}
+                ATET &= \E{1-0.5A|A>0.5} = 1-0.5(0.75) = 5/8  \\
+                ATEU &= \E{1-0.5A|A\leq 0.5} = 1-0.5(0.25) = 7/8  
+            \end{align*}
+            \item ATEU $>$ ATET because the treatment effect is a decreasing in $A$, while the treatment is given only to those on the upper half of $A$'s support.
+            \item \begin{align*} 
+                \beta^{OLS} &= \E{Y|D=1} - \E{Y|D=0} = \E{1-0.5A|A>0.5} - \E{A|A\leq 0.5}       \\
+                        &= 1 + 0.5(0.75) - 0.25 = 9/8
+            \end{align*}
+            \item The OLS estimand is biased upward relative to the ATE because selection into being untreated requires having a lower value of $A$, and the treatment itself depends on $A$. Thus, by subtracting the outcome of those who are untreated from that of those who are treated necessarily overstates the treatment effect.
     \end{enumerate}
 \end{enumerate}
 
@@ -176,7 +192,7 @@
     \item 
     \item 
     \item 
-    \item See Table 2, below.
+    \item See Table 2, below. It is puzzling that the OLS parameter estimates, which are for a misspecified model, are so close to the true parameter, as are the large-sample estimates that rely solely on $z_3$, which is a completely weak variable. This is likely because $a_i$ is mean-zero and symmetrically-distributed in the data generating process, so omitting it will create a lot of noise, but in a sufficiently large sample, negligibly biases the parameter estimates.
         \begin{center}
                 \input{table2.tex}
         \end{center}
